@@ -35,6 +35,32 @@ app = FastAPI(lifespan=lifespan, title="CODShield", version="0.1.0",
                           "Stores hashed identifiers only.")
 
 
+def _setup_problems() -> list[str]:
+    """On a hosted deployment, refuse to handle data until real secrets are set."""
+    import os
+    if not (os.getenv("RENDER") or os.getenv("CODSHIELD_PRODUCTION")):
+        return []
+    missing = []
+    if settings.DATABASE_URL.startswith("sqlite"):
+        missing.append("DATABASE_URL")
+    if settings.HASH_SECRET == "dev-only-change-me" or len(settings.HASH_SECRET) < 32:
+        missing.append("CODSHIELD_HASH_SECRET")
+    if settings.ADMIN_KEY == "dev-admin-key" or len(settings.ADMIN_KEY) < 16:
+        missing.append("CODSHIELD_ADMIN_KEY")
+    return missing
+
+
+@app.middleware("http")
+async def require_configuration(request, call_next):
+    if request.url.path.startswith("/v1/"):
+        missing = _setup_problems()
+        if missing:
+            from fastapi.responses import JSONResponse
+            return JSONResponse(status_code=503, content={
+                "detail": "This CODShield server isn't set up yet: missing " + ", ".join(missing) + "."})
+    return await call_next(request)
+
+
 # ---------- auth & rate limit ----------
 _hits: dict[str, deque] = defaultdict(deque)
 

@@ -290,3 +290,13 @@ def test_maintenance_purges_and_downgrades():
         assert s.get(Merchant, m.id).trust_weight == 0.5
         s.expunge_all()
         assert s.get(Event, old.id) is None
+
+
+def test_hosted_without_secrets_refuses_data(monkeypatch):
+    monkeypatch.setenv("RENDER", "true")
+    from codshield import api
+    monkeypatch.setattr(api.settings, "ADMIN_KEY", "dev-admin-key")
+    r = client.post("/v1/check", headers={"X-API-Key": "x"}, json={"phone": "03001234567"})
+    assert r.status_code == 503 and "CODSHIELD_ADMIN_KEY" in r.text
+    assert client.get("/health").status_code == 200
+    assert client.get("/").status_code == 200

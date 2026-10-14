@@ -17,7 +17,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from . import service
+from . import reports, service
 from .config import settings
 from .db import get_session, init_db
 from .models import Dispute, Event, Identity, Merchant
@@ -166,9 +166,29 @@ def create_dispute(body: DisputeIn, s: Session = Depends(get_session)):
 @app.post("/v1/check", tags=["merchant"])
 def check(body: CheckIn, m: Merchant = Depends(merchant_auth), s: Session = Depends(get_session)):
     try:
-        return service.check(s, **body.model_dump())
+        return service.check(s, merchant=m, **body.model_dump())
     except service.ValidationError as e:
         _bad(e)
+
+
+@app.post("/v1/check/batch", tags=["merchant"], summary="Check up to 500 orders in one call")
+def check_batch(body: list[CheckIn], m: Merchant = Depends(merchant_auth), s: Session = Depends(get_session)):
+    if len(body) > 500:
+        raise HTTPException(413, "max 500 orders per batch")
+    results = []
+    for i, item in enumerate(body):
+        try:
+            results.append({"index": i, "ok": True, **service.check(s, merchant=m, **item.model_dump())})
+        except service.ValidationError as e:
+            results.append({"index": i, "ok": False, "error": str(e)})
+    return {"results": results}
+
+
+@app.get("/v1/reports", tags=["merchant"], summary="Your own activity plus network size, for the last N days")
+def my_report(days: int = 30, m: Merchant = Depends(merchant_auth), s: Session = Depends(get_session)):
+    r = reports.build_report(s, days, merchant_id=m.id)
+    r["merchant"] = {"id": m.id, "name": m.name, "country": m.country}
+    return r
 
 
 @app.post("/v1/events", tags=["merchant"], status_code=201)
@@ -205,6 +225,26 @@ def add_merchant(body: MerchantIn, s: Session = Depends(get_session)):
     except service.ValidationError as e:
         _bad(e)
     return {"merchant_id": m.id, "api_key": key, "note": "Store this key now; it is not shown again."}
+
+
+@app.post("/v1/admin/merchants/batch", tags=["admin"], dependencies=[Depends(admin_auth)])
+def add_merchants(body: list[MerchantIn], s: Session = Depends(get_session)):
+    if len(body) > 200:
+        raise HTTPException(413, "max 200 merchants per batch")
+    out = []
+    for i, item in enumerate(body):
+        try:
+            m, key = service.create_merchant(s, item.name, item.country, item.agreement_signed, item.feed_config)
+            out.append({"index": i, "ok": True, "merchant_id": m.id, "name": m.name, "api_key": key})
+        except service.ValidationError as e:
+            s.rollback()
+            out.append({"index": i, "ok": False, "name": item.name, "error": str(e)})
+    return {"results": out, "note": "Store these keys now; they are not shown again."}
+
+
+@app.get("/v1/admin/reports", tags=["admin"], dependencies=[Depends(admin_auth)])
+def network_report(days: int = 30, s: Session = Depends(get_session)):
+    return reports.build_report(s, days)
 
 
 @app.get("/v1/admin/disputes", tags=["admin"], dependencies=[Depends(admin_auth)])

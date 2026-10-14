@@ -96,6 +96,17 @@ class Dispute(Base):
     resolved_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
 
+class CheckLog(Base):
+    """One row per risk check, for usage reports. Holds no customer identifiers."""
+    __tablename__ = "check_logs"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    merchant_id: Mapped[int] = mapped_column(ForeignKey("merchants.id"), index=True)
+    country: Mapped[str] = mapped_column(String(2))
+    score: Mapped[int] = mapped_column(Integer)
+    band: Mapped[str] = mapped_column(String(10))
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow, index=True)
+
+
 class AgentRun(Base):
     __tablename__ = "agent_runs"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)

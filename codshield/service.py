@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 
 from .config import settings
 from .identity import identifiers, keyed_hash, normalize_phone
-from .models import (Dispute, Event, EventIdentity, EventStatus, EventType,
+from .models import (CheckLog, Dispute, Event, EventIdentity, EventStatus, EventType,
                      Identity, Merchant, utcnow)
 from .scoring import score_events
 
@@ -96,7 +96,8 @@ def report_event(s: Session, merchant: Merchant, *, order_ref: str, type: str,
     return ev, "created"
 
 
-def check(s: Session, *, phone=None, email=None, address=None, city=None, country="PK") -> dict:
+def check(s: Session, *, phone=None, email=None, address=None, city=None, country="PK",
+          merchant: Merchant | None = None) -> dict:
     country = (country or "PK").upper()
     ids = identifiers(phone, email, address, city, country)
     if not ids:
@@ -111,6 +112,10 @@ def check(s: Session, *, phone=None, email=None, address=None, city=None, countr
     ).all()
     result = score_events([(ev, hashes[h], tw) for ev, h, tw in rows])
     result["matched_on"] = sorted({hashes[h] for _, h, _ in rows})
+    if merchant is not None:
+        s.add(CheckLog(merchant_id=merchant.id, country=country,
+                       score=result["score"], band=result["band"]))
+        s.commit()
     return result
 
 

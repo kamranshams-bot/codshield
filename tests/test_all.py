@@ -300,3 +300,38 @@ def test_hosted_without_secrets_refuses_data(monkeypatch):
     assert r.status_code == 503 and "CODSHIELD_ADMIN_KEY" in r.text
     assert client.get("/health").status_code == 200
     assert client.get("/").status_code == 200
+
+
+def test_batch_check_and_reports():
+    k1, m1 = new_merchant("Rep1")
+    k2, _ = new_merchant("Rep2", "AE")
+    phone = "03217770001"
+    for k, ref, t in ((k1, "r1", "refused_at_door"), (k2, "r2", "fake_order"), (k1, "r3", "delivered_paid")):
+        client.post("/v1/events", headers=k, json={"order_ref": ref, "type": t, "occurred_at": iso(2),
+                                                   "phone": phone, "country": "PK", "amount": 1500, "currency": "PKR"})
+    r = client.post("/v1/check/batch", headers=k1, json=[
+        {"phone": phone}, {"phone": "03217770002"}, {"phone": "123"}])
+    res = r.json()["results"]
+    assert [x["ok"] for x in res] == [True, True, False]
+    assert res[0]["reporting_merchants"] == 2 and res[1]["band"] == "low"
+
+    rep = client.get("/v1/reports?days=7", headers=k1).json()
+    assert rep["scope"] == "merchant" and rep["totals"]["checks"] == 2
+    assert rep["by_type"] == {"refused_at_door": 1, "delivered_paid": 1}
+    assert rep["negative_value"] == {"PKR": 1500}
+    assert len(rep["outcomes_daily"]["dates"]) == 8 and "top_contributors" not in rep
+
+    net = client.get("/v1/admin/reports?days=7", headers=ADM).json()
+    assert net["scope"] == "network" and net["totals"]["checks"] >= 2
+    assert any(t["name"] == "Rep1" for t in net["top_contributors"]) and "disputes" in net
+    # reports never carry identifiers
+    assert phone not in str(rep) and phone not in str(net)
+
+
+def test_batch_merchants():
+    r = client.post("/v1/admin/merchants/batch", headers=ADM, json=[
+        {"name": "Bulk A", "country": "PK", "agreement_signed": True},
+        {"name": "Bulk B", "country": "AE"}])
+    res = r.json()["results"]
+    assert all(x["ok"] for x in res) and all(x["api_key"].startswith("cs_") for x in res)
+    assert client.post("/v1/admin/merchants/batch", headers=ADM, json=[{"name": "X", "country": "IN"}]).status_code == 422

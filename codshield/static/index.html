@@ -6,127 +6,253 @@
 <title>CODShield</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#E9EDEE; --sheet:#F7F9F9; --ink:#17262B; --muted:#5A6B70; --line:#C8D1D3;
-  --cobalt:#2346A0; --low:#2F7D5B; --mid:#B87A0A; --high:#B3261E;
-  --radius-sm:4px; --radius-lg:10px;
+  color-scheme:light;
+  --bg:#F2F4F7; --panel:#FFFFFF; --ink:#0E1A2B; --ink-2:#4A5568; --muted:#718096; --line:#E2E7EE; --line-2:#CBD3DD;
+  --side:#0E1A2B; --side-ink:#C9D3E1; --side-hi:#FFFFFF; --side-line:#22324A;
+  --accent:#2453E6; --accent-ink:#FFFFFF; --accent-soft:#E8EEFF;
+  --good:#0ca30c; --warn:#fab219; --bad:#d03b3b; --bar:#2a78d6;
+  --good-soft:#E3F6E3; --warn-soft:#FFF4D6; --bad-soft:#FBE4E4;
+  --r-sm:6px; --r:10px; --r-lg:14px;
+}
+@media (prefers-color-scheme:dark){
+  :root:where(:not([data-theme="light"])){
+    color-scheme:dark;
+    --bg:#0B121C; --panel:#121B28; --ink:#EDF1F7; --ink-2:#B6C0CE; --muted:#8A96A8; --line:#1F2B3B; --line-2:#2E3D52;
+    --side:#070C14; --side-line:#18243A; --accent:#5B80FF; --accent-soft:#1A2850; --bar:#3987e5;
+    --good-soft:#103016; --warn-soft:#3A2D08; --bad-soft:#3B1515;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0B121C; --panel:#121B28; --ink:#EDF1F7; --ink-2:#B6C0CE; --muted:#8A96A8; --line:#1F2B3B; --line-2:#2E3D52;
+  --side:#070C14; --side-line:#18243A; --accent:#5B80FF; --accent-soft:#1A2850; --bar:#3987e5;
+  --good-soft:#103016; --warn-soft:#3A2D08; --bad-soft:#3B1515;
 }
 *{box-sizing:border-box}
-html{font-size:17px}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:Archivo,system-ui,sans-serif;
-  font-variation-settings:"wdth" 100;line-height:1.5}
-a{color:var(--cobalt)}
-header{display:flex;flex-wrap:wrap;gap:12px 32px;align-items:baseline;padding:20px 24px;border-bottom:2px solid var(--ink)}
-.brand{font-weight:850;font-size:1.35rem;font-variation-settings:"wdth" 125;letter-spacing:-.01em;margin:0}
-nav{display:flex;flex-wrap:wrap;gap:4px}
-nav button{font:inherit;font-size:.95rem;background:none;border:0;padding:6px 10px;border-radius:var(--radius-sm);
-  color:var(--muted);cursor:pointer}
-nav button[aria-selected=true]{color:var(--ink);background:var(--sheet);box-shadow:inset 0 -2px 0 var(--ink)}
-nav button:hover{color:var(--ink)}
-main{max-width:1080px;padding:32px 24px 64px}
+html{font-size:16px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5;
+  -webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
 [hidden]{display:none!important}
-h1{font-size:2rem;line-height:1.15;font-weight:800;font-variation-settings:"wdth" 112;margin:0 0 8px;max-width:22ch}
-h2{font-size:1.2rem;font-weight:750;margin:32px 0 8px}
-p.lead{color:var(--muted);max-width:60ch;margin:0 0 28px}
-.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:start}
-@media (max-width:760px){.grid{grid-template-columns:1fr;gap:28px} h1{font-size:1.6rem}}
-form{display:grid;gap:14px;max-width:460px}
-label{display:grid;gap:4px;font-weight:600;font-size:.9rem}
-label small{font-weight:400;color:var(--muted)}
-input,select,textarea{font:inherit;font-size:1rem;padding:10px 12px;border:1px solid var(--line);
-  border-radius:var(--radius-sm);background:var(--sheet);color:var(--ink);width:100%}
-textarea{min-height:110px;resize:vertical}
-input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:3px solid var(--cobalt);outline-offset:2px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.btn{font:inherit;font-weight:700;padding:11px 18px;border-radius:var(--radius-sm);border:2px solid var(--ink);
-  background:var(--ink);color:var(--sheet);cursor:pointer;justify-self:start}
-.btn.secondary{background:transparent;color:var(--ink)}
-.btn:disabled{opacity:.5;cursor:wait}
-.note{font-size:.88rem;color:var(--muted);max-width:60ch}
-.msg{padding:10px 12px;border-radius:var(--radius-sm);font-size:.92rem;max-width:460px}
-.msg.err{background:#F6E1DF;color:#7A1A14}
-.msg.ok{background:#DCEEE5;color:#1F5A40}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 
-/* the verdict stamp */
-.result{background:var(--sheet);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px;min-height:300px;
-  display:grid;align-content:start;gap:18px}
-.result.empty{place-content:center;text-align:center;color:var(--muted)}
-.stamp{justify-self:start;transform:rotate(-4deg);border:5px solid currentColor;border-radius:8px;padding:10px 18px 8px;
-  font-weight:900;font-variation-settings:"wdth" 125;font-size:2rem;line-height:1;letter-spacing:.01em;
-  margin-bottom:6px;mix-blend-mode:multiply;animation:press .32s cubic-bezier(.2,1.6,.4,1) both}
-.stamp small{display:block;font-size:.8rem;font-weight:700;font-variation-settings:"wdth" 100;margin-top:6px;letter-spacing:0}
-.stamp.low{color:var(--low)} .stamp.medium{color:var(--mid)} .stamp.high{color:var(--high)}
-@keyframes press{from{transform:rotate(-4deg) scale(1.5);opacity:0}to{transform:rotate(-4deg) scale(1);opacity:1}}
+/* ---------- shell ---------- */
+.shell{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+aside{background:var(--side);color:var(--side-ink);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;padding:22px 14px}
+.brand{display:flex;align-items:center;gap:10px;padding:0 8px 22px;color:var(--side-hi);
+  font-family:Archivo,system-ui,sans-serif;font-weight:850;font-variation-settings:"wdth" 118;font-size:1.25rem;letter-spacing:-.01em}
+.brand svg{flex:none}
+nav{display:flex;flex-direction:column;gap:2px}
+nav button{display:flex;align-items:center;gap:10px;background:none;border:0;padding:9px 10px;border-radius:var(--r-sm);
+  color:var(--side-ink);cursor:pointer;text-align:left;font-weight:500;font-size:.94rem}
+nav button svg{opacity:.7;flex:none}
+nav button:hover{background:#ffffff0d;color:var(--side-hi)}
+nav button[aria-selected=true]{background:#ffffff14;color:var(--side-hi)}
+nav button[aria-selected=true] svg{opacity:1}
+nav .sep{height:1px;background:var(--side-line);margin:10px 6px}
+.keytoggle{display:none}
+.keys{margin-top:auto;border-top:1px solid var(--side-line);padding:14px 6px 0;display:grid;gap:10px}
+.keys label{display:grid;gap:4px;font-size:.78rem;color:var(--side-ink)}
+.keys input[type=password]{background:#ffffff0f;border:1px solid var(--side-line);border-radius:var(--r-sm);padding:7px 9px;color:var(--side-hi);font-size:.85rem}
+.keys .state{font-size:.78rem;display:flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:#5a6b82;display:inline-block}
+.dot.on{background:var(--good)}
+
+main{padding:28px clamp(16px,4vw,44px) 64px;max-width:1180px;width:100%}
+.head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px 24px;margin-bottom:22px}
+h1{font-family:Archivo,'Arial Narrow',system-ui,sans-serif;font-weight:800;font-variation-settings:"wdth" 108;font-size:1.75rem;line-height:1.15;margin:0;letter-spacing:-.015em}
+.sub{color:var(--ink-2);margin:6px 0 0;max-width:62ch}
+h2{font-family:Archivo,'Arial Narrow',system-ui,sans-serif;font-size:1.02rem;font-weight:750;margin:0 0 12px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+.stack{display:grid;gap:20px}
+.muted{color:var(--muted)} .small{font-size:.86rem}
+
+/* segmented control */
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{border:0;background:none;padding:6px 14px;border-radius:999px;cursor:pointer;font-weight:600;font-size:.88rem;color:var(--ink-2)}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--panel)}
+
+/* forms */
+form{display:grid;gap:14px}
+label.f{display:grid;gap:5px;font-weight:600;font-size:.86rem}
+label.f small{font-weight:400;color:var(--muted)}
+input[type=text],input[type=email],input[type=tel],input[type=number],input[type=date],input[type=password],select,textarea{
+  width:100%;padding:10px 12px;border:1px solid var(--line-2);border-radius:var(--r-sm);background:var(--panel);font-size:.95rem}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:3px solid var(--accent-soft);outline-offset:0}
+textarea{min-height:150px;resize:vertical;font-size:.9rem;line-height:1.45}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;justify-self:start;border:1px solid transparent;border-radius:var(--r-sm);
+  padding:10px 16px;font-weight:600;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
+.btn:hover{filter:brightness(1.07)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+.btn.sm{padding:6px 10px;font-size:.85rem}
+.btn:disabled{opacity:.55;cursor:progress}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.drop{border:1.5px dashed var(--line-2);border-radius:var(--r);padding:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.drop input{font-size:.86rem}
+.msg{padding:10px 12px;border-radius:var(--r-sm);font-size:.9rem}
+.msg.err{background:var(--bad-soft);color:var(--bad)}
+.msg.ok{background:var(--good-soft);color:var(--good)}
+:root[data-theme="dark"] .msg.ok,:root[data-theme="dark"] .msg.err{color:var(--ink)}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .msg{color:var(--ink)}}
+code{font-size:.85em;background:var(--bg);padding:1px 5px;border-radius:4px}
+
+/* verdict */
+.verdict{min-height:330px;display:grid;align-content:start;gap:18px}
+.verdict.empty{place-content:center;text-align:center;color:var(--muted)}
+.stamp{justify-self:start;transform:rotate(-3.5deg);border:5px solid currentColor;border-radius:9px;padding:10px 18px 9px;
+  font-family:Archivo,'Arial Narrow',system-ui,sans-serif;font-weight:900;font-variation-settings:"wdth" 122;font-size:1.9rem;line-height:1;
+  animation:press .3s cubic-bezier(.2,1.6,.4,1) both}
+.stamp small{display:block;font-size:.78rem;font-weight:700;font-variation-settings:"wdth" 100;margin-top:6px;font-family:Inter}
+.stamp.low{color:var(--good)} .stamp.medium{color:#c98a00} .stamp.high{color:var(--bad)}
+@keyframes press{from{transform:rotate(-3.5deg) scale(1.45);opacity:0}to{transform:rotate(-3.5deg) scale(1);opacity:1}}
 @media (prefers-reduced-motion:reduce){.stamp{animation:none}}
-@media (max-width:480px){.stamp{font-size:1.45rem;border-width:4px}.result{padding:22px}}
-.score{font-size:3.4rem;font-weight:850;font-variation-settings:"wdth" 70;line-height:1}
-.score span{font-size:1rem;font-weight:500;color:var(--muted);font-variation-settings:"wdth" 100}
-.meter{height:8px;border-radius:4px;background:linear-gradient(90deg,var(--low) 0 30%,var(--mid) 30% 60%,var(--high) 60%);position:relative}
+.score{font-family:Archivo,'Arial Narrow',system-ui,sans-serif;font-size:3.2rem;font-weight:850;font-variation-settings:"wdth" 72;line-height:1;font-variant-numeric:tabular-nums}
+.score span{font-family:Inter;font-size:.95rem;font-weight:500;color:var(--muted)}
+.meter{height:8px;border-radius:4px;background:linear-gradient(90deg,var(--good) 0 30%,var(--warn) 30% 60%,var(--bad) 60%);position:relative}
 .meter i{position:absolute;top:-5px;width:4px;height:18px;background:var(--ink);border-radius:2px;transform:translateX(-50%)}
-.reasons{margin:0;padding-left:18px}
-table{border-collapse:collapse;width:100%;font-size:.92rem;background:var(--sheet)}
-th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-weight:700}
-.key{display:flex;gap:10px;flex-wrap:wrap;align-items:end;background:var(--sheet);border:1px solid var(--line);
-  border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:28px;max-width:720px}
-.key label{flex:1 1 260px}
-.chip{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.8rem;font-weight:700;background:var(--line)}
-code{font-size:.9em;background:var(--sheet);padding:1px 4px;border-radius:3px}
+.reasons{margin:0;padding-left:18px;color:var(--ink-2)}
+
+/* chips & tables */
+.chip{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:.78rem;font-weight:600}
+.chip.low{background:var(--good-soft);color:var(--good)} .chip.medium{background:var(--warn-soft);color:#9a6a00}
+.chip.high{background:var(--bad-soft);color:var(--bad)} .chip.na{background:var(--bg);color:var(--muted)}
+.chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;font-size:.88rem;background:var(--panel)}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}
+td.wrap{white-space:normal}
+th{font-weight:600;color:var(--ink-2);background:var(--bg);position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.summary{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+
+/* reports */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.kpi b{display:block;font-family:Archivo,'Arial Narrow',system-ui,sans-serif;font-weight:800;font-variation-settings:"wdth" 80;font-size:2rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi span{font-size:.84rem;color:var(--ink-2)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.82rem;color:var(--ink-2);margin-bottom:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.chart{position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart .axis{fill:var(--muted);font-size:11px;font-family:Inter}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--panel);font-size:.8rem;padding:7px 9px;border-radius:6px;
+  white-space:nowrap;transform:translate(-50%,calc(-100% - 10px));opacity:0;transition:opacity .08s}
+.hbar{display:grid;grid-template-columns:minmax(120px,auto) 1fr 44px;gap:8px 12px;align-items:center;font-size:.88rem}
+.hbar .track{height:14px;background:var(--bg);border-radius:4px;overflow:hidden}
+.hbar .fill{height:100%;background:var(--bar);border-radius:0 4px 4px 0}
+.hbar .v{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.empty-state{padding:28px;text-align:center;color:var(--muted)}
+
+/* mobile */
+@media (max-width:860px){
+  .shell{grid-template-columns:1fr}
+  aside{position:sticky;top:0;z-index:5;height:auto;padding:12px 12px 10px;flex-direction:column}
+  .brand{padding:0 4px 10px;font-size:1.1rem}
+  nav{flex-direction:row;overflow-x:auto;gap:4px;scrollbar-width:none}
+  nav button{white-space:nowrap;padding:7px 10px}
+  nav .sep{display:none}
+  .keytoggle{display:inline-flex;margin-left:auto;background:#ffffff14;border:1px solid var(--side-line);color:var(--side-hi);
+    border-radius:999px;padding:4px 12px;font-family:Inter;font-size:.8rem;font-weight:600;cursor:pointer}
+  .keys{display:none;border-top:0;padding:8px 0 0;grid-template-columns:1fr 1fr;margin-top:6px}
+  .keys.open{display:grid}
+  .keys .state{grid-column:1/-1}
+  .grid2,.row{grid-template-columns:1fr}
+  h1{font-size:1.45rem}
+  .panel{padding:16px}
+}
 </style>
 </head>
 <body>
-<header>
-  <p class="brand">CODShield</p>
+<div class="shell">
+<aside>
+  <div class="brand">
+    <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 2l9 3.5v6.2c0 6-3.9 10.4-9 12.3-5.1-1.9-9-6.3-9-12.3V5.5z" fill="#2453E6"/><path d="M8.5 13.2l3 3 6-6.4" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    CODShield
+    <button type="button" class="keytoggle" id="keyToggle" aria-expanded="false" aria-controls="keyBox">Keys</button>
+  </div>
   <nav role="tablist" aria-label="Sections">
-    <button role="tab" data-tab="check">Check an order</button>
-    <button role="tab" data-tab="report">Report an outcome</button>
-    <button role="tab" data-tab="upload">Upload CSV</button>
-    <button role="tab" data-tab="dispute">Contest a record</button>
-    <button role="tab" data-tab="about">How it works</button>
-    <button role="tab" data-tab="admin">Admin</button>
+    <button role="tab" data-tab="check"><svg width="16" height="16" viewBox="0 0 16 16"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Check orders</button>
+    <button role="tab" data-tab="report"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 2h7l3 3v9H3z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M6 8h4M6 11h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Report outcomes</button>
+    <button role="tab" data-tab="reports"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 13V8M8 13V3M13 13V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Reports</button>
+    <div class="sep"></div>
+    <button role="tab" data-tab="dispute"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M2.5 3.5h11v7h-6l-3 3v-3h-2z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/></svg>Contest a record</button>
+    <button role="tab" data-tab="about"><svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M8 7.2V11M8 5h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>How it works</button>
+    <button role="tab" data-tab="admin"><svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M3.4 12.6l1.4-1.4M11.2 4.8l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Admin</button>
   </nav>
-</header>
+  <div class="keys" id="keyBox">
+    <label>Merchant API key
+      <input id="mkey" type="password" autocomplete="off" placeholder="cs_…">
+    </label>
+    <label>Admin key
+      <input id="akey" type="password" autocomplete="off" placeholder="Admins only">
+    </label>
+    <div class="state"><span class="dot" id="keydot"></span><span id="keystate">No key entered</span></div>
+  </div>
+</aside>
 
 <main>
-  <div class="key" id="keybar">
-    <label>Merchant API key <small>Kept only in this browser tab.</small>
-      <input id="apikey" type="password" autocomplete="off" placeholder="cs_…">
-    </label>
-    <button class="btn secondary" id="savekey" type="button">Use this key</button>
+<!-- ================= CHECK ================= -->
+<section id="tab-check">
+  <div class="head">
+    <div><h1>Check orders before you ship</h1>
+      <p class="sub">See what other stores in Pakistan and the UAE have reported about a customer before you send a cash-on-delivery parcel.</p></div>
+    <div class="seg" data-seg="check"><button data-mode="one" aria-pressed="true">One order</button><button data-mode="many" aria-pressed="false">Many orders</button></div>
   </div>
 
-  <!-- CHECK -->
-  <section id="tab-check">
-    <h1>Check a COD order before you ship it</h1>
-    <p class="lead">Enter the customer's phone number (and email or address if you have them). You'll see what other stores in Pakistan and the UAE have reported.</p>
-    <div class="grid">
+  <div data-mode-panel="check:one" class="grid2">
+    <div class="panel">
       <form id="checkForm">
-        <label>Phone <small>Any format: 0300-1234567, +971 50 123 4567</small><input name="phone" inputmode="tel"></label>
-        <label>Email <input name="email" type="email"></label>
+        <label class="f">Phone <small>Any format: 0300-1234567, +971 50 123 4567</small><input name="phone" type="tel"></label>
+        <label class="f">Email <input name="email" type="email"></label>
         <div class="row">
-          <label>Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
-          <label>City <input name="city"></label>
+          <label class="f">Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
+          <label class="f">City <input name="city" type="text"></label>
         </div>
-        <label>Delivery address <input name="address"></label>
+        <label class="f">Delivery address <input name="address" type="text"></label>
         <button class="btn" type="submit">Check order</button>
         <div id="checkMsg"></div>
       </form>
-      <div class="result empty" id="result" aria-live="polite">The result appears here.</div>
     </div>
-  </section>
+    <div class="panel verdict empty" id="result" aria-live="polite">Enter a phone number or email to see the risk.</div>
+  </div>
 
-  <!-- REPORT -->
-  <section id="tab-report" hidden>
-    <h1>Report what happened to an order</h1>
-    <p class="lead">Report facts you can back up with a courier record. Successful paid deliveries count too; they help good customers.</p>
+  <div data-mode-panel="check:many" class="stack" hidden>
+    <div class="panel">
+      <form id="checkManyForm">
+        <label class="f">Paste orders <small>One per line: just a phone number, or <code>order_ref,phone,email,city,country</code>. Up to 500.</small>
+          <textarea name="rows" placeholder="LF-1001,0300-1234567,,Lahore,PK&#10;DG-55,+971 50 123 4567,,Dubai,AE&#10;0321 7654321"></textarea></label>
+        <div class="drop"><span class="small muted">Or load a CSV with columns <code>order_ref, phone, email, address, city, country</code></span><input type="file" accept=".csv,text/csv" id="checkFile"></div>
+        <div class="actions"><button class="btn" type="submit">Check all orders</button><span class="small muted" id="checkCount"></span></div>
+        <div id="checkManyMsg"></div>
+      </form>
+    </div>
+    <div id="checkManyResult"></div>
+  </div>
+</section>
+
+<!-- ================= REPORT OUTCOMES ================= -->
+<section id="tab-report" hidden>
+  <div class="head">
+    <div><h1>Report what happened to orders</h1>
+      <p class="sub">Report facts you can back up with a courier record. Paid deliveries count too; they protect good customers.</p></div>
+    <div class="seg" data-seg="report"><button data-mode="one" aria-pressed="true">One order</button><button data-mode="many" aria-pressed="false">Many orders</button></div>
+  </div>
+
+  <div data-mode-panel="report:one" class="panel">
     <form id="reportForm">
       <div class="row">
-        <label>Your order number <input name="order_ref" required></label>
-        <label>Date <input name="occurred_at" type="date" required></label>
+        <label class="f">Your order number <input name="order_ref" type="text" required></label>
+        <label class="f">Date <input name="occurred_at" type="date" required></label>
       </div>
-      <label>What happened
+      <label class="f">What happened
         <select name="type" required>
           <option value="refused_at_door">Refused the parcel at the door</option>
           <option value="unreachable">Couldn't be reached at delivery</option>
@@ -137,92 +263,137 @@ code{font-size:.9em;background:var(--sheet);padding:1px 4px;border-radius:3px}
           <option value="delivered_paid">Delivered and paid</option>
         </select>
       </label>
-      <label>Phone <input name="phone" inputmode="tel"></label>
-      <label>Email <input name="email" type="email"></label>
       <div class="row">
-        <label>Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
-        <label>City <input name="city"></label>
+        <label class="f">Phone <input name="phone" type="tel"></label>
+        <label class="f">Email <input name="email" type="email"></label>
       </div>
-      <label>Delivery address <input name="address"></label>
       <div class="row">
-        <label>Order value <input name="amount" type="number" step="0.01" min="0"></label>
-        <label>Currency<select name="currency"><option>PKR</option><option>AED</option></select></label>
+        <label class="f">Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
+        <label class="f">City <input name="city" type="text"></label>
       </div>
-      <label>Courier tracking number <small>Evidence only. Don't add personal details here.</small><input name="evidence" maxlength="500"></label>
+      <label class="f">Delivery address <input name="address" type="text"></label>
+      <div class="row">
+        <label class="f">Order value <input name="amount" type="number" step="0.01" min="0"></label>
+        <label class="f">Currency<select name="currency"><option>PKR</option><option>AED</option></select></label>
+      </div>
+      <label class="f">Courier tracking number <small>Evidence only. Don't add personal details here.</small><input name="evidence" type="text" maxlength="500"></label>
       <button class="btn" type="submit">Report outcome</button>
       <div id="reportMsg"></div>
     </form>
-  </section>
+  </div>
 
-  <!-- UPLOAD -->
-  <section id="tab-upload" hidden>
-    <h1>Upload many outcomes at once</h1>
-    <p class="lead">Use a CSV with these columns: <code>order_ref, type, occurred_at, phone, email, address, city, country, amount, currency, evidence</code>. Up to 1,000 rows per file.</p>
-    <form id="uploadForm">
-      <label>CSV file <input name="file" type="file" accept=".csv,text/csv" required></label>
-      <button class="btn" type="submit">Upload outcomes</button>
-      <div id="uploadMsg"></div>
-    </form>
-    <div id="uploadResult"></div>
-  </section>
+  <div data-mode-panel="report:many" class="stack" hidden>
+    <div class="panel">
+      <form id="reportManyForm">
+        <label class="f">Paste outcomes <small>CSV with a header row. Columns: <code>order_ref, type, occurred_at, phone, email, address, city, country, amount, currency, evidence</code>. Up to 1,000 rows.</small>
+          <textarea name="rows" placeholder="order_ref,type,occurred_at,phone,city,country,amount,currency&#10;LF-1001,refused_at_door,2026-10-10,0300-1234567,Lahore,PK,4500,PKR&#10;LF-1002,delivered_paid,2026-10-11,0321-7654321,Karachi,PK,2200,PKR"></textarea></label>
+        <div class="drop"><span class="small muted">Or load a CSV file in the same format</span><input type="file" accept=".csv,text/csv" id="reportFile"></div>
+        <div class="actions"><button class="btn" type="submit">Report all outcomes</button><button class="btn ghost sm" type="button" id="templateBtn">Download template</button></div>
+        <div id="reportManyMsg"></div>
+      </form>
+    </div>
+    <div id="reportManyResult"></div>
+  </div>
+</section>
 
-  <!-- DISPUTE (public) -->
-  <section id="tab-dispute" hidden>
-    <h1>Think a record about you is wrong?</h1>
-    <p class="lead">Tell us your phone number and what happened. While we review, any records linked to that number stop affecting your orders. We aim to decide within 30 days.</p>
+<!-- ================= REPORTS ================= -->
+<section id="tab-reports" hidden>
+  <div class="head">
+    <div><h1 id="repTitle">Reports</h1>
+      <p class="sub" id="repSub">Your checks and reported outcomes over time. Counts only; no customer details.</p></div>
+    <div class="actions">
+      <div class="seg" data-seg="scope"><button data-mode="mine" aria-pressed="true">My store</button><button data-mode="network" aria-pressed="false">Whole network</button></div>
+      <select id="repDays" style="width:auto"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option></select>
+      <button class="btn ghost sm" id="repCsv" type="button">Download CSV</button>
+    </div>
+  </div>
+  <div id="repMsg"></div>
+  <div id="repBody" class="stack"></div>
+</section>
+
+<!-- ================= DISPUTE ================= -->
+<section id="tab-dispute" hidden>
+  <div class="head"><div><h1>Think a record about you is wrong?</h1>
+    <p class="sub">Tell us your phone number and what happened. While we review, records linked to that number stop affecting your orders. We aim to decide within 30 days.</p></div></div>
+  <div class="panel" style="max-width:640px">
     <form id="disputeForm">
       <div class="row">
-        <label>Phone <input name="phone" inputmode="tel" required></label>
-        <label>Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
+        <label class="f">Phone <input name="phone" type="tel" required></label>
+        <label class="f">Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
       </div>
-      <label>What happened <small>For example: the courier never came, or I didn't place this order.</small><textarea name="reason" minlength="10" required></textarea></label>
-      <label>How we can reply <small>Optional email or phone.</small><input name="contact"></label>
+      <label class="f">What happened <small>For example: the courier never came, or I didn't place this order.</small><textarea name="reason" minlength="10" required style="min-height:120px"></textarea></label>
+      <label class="f">How we can reply <small>Optional email or phone.</small><input name="contact" type="text"></label>
       <button class="btn" type="submit">Send for review</button>
       <div id="disputeMsg"></div>
     </form>
-  </section>
+  </div>
+</section>
 
-  <!-- ABOUT -->
-  <section id="tab-about" hidden>
-    <h1>How CODShield works</h1>
-    <p class="lead">Online stores in Pakistan and the UAE share what happened to their cash-on-delivery orders, so each store can decide which orders need a confirmation call or prepayment.</p>
-    <h2>What we keep</h2>
-    <p class="note">Only scrambled fingerprints of phone numbers, emails and addresses, which can't be turned back into the original details. We never store names. Stores report facts such as "refused at the door", never opinions about a person.</p>
-    <h2>How a result is decided</h2>
-    <p class="note">Recent reports count more than old ones, and records are deleted after two years. Successful paid deliveries lower the risk. One store's reports alone can never mark someone as high risk.</p>
-    <h2>Your rights</h2>
-    <p class="note">You can contest any record linked to your number on the <a href="#dispute">Contest a record</a> page. Records under review don't count against you.</p>
-  </section>
+<!-- ================= ABOUT ================= -->
+<section id="tab-about" hidden>
+  <div class="head"><div><h1>How CODShield works</h1>
+    <p class="sub">Online stores in Pakistan and the UAE share what happened to their cash-on-delivery orders, so each store can decide which orders need a confirmation call or prepayment.</p></div></div>
+  <div class="grid2">
+    <div class="panel"><h2>What we keep</h2><p class="muted" style="margin:0">Only scrambled fingerprints of phone numbers, emails and addresses, which can't be turned back into the original details. We never store names. Stores report facts such as "refused at the door", never opinions about a person.</p></div>
+    <div class="panel"><h2>How a result is decided</h2><p class="muted" style="margin:0">Recent reports count more than old ones, and records are deleted after two years. Successful paid deliveries lower the risk. One store's reports alone can never mark someone as high risk.</p></div>
+    <div class="panel"><h2>Your rights</h2><p class="muted" style="margin:0">You can contest any record linked to your number on the <a href="#dispute">Contest a record</a> page. Records under review don't count against you.</p></div>
+    <div class="panel"><h2>For developers</h2><p class="muted" style="margin:0">Everything on this site is also available as an API. See the <a href="/docs">API reference</a>.</p></div>
+  </div>
+</section>
 
-  <!-- ADMIN -->
-  <section id="tab-admin" hidden>
-    <h1>Admin</h1>
-    <div class="key">
-      <label>Admin key <input id="adminkey" type="password" autocomplete="off"></label>
-      <button class="btn secondary" id="loadAdmin" type="button">Load</button>
-    </div>
-    <div id="adminMsg"></div>
+<!-- ================= ADMIN ================= -->
+<section id="tab-admin" hidden>
+  <div class="head"><div><h1>Admin</h1><p class="sub">Add stores, review disputes and watch the network. Enter the admin key in the sidebar first.</p></div>
+    <button class="btn ghost sm" id="adminRefresh" type="button">Refresh</button></div>
+  <div id="adminMsg"></div>
+  <div class="stack">
     <div id="stats"></div>
-    <h2>Add a merchant</h2>
-    <form id="merchantForm">
-      <label>Store name <input name="name" required></label>
-      <label>Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
-      <label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" name="agreement_signed" style="width:auto"> Data-sharing agreement signed</label>
-      <button class="btn" type="submit">Add merchant</button>
-      <div id="merchantMsg"></div>
-    </form>
-    <h2>Merchants</h2><div id="merchants"></div>
-    <h2>Open disputes</h2><div id="disputes"></div>
-  </section>
+    <div class="panel">
+      <div class="head" style="margin-bottom:14px"><h2 style="margin:0">Add merchants</h2>
+        <div class="seg" data-seg="merchant"><button data-mode="one" aria-pressed="true">One store</button><button data-mode="many" aria-pressed="false">Many stores</button></div></div>
+      <form id="merchantForm" data-mode-panel="merchant:one">
+        <div class="row">
+          <label class="f">Store name <input name="name" type="text" required></label>
+          <label class="f">Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
+        </div>
+        <label style="display:flex;gap:8px;align-items:center;font-size:.9rem"><input type="checkbox" name="agreement_signed"> Data-sharing agreement signed</label>
+        <button class="btn" type="submit">Add merchant</button>
+        <div id="merchantMsg"></div>
+      </form>
+      <form id="merchantManyForm" data-mode-panel="merchant:many" hidden>
+        <label class="f">Stores <small>One per line: <code>store name, country (PK or AE), signed (yes/no)</code>. Up to 200.</small>
+          <textarea name="rows" placeholder="Lahore Fashion, PK, yes&#10;Dubai Gadgets, AE, yes&#10;Karachi Shoes, PK, no"></textarea></label>
+        <button class="btn" type="submit">Add all merchants</button>
+        <div id="merchantManyMsg"></div>
+      </form>
+      <div id="newKeys"></div>
+    </div>
+    <div class="panel"><h2>Merchants</h2><div id="merchants" class="muted small">Enter the admin key to load.</div></div>
+    <div class="panel"><h2>Open disputes</h2><div id="disputes" class="muted small">Enter the admin key to load.</div></div>
+  </div>
+</section>
 </main>
+</div>
 
 <script>
 const $ = s => document.querySelector(s);
-const tabs = ["check","report","upload","dispute","about","admin"];
-const merchantTabs = ["check","report","upload"];
-let KEY = "";
-try { KEY = sessionStorage.getItem("cs_key") || ""; } catch(e) {}
-$("#apikey").value = KEY;
+const tabs = ["check","report","reports","dispute","about","admin"];
+const store = {get(k){try{return sessionStorage.getItem(k)||""}catch(e){return ""}}, set(k,v){try{sessionStorage.setItem(k,v)}catch(e){}}};
+const keys = {m: store.get("cs_key"), a: store.get("cs_admin")};
+$("#mkey").value = keys.m; $("#akey").value = keys.a;
+
+function keyState(){
+  const parts = [];
+  if(keys.m) parts.push("merchant"); if(keys.a) parts.push("admin");
+  $("#keydot").classList.toggle("on", parts.length > 0);
+  $("#keystate").textContent = parts.length ? "Using " + parts.join(" + ") + " key" : "No key entered";
+}
+$("#mkey").addEventListener("change", e => { keys.m = e.target.value.trim(); store.set("cs_key", keys.m); keyState(); });
+$("#akey").addEventListener("change", e => { keys.a = e.target.value.trim(); store.set("cs_admin", keys.a); keyState();
+  if(!$("#tab-admin").hidden) loadAdmin(); });
+keyState();
+$("#keyToggle").onclick = e => { const o = $("#keyBox").classList.toggle("open"); e.currentTarget.setAttribute("aria-expanded", o); };
+if(!keys.m && !keys.a) $("#keyBox").classList.add("open");
 
 function show(tab){
   if(!tabs.includes(tab)) tab = "check";
@@ -230,84 +401,50 @@ function show(tab){
     $("#tab-"+t).hidden = t !== tab;
     document.querySelector(`[data-tab=${t}]`).setAttribute("aria-selected", t === tab);
   });
-  $("#keybar").hidden = !merchantTabs.includes(tab);
   if(location.hash !== "#"+tab) history.replaceState(null,"","#"+tab);
+  if(tab === "reports") loadReport();
+  if(tab === "admin" && keys.a) loadAdmin();
+  window.scrollTo(0,0);
 }
-document.querySelectorAll("nav button").forEach(b => b.onclick = () => show(b.dataset.tab));
+document.querySelectorAll("nav button[data-tab]").forEach(b => b.onclick = () => show(b.dataset.tab));
 window.addEventListener("hashchange", () => show(location.hash.slice(1)));
-show(location.hash.slice(1) || "check");
 
-$("#savekey").onclick = () => {
-  KEY = $("#apikey").value.trim();
-  try { sessionStorage.setItem("cs_key", KEY); } catch(e) {}
-  flash("#checkMsg", "Key saved for this tab.", true);
-};
+const modes = {check:"one", report:"one", merchant:"one", scope:"mine"};
+document.querySelectorAll("[data-seg]").forEach(seg => seg.addEventListener("click", e => {
+  const b = e.target.closest("button[data-mode]"); if(!b) return;
+  const name = seg.dataset.seg; modes[name] = b.dataset.mode;
+  seg.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  document.querySelectorAll(`[data-mode-panel^="${name}:"]`).forEach(p => p.hidden = p.dataset.modePanel !== name + ":" + b.dataset.mode);
+  if(name === "scope") loadReport();
+}));
 
-function flash(sel, text, ok){
-  const el = $(sel);
-  el.className = "msg " + (ok ? "ok" : "err");
-  el.textContent = text;
-}
-function clean(obj){ for(const k in obj) if(obj[k] === "" || obj[k] == null) delete obj[k]; return obj; }
+// ---------- helpers ----------
+function flash(sel, text, ok){ const el = $(sel); el.className = "msg " + (ok ? "ok" : "err"); el.textContent = text; }
+function clear(sel){ const el = $(sel); el.className = ""; el.textContent = ""; }
+function clean(o){ for(const k in o) if(o[k] === "" || o[k] == null) delete o[k]; return o; }
 function fd(form){ return clean(Object.fromEntries(new FormData(form).entries())); }
+function esc(s){ return String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+const nf = new Intl.NumberFormat("en");
 
-async function api(path, body, headers = {}, method = "POST"){
-  const r = await fetch(path, {method, headers:{"Content-Type":"application/json", ...headers},
-    body: body ? JSON.stringify(body) : undefined});
+async function api(path, {body, method, admin} = {}){
+  const headers = {"Content-Type":"application/json"};
+  if(admin) headers["X-Admin-Key"] = keys.a; else if(keys.m) headers["X-API-Key"] = keys.m;
+  const r = await fetch(path, {method: method || (body ? "POST" : "GET"), headers, body: body ? JSON.stringify(body) : undefined});
   let data = null; try { data = await r.json(); } catch(e) {}
   if(!r.ok){
     let d = data && data.detail;
-    if(Array.isArray(d)) d = d.map(x => (x.loc||[]).slice(-1)[0] + ": " + x.msg).join("; ");
-    if(r.status === 401) d = "That key wasn't accepted. Check it and try again.";
+    if(Array.isArray(d)) d = d.map(x => (x.loc||[]).filter(v => typeof v !== "number" && v !== "body").join(".") + ": " + x.msg).join("; ");
+    if(r.status === 401) d = admin ? "That admin key wasn't accepted. Check it in the sidebar." : "That merchant key wasn't accepted. Check it in the sidebar.";
     throw new Error(d || `Request failed (${r.status}).`);
   }
   return data;
 }
-function needKey(sel){
-  if(!KEY){ flash(sel, "Enter your merchant API key above first.", false); return true; }
-  return false;
+function needKey(sel, admin){
+  if(admin ? keys.a : keys.m) return false;
+  flash(sel, admin ? "Enter the admin key in the sidebar first." : "Enter your merchant API key in the sidebar first.", false);
+  return true;
 }
-async function busy(form, fn){
-  const b = form.querySelector("button[type=submit]"); b.disabled = true;
-  try { await fn(); } finally { b.disabled = false; }
-}
-function esc(s){ return String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
-
-const VERDICT = {
-  low:["Ship normally","No warning signs in the network"],
-  medium:["Confirm first","Call or send an OTP before dispatch"],
-  high:["Prepayment only","Ask for full or partial advance payment"]
-};
-
-$("#checkForm").onsubmit = e => { e.preventDefault(); if(needKey("#checkMsg")) return;
-  $("#checkMsg").className = ""; $("#checkMsg").textContent = "";
-  busy(e.target, async () => {
-    try{
-      const r = await api("/v1/check", fd(e.target), {"X-API-Key":KEY});
-      const [title, sub] = VERDICT[r.band];
-      $("#result").className = "result";
-      $("#result").innerHTML = `
-        <div class="stamp ${r.band}">${title}<small>${sub}</small></div>
-        <div class="score">${r.score}<span> / 100 risk</span></div>
-        <div class="meter" aria-hidden="true"><i style="left:${r.score}%"></i></div>
-        <ul class="reasons">${r.reasons.map(x => `<li>${esc(x.replaceAll("_"," "))}</li>`).join("")}</ul>
-        ${r.matched_on.length ? `<p class="note">Matched on: ${r.matched_on.join(", ")}</p>` : ""}`;
-    }catch(err){ flash("#checkMsg", err.message, false); }
-  });
-};
-
-$("#reportForm").onsubmit = e => { e.preventDefault(); if(needKey("#reportMsg")) return;
-  busy(e.target, async () => {
-    const body = fd(e.target);
-    body.occurred_at = body.occurred_at + "T12:00:00";
-    if(body.amount) body.amount = Number(body.amount); else delete body.currency;
-    try{
-      const r = await api("/v1/events", body, {"X-API-Key":KEY});
-      flash("#reportMsg", r.outcome === "duplicate" ? "Already reported. Nothing changed." : "Outcome reported.", true);
-      if(r.outcome !== "duplicate") e.target.reset();
-    }catch(err){ flash("#reportMsg", err.message, false); }
-  });
-};
+async function busy(form, fn){ const b = form.querySelector("button[type=submit]"); b.disabled = true; try { await fn(); } finally { b.disabled = false; } }
 
 function parseCSV(text){
   const rows = []; let row = [], cur = "", q = false;
@@ -320,72 +457,297 @@ function parseCSV(text){
     else cur += c;
   }
   if(cur || row.length){ row.push(cur); rows.push(row); }
-  const head = rows.shift().map(h => h.trim().replace(/^﻿/, ""));
-  return rows.filter(r => r.some(v => v.trim())).map(r => Object.fromEntries(head.map((h,i) => [h, (r[i]||"").trim()])));
+  return rows.map(r => r.map(v => v.trim())).filter(r => r.some(v => v));
 }
-$("#uploadForm").onsubmit = e => { e.preventDefault(); if(needKey("#uploadMsg")) return;
+function toCSV(rows){ return rows.map(r => r.map(v => { v = String(v ?? ""); return /[",\n]/.test(v) ? '"' + v.replace(/"/g,'""') + '"' : v; }).join(",")).join("\n"); }
+function download(name, text){
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], {type:"text/csv"})); a.download = name;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+}
+async function loadFileInto(input, textarea){ const f = input.files[0]; if(f) textarea.value = await f.text(); }
+const BAND = {low:["Ship normally","No warning signs in the network"], medium:["Confirm first","Call or send an OTP before dispatch"], high:["Prepayment only","Ask for full or partial advance payment"]};
+const BAND_LABEL = {low:"Low", medium:"Medium", high:"High"};
+const TYPE_LABEL = {refused_at_door:"Refused at door", unreachable:"Unreachable", fake_address:"Fake address", fake_order:"Fake order",
+  return_abuse:"Return abuse", chargeback:"Chargeback", delivered_paid:"Delivered and paid"};
+
+// ---------- check: one ----------
+$("#checkForm").onsubmit = e => { e.preventDefault(); clear("#checkMsg"); if(needKey("#checkMsg")) return;
   busy(e.target, async () => {
     try{
-      const rows = parseCSV(await e.target.file.files[0].text()).map(r => {
-        r = clean(r); if(r.amount) r.amount = Number(r.amount); return r; });
-      if(!rows.length) throw new Error("The file has no data rows.");
-      if(rows.length > 1000) throw new Error("Split the file: 1,000 rows maximum per upload.");
-      const r = await api("/v1/events/batch", rows, {"X-API-Key":KEY});
-      const n = o => r.results.filter(x => x.outcome === o).length;
-      flash("#uploadMsg", `${n("created")} added, ${n("duplicate")} already reported, ${n("rejected")} rejected.`, n("rejected") === 0);
-      const bad = r.results.filter(x => x.outcome === "rejected");
-      $("#uploadResult").innerHTML = bad.length ? `<h2>Rejected rows</h2><table><tr><th>Row</th><th>Reason</th></tr>${
-        bad.map(x => `<tr><td>${x.index + 2}</td><td>${esc(x.error)}</td></tr>`).join("")}</table>` : "";
-    }catch(err){ flash("#uploadMsg", err.message, false); }
+      const r = await api("/v1/check", {body: fd(e.target)});
+      const [t, sub] = BAND[r.band];
+      $("#result").className = "panel verdict";
+      $("#result").innerHTML = `<div class="stamp ${r.band}">${t}<small>${sub}</small></div>
+        <div class="score">${r.score}<span> / 100 risk</span></div>
+        <div class="meter" aria-hidden="true"><i style="left:${r.score}%"></i></div>
+        <ul class="reasons">${r.reasons.map(x => `<li>${esc(x.replaceAll("_"," "))}</li>`).join("")}</ul>
+        ${(r.negative_events || r.paid_deliveries) && r.matched_on.length ? `<p class="small muted" style="margin:0">Matched on ${r.matched_on.join(", ")}</p>` : ""}`;
+    }catch(err){ flash("#checkMsg", err.message, false); }
   });
 };
 
-$("#disputeForm").onsubmit = e => { e.preventDefault();
+// ---------- check: many ----------
+function parseOrders(text){
+  const rows = parseCSV(text); if(!rows.length) return [];
+  let head = null;
+  if(rows[0].some(v => /^(phone|order_ref|email|country)$/i.test(v))) head = rows.shift().map(h => h.toLowerCase().replace(/^﻿/,""));
+  return rows.map(r => {
+    let o;
+    if(head) o = Object.fromEntries(head.map((h,i) => [h, r[i] || ""]));
+    else if(r.length === 1) o = {phone: r[0]};
+    else o = {order_ref: r[0], phone: r[1], email: r[2], city: r[3], country: r[4]};
+    o.country = (o.country || "PK").toUpperCase() === "AE" || /^uae$/i.test(o.country||"") ? "AE" : "PK";
+    return o;
+  });
+}
+let lastBatch = [];
+$("#checkFile").onchange = e => loadFileInto(e.target, $("#checkManyForm").rows);
+$("#checkManyForm").rows.oninput = () => { const n = parseOrders($("#checkManyForm").rows.value).length; $("#checkCount").textContent = n ? nf.format(n) + " orders" : ""; };
+$("#checkManyForm").onsubmit = e => { e.preventDefault(); clear("#checkManyMsg"); if(needKey("#checkManyMsg")) return;
   busy(e.target, async () => {
     try{
-      const r = await api("/v1/disputes", fd(e.target));
-      flash("#disputeMsg", `Received. Your reference is #${r.dispute_id}. ${r.message}`, true);
-      e.target.reset();
+      const orders = parseOrders(e.target.rows.value);
+      if(!orders.length) throw new Error("Paste at least one order or load a CSV.");
+      if(orders.length > 500) throw new Error("Up to 500 orders per check. Split the list and try again.");
+      const body = orders.map(o => clean({phone:o.phone, email:o.email, address:o.address, city:o.city, country:o.country}));
+      const {results} = await api("/v1/check/batch", {body});
+      lastBatch = results.map((r,i) => ({...r, ref: orders[i].order_ref || "", phone: orders[i].phone || orders[i].email || ""}));
+      renderBatch("score");
+    }catch(err){ flash("#checkManyMsg", err.message, false); }
+  });
+};
+function renderBatch(sortKey){
+  const rows = [...lastBatch];
+  if(sortKey === "score") rows.sort((a,b) => (b.ok ? b.score : -1) - (a.ok ? a.score : -1));
+  const c = {low:0, medium:0, high:0, err:0}; rows.forEach(r => r.ok ? c[r.band]++ : c.err++);
+  $("#checkManyResult").innerHTML = `<div class="panel stack">
+    <div class="head" style="margin:0"><div class="summary">
+      <span class="chip high">${c.high} prepayment only</span><span class="chip medium">${c.medium} confirm first</span>
+      <span class="chip low">${c.low} ship normally</span>${c.err ? `<span class="chip na">${c.err} couldn't check</span>` : ""}</div>
+      <button class="btn ghost sm" type="button" id="batchCsv">Download results</button></div>
+    <div class="tablewrap"><table><thead><tr><th>Order</th><th>Phone / email</th><th class="num">Risk</th><th>Decision</th><th>Why</th></tr></thead><tbody>
+    ${rows.map(r => r.ok ? `<tr><td>${esc(r.ref) || '<span class="muted">—</span>'}</td><td>${esc(r.phone)}</td><td class="num">${r.score}</td>
+        <td><span class="chip ${r.band}">${BAND[r.band][0]}</span></td><td class="wrap small muted">${esc(r.reasons.join("; ").replaceAll("_"," "))}</td></tr>`
+      : `<tr><td>${esc(r.ref) || '<span class="muted">—</span>'}</td><td>${esc(r.phone)}</td><td class="num">—</td><td><span class="chip na">Not checked</span></td><td class="wrap small">${esc(r.error)}</td></tr>`).join("")}
+    </tbody></table></div></div>`;
+  $("#batchCsv").onclick = () => download("codshield-checks.csv", toCSV([["order_ref","phone_or_email","score","decision","reasons"],
+    ...lastBatch.map(r => [r.ref, r.phone, r.ok ? r.score : "", r.ok ? BAND[r.band][0] : "Not checked: " + r.error, r.ok ? r.reasons.join("; ") : ""])]));
+}
+
+// ---------- report: one ----------
+$("#reportForm").occurred_at.valueAsDate = new Date();
+$("#reportForm").onsubmit = e => { e.preventDefault(); clear("#reportMsg"); if(needKey("#reportMsg")) return;
+  busy(e.target, async () => {
+    const body = fd(e.target);
+    body.occurred_at += "T12:00:00";
+    if(body.amount) body.amount = Number(body.amount); else delete body.currency;
+    try{
+      const r = await api("/v1/events", {body});
+      flash("#reportMsg", r.outcome === "duplicate" ? "Already reported. Nothing changed." : "Outcome reported.", true);
+      if(r.outcome !== "duplicate"){ e.target.reset(); e.target.occurred_at.valueAsDate = new Date(); }
+    }catch(err){ flash("#reportMsg", err.message, false); }
+  });
+};
+
+// ---------- report: many ----------
+const TEMPLATE = "order_ref,type,occurred_at,phone,email,address,city,country,amount,currency,evidence\nLF-1001,refused_at_door,2026-10-10,0300-1234567,,,Lahore,PK,4500,PKR,TCS:77812\n";
+$("#templateBtn").onclick = () => download("codshield-outcomes-template.csv", TEMPLATE);
+$("#reportFile").onchange = e => loadFileInto(e.target, $("#reportManyForm").rows);
+$("#reportManyForm").onsubmit = e => { e.preventDefault(); clear("#reportManyMsg"); if(needKey("#reportManyMsg")) return;
+  busy(e.target, async () => {
+    try{
+      const rows = parseCSV(e.target.rows.value);
+      if(rows.length < 2) throw new Error("Include a header row and at least one outcome.");
+      const head = rows.shift().map(h => h.toLowerCase().replace(/^﻿/,""));
+      if(!head.includes("type") || !head.includes("order_ref")) throw new Error("The header row needs at least order_ref, type and occurred_at.");
+      const items = rows.map(r => { const o = clean(Object.fromEntries(head.map((h,i) => [h, r[i] || ""])));
+        if(o.amount) o.amount = Number(o.amount);
+        if(o.occurred_at && /^\d{4}-\d{2}-\d{2}$/.test(o.occurred_at)) o.occurred_at += "T12:00:00";
+        if(o.country) o.country = o.country.toUpperCase(); return o; });
+      if(items.length > 1000) throw new Error("Up to 1,000 rows per upload. Split the file and try again.");
+      const {results} = await api("/v1/events/batch", {body: items});
+      const n = o => results.filter(x => x.outcome === o).length;
+      flash("#reportManyMsg", `${n("created")} added, ${n("duplicate")} already reported, ${n("rejected")} rejected.`, n("rejected") === 0);
+      const bad = results.filter(x => x.outcome === "rejected");
+      $("#reportManyResult").innerHTML = bad.length ? `<div class="panel"><h2>Rows that weren't added</h2><div class="tablewrap"><table>
+        <thead><tr><th class="num">Line</th><th>Order</th><th>Reason</th></tr></thead><tbody>${bad.map(x =>
+        `<tr><td class="num">${x.index + 2}</td><td>${esc(items[x.index].order_ref)}</td><td class="wrap">${esc(x.error)}</td></tr>`).join("")}</tbody></table></div></div>` : "";
+    }catch(err){ flash("#reportManyMsg", err.message, false); }
+  });
+};
+
+// ---------- reports ----------
+let lastReport = null;
+$("#repDays").onchange = loadReport;
+async function loadReport(){
+  const network = modes.scope === "network";
+  $("#repTitle").textContent = network ? "Network report" : "My store report";
+  $("#repSub").textContent = network ? "Activity across every store in the network. Counts only; no customer details."
+                                     : "Your checks and reported outcomes over time. Counts only; no customer details.";
+  clear("#repMsg");
+  if(needKey("#repMsg", network)){ $("#repBody").innerHTML = ""; return; }
+  $("#repBody").innerHTML = `<div class="panel empty-state">Loading…</div>`;
+  try{
+    const days = $("#repDays").value;
+    lastReport = await api(network ? `/v1/admin/reports?days=${days}` : `/v1/reports?days=${days}`, {admin: network});
+    renderReport(lastReport);
+  }catch(err){ $("#repBody").innerHTML = ""; flash("#repMsg", err.message, false); }
+}
+function renderReport(r){
+  const t = r.totals;
+  const val = Object.entries(r.negative_value || {}).map(([c,v]) => `${c} ${nf.format(Math.round(v))}`).join(" · ") || "—";
+  const types = Object.entries(r.by_type).sort((a,b) => b[1]-a[1]);
+  const maxT = Math.max(1, ...types.map(x => x[1]));
+  const pk = r.by_country.PK || 0, ae = r.by_country.AE || 0;
+  $("#repBody").innerHTML = `
+    <div class="kpis">
+      <div class="kpi"><b>${nf.format(t.checks)}</b><span>Orders checked</span></div>
+      <div class="kpi"><b>${nf.format(t.flagged)}</b><span>Flagged for a call or prepayment</span></div>
+      <div class="kpi"><b>${nf.format(t.high_risk)}</b><span>High risk (prepayment only)</span></div>
+      <div class="kpi"><b>${nf.format(t.negative_outcomes)}</b><span>Problem orders reported</span></div>
+      <div class="kpi"><b>${nf.format(t.paid_deliveries)}</b><span>Paid deliveries reported</span></div>
+    </div>
+    <div class="panel"><h2>Orders checked per day, by decision</h2>
+      <div class="legend"><span><i style="background:var(--bad)"></i>Prepayment only</span><span><i style="background:var(--warn)"></i>Confirm first</span><span><i style="background:var(--good)"></i>Ship normally</span></div>
+      <div class="chart" id="chartChecks"></div></div>
+    <div class="grid2">
+      <div class="panel"><h2>Reported outcomes by type</h2>
+        ${types.length ? `<div class="hbar">${types.map(([k,v]) => `<span>${TYPE_LABEL[k] || k}</span><div class="track"><div class="fill" style="width:${v/maxT*100}%"></div></div><span class="v">${nf.format(v)}</span>`).join("")}</div>`
+          : `<p class="muted small" style="margin:0">No outcomes reported in this period yet.</p>`}</div>
+      <div class="panel stack" style="gap:14px"><h2 style="margin:0">At a glance</h2>
+        <div class="hbar"><span>Pakistan</span><div class="track"><div class="fill" style="width:${(pk/Math.max(1,pk+ae))*100}%"></div></div><span class="v">${nf.format(pk)}</span>
+          <span>UAE</span><div class="track"><div class="fill" style="width:${(ae/Math.max(1,pk+ae))*100}%"></div></div><span class="v">${nf.format(ae)}</span></div>
+        <p class="small" style="margin:0"><span class="muted">Value of problem orders reported:</span> ${esc(val)}</p>
+        <p class="small" style="margin:0"><span class="muted">Network size:</span> ${nf.format(r.network.merchants)} stores, ${nf.format(r.network.customers_on_file)} customer fingerprints</p>
+        ${r.disputes ? `<p class="small" style="margin:0"><span class="muted">Disputes:</span> ${r.disputes.opened} opened, ${r.disputes.upheld} upheld, ${r.disputes.rejected} rejected, ${r.disputes.open_now} open now</p>` : ""}
+      </div>
+    </div>
+    ${r.top_contributors ? `<div class="panel"><h2>Most active stores</h2>${r.top_contributors.length ? `<div class="tablewrap"><table>
+      <thead><tr><th>Store</th><th>Country</th><th class="num">Outcomes reported</th><th class="num">Trust weight</th></tr></thead><tbody>
+      ${r.top_contributors.map(m => `<tr><td>${esc(m.name)}</td><td>${m.country}</td><td class="num">${nf.format(m.reports)}</td><td class="num">${m.trust_weight}</td></tr>`).join("")}
+      </tbody></table></div>` : `<p class="muted small" style="margin:0">No outcomes reported in this period yet.</p>`}</div>` : ""}`;
+  stackedChecks($("#chartChecks"), r.checks_daily);
+}
+function stackedChecks(el, d){
+  const order = ["low","medium","high"], color = {low:"var(--good)", medium:"var(--warn)", high:"var(--bad)"};
+  const n = d.dates.length, totals = d.dates.map((_,i) => order.reduce((s,k) => s + ((d.series[k]||[])[i]||0), 0));
+  const max = Math.max(...totals);
+  if(!max){ el.innerHTML = `<p class="muted small" style="margin:0">No orders checked in this period yet.</p>`; return; }
+  const W = 900, H = 240, L = 34, B = 24, T = 8, pw = W - L - 6, ph = H - B - T;
+  const step = niceStep(max), top = Math.ceil(max/step)*step, slot = pw/n, bw = Math.max(2, Math.min(28, slot - Math.max(2, slot*.28)));
+  const y = v => T + ph - v/top*ph;
+  let s = "";
+  for(let v = 0; v <= top; v += step) s += `<line class="grid" x1="${L}" x2="${W-6}" y1="${y(v)}" y2="${y(v)}"/><text class="axis" x="${L-8}" y="${y(v)+4}" text-anchor="end">${v}</text>`;
+  const every = Math.ceil(n/8);
+  d.dates.forEach((dt,i) => {
+    const x = L + i*slot + (slot-bw)/2;
+    let base = 0;
+    order.forEach((k,ki) => {
+      const v = (d.series[k]||[])[i]||0; if(!v) return;
+      const y1 = y(base + v), h = y(base) - y1 - (base ? 2 : 0);
+      const isTop = order.slice(ki+1).every(k2 => !((d.series[k2]||[])[i]));
+      s += isTop ? `<path d="${roundTop(x, y1, bw, Math.max(1,h), Math.min(4, bw/2))}" fill="${color[k]}"/>`
+                 : `<rect x="${x}" y="${y1}" width="${bw}" height="${Math.max(1,h)}" fill="${color[k]}"/>`;
+      base += v;
+    });
+    if(i % every === 0) s += `<text class="axis" x="${x+bw/2}" y="${H-6}" text-anchor="middle">${fmtDay(dt)}</text>`;
+    s += `<rect data-i="${i}" x="${L+i*slot}" y="${T}" width="${slot}" height="${ph}" fill="transparent"/>`;
+  });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Orders checked per day">${s}</svg><div class="tip"></div>`;
+  const tip = el.querySelector(".tip"), svg = el.querySelector("svg");
+  svg.addEventListener("mousemove", e => {
+    const hit = e.target.closest("rect[data-i]"); if(!hit){ tip.style.opacity = 0; return; }
+    const i = +hit.dataset.i, box = el.getBoundingClientRect(), sb = svg.getBoundingClientRect(), sc = sb.width / W;
+    tip.innerHTML = `<b>${fmtDay(d.dates[i], true)}</b><br>${totals[i]} checked · ${(d.series.high||[])[i]||0} prepay · ${(d.series.medium||[])[i]||0} confirm · ${(d.series.low||[])[i]||0} ship`;
+    tip.style.left = (sb.left - box.left + (L + i*slot + slot/2)*sc) + "px";
+    tip.style.top = (sb.top - box.top + y(totals[i])*sc) + "px"; tip.style.opacity = 1;
+  });
+  svg.addEventListener("mouseleave", () => tip.style.opacity = 0);
+}
+function roundTop(x,y,w,h,r){ r = Math.min(r,h); return `M${x},${y+h}V${y+r}Q${x},${y} ${x+r},${y}H${x+w-r}Q${x+w},${y} ${x+w},${y+r}V${y+h}Z`; }
+function niceStep(max){ const raw = max/4, p = Math.pow(10, Math.floor(Math.log10(raw))); return [1,2,5,10].map(m => m*p).find(s => s >= raw) || 1; }
+function fmtDay(s, long){ const d = new Date(s + "T00:00:00"); return d.toLocaleDateString("en-GB", long ? {day:"numeric", month:"short", year:"numeric"} : {day:"numeric", month:"short"}); }
+$("#repCsv").onclick = () => {
+  if(!lastReport) return;
+  const r = lastReport, rows = [["date","checked_low","checked_medium","checked_high", ...Object.keys(TYPE_LABEL).map(k => "outcome_" + k)]];
+  r.checks_daily.dates.forEach((dt,i) => rows.push([dt, ...["low","medium","high"].map(k => (r.checks_daily.series[k]||[])[i]||0),
+    ...Object.keys(TYPE_LABEL).map(k => (r.outcomes_daily.series[k]||[])[i]||0)]));
+  download(`codshield-${r.scope}-report-${r.from}-to-${r.to}.csv`, toCSV(rows));
+};
+
+// ---------- dispute ----------
+$("#disputeForm").onsubmit = e => { e.preventDefault(); clear("#disputeMsg");
+  busy(e.target, async () => {
+    try{
+      const r = await fetch("/v1/disputes", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(fd(e.target))});
+      const data = await r.json().catch(() => ({}));
+      if(!r.ok) throw new Error(typeof data.detail === "string" ? data.detail : "Please check the form and try again.");
+      flash("#disputeMsg", `Received. Your reference is #${data.dispute_id}. ${data.message}`, true); e.target.reset();
     }catch(err){ flash("#disputeMsg", err.message, false); }
   });
 };
 
-// admin
-const AK = () => ({"X-Admin-Key": $("#adminkey").value.trim()});
+// ---------- admin ----------
+$("#adminRefresh").onclick = () => { if(!needKey("#adminMsg", true)) loadAdmin(); };
 async function loadAdmin(){
+  clear("#adminMsg");
   try{
-    const s = await api("/v1/admin/stats", null, AK(), "GET");
-    $("#stats").innerHTML = `<table><tr><th>Merchants</th><th>Customers on file</th><th>Reports</th><th>Open disputes</th></tr>
-      <tr><td>${s.merchants}</td><td>${s.identities}</td><td>${s.events}</td><td>${s.open_disputes}</td></tr></table>`;
-    const ms = await api("/v1/admin/merchants", null, AK(), "GET");
-    $("#merchants").innerHTML = ms.length ? `<table><tr><th>ID</th><th>Store</th><th>Country</th><th>Agreement</th><th>Trust</th></tr>${
-      ms.map(m => `<tr><td>${m.id}</td><td>${esc(m.name)}</td><td>${m.country}</td><td>${m.agreement_signed ? "Signed" : "Missing"}</td><td>${m.trust_weight}</td></tr>`).join("")}</table>`
-      : `<p class="note">No merchants yet. Add your first one above.</p>`;
-    const ds = await api("/v1/admin/disputes", null, AK(), "GET");
-    $("#disputes").innerHTML = ds.length ? `<table><tr><th>#</th><th>Reason</th><th>Contact</th><th>Opened</th><th>Decision</th></tr>${
-      ds.map(d => `<tr><td>${d.id}</td><td>${esc(d.reason)}</td><td>${esc(d.contact)}</td><td>${d.created_at.slice(0,10)}</td>
-      <td><button class="btn secondary" data-d="${d.id}" data-u="1">Remove records</button>
-          <button class="btn secondary" data-d="${d.id}" data-u="0">Keep records</button></td></tr>`).join("")}</table>`
-      : `<p class="note">No open disputes.</p>`;
-    $("#adminMsg").className = ""; $("#adminMsg").textContent = "";
-  }catch(err){ flash("#adminMsg", err.message.replace("That key","That admin key"), false); }
+    const s = await api("/v1/admin/stats", {admin:true});
+    $("#stats").innerHTML = `<div class="kpis">
+      <div class="kpi"><b>${nf.format(s.merchants)}</b><span>Stores</span></div>
+      <div class="kpi"><b>${nf.format(s.identities)}</b><span>Customer fingerprints</span></div>
+      <div class="kpi"><b>${nf.format(s.events)}</b><span>Outcomes on file</span></div>
+      <div class="kpi"><b>${nf.format(s.open_disputes)}</b><span>Open disputes</span></div></div>`;
+    const ms = await api("/v1/admin/merchants", {admin:true});
+    $("#merchants").className = ""; $("#merchants").innerHTML = ms.length ? `<div class="tablewrap"><table><thead><tr><th class="num">ID</th><th>Store</th><th>Country</th><th>Agreement</th><th class="num">Trust</th></tr></thead><tbody>
+      ${ms.map(m => `<tr><td class="num">${m.id}</td><td>${esc(m.name)}</td><td>${m.country}</td><td>${m.agreement_signed ? '<span class="chip low">Signed</span>' : '<span class="chip medium">Missing</span>'}</td><td class="num">${m.trust_weight}</td></tr>`).join("")}</tbody></table></div>`
+      : `<p class="muted small" style="margin:0">No stores yet. Add your first one above.</p>`;
+    const ds = await api("/v1/admin/disputes", {admin:true});
+    $("#disputes").className = ""; $("#disputes").innerHTML = ds.length ? `<div class="tablewrap"><table><thead><tr><th class="num">#</th><th>What they said</th><th>Contact</th><th>Opened</th><th>Decision</th></tr></thead><tbody>
+      ${ds.map(d => `<tr><td class="num">${d.id}</td><td class="wrap">${esc(d.reason)}</td><td>${esc(d.contact)}</td><td>${d.created_at.slice(0,10)}</td>
+      <td><div class="actions"><button class="btn sm" data-d="${d.id}" data-u="1">Remove records</button><button class="btn ghost sm" data-d="${d.id}" data-u="0">Keep records</button></div></td></tr>`).join("")}</tbody></table></div>`
+      : `<p class="muted small" style="margin:0">No open disputes.</p>`;
+  }catch(err){ flash("#adminMsg", err.message, false); }
 }
-$("#loadAdmin").onclick = loadAdmin;
 $("#disputes").onclick = async e => {
   const b = e.target.closest("button[data-d]"); if(!b) return;
-  try{ await api(`/v1/admin/disputes/${b.dataset.d}/resolve`, {upheld: b.dataset.u === "1"}, AK()); loadAdmin(); }
+  try{ await api(`/v1/admin/disputes/${b.dataset.d}/resolve`, {body:{upheld: b.dataset.u === "1"}, admin:true}); loadAdmin(); }
   catch(err){ flash("#adminMsg", err.message, false); }
 };
-$("#merchantForm").onsubmit = e => { e.preventDefault();
+function showKeys(list){
+  const ok = list.filter(x => x.ok);
+  $("#newKeys").innerHTML = ok.length ? `<div class="stack" style="margin-top:18px;gap:10px">
+    <div class="msg ok">Copy these keys now and send each store its own. They aren't shown again.</div>
+    <div class="tablewrap"><table><thead><tr><th>Store</th><th>API key</th></tr></thead><tbody>
+    ${ok.map(x => `<tr><td>${esc(x.name)}</td><td><code>${esc(x.api_key)}</code></td></tr>`).join("")}</tbody></table></div>
+    <button class="btn ghost sm" type="button" id="keysCsv">Download keys</button></div>` : "";
+  if(ok.length) $("#keysCsv").onclick = () => download("codshield-merchant-keys.csv", toCSV([["store","api_key"], ...ok.map(x => [x.name, x.api_key])]));
+}
+$("#merchantForm").onsubmit = e => { e.preventDefault(); clear("#merchantMsg"); if(needKey("#merchantMsg", true)) return;
   busy(e.target, async () => {
     const body = fd(e.target); body.agreement_signed = !!body.agreement_signed;
-    try{
-      const r = await api("/v1/admin/merchants", body, AK());
-      flash("#merchantMsg", `Merchant added. API key (shown once, copy it now): ${r.api_key}`, true);
-      e.target.reset(); loadAdmin();
-    }catch(err){ flash("#merchantMsg", err.message, false); }
+    try{ const r = await api("/v1/admin/merchants", {body, admin:true});
+      showKeys([{ok:true, name: body.name, api_key: r.api_key}]); flash("#merchantMsg", "Merchant added.", true); e.target.reset(); loadAdmin(); }
+    catch(err){ flash("#merchantMsg", err.message, false); }
   });
 };
+$("#merchantManyForm").onsubmit = e => { e.preventDefault(); clear("#merchantManyMsg"); if(needKey("#merchantManyMsg", true)) return;
+  busy(e.target, async () => {
+    try{
+      const rows = parseCSV(e.target.rows.value).filter(r => !/^store/i.test(r[0]));
+      if(!rows.length) throw new Error("Add at least one store, one per line.");
+      if(rows.length > 200) throw new Error("Up to 200 stores at a time.");
+      const body = rows.map(r => ({name: r[0], country: /^(ae|uae)$/i.test(r[1]||"") ? "AE" : (r[1]||"PK").toUpperCase(), agreement_signed: /^(y|yes|true|1|signed)$/i.test(r[2]||"")}));
+      const {results} = await api("/v1/admin/merchants/batch", {body, admin:true});
+      const bad = results.filter(x => !x.ok);
+      flash("#merchantManyMsg", `${results.length - bad.length} added` + (bad.length ? `, ${bad.length} not added: ` + bad.map(x => `${x.name} (${x.error})`).join("; ") : "."), !bad.length);
+      showKeys(results); loadAdmin();
+    }catch(err){ flash("#merchantManyMsg", err.message, false); }
+  });
+};
+
+show(location.hash.slice(1) || "check");
 </script>
 </body>
 </html>

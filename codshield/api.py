@@ -13,12 +13,13 @@ from pathlib import Path
 from typing import Literal
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
+from fastapi.responses import HTMLResponse
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, Field
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from . import auth, reports, service, workflow
+from . import auth, devapi, reports, service, workflow
 from .auth import Actor, AuthError, PLANS, audit
 from .config import settings
 from .db import get_session, init_db
@@ -28,10 +29,30 @@ from .models import (ALL_PERMS, AuditLog, Dispute, Event, Identity, Merchant,
 STATIC = Path(__file__).parent / "static"
 
 
+async def _webhook_retry_loop():
+    """Retry failed webhook deliveries every minute while the server is up."""
+    import asyncio
+    from starlette.concurrency import run_in_threadpool
+
+    def tick():
+        from .db import SessionLocal
+        with SessionLocal() as s:
+            return devapi.retry_due(s)
+    while True:
+        await asyncio.sleep(60)
+        try:
+            await run_in_threadpool(tick)
+        except Exception:                     # never let the loop die
+            pass
+
+
 @asynccontextmanager
 async def lifespan(_app):
+    import asyncio
     init_db()
+    task = asyncio.create_task(_webhook_retry_loop())
     yield
+    task.cancel()
 
 
 app = FastAPI(lifespan=lifespan, title="CODShield", version="0.3.0",
@@ -42,6 +63,25 @@ app = FastAPI(lifespan=lifespan, title="CODShield", version="0.3.0",
 @app.exception_handler(AuthError)
 async def _auth_error(_req, exc: AuthError):
     return JSONResponse(status_code=exc.status, content={"detail": str(exc)})
+
+
+@app.exception_handler(devapi.PlatformError)
+async def _platform_error(_req, exc):
+    return JSONResponse(status_code=exc.status, content={"detail": str(exc)})
+
+
+@app.middleware("http")
+async def request_id_and_metering(request: Request, call_next):
+    rid = request.headers.get("x-request-id") or "req_" + secrets.token_hex(8)
+    response = await call_next(request)
+    response.headers["X-Request-ID"] = rid[:64]
+    meter = getattr(request.state, "meter", None)
+    if meter:
+        from .db import SessionLocal
+        with SessionLocal() as s:
+            devapi.record_usage(s, meter[0], meter[1], devapi.endpoint_label(request.method, request.url.path),
+                                error=response.status_code >= 400)
+    return response
 
 
 def _setup_problems() -> list[str]:
@@ -83,7 +123,7 @@ def _rate_limit(key: str, per_min: int | None = None):
 
 
 # ---------- who is calling ----------
-def get_actor(authorization: str | None = Header(None), x_api_key: str | None = Header(None),
+def get_actor(request: Request, authorization: str | None = Header(None), x_api_key: str | None = Header(None),
               x_admin_key: str | None = Header(None), s: Session = Depends(get_session)) -> Actor:
     if authorization and authorization.lower().startswith("bearer "):
         u = auth.user_for_token(s, authorization[7:].strip())
@@ -93,11 +133,17 @@ def get_actor(authorization: str | None = Header(None), x_api_key: str | None = 
         _rate_limit(f"u{u.id}")
         return a
     if x_api_key:
-        m = service.merchant_by_key(s, x_api_key)
-        if m is None:
+        key = devapi.find_api_key(s, x_api_key)
+        m = s.get(Merchant, key.merchant_id) if key else service.merchant_by_key(s, x_api_key)
+        if m is None or not m.active:
             raise HTTPException(401, "invalid API key")
-        _rate_limit(f"m{m.id}")
-        return auth.actor_for_api_key(m)
+        a = auth.actor_for_api_key(m, key)
+        if key is not None:
+            key.last_used_at = utcnow()
+            s.commit()
+        request.state.meter = (m.id, a.api_key_id)
+        _rate_limit(f"k{m.id}:{a.api_key_id}", devapi.PLAN_RATE.get(m.plan or "free", 60))
+        return a
     if x_admin_key:
         if x_admin_key != settings.ADMIN_KEY:
             raise HTTPException(401, "invalid admin key")
@@ -156,12 +202,14 @@ class MerchantIn(BaseModel):
     feed_config: dict | None = None
     plan: PlanName = "free"
     require_approval: bool = True
+    tier: Literal["contributor", "score_only"] = "contributor"
     admin_email: str | None = None
     admin_name: str | None = None
 
 
 class MerchantPatch(BaseModel):
     plan: PlanName | None = None
+    tier: Literal["contributor", "score_only"] | None = None
     require_approval: bool | None = None
     agreement_signed: bool | None = None
     active: bool | None = None
@@ -219,6 +267,22 @@ class TenantPatch(BaseModel):
     require_approval: bool | None = None
 
 
+class ApiKeyIn(BaseModel):
+    name: str = Field(..., min_length=1, max_length=80)
+    mode: Literal["live", "test"] = "live"
+    scopes: list[Literal["check", "report", "read"]] = ["check"]
+
+
+class WebhookIn(BaseModel):
+    url: str = Field(..., max_length=500)
+    events: list[str]
+
+
+class WebhookPatch(BaseModel):
+    active: bool | None = None
+    events: list[str] | None = None
+
+
 # ================================================================ public
 @app.get("/", include_in_schema=False)
 def home():
@@ -234,7 +298,15 @@ def health():
 def meta(s: Session = Depends(get_session)):
     """What the sign-in screen needs to know."""
     has_admin = s.scalar(select(func.count(User.id)).where(User.is_platform_admin.is_(True))) > 0
-    return {"setup_required": not has_admin, "permissions": ALL_PERMS, "plans": PLANS}
+    return {"setup_required": not has_admin, "permissions": ALL_PERMS, "plans": PLANS,
+            "api": {"scopes": devapi.SCOPES, "tiers": devapi.TIERS, "webhook_events": devapi.WEBHOOK_EVENTS,
+                    "rate_limits_per_minute": devapi.PLAN_RATE,
+                    "sandbox_numbers": {k: {"band": v[0], "score": v[1]} for k, v in devapi.SANDBOX_NUMBERS.items()}}}
+
+
+@app.get("/developers", include_in_schema=False, response_class=HTMLResponse)
+def developers():
+    return FileResponse(STATIC / "developers.html")
 
 
 @app.post("/v1/disputes", tags=["public"], summary="A consumer contests records linked to their phone number")
@@ -245,7 +317,19 @@ def create_dispute(body: DisputeIn, s: Session = Depends(get_session)):
     except service.ValidationError as e:
         _bad(e)
     audit(s, None, "dispute.opened", f"dispute #{d.id}", merchant_id=None)
+    _notify_dispute(s, d, "dispute.opened")
     return {"dispute_id": d.id, "status": d.status, "message": "Records are excluded from scoring while we review."}
+
+
+def _notify_dispute(s: Session, d: Dispute, event: str) -> None:
+    from .models import EventIdentity
+    rows = s.execute(select(Event.merchant_id, Event.order_ref, Event.type).join(EventIdentity)
+                     .where(EventIdentity.identity_id == d.identity_id)).all()
+    per = {}
+    for mid, ref, typ in rows:
+        per.setdefault(mid, []).append({"order_ref": ref, "type": typ})
+    for mid, recs in per.items():
+        devapi.emit(s, mid, event, {"dispute_id": d.id, "status": d.status, "your_records": recs})
 
 
 # ================================================================ sign in
@@ -301,7 +385,8 @@ def me(actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
                          "plan_label": plan["label"], "require_approval": m.require_approval,
                          "seats_used": auth.seats_used(s, m.id), "seats_limit": plan["seats"],
                          "checks_this_month": auth.checks_this_month(s, m.id), "checks_limit": plan["checks"],
-                         "agreement_signed": m.agreement_signed_at is not None}
+                         "agreement_signed": m.agreement_signed_at is not None,
+                         "tier": m.tier or "contributor", "tier_label": devapi.TIERS.get(m.tier or "contributor")}
         if "approve" in actor.perms:
             out["pending_approvals"] = s.scalar(select(func.count(Submission.id)).where(
                 Submission.merchant_id == m.id, Submission.status == "pending",
@@ -324,16 +409,39 @@ def change_password(body: PasswordIn, actor: Actor = Depends(get_actor), s: Sess
 
 
 # ================================================================ store work
+def _run_check(s: Session, actor: Actor, item: CheckIn) -> dict:
+    actor.require_country(item.country)
+    if actor.mode == "test":
+        return devapi.sandbox_check(item.phone, item.email, item.country)
+    r = service.check(s, merchant=actor.merchant, **item.model_dump())
+    if actor.merchant is not None and (actor.merchant.tier or "contributor") == "score_only":
+        r = devapi.score_only_view(r)
+    return r
+
+
+def _quota_warning(s: Session, m: Merchant | None, before: int, n: int) -> None:
+    if m is None:
+        return
+    limit = PLANS.get(m.plan or "free", PLANS["free"])["checks"]
+    if limit and before < int(limit * 0.8) <= before + n:
+        devapi.emit(s, m.id, "quota.warning", {"checks_this_month": before + n, "monthly_limit": limit,
+                                               "plan": m.plan or "free"})
+
+
 @app.post("/v1/check", tags=["store"])
 def check(body: CheckIn, actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
     actor.require("check")
-    actor.require_country(body.country)
-    if actor.merchant:
+    before = 0
+    if actor.merchant and actor.mode == "live":
         auth.check_quota(s, actor.merchant)
+        before = auth.checks_this_month(s, actor.merchant.id)
     try:
-        return service.check(s, merchant=actor.merchant, **body.model_dump())
-    except service.ValidationError as e:
+        r = _run_check(s, actor, body)
+    except (service.ValidationError, devapi.PlatformError) as e:
         _bad(e)
+    if actor.mode == "live":
+        _quota_warning(s, actor.merchant, before, 1)
+    return r
 
 
 @app.post("/v1/check/batch", tags=["store"], summary="Check up to 500 orders in one call")
@@ -341,21 +449,27 @@ def check_batch(body: list[CheckIn], actor: Actor = Depends(get_actor), s: Sessi
     actor.require("check")
     if len(body) > 500:
         raise HTTPException(413, "max 500 orders per batch")
-    if actor.merchant:
+    before = 0
+    if actor.merchant and actor.mode == "live":
         auth.check_quota(s, actor.merchant, len(body))
+        before = auth.checks_this_month(s, actor.merchant.id)
     results = []
     for i, item in enumerate(body):
         try:
-            actor.require_country(item.country)
-            results.append({"index": i, "ok": True, **service.check(s, merchant=actor.merchant, **item.model_dump())})
-        except (service.ValidationError, AuthError) as e:
+            results.append({"index": i, "ok": True, **_run_check(s, actor, item)})
+        except (service.ValidationError, AuthError, devapi.PlatformError) as e:
             results.append({"index": i, "ok": False, "error": str(e)})
+    if actor.mode == "live":
+        _quota_warning(s, actor.merchant, before, sum(1 for r in results if r["ok"]))
     return {"results": results}
 
 
 @app.post("/v1/events", tags=["store"], status_code=201,
           summary="Report one outcome (API keys record directly; users go through approval if required)")
 def report(body: EventIn, actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
+    if actor.mode == "test":
+        actor.require("submit")
+        return _sandbox_events(actor, [body.model_dump()])["results"][0] | {"requires_approval": False}
     r = workflow.submit(s, actor, [body.model_dump()], bulk=False)
     first = r["results"][0]
     if first["outcome"] == "rejected":
@@ -367,7 +481,25 @@ def report(body: EventIn, actor: Actor = Depends(get_actor), s: Session = Depend
 def report_batch(body: list[EventIn], actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
     if len(body) > 1000:
         raise HTTPException(413, "max 1000 events per batch")
+    if actor.mode == "test":
+        actor.require("upload")
+        return _sandbox_events(actor, [b.model_dump() for b in body])
     return workflow.submit(s, actor, [b.model_dump() for b in body], bulk=True)
+
+
+def _sandbox_events(actor: Actor, items: list[dict]) -> dict:
+    """Test mode: validate exactly as live, store nothing."""
+    out = []
+    for i, it in enumerate(items):
+        try:
+            actor.require_country((it.get("country") or actor.merchant.country).upper())
+            service.prepare_event(actor.merchant, **it)
+            out.append({"index": i, "outcome": "test_accepted", "test_mode": True})
+        except (service.ValidationError, AuthError) as e:
+            out.append({"index": i, "outcome": "rejected", "error": str(e), "test_mode": True})
+    if len(items) == 1 and out[0]["outcome"] == "rejected":
+        raise HTTPException(422, out[0]["error"])
+    return {"batch_ref": None, "requires_approval": False, "results": out, "test_mode": True}
 
 
 @app.get("/v1/submissions", tags=["store"], summary="Entries waiting for approval (checkers) or your own entries (makers)")
@@ -521,19 +653,119 @@ def audit_log(limit: int = 200, merchant_id: int | None = None, actor: Actor = D
              "store": names.get(r.merchant_id)} for r in rows]
 
 
+# ================================================================ developer API platform
+def _key_admin(actor: Actor) -> Merchant:
+    actor.require("users")
+    return actor.require_tenant()
+
+
+@app.get("/v1/api-keys", tags=["developers"])
+def list_keys(actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
+    m = _key_admin(actor)
+    from .models import ApiKey
+    return [devapi.key_view(k) for k in s.scalars(select(ApiKey).where(ApiKey.merchant_id == m.id)
+                                                   .order_by(ApiKey.revoked_at.is_not(None), ApiKey.created_at.desc())).all()]
+
+
+@app.post("/v1/api-keys", tags=["developers"], status_code=201)
+def new_key(body: ApiKeyIn, actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
+    m = _key_admin(actor)
+    k, raw = devapi.create_api_key(s, m, name=body.name, mode=body.mode, scopes=body.scopes,
+                                   created_by=actor.user.id if actor.user else None)
+    audit(s, actor, "api_key.created", f"{k.name} ({k.prefix}…, {k.mode}, scopes={k.scopes})")
+    return {"key": devapi.key_view(k), "api_key": raw, "note": "Store this key now; it is not shown again."}
+
+
+@app.delete("/v1/api-keys/{key_id}", tags=["developers"])
+def revoke_key(key_id: int, actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
+    m = _key_admin(actor)
+    from .models import ApiKey
+    k = s.get(ApiKey, key_id)
+    if not k or k.merchant_id != m.id:
+        raise AuthError(404, "Key not found.")
+    if k.revoked_at is None:
+        k.revoked_at = utcnow()
+        s.commit()
+        audit(s, actor, "api_key.revoked", f"{k.name} ({k.prefix}…)")
+    return devapi.key_view(k)
+
+
+@app.get("/v1/usage", tags=["developers"], summary="API calls per day, key and endpoint")
+def usage(days: int = 30, actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
+    m = actor.require_tenant()
+    if "users" not in actor.perms and "reports" not in actor.perms:
+        raise AuthError(403, "You need user-admin access or the read scope to see usage.")
+    return devapi.usage_report(s, m.id, days)
+
+
+@app.get("/v1/webhooks", tags=["developers"])
+def list_webhooks(actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
+    m = _key_admin(actor)
+    from .models import WebhookEndpoint
+    eps = s.scalars(select(WebhookEndpoint).where(WebhookEndpoint.merchant_id == m.id)
+                    .order_by(WebhookEndpoint.created_at.desc())).all()
+    return {"events": devapi.WEBHOOK_EVENTS, "endpoints": [devapi.endpoint_view(e, s) for e in eps]}
+
+
+@app.post("/v1/webhooks", tags=["developers"], status_code=201)
+def add_webhook(body: WebhookIn, actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
+    m = _key_admin(actor)
+    ep, secret = devapi.create_endpoint(s, m, body.url, body.events)
+    audit(s, actor, "webhook.created", f"{ep.url} events={ep.events}")
+    return {"endpoint": devapi.endpoint_view(ep, s), "signing_secret": secret,
+            "note": "Use this secret to verify the X-CODShield-Signature header. It is not shown again."}
+
+
+@app.patch("/v1/webhooks/{endpoint_id}", tags=["developers"])
+def edit_webhook(endpoint_id: int, body: WebhookPatch, actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
+    m = _key_admin(actor)
+    from .models import WebhookEndpoint
+    ep = s.get(WebhookEndpoint, endpoint_id)
+    if not ep or ep.merchant_id != m.id:
+        raise AuthError(404, "Webhook not found.")
+    if body.events is not None:
+        ev = [e for e in body.events if e in devapi.WEBHOOK_EVENTS]
+        if not ev:
+            raise AuthError(422, "Choose at least one event.")
+        ep.events = ",".join(ev)
+    if body.active is not None:
+        ep.active = body.active
+    s.commit()
+    audit(s, actor, "webhook.updated", f"{ep.url}: active={ep.active} events={ep.events}")
+    return devapi.endpoint_view(ep, s)
+
+
+@app.post("/v1/webhooks/{endpoint_id}/test", tags=["developers"], summary="Send a ping event now")
+def ping_webhook(endpoint_id: int, actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
+    m = _key_admin(actor)
+    from .models import WebhookDelivery, WebhookEndpoint
+    ep = s.get(WebhookEndpoint, endpoint_id)
+    if not ep or ep.merchant_id != m.id or not ep.active:
+        raise AuthError(404, "Webhook not found or switched off.")
+    d = WebhookDelivery(endpoint_id=ep.id, event_id="evt_test_" + secrets.token_hex(6), event="ping",
+                        payload={"id": "evt_test", "type": "ping", "created_at": utcnow().isoformat() + "Z",
+                                 "data": {"message": "Hello from CODShield"}})
+    s.add(d)
+    s.commit()
+    status = devapi.deliver(d.id)
+    s.expire_all()
+    d = s.get(WebhookDelivery, d.id)
+    return {"status": status, "response_code": d.response_code, "error": d.last_error}
+
+
 # ================================================================ platform administration
 def _merchant_view(s: Session, m: Merchant) -> dict:
     plan = PLANS.get(m.plan or "free", PLANS["free"])
     return {"id": m.id, "name": m.name, "country": m.country, "active": m.active,
             "agreement_signed": m.agreement_signed_at is not None, "trust_weight": m.trust_weight,
-            "plan": m.plan or "free", "require_approval": m.require_approval,
+            "plan": m.plan or "free", "require_approval": m.require_approval, "tier": m.tier or "contributor",
             "seats_used": auth.seats_used(s, m.id), "seats_limit": plan["seats"],
             "checks_this_month": auth.checks_this_month(s, m.id), "checks_limit": plan["checks"]}
 
 
 def _create_merchant(s: Session, actor: Actor, item: MerchantIn) -> dict:
     m, key = service.create_merchant(s, item.name, item.country, item.agreement_signed, item.feed_config)
-    m.plan, m.require_approval = item.plan, item.require_approval
+    m.plan, m.require_approval, m.tier = item.plan, item.require_approval, item.tier
     s.commit()
     out = {"merchant_id": m.id, "name": m.name, "api_key": key}
     if item.admin_email:
@@ -582,6 +814,8 @@ def edit_merchant(merchant_id: int, body: MerchantPatch, actor: Actor = Depends(
         m.plan = body.plan
     if body.require_approval is not None:
         m.require_approval = body.require_approval
+    if body.tier is not None:
+        m.tier = body.tier
     if body.agreement_signed is not None:
         m.agreement_signed_at = (m.agreement_signed_at or utcnow()) if body.agreement_signed else None
     if body.active is not None:
@@ -612,6 +846,7 @@ def resolve(dispute_id: int, body: ResolveIn, actor: Actor = Depends(platform), 
         _bad(e)
     audit(s, actor, "dispute.resolved", f"dispute #{d.id}: {d.status}" + (f" — {body.note}" if body.note else ""),
           merchant_id=None)
+    _notify_dispute(s, d, "dispute.resolved")
     return {"dispute_id": d.id, "status": d.status}
 
 

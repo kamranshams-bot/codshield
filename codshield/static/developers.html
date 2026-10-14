@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CODShield API</title>
+<meta name="description" content="CODShield API reference: check cash-on-delivery risk and report delivery outcomes for Pakistan and the UAE.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--bg:#F2F4F7;--panel:#fff;--ink:#0E1A2B;--ink-2:#4A5568;--muted:#718096;--line:#E2E7EE;--accent:#2453E6;--code:#0E1A2B;--code-ink:#E6ECF5;
+  --good:#0ca30c;--warn:#b07d00;--bad:#d03b3b;--soft:#E8EEFF}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){color-scheme:dark;--bg:#0B121C;--panel:#121B28;--ink:#EDF1F7;--ink-2:#B6C0CE;--muted:#8A96A8;--line:#1F2B3B;--accent:#7B99FF;--code:#070C14;--soft:#1A2850;--warn:#f0b429}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0B121C;--panel:#121B28;--ink:#EDF1F7;--ink-2:#B6C0CE;--muted:#8A96A8;--line:#1F2B3B;--accent:#7B99FF;--code:#070C14;--soft:#1A2850;--warn:#f0b429}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{display:grid;grid-template-columns:240px minmax(0,1fr);max-width:1240px;margin:0 auto;gap:40px;padding:0 24px}
+header{border-bottom:1px solid var(--line);background:var(--panel)}
+header .in{max-width:1240px;margin:0 auto;padding:16px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px}
+header .in a{white-space:nowrap}
+.brand{display:flex;gap:10px;align-items:center;font-family:Archivo,system-ui,sans-serif;font-weight:850;font-variation-settings:"wdth" 118;font-size:1.2rem;color:var(--ink);text-decoration:none}
+nav.toc{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto;padding:28px 0;font-size:.9rem}
+nav.toc a{display:block;color:var(--ink-2);text-decoration:none;padding:4px 0}
+nav.toc a:hover{color:var(--ink)}
+nav.toc b{display:block;font-size:.74rem;color:var(--muted);margin:16px 0 4px;font-weight:600}
+main{padding:28px 0 80px;min-width:0}
+h1{font-family:Archivo,'Arial Narrow',system-ui,sans-serif;font-weight:800;font-variation-settings:"wdth" 108;font-size:2.2rem;line-height:1.1;margin:0 0 10px;letter-spacing:-.015em}
+h2{font-family:Archivo,'Arial Narrow',system-ui,sans-serif;font-weight:780;font-size:1.45rem;margin:52px 0 10px;padding-top:8px;scroll-margin-top:12px}
+h3{font-size:1.02rem;margin:28px 0 8px;scroll-margin-top:12px}
+p,li{max-width:74ch;color:var(--ink-2)}
+.lead{font-size:1.08rem;color:var(--ink-2);max-width:66ch}
+code{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.85em;background:var(--panel);border:1px solid var(--line);padding:1px 5px;border-radius:4px}
+pre{background:var(--code);color:var(--code-ink);padding:16px 18px;border-radius:10px;overflow:auto;font:13.5px/1.55 "JetBrains Mono",ui-monospace,monospace;margin:12px 0}
+pre code{background:none;border:0;padding:0;color:inherit;font-size:inherit}
+.tabs{display:flex;gap:4px;margin-top:12px}
+.tabs button{border:1px solid var(--line);background:var(--panel);color:var(--ink-2);border-radius:6px 6px 0 0;padding:5px 12px;font:600 .82rem Inter;cursor:pointer}
+.tabs button[aria-pressed=true]{background:var(--code);color:var(--code-ink);border-color:var(--code)}
+.tabs + pre{margin-top:0;border-top-left-radius:0}
+table{border-collapse:collapse;width:100%;font-size:.9rem;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:12px 0}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--bg);color:var(--ink-2);font-weight:600;font-size:.84rem}
+tr:last-child td{border-bottom:0}
+td code{white-space:nowrap}
+.tw{overflow-x:auto}
+.m{display:inline-block;font:600 .74rem "JetBrains Mono",monospace;padding:2px 7px;border-radius:4px;color:#fff;min-width:52px;text-align:center}
+.GET{background:#2f7d5b}.POST{background:#2453E6}.PATCH{background:#9a6a00}.DELETE{background:#b3261e}
+.note{background:var(--soft);border-radius:10px;padding:12px 16px;color:var(--ink);font-size:.93rem;max-width:80ch}
+.band{font-weight:600}.band.high{color:var(--bad)}.band.medium{color:var(--warn)}.band.low{color:var(--good)}
+.req{color:var(--bad);font-size:.78rem;font-weight:600}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:0}nav.toc{position:static;max-height:none;padding:16px 0;border-bottom:1px solid var(--line);columns:2;font-size:.86rem}nav.toc a{padding:2px 0}header .in{padding:12px 16px}.wrap{padding:0 16px}h1{font-size:1.7rem}}
+</style>
+</head>
+<body>
+<header><div class="in">
+  <a class="brand" href="/"><svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 2l9 3.5v6.2c0 6-3.9 10.4-9 12.3-5.1-1.9-9-6.3-9-12.3V5.5z" fill="#2453E6"/><path d="M8.5 13.2l3 3 6-6.4" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>CODShield API</a>
+  <span style="display:flex;gap:16px;font-size:.9rem"><a href="/openapi.json">OpenAPI spec</a><a href="/docs">Try it</a><a href="/">Sign in</a></span>
+</div></header>
+
+<div class="wrap">
+<nav class="toc" aria-label="On this page">
+  <b>Start</b><a href="#overview">Overview</a><a href="#auth">Authentication</a><a href="#quickstart">Quickstart</a><a href="#sandbox">Sandbox</a>
+  <b>Data model</b><a href="#identifiers">Customer identifiers</a><a href="#check-result">Check result</a><a href="#outcome">Outcome</a><a href="#outcome-types">Outcome types</a><a href="#batch">Batch results</a><a href="#entry">Entry (maker-checker)</a><a href="#dispute">Dispute</a><a href="#report">Report</a><a href="#usage">Usage</a>
+  <b>Reference</b><a href="#endpoints">Endpoints</a><a href="#webhooks">Webhooks</a><a href="#errors">Errors</a><a href="#limits">Limits and tiers</a><a href="#privacy">Privacy</a>
+</nav>
+
+<main>
+<h1>CODShield API</h1>
+<p class="lead">Check a cash-on-delivery customer's risk before you ship, and report what happened afterwards. One API for stores, marketplaces and couriers in Pakistan and the UAE.</p>
+
+<h2 id="overview">Overview</h2>
+<p>Base URL: <code id="base">https://codshield-sx1i.onrender.com</code>. Every path below starts with <code>/v1</code>. Requests and responses are JSON (UTF-8). Times are ISO 8601 in UTC.</p>
+<p>Every response carries an <code>X-Request-ID</code> header. Send your own <code>X-Request-ID</code> to correlate logs; quote it when you contact support.</p>
+<p>The <code>v1</code> contract only changes additively: we may add fields and endpoints, never remove or rename them. Ignore fields you don't recognise.</p>
+
+<h2 id="auth">Authentication</h2>
+<p>Create keys under <b>Developers</b> in the CODShield app (store admins only). Send the key in the <code>X-API-Key</code> header. Keys are shown once; we store only a hash.</p>
+<div class="tw"><table><thead><tr><th>Key prefix</th><th>Mode</th><th>Behaviour</th></tr></thead><tbody>
+<tr><td><code>cs_live_…</code></td><td>Live</td><td>Real network data. Checks count toward your monthly plan.</td></tr>
+<tr><td><code>cs_test_…</code></td><td>Test</td><td>Sandbox. Fixed sample answers, validation identical to live, nothing stored, nothing counted.</td></tr>
+</tbody></table></div>
+<p>Each key has one or more <b>scopes</b>:</p>
+<div class="tw"><table><thead><tr><th>Scope</th><th>Allows</th></tr></thead><tbody>
+<tr><td><code>check</code></td><td><code>POST /v1/check</code>, <code>POST /v1/check/batch</code></td></tr>
+<tr><td><code>report</code></td><td><code>POST /v1/events</code>, <code>POST /v1/events/batch</code> (contributor tier only)</td></tr>
+<tr><td><code>read</code></td><td><code>GET /v1/reports</code>, <code>GET /v1/usage</code></td></tr>
+</tbody></table></div>
+<p class="note">Give each system its own key with the fewest scopes it needs, for example a checkout plug-in with <code>check</code> only and a courier sync job with <code>report</code> only. Revoke a key and it stops working immediately.</p>
+
+<h2 id="quickstart">Quickstart</h2>
+<h3>Check an order before dispatch</h3>
+<div class="tabs" data-group="q1"><button aria-pressed="true" data-l="curl">curl</button><button aria-pressed="false" data-l="py">Python</button><button aria-pressed="false" data-l="js">Node.js</button></div>
+<pre data-group="q1" data-l="curl"><code>curl -X POST BASE/v1/check \
+  -H "X-API-Key: $CODSHIELD_KEY" -H "Content-Type: application/json" \
+  -d '{"phone": "0300-1234567", "country": "PK"}'</code></pre>
+<pre data-group="q1" data-l="py" hidden><code>import os, requests
+
+r = requests.post("BASE/v1/check",
+                  headers={"X-API-Key": os.environ["CODSHIELD_KEY"]},
+                  json={"phone": "0300-1234567", "country": "PK"}, timeout=10)
+r.raise_for_status()
+risk = r.json()
+if risk["band"] == "high":
+    ask_for_prepayment()
+elif risk["band"] == "medium":
+    send_otp_or_call()</code></pre>
+<pre data-group="q1" data-l="js" hidden><code>const r = await fetch("BASE/v1/check", {
+  method: "POST",
+  headers: { "X-API-Key": process.env.CODSHIELD_KEY, "Content-Type": "application/json" },
+  body: JSON.stringify({ phone: "0300-1234567", country: "PK" }),
+});
+if (!r.ok) throw new Error((await r.json()).detail);
+const risk = await r.json();   // { score, band, recommended_action, reasons, ... }</code></pre>
+
+<h3>Report what happened</h3>
+<pre><code>curl -X POST BASE/v1/events \
+  -H "X-API-Key: $CODSHIELD_KEY" -H "Content-Type: application/json" \
+  -d '{"order_ref": "LF-1001", "type": "refused_at_door",
+       "occurred_at": "2026-10-14T12:00:00Z", "phone": "0300-1234567",
+       "country": "PK", "amount": 4500, "currency": "PKR", "evidence": "TCS:77812"}'</code></pre>
+<pre><code>{"index": 0, "outcome": "created", "event_id": 812, "requires_approval": false}</code></pre>
+<p>Report paid deliveries too (<code>delivered_paid</code>). They lower a good customer's score and keep the network fair.</p>
+
+<h2 id="sandbox">Sandbox</h2>
+<p>With a <code>cs_test_</code> key, these numbers return fixed answers so you can test every branch. Any other valid number returns <span class="band low">low</span>. Outcomes are validated exactly as in live and return <code>"outcome": "test_accepted"</code>.</p>
+<div class="tw"><table><thead><tr><th>Phone</th><th>Country</th><th>Band</th><th>Score</th></tr></thead><tbody id="sandboxRows">
+<tr><td><code>+92 300 0000001</code></td><td>PK</td><td class="band high">high</td><td>86</td></tr>
+<tr><td><code>+92 300 0000002</code></td><td>PK</td><td class="band medium">medium</td><td>44</td></tr>
+<tr><td><code>+92 300 0000003</code></td><td>PK</td><td class="band low">low</td><td>0</td></tr>
+<tr><td><code>+971 50 000 0001</code></td><td>AE</td><td class="band high">high</td><td>79</td></tr>
+<tr><td><code>+971 50 000 0002</code></td><td>AE</td><td class="band medium">medium</td><td>38</td></tr>
+<tr><td><code>+971 50 000 0003</code></td><td>AE</td><td class="band low">low</td><td>0</td></tr>
+</tbody></table></div>
+
+<h2 id="identifiers">Data model: customer identifiers</h2>
+<p>Requests carry a customer's phone, email and/or address. CODShield normalises each one, then stores only a keyed hash (HMAC-SHA256). Raw values are never stored or returned.</p>
+<div class="tw"><table><thead><tr><th>Field</th><th>Type</th><th>Rules</th></tr></thead><tbody>
+<tr><td><code>phone</code></td><td>string</td><td>Any common format: <code>0300-1234567</code>, <code>+92 300 1234567</code>, <code>923001234567</code>, <code>0092…</code>, <code>050 123 4567</code>, <code>+971…</code>. Normalised to E.164 using <code>country</code>. Strongest identifier.</td></tr>
+<tr><td><code>email</code></td><td>string</td><td>Lower-cased; <code>+tags</code> removed; Gmail dots ignored.</td></tr>
+<tr><td><code>address</code></td><td>string</td><td>Lower-cased, punctuation removed, common abbreviations expanded (st → street). Combined with <code>city</code>. Weakest identifier; never enough alone to report.</td></tr>
+<tr><td><code>city</code></td><td>string</td><td>Optional, improves address matching.</td></tr>
+<tr><td><code>country</code></td><td>enum</td><td><code>PK</code> or <code>AE</code>. Default <code>PK</code> for checks, the store's home country for outcomes.</td></tr>
+</tbody></table></div>
+
+<h3 id="check-result">Check result</h3>
+<p>Returned by <code>POST /v1/check</code>, and per item by <code>POST /v1/check/batch</code>.</p>
+<div class="tw"><table><thead><tr><th>Field</th><th>Type</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>score</code></td><td>integer 0–100</td><td>Risk score. Recent events weigh more (half-life 180 days); paid deliveries lower it.</td></tr>
+<tr><td><code>band</code></td><td>enum</td><td><span class="band low">low</span> (&lt; 30), <span class="band medium">medium</span> (30–59), <span class="band high">high</span> (60+). High needs reports from at least two stores.</td></tr>
+<tr><td><code>recommended_action</code></td><td>enum</td><td><code>ship_normally</code> · <code>confirm_by_call_or_otp</code> · <code>require_prepayment_or_partial_advance</code></td></tr>
+<tr><td><code>reasons</code></td><td>string[]</td><td>Human-readable summary, e.g. <code>"2 x refused_at_door"</code>, <code>"reported by 3 merchant(s)"</code>. Contributor tier only.</td></tr>
+<tr><td><code>negative_events</code></td><td>integer</td><td>Problem outcomes counted. Contributor tier only.</td></tr>
+<tr><td><code>paid_deliveries</code></td><td>integer</td><td>Successful paid COD deliveries. Contributor tier only.</td></tr>
+<tr><td><code>reporting_merchants</code></td><td>integer</td><td>Distinct stores behind the negative events. Contributor tier only.</td></tr>
+<tr><td><code>last_negative_at</code></td><td>datetime | null</td><td>Most recent problem outcome. Contributor tier only.</td></tr>
+<tr><td><code>matched_on</code></td><td>string[]</td><td>Which identifiers matched: <code>phone</code>, <code>email</code>, <code>address</code>.</td></tr>
+<tr><td><code>detail</code></td><td>string</td><td><code>"score_only_tier"</code> when detail fields are withheld.</td></tr>
+<tr><td><code>test_mode</code></td><td>boolean</td><td>Present and <code>true</code> for sandbox answers.</td></tr>
+</tbody></table></div>
+<pre><code>{"score": 72, "band": "high", "recommended_action": "require_prepayment_or_partial_advance",
+ "reasons": ["2 x refused_at_door", "1 x fake_order", "reported by 2 merchant(s)"],
+ "negative_events": 3, "paid_deliveries": 0, "reporting_merchants": 2,
+ "last_negative_at": "2026-10-12T10:00:00", "matched_on": ["phone"]}</code></pre>
+
+<h3 id="outcome">Outcome (event)</h3>
+<p>Body of <code>POST /v1/events</code>, and each item of <code>POST /v1/events/batch</code>.</p>
+<div class="tw"><table><thead><tr><th>Field</th><th>Type</th><th>Rules</th></tr></thead><tbody>
+<tr><td><code>order_ref</code> <span class="req">required</span></td><td>string ≤ 100</td><td>Your order number. <code>order_ref</code> + <code>type</code> is unique per store; repeats return <code>"duplicate"</code>, so retries are safe.</td></tr>
+<tr><td><code>type</code> <span class="req">required</span></td><td>enum</td><td>See <a href="#outcome-types">outcome types</a>.</td></tr>
+<tr><td><code>occurred_at</code> <span class="req">required</span></td><td>datetime</td><td>When it happened. Not in the future; not older than 2 years.</td></tr>
+<tr><td><code>phone</code> / <code>email</code></td><td>string</td><td>At least one is required.</td></tr>
+<tr><td><code>address</code>, <code>city</code></td><td>string</td><td>Optional, improves matching.</td></tr>
+<tr><td><code>country</code></td><td>enum</td><td><code>PK</code> / <code>AE</code>.</td></tr>
+<tr><td><code>amount</code>, <code>currency</code></td><td>number, ISO 4217</td><td>Order value, e.g. <code>4500</code>, <code>PKR</code>. Used in value-at-risk reporting.</td></tr>
+<tr><td><code>evidence</code></td><td>string ≤ 500</td><td>Courier tracking number or note. Never put personal data here.</td></tr>
+</tbody></table></div>
+
+<h3 id="outcome-types">Outcome types</h3>
+<div class="tw"><table><thead><tr><th><code>type</code></th><th>Meaning</th><th>Weight</th></tr></thead><tbody>
+<tr><td><code>refused_at_door</code></td><td>Customer refused the COD parcel</td><td>3.0</td></tr>
+<tr><td><code>fake_order</code></td><td>Customer denies placing the order</td><td>4.0</td></tr>
+<tr><td><code>fake_address</code></td><td>Address doesn't exist</td><td>3.5</td></tr>
+<tr><td><code>return_abuse</code></td><td>Returned item used, damaged or swapped</td><td>3.0</td></tr>
+<tr><td><code>chargeback</code></td><td>Prepaid order charged back</td><td>3.5</td></tr>
+<tr><td><code>unreachable</code></td><td>Couldn't be contacted at delivery (often courier-side)</td><td>1.0</td></tr>
+<tr><td><code>delivered_paid</code></td><td>Delivered and paid in full</td><td>−1.5</td></tr>
+</tbody></table></div>
+
+<h3 id="batch">Batch results</h3>
+<p>Batch endpoints never fail as a whole for bad rows. Each item comes back with its own result, in the order sent.</p>
+<pre><code>// POST /v1/events/batch
+{"batch_ref": null, "requires_approval": false, "results": [
+  {"index": 0, "outcome": "created", "event_id": 913},
+  {"index": 1, "outcome": "duplicate", "event_id": 812},
+  {"index": 2, "outcome": "rejected", "error": "a valid phone or email is required (address alone is not enough)"}]}
+
+// POST /v1/check/batch
+{"results": [{"index": 0, "ok": true, "score": 12, "band": "low", ...},
+             {"index": 1, "ok": false, "error": "provide at least one valid phone, email or address"}]}</code></pre>
+<p><code>outcome</code> is one of <code>created</code>, <code>duplicate</code>, <code>pending</code> (waiting for a checker), <code>rejected</code> or <code>test_accepted</code>.</p>
+
+<h3 id="entry">Entry (maker-checker)</h3>
+<p>Outcomes entered by people in the CODShield app may need a second person's approval. API keys record directly. Approved and rejected entries trigger the <code>entry.approved</code> / <code>entry.rejected</code> webhooks.</p>
+<div class="tw"><table><thead><tr><th>Field</th><th>Type</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>id</code></td><td>integer</td><td>Entry ID (<code>submission_id</code> in webhooks)</td></tr>
+<tr><td><code>status</code></td><td>enum</td><td><code>pending</code> · <code>approved</code> · <code>rejected</code></td></tr>
+<tr><td><code>batch_ref</code></td><td>string | null</td><td>Shared by entries uploaded together, e.g. <code>B-63CD3DF3</code></td></tr>
+<tr><td><code>contact_hint</code></td><td>string</td><td>Masked contact, e.g. <code>+92••••••6667</code></td></tr>
+<tr><td><code>reject_reason</code></td><td>string | null</td><td>The checker's reason</td></tr>
+</tbody></table></div>
+
+<h3 id="dispute">Dispute</h3>
+<p>Customers can contest records about their number (public, no key: <code>POST /v1/disputes</code>). Contested records stop counting until CODShield decides. Stores whose records are involved get <code>dispute.opened</code> and <code>dispute.resolved</code> webhooks and can withdraw or confirm their records in the app.</p>
+<div class="tw"><table><thead><tr><th>Field</th><th>Type</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>dispute_id</code></td><td>integer</td><td>Reference</td></tr>
+<tr><td><code>status</code></td><td>enum</td><td><code>open</code> · <code>upheld</code> (records removed) · <code>rejected</code> (records restored)</td></tr>
+<tr><td><code>your_records</code></td><td>object[]</td><td>In webhooks: your <code>order_ref</code> and <code>type</code> for each record involved</td></tr>
+</tbody></table></div>
+
+<h3 id="report">Report</h3>
+<p><code>GET /v1/reports?days=30</code> (scope <code>read</code>). Counts only; no customer identifiers.</p>
+<div class="tw"><table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>totals</code></td><td><code>checks</code>, <code>flagged</code>, <code>high_risk</code>, <code>outcomes_reported</code>, <code>negative_outcomes</code>, <code>paid_deliveries</code></td></tr>
+<tr><td><code>checks_by_band</code></td><td><code>{"low": n, "medium": n, "high": n}</code></td></tr>
+<tr><td><code>by_type</code>, <code>by_country</code></td><td>Outcome counts by type and by country</td></tr>
+<tr><td><code>negative_value</code></td><td>Sum of <code>amount</code> on problem outcomes, per currency</td></tr>
+<tr><td><code>checks_daily</code>, <code>outcomes_daily</code></td><td><code>{"dates": [...], "series": {key: [n per day]}}</code></td></tr>
+<tr><td><code>network</code></td><td>Network size: <code>merchants</code>, <code>customers_on_file</code></td></tr>
+</tbody></table></div>
+
+<h3 id="usage">Usage</h3>
+<p><code>GET /v1/usage?days=30</code> (scope <code>read</code>): <code>total_calls</code>, <code>error_calls</code>, <code>daily</code>, <code>by_key</code>, <code>by_endpoint</code>. Sandbox calls are included and marked by key name.</p>
+
+<h2 id="endpoints">Endpoints</h2>
+<div class="tw"><table><thead><tr><th>Method</th><th>Path</th><th>Scope</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><span class="m POST">POST</span></td><td><code>/v1/check</code></td><td>check</td><td>Risk for one customer</td></tr>
+<tr><td><span class="m POST">POST</span></td><td><code>/v1/check/batch</code></td><td>check</td><td>Up to 500 customers</td></tr>
+<tr><td><span class="m POST">POST</span></td><td><code>/v1/events</code></td><td>report</td><td>Report one outcome</td></tr>
+<tr><td><span class="m POST">POST</span></td><td><code>/v1/events/batch</code></td><td>report</td><td>Up to 1,000 outcomes</td></tr>
+<tr><td><span class="m GET">GET</span></td><td><code>/v1/reports</code></td><td>read</td><td>Your store's activity</td></tr>
+<tr><td><span class="m GET">GET</span></td><td><code>/v1/usage</code></td><td>read</td><td>API calls by day, key, endpoint</td></tr>
+<tr><td><span class="m POST">POST</span></td><td><code>/v1/disputes</code></td><td>none (public)</td><td>A customer contests records about them</td></tr>
+<tr><td><span class="m GET">GET</span></td><td><code>/v1/meta</code></td><td>none (public)</td><td>Scopes, events, sandbox numbers, limits</td></tr>
+</tbody></table></div>
+<p>Key, webhook and team management (<code>/v1/api-keys</code>, <code>/v1/webhooks</code>, <code>/v1/users</code>) use a signed-in admin session in the app rather than API keys. The full machine-readable contract is in the <a href="/openapi.json">OpenAPI spec</a>.</p>
+
+<h2 id="webhooks">Webhooks</h2>
+<p>Add endpoints under <b>Developers → Webhooks</b>. We <code>POST</code> JSON to your HTTPS URL. Respond with any <code>2xx</code> within 5 seconds. Failures are retried with backoff (2, 4, 8, 16, 32 minutes; 6 attempts in total). Process each <code>id</code> only once, because a retry can repeat an event you already handled.</p>
+<div class="tw"><table><thead><tr><th>Event</th><th>When</th><th><code>data</code></th></tr></thead><tbody>
+<tr><td><code>entry.approved</code></td><td>A checker approved entries</td><td><code>{"entries": [{"submission_id", "order_ref"}]}</code></td></tr>
+<tr><td><code>entry.rejected</code></td><td>A checker rejected entries</td><td><code>{"entries": [...], "reason"}</code></td></tr>
+<tr><td><code>dispute.opened</code></td><td>A customer contested your records</td><td><code>{"dispute_id", "status", "your_records"}</code></td></tr>
+<tr><td><code>dispute.resolved</code></td><td>CODShield decided that dispute</td><td><code>{"dispute_id", "status", "your_records"}</code></td></tr>
+<tr><td><code>quota.warning</code></td><td>80% of monthly checks used</td><td><code>{"checks_this_month", "monthly_limit", "plan"}</code></td></tr>
+<tr><td><code>ping</code></td><td>"Send test event" in the app</td><td><code>{"message"}</code></td></tr>
+</tbody></table></div>
+<pre><code>POST /your/webhook
+X-CODShield-Event: entry.approved
+X-CODShield-Delivery: 4182
+X-CODShield-Signature: t=1792000000,v1=5f2b…c9
+
+{"id": "evt_8c1f0e…", "type": "entry.approved", "created_at": "2026-10-14T18:02:11Z",
+ "data": {"entries": [{"submission_id": 317, "order_ref": "LF-2001"}]}}</code></pre>
+<h3>Verify the signature</h3>
+<p>Compute HMAC-SHA256 of <code>{t}.{raw body}</code> with your endpoint's signing secret and compare it to <code>v1</code>. Reject requests where <code>t</code> is more than 5 minutes old.</p>
+<div class="tabs" data-group="v"><button aria-pressed="true" data-l="py">Python</button><button aria-pressed="false" data-l="js">Node.js</button></div>
+<pre data-group="v" data-l="py"><code>import hashlib, hmac, time
+
+def verify(raw_body: bytes, header: str, secret: str) -> bool:
+    parts = dict(p.split("=", 1) for p in header.split(","))
+    if abs(time.time() - int(parts["t"])) > 300:
+        return False
+    expected = hmac.new(secret.encode(), f"{parts['t']}.".encode() + raw_body, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(expected, parts["v1"])</code></pre>
+<pre data-group="v" data-l="js" hidden><code>import crypto from "node:crypto";
+
+export function verify(rawBody, header, secret) {
+  const parts = Object.fromEntries(header.split(",").map(p => p.split("=")));
+  if (Math.abs(Date.now() / 1000 - Number(parts.t)) > 300) return false;
+  const expected = crypto.createHmac("sha256", secret).update(`${parts.t}.`).update(rawBody).digest("hex");
+  return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(parts.v1));
+}</code></pre>
+
+<h2 id="errors">Errors</h2>
+<p>Errors return a JSON body <code>{"detail": "…"}</code> with a plain-language message you can log or show to staff.</p>
+<div class="tw"><table><thead><tr><th>Status</th><th>Meaning</th><th>What to do</th></tr></thead><tbody>
+<tr><td><code>401</code></td><td>Missing, wrong or revoked key</td><td>Check the <code>X-API-Key</code> header</td></tr>
+<tr><td><code>402</code></td><td>Plan limit reached (monthly checks)</td><td>Upgrade the plan; don't retry until next month</td></tr>
+<tr><td><code>403</code></td><td>Key lacks the scope, country not allowed, or tier doesn't include it</td><td>Use a key with the right scope</td></tr>
+<tr><td><code>404</code></td><td>Not found</td><td>Check the ID</td></tr>
+<tr><td><code>413</code></td><td>Batch too large</td><td>Split into 500 checks / 1,000 outcomes</td></tr>
+<tr><td><code>422</code></td><td>Validation failed</td><td>Fix the field named in <code>detail</code>; don't retry unchanged</td></tr>
+<tr><td><code>429</code></td><td>Rate limit</td><td>Wait and retry with backoff</td></tr>
+<tr><td><code>5xx</code> / <code>503</code></td><td>Temporary problem</td><td>Retry with backoff; outcomes are safe to retry</td></tr>
+</tbody></table></div>
+
+<h2 id="limits">Limits and tiers</h2>
+<div class="tw"><table><thead><tr><th>Plan</th><th>Users</th><th>Checks per month</th><th>Requests per minute per key</th></tr></thead><tbody>
+<tr><td>Free</td><td>3</td><td>1,000</td><td>60</td></tr>
+<tr><td>Growth</td><td>25</td><td>50,000</td><td>600</td></tr>
+<tr><td>Enterprise</td><td>Unlimited</td><td>Unlimited</td><td>3,000</td></tr>
+</tbody></table></div>
+<div class="tw"><table><thead><tr><th>Tier</th><th>Reports outcomes</th><th>Check response</th></tr></thead><tbody>
+<tr><td><b>Contributor</b></td><td>Yes (requires a signed data-sharing agreement)</td><td>Full detail: score, band, action, reasons and counts</td></tr>
+<tr><td><b>Score-only</b></td><td>No</td><td>Score, band, recommended action and <code>matched_on</code></td></tr>
+</tbody></table></div>
+<p>Sandbox calls don't count toward monthly checks but do count toward the per-minute rate.</p>
+
+<h2 id="privacy">Privacy</h2>
+<ul>
+<li>Phone numbers, emails and addresses are hashed on arrival. Names are never accepted.</li>
+<li>Outcomes are facts ("refused at door"), not opinions. One store alone can never mark someone high risk.</li>
+<li>Records decay over time and are deleted after two years. Customers can contest any record.</li>
+<li>Use results to choose a verification step (call, OTP, prepayment). A score must not be the sole reason to refuse service, and results must not be shared outside your business.</li>
+</ul>
+</main>
+</div>
+<script>
+const base = location.origin;
+document.querySelectorAll("pre code").forEach(c => c.textContent = c.textContent.replaceAll("BASE", base));
+document.getElementById("base").textContent = base;
+document.querySelectorAll(".tabs").forEach(t => t.addEventListener("click", e => {
+  const b = e.target.closest("button"); if(!b) return;
+  t.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  document.querySelectorAll(`pre[data-group="${t.dataset.group}"]`).forEach(p => p.hidden = p.dataset.l !== b.dataset.l);
+}));
+</script>
+</body>
+</html>

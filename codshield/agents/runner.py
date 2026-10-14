@@ -138,6 +138,8 @@ def run_maintenance(s) -> dict:
     stats["downgraded_merchants"] = downgraded
 
     s.commit()
+    from .. import devapi
+    stats["webhook_retries"] = devapi.retry_due(s)
     _finish(s, run, stats)
     log.info("maintenance %s", stats)
     return stats

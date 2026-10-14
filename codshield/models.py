@@ -48,6 +48,7 @@ class Merchant(Base):
     feed_config: Mapped[dict | None] = mapped_column(JSON, nullable=True)  # for ingestion agent
     plan: Mapped[str] = mapped_column(String(20), default="free")
     require_approval: Mapped[bool] = mapped_column(Boolean, default=True)  # maker-checker for UI entries
+    tier: Mapped[str] = mapped_column(String(20), default="contributor")   # contributor / score_only
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
 
@@ -198,3 +199,59 @@ class AuditLog(Base):
     action: Mapped[str] = mapped_column(String(50), index=True)
     detail: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow, index=True)
+
+
+# ---------------------------------------------------------------- API platform
+class ApiKey(Base):
+    """A customer-managed API key. Only a hash is stored; the full key is shown once."""
+    __tablename__ = "api_keys"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    merchant_id: Mapped[int] = mapped_column(ForeignKey("merchants.id"), index=True)
+    name: Mapped[str] = mapped_column(String(80))
+    key_hash: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    prefix: Mapped[str] = mapped_column(String(20))            # e.g. cs_live_AbC1 (display only)
+    mode: Mapped[str] = mapped_column(String(4), default="live")  # live / test
+    scopes: Mapped[str] = mapped_column(String(40), default="check")  # comma list: check, report, read
+    created_by: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+    last_used_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    revoked_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+
+class ApiUsage(Base):
+    """Daily call counters per key and endpoint, for usage reports and billing."""
+    __tablename__ = "api_usage"
+    __table_args__ = (UniqueConstraint("day", "key_id", "endpoint", name="uq_usage_day_key_ep"),)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    day: Mapped[str] = mapped_column(String(10), index=True)   # YYYY-MM-DD (UTC)
+    merchant_id: Mapped[int] = mapped_column(Integer, index=True)
+    key_id: Mapped[int] = mapped_column(Integer)                 # 0 = legacy store key
+    endpoint: Mapped[str] = mapped_column(String(60))
+    calls: Mapped[int] = mapped_column(Integer, default=0)
+    errors: Mapped[int] = mapped_column(Integer, default=0)
+
+
+class WebhookEndpoint(Base):
+    __tablename__ = "webhook_endpoints"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    merchant_id: Mapped[int] = mapped_column(ForeignKey("merchants.id"), index=True)
+    url: Mapped[str] = mapped_column(String(500))
+    secret: Mapped[str] = mapped_column(String(80))              # signing secret (server-generated)
+    events: Mapped[str] = mapped_column(String(300))             # comma list, or "*"
+    active: Mapped[bool] = mapped_column(Boolean, default=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+
+class WebhookDelivery(Base):
+    __tablename__ = "webhook_deliveries"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    endpoint_id: Mapped[int] = mapped_column(ForeignKey("webhook_endpoints.id", ondelete="CASCADE"), index=True)
+    event_id: Mapped[str] = mapped_column(String(40), index=True)
+    event: Mapped[str] = mapped_column(String(40))
+    payload: Mapped[dict] = mapped_column(JSON)
+    status: Mapped[str] = mapped_column(String(10), default="pending", index=True)  # pending/delivered/failed
+    attempts: Mapped[int] = mapped_column(Integer, default=0)
+    response_code: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    last_error: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow, index=True)
+    last_attempt_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)

@@ -4,7 +4,7 @@ import secrets
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from . import service
+from . import devapi, service
 from .auth import Actor, AuthError, audit
 from .models import (Dispute, DisputeResponse, Event, EventIdentity, EventStatus,
                      EventType, Identity, Merchant, Submission, User, utcnow)
@@ -99,6 +99,10 @@ def decide(s: Session, actor: Actor, ids: list[int], approve: bool, reason: str 
         s.commit()
     done = [x["id"] for x in out if x["ok"]]
     if done:
+        refs = {sub.id: sub.payload.get("order_ref") for sub in s.scalars(select(Submission).where(Submission.id.in_(done)))}
+        devapi.emit(s, m.id, "entry.approved" if approve else "entry.rejected",
+                    {"entries": [{"submission_id": i, "order_ref": refs.get(i)} for i in done],
+                     **({} if approve else {"reason": reason})})
         audit(s, actor, "outcomes.approve" if approve else "outcomes.reject",
               f"{len(done)} entr{'y' if len(done) == 1 else 'ies'}: {', '.join('#' + str(i) for i in done[:50])}"
               + (f" — reason: {reason}" if not approve else ""))

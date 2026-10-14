@@ -109,17 +109,28 @@ class Actor:
     merchant: Merchant | None = None
     user: User | None = None
     is_platform: bool = False
+    api_key_id: int | None = None      # 0 = original store key
+    mode: str = "live"                 # live / test (sandbox)
 
     @property
     def label(self) -> str:
         if self.user:
             return f"user:{self.user.email}"
+        if self.kind == "api_key" and self.api_key_id:
+            return f"api-key:{self.api_key_id}"
         return self.kind.replace("_", "-")
 
     def require(self, perm: str) -> None:
         if self.is_platform and perm != "tenant":
             return
         if perm not in self.perms:
+            if self.kind == "api_key":
+                need = next((sc for sc, ps in SCOPE_PERMS.items() if perm in ps), perm)
+                if self.merchant is not None and (self.merchant.tier or "contributor") == "score_only" and perm in CONTRIBUTOR_ONLY:
+                    raise AuthError(403, "Score-only stores can check orders but not report outcomes.")
+                raise AuthError(403, f"This API key doesn't have the '{need}' scope.")
+            if self.merchant is not None and (self.merchant.tier or "contributor") == "score_only" and perm in CONTRIBUTOR_ONLY:
+                raise AuthError(403, "Your store is on the score-only tier, which doesn't include reporting outcomes.")
             raise AuthError(403, f"Your role doesn't include '{perm}' access. Ask your administrator.")
 
     def require_tenant(self) -> Merchant:
@@ -137,17 +148,28 @@ class Actor:
             raise AuthError(403, "Only platform administrators can do this.")
 
 
+CONTRIBUTOR_ONLY = {Perm.SUBMIT.value, Perm.UPLOAD.value, Perm.APPROVE.value, Perm.DISPUTES.value}
+SCOPE_PERMS = {"check": {Perm.CHECK.value}, "report": {Perm.SUBMIT.value, Perm.UPLOAD.value},
+               "read": {Perm.REPORTS.value}}
+
+
+def _tier_filter(m: Merchant | None, perms: set) -> set:
+    return perms - CONTRIBUTOR_ONLY if m is not None and (m.tier or "contributor") == "score_only" else perms
+
+
 def actor_for_user(s: Session, u: User) -> Actor:
     perms = set(ALL_PERMS) if u.is_platform_admin else set(filter(None, u.perms.split(",")))
     countries = set(COUNTRIES) if u.is_platform_admin else set(filter(None, u.countries.split(",")))
     m = s.get(Merchant, u.merchant_id) if u.merchant_id else None
-    return Actor("user", perms, countries, m, u, u.is_platform_admin)
+    return Actor("user", _tier_filter(m, perms), countries, m, u, u.is_platform_admin)
 
 
-def actor_for_api_key(m: Merchant) -> Actor:
-    # System integration: may check and submit (directly), read its reports. No user admin.
-    return Actor("api_key", {Perm.CHECK.value, Perm.SUBMIT.value, Perm.UPLOAD.value, Perm.REPORTS.value},
-                 set(COUNTRIES), m, None, False)
+def actor_for_api_key(m: Merchant, key=None) -> Actor:
+    """System integration. A scoped key gets only its scopes; the original store key gets check+report+read."""
+    scopes = [x for x in key.scopes.split(",") if x] if key is not None else ["check", "report", "read"]
+    perms = set().union(*(SCOPE_PERMS[x] for x in scopes if x in SCOPE_PERMS))
+    return Actor("api_key", _tier_filter(m, perms), set(COUNTRIES), m, None, False,
+                 api_key_id=key.id if key is not None else 0, mode=key.mode if key is not None else "live")
 
 
 def actor_for_admin_key() -> Actor:

@@ -234,7 +234,7 @@ blockquote{margin:0;padding:10px 14px;border-left:3px solid var(--line-2);backgr
       <div id="pwMsg"></div>
     </form>
 
-    <div class="foot"><a href="#" id="toDispute">Contest a record about you</a><a href="#" id="toAbout">How it works</a></div>
+    <div class="foot"><a href="#" id="toDispute">Contest a record about you</a><a href="/developers">API docs</a><a href="#" id="toAbout">How it works</a></div>
   </div>
 </div>
 
@@ -434,6 +434,30 @@ blockquote{margin:0;padding:10px 14px;border-left:3px solid var(--line-2);backgr
   <div class="panel"><div id="auditBody" class="muted small">Loading…</div></div>
 </section>
 
+<!-- DEVELOPERS (store admin) -->
+<section id="tab-developers" hidden>
+  <div class="head"><div><h1>Developers</h1>
+    <p class="sub">Connect your systems to CODShield: API keys, usage and webhooks. Read the <a href="/developers" target="_blank" rel="noopener">API documentation</a> or download the <a href="/openapi.json" target="_blank" rel="noopener">OpenAPI spec</a>.</p></div></div>
+  <div id="devMsg"></div>
+  <div class="stack">
+    <div class="panel">
+      <div class="head" style="margin-bottom:12px"><div><h2 style="margin:0">API keys</h2><p class="small muted" style="margin:4px 0 0">Test keys use the sandbox: fixed sample answers, nothing stored, nothing counted.</p></div>
+        <button class="btn" type="button" id="newKeyBtn">Create key</button></div>
+      <div id="keysBody" class="muted small">Loading…</div>
+    </div>
+    <div class="panel">
+      <div class="head" style="margin-bottom:12px"><h2 style="margin:0">Usage</h2>
+        <select id="useDays" style="width:auto"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option></select></div>
+      <div id="useBody" class="muted small">Loading…</div>
+    </div>
+    <div class="panel">
+      <div class="head" style="margin-bottom:12px"><div><h2 style="margin:0">Webhooks</h2><p class="small muted" style="margin:4px 0 0">We POST signed JSON to your URL when something happens. Failed deliveries are retried automatically, up to 6 times.</p></div>
+        <button class="btn" type="button" id="newHookBtn">Add endpoint</button></div>
+      <div id="hooksBody" class="muted small">Loading…</div>
+    </div>
+  </div>
+</section>
+
 <!-- STORES (platform) -->
 <section id="tab-stores" hidden>
   <div class="head"><div><h1>Stores</h1><p class="sub">Every store on the platform: plan, usage, approval rule and status.</p></div>
@@ -585,6 +609,7 @@ const ICONS = {
   disputes:'<path d="M2.5 3.5h11v7h-6l-3 3v-3h-2z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/>',
   team:'<circle cx="6" cy="5.5" r="2.4" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M1.8 13.5c.5-2.4 2.2-3.6 4.2-3.6s3.7 1.2 4.2 3.6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M10.5 3.5a2.3 2.3 0 010 4.4M12 9.9c1.2.5 2 1.6 2.2 3.6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>',
   audit:'<path d="M8 2.5a5.5 5.5 0 105.5 5.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M8 5v3.2l2 1.3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/>',
+  developers:'<path d="M5.5 4.5L2 8l3.5 3.5M10.5 4.5L14 8l-3.5 3.5M9 3L7 13" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
   stores:'<path d="M2 6.5l1.2-3.5h9.6L14 6.5M2.5 6.5V13h11V6.5M2 6.5h12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M6.5 13v-3.5h3V13" stroke="currentColor" stroke-width="1.5" fill="none"/>',
   pdisputes:'<path d="M8 2l5.5 2v4c0 3.3-2.4 5.4-5.5 6.5C4.9 13.4 2.5 11.3 2.5 8V4z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M5.8 8.2l1.6 1.6 3-3.2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'};
 let TABS = [], CURRENT = "";
@@ -593,7 +618,7 @@ function buildShell(){
   $("#meName").textContent = u.name; $("#meEmail").textContent = u.email;
   const t = ME.tenant;
   $("#tenantBox").hidden = !t && !ME.is_platform;
-  $("#tenantBox").innerHTML = t ? `<b>${esc(t.name)}</b>${(ME.countries).map(c => CNAME[c]).join(" · ")}<br><span class="pill">${esc(t.plan_label)} plan</span>`
+  $("#tenantBox").innerHTML = t ? `<b>${esc(t.name)}</b>${(ME.countries).map(c => CNAME[c]).join(" · ")}<br><span class="pill">${esc(t.plan_label)} plan</span>${t.tier === "score_only" ? ' <span class="pill">Score-only</span>' : ""}`
                                 : `<b>Platform administration</b>All stores · Pakistan · UAE`;
   const store_ = !!t;
   TABS = [
@@ -604,6 +629,7 @@ function buildShell(){
     {id:"disputes", label:"Disputes", show: store_ && has("disputes")},
     {sep:true, show: store_ && has("users")},
     {id:"team", label:"Team", show: store_ && has("users")},
+    {id:"developers", label:"Developers", show: store_ && has("users")},
     {id:"audit", label:"Activity log", show: has("users")},
     {grp:"Platform", show: ME.is_platform},
     {id:"stores", label:"Stores", show: ME.is_platform},
@@ -630,7 +656,7 @@ function show(tab){
   $("#nav").querySelectorAll("button[data-tab]").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === tab));
   if(location.hash !== "#"+tab) history.replaceState(null, "", "#"+tab);
   ({enter: loadMyEntries, approvals: loadApprovals, reports: loadReport, disputes: loadDisputes, team: loadTeam,
-    audit: loadAudit, stores: loadStores, pdisputes: loadPDisputes}[tab] || (()=>{}))();
+    audit: loadAudit, developers: loadDevelopers, stores: loadStores, pdisputes: loadPDisputes}[tab] || (()=>{}))();
   window.scrollTo(0,0);
 }
 async function refreshBadge(){
@@ -659,7 +685,7 @@ $("#checkForm").onsubmit = e => { e.preventDefault(); clear("#checkMsg");
       $("#result").innerHTML = `<div class="stamp ${r.band}">${t}<small>${sub}</small></div>
         <div class="score">${r.score}<span> / 100 risk</span></div>
         <div class="meter" aria-hidden="true"><i style="left:${r.score}%"></i></div>
-        <ul class="reasons">${r.reasons.map(x => `<li>${esc(x.replaceAll("_"," "))}</li>`).join("")}</ul>
+        ${r.reasons ? `<ul class="reasons">${r.reasons.map(x => `<li>${esc(x.replaceAll("_"," "))}</li>`).join("")}</ul>` : `<p class="small muted" style="margin:0">Detailed history is available to stores that contribute outcomes.</p>`}
         ${(r.negative_events || r.paid_deliveries) && r.matched_on.length ? `<p class="small muted" style="margin:0">Matched on ${r.matched_on.join(", ")}</p>` : ""}`;
     }catch(err){ flash("#checkMsg", err.message, false); }
   });
@@ -696,11 +722,11 @@ function renderBatch(){
       <span class="chip low">${c.low} ship normally</span>${c.err ? `<span class="chip na">${c.err} couldn't check</span>` : ""}</div>
       <button class="btn ghost sm" type="button" id="batchCsv">Download results</button></div>
     <div class="tablewrap"><table><thead><tr><th>Order</th><th>Phone / email</th><th class="num">Risk</th><th>Decision</th><th>Why</th></tr></thead><tbody>
-    ${rows.map(r => r.ok ? `<tr><td>${esc(r.ref) || '<span class="muted">—</span>'}</td><td>${esc(r.phone)}</td><td class="num">${r.score}</td><td><span class="chip ${r.band}">${BAND[r.band][0]}</span></td><td class="wrap small muted">${esc(r.reasons.join("; ").replaceAll("_"," "))}</td></tr>`
+    ${rows.map(r => r.ok ? `<tr><td>${esc(r.ref) || '<span class="muted">—</span>'}</td><td>${esc(r.phone)}</td><td class="num">${r.score}</td><td><span class="chip ${r.band}">${BAND[r.band][0]}</span></td><td class="wrap small muted">${esc((r.reasons || []).join("; ").replaceAll("_"," "))}</td></tr>`
       : `<tr><td>${esc(r.ref) || '<span class="muted">—</span>'}</td><td>${esc(r.phone)}</td><td class="num">—</td><td><span class="chip na">Not checked</span></td><td class="wrap small">${esc(r.error)}</td></tr>`).join("")}
     </tbody></table></div></div>`;
   $("#batchCsv").onclick = () => download("codshield-checks.csv", toCSV([["order_ref","phone_or_email","score","decision","reasons"],
-    ...lastBatch.map(r => [r.ref, r.phone, r.ok ? r.score : "", r.ok ? BAND[r.band][0] : "Not checked: " + r.error, r.ok ? r.reasons.join("; ") : ""])]));
+    ...lastBatch.map(r => [r.ref, r.phone, r.ok ? r.score : "", r.ok ? BAND[r.band][0] : "Not checked: " + r.error, r.ok ? (r.reasons || []).join("; ") : ""])]));
 }
 
 // ---------------- enter outcomes ----------------
@@ -1000,18 +1026,112 @@ async function loadAudit(){
 }
 $("#auditCsv").onclick = () => download("codshield-activity.csv", toCSV([["when","store","who","action","details"], ...lastAudit.map(a => [a.at, a.store || "", a.actor, a.action, a.detail || ""])]));
 
+// ---------------- developers ----------------
+const SCOPE_INFO = {check:"Check orders", report:"Report outcomes", read:"Read reports and usage"};
+async function loadDevelopers(){ clear("#devMsg"); loadKeys(); loadUsage(); loadHooks(); }
+async function loadKeys(){
+  try{
+    const ks = await api("/v1/api-keys");
+    $("#keysBody").className = "";
+    $("#keysBody").innerHTML = ks.length ? `<div class="tablewrap"><table><thead><tr><th>Name</th><th>Key</th><th>Mode</th><th>Scopes</th><th>Last used</th><th>Created</th><th></th></tr></thead><tbody>
+      ${ks.map(k => `<tr${k.revoked ? ' style="opacity:.55"' : ""}><td>${esc(k.name)}</td><td><code>${esc(k.prefix)}</code></td>
+        <td>${k.mode === "test" ? '<span class="chip medium">Test</span>' : '<span class="chip low">Live</span>'}</td>
+        <td>${k.scopes.map(x => `<span class="tag">${SCOPE_INFO[x] || x}</span>`).join("")}</td><td>${fmtDT(k.last_used_at)}</td><td>${fmtDT(k.created_at)}</td>
+        <td>${k.revoked ? '<span class="chip na">Revoked</span>' : `<button class="btn ghost sm" type="button" data-revoke="${k.id}">Revoke</button>`}</td></tr>`).join("")}</tbody></table></div>`
+      : `<div class="empty-state">No keys yet. Create a test key first to try the sandbox.</div>`;
+    $("#keysBody").querySelectorAll("[data-revoke]").forEach(b => b.onclick = () => {
+      b.outerHTML = `<span class="actions" style="flex-wrap:nowrap"><button class="btn sm" type="button" data-yes="${b.dataset.revoke}">Revoke now</button><button class="btn ghost sm" type="button" data-no>Keep</button></span>`;
+      $("#keysBody").querySelector(`[data-yes="${b.dataset.revoke}"]`).onclick = async e => { try{ await api("/v1/api-keys/" + e.target.dataset.yes, {method:"DELETE"}); loadKeys(); flash("#devMsg", "Key revoked. Calls using it now fail.", true); }catch(err){ flash("#devMsg", err.message, false); } };
+      $("#keysBody").querySelector("[data-no]").onclick = loadKeys; });
+  }catch(err){ $("#keysBody").textContent = err.message; }
+}
+$("#newKeyBtn").onclick = () => {
+  const scoreOnly = ME.tenant && ME.tenant.tier === "score_only";
+  openDlg(`<form id="keyForm"><div class="head" style="margin:0"><h2 style="margin:0">Create API key</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+    <label class="f">Name <small>Where it will be used, e.g. "Shopify store" or "Warehouse system".</small><input name="name" type="text" required maxlength="80"></label>
+    <fieldset style="border:0;padding:0;margin:0"><legend class="small" style="font-weight:600;margin-bottom:8px">Mode</legend><div class="inline">
+      <label><input type="radio" name="mode" value="test" checked> Test (sandbox)</label><label><input type="radio" name="mode" value="live"> Live</label></div></fieldset>
+    <fieldset style="border:0;padding:0;margin:0"><legend class="small" style="font-weight:600;margin-bottom:8px">Scopes</legend><div class="perms">
+      ${Object.entries(SCOPE_INFO).map(([k,l]) => `<label><input type="checkbox" name="scope" value="${k}" ${k === "check" ? "checked" : ""} ${k === "report" && scoreOnly ? "disabled" : ""}><span>${l}${k === "report" && scoreOnly ? "<small>Not available on the score-only tier</small>" : ""}</span></label>`).join("")}</div></fieldset>
+    <button class="btn" type="submit">Create key</button><div id="keyMsg"></div></form>`);
+  $("#keyForm").onsubmit = e => { e.preventDefault(); const f = e.target;
+    busy(f, async () => { try{
+      const scopes = [...f.querySelectorAll("[name=scope]:checked")].map(x => x.value);
+      const r = await api("/v1/api-keys", {body:{name: f.name.value, mode: f.mode.value, scopes}});
+      $("#dlgBody").innerHTML = `<div class="stack" style="gap:14px"><div class="head" style="margin:0"><h2 style="margin:0">Your new ${r.key.mode} key</h2><button class="btn ghost sm" type="button" data-close>Done</button></div>
+        <p class="small" style="margin:0">Copy it now and store it in your system's secret settings. It isn't shown again. Send it in the <code>X-API-Key</code> header.</p>
+        <div class="secret"><code style="word-break:break-all">${esc(r.api_key)}</code>${copyBtn(r.api_key)}</div></div>`;
+      loadKeys(); }catch(err){ flash("#keyMsg", err.message, false); } }); };
+};
+$("#useDays").onchange = loadUsage;
+async function loadUsage(){
+  try{
+    const u = await api("/v1/usage?days=" + $("#useDays").value);
+    $("#useBody").className = "stack"; $("#useBody").style.gap = "16px";
+    const max = Math.max(1, ...u.daily.calls), W = 900, H = 160, L = 34, B = 22, T = 6, n = u.daily.dates.length, slot = (W-L-6)/n, bw = Math.max(2, Math.min(24, slot*.7));
+    const step = niceStep(max), top = Math.ceil(max/step)*step, y = v => T + (H-B-T) - v/top*(H-B-T), every = Math.ceil(n/8);
+    let svg = ""; for(let v = 0; v <= top; v += step) svg += `<line class="grid" x1="${L}" x2="${W-6}" y1="${y(v)}" y2="${y(v)}"/><text class="axis" x="${L-8}" y="${y(v)+4}" text-anchor="end">${v}</text>`;
+    u.daily.dates.forEach((d,i) => { const v = u.daily.calls[i], x = L + i*slot + (slot-bw)/2;
+      if(v) svg += `<path d="${roundTop(x, y(v), bw, y(0)-y(v), Math.min(4,bw/2))}" fill="var(--bar)"><title>${fmtDay(d,true)}: ${v} calls</title></path>`;
+      if(i % every === 0) svg += `<text class="axis" x="${x+bw/2}" y="${H-5}" text-anchor="middle">${fmtDay(d)}</text>`; });
+    $("#useBody").innerHTML = `<div class="kpis"><div class="kpi"><b>${nf.format(u.total_calls)}</b><span>API calls</span></div><div class="kpi"><b>${nf.format(u.error_calls)}</b><span>Calls that returned an error</span></div></div>
+      ${u.total_calls ? `<div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="API calls per day">${svg}</svg></div>
+      <div class="grid2"><div><h2>By key</h2><div class="tablewrap"><table><tbody>${u.by_key.map(([k,v]) => `<tr><td>${esc(k)}</td><td class="num">${nf.format(v)}</td></tr>`).join("")}</tbody></table></div></div>
+      <div><h2>By endpoint</h2><div class="tablewrap"><table><tbody>${u.by_endpoint.map(([k,v]) => `<tr><td><code>${esc(k)}</code></td><td class="num">${nf.format(v)}</td></tr>`).join("")}</tbody></table></div></div></div>`
+      : `<p class="small muted" style="margin:0">No API calls in this period yet.</p>`}`;
+  }catch(err){ $("#useBody").textContent = err.message; }
+}
+let HOOK_EVENTS = {};
+async function loadHooks(){
+  try{
+    const r = await api("/v1/webhooks"); HOOK_EVENTS = r.events;
+    $("#hooksBody").className = "";
+    $("#hooksBody").innerHTML = r.endpoints.length ? r.endpoints.map(ep => `<div class="dispute" data-id="${ep.id}">
+      <div class="head" style="margin:0"><div><code style="word-break:break-all">${esc(ep.url)}</code><div style="margin-top:6px">${ep.events.map(e => `<span class="tag">${esc(e)}</span>`).join("")}</div></div>
+        <div class="actions"><label style="display:flex;gap:6px;align-items:center;font-size:.88rem"><input type="checkbox" class="hkActive" ${ep.active ? "checked" : ""}> On</label>
+        <button class="btn ghost sm hkTest" type="button" ${ep.active ? "" : "disabled"}>Send test event</button></div></div>
+      <div class="hkOut"></div>
+      ${ep.recent.length ? `<div class="tablewrap"><table><thead><tr><th>When</th><th>Event</th><th>Result</th><th class="num">Tries</th><th>Detail</th></tr></thead><tbody>
+        ${ep.recent.map(d => `<tr><td>${fmtDT(d.at)}</td><td>${esc(d.event)}</td><td>${d.status === "delivered" ? '<span class="chip low">Delivered</span>' : d.status === "failed" ? '<span class="chip high">Failed</span>' : '<span class="chip medium">Retrying</span>'}</td>
+        <td class="num">${d.attempts}</td><td class="small">${d.response_code ? "HTTP " + d.response_code : ""} ${esc(d.error || "")}</td></tr>`).join("")}</tbody></table></div>` : `<p class="small muted" style="margin:0">No deliveries yet. Send a test event to check your endpoint.</p>`}</div>`).join("")
+      : `<div class="empty-state">No webhook endpoints yet.</div>`;
+    $("#hooksBody").querySelectorAll(".dispute").forEach(box => { const id = box.dataset.id;
+      box.querySelector(".hkActive").onchange = async e => { try{ await api("/v1/webhooks/" + id, {method:"PATCH", body:{active: e.target.checked}}); loadHooks(); }catch(err){ flash("#devMsg", err.message, false); } };
+      box.querySelector(".hkTest").onclick = async e => { e.target.disabled = true;
+        try{ const t = await api(`/v1/webhooks/${id}/test`, {method:"POST"});
+          box.querySelector(".hkOut").innerHTML = t.status === "delivered" ? `<div class="msg ok">Delivered (HTTP ${t.response_code}).</div>` : `<div class="msg err">Not delivered: ${esc(t.error || "HTTP " + t.response_code)}. We'll retry automatically.</div>`;
+          setTimeout(loadHooks, 1500); }catch(err){ box.querySelector(".hkOut").innerHTML = `<div class="msg err">${esc(err.message)}</div>`; } finally { e.target.disabled = false; } };
+    });
+  }catch(err){ $("#hooksBody").textContent = err.message; }
+}
+$("#newHookBtn").onclick = () => {
+  openDlg(`<form id="hookForm"><div class="head" style="margin:0"><h2 style="margin:0">Add webhook endpoint</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+    <label class="f">URL <small>Must start with https:// and be reachable from the internet.</small><input name="url" type="text" placeholder="https://yourstore.com/codshield/webhook" required></label>
+    <fieldset style="border:0;padding:0;margin:0"><legend class="small" style="font-weight:600;margin-bottom:8px">Events to send</legend><div class="perms">
+      ${Object.entries(HOOK_EVENTS).map(([k,d]) => `<label><input type="checkbox" name="ev" value="${k}" checked><span><code>${k}</code><small>${esc(d)}</small></span></label>`).join("")}</div></fieldset>
+    <button class="btn" type="submit">Add endpoint</button><div id="hookMsg"></div></form>`);
+  $("#hookForm").onsubmit = e => { e.preventDefault(); const f = e.target;
+    busy(f, async () => { try{
+      const r = await api("/v1/webhooks", {body:{url: f.url.value.trim(), events: [...f.querySelectorAll("[name=ev]:checked")].map(x => x.value)}});
+      $("#dlgBody").innerHTML = `<div class="stack" style="gap:14px"><div class="head" style="margin:0"><h2 style="margin:0">Endpoint added</h2><button class="btn ghost sm" type="button" data-close>Done</button></div>
+        <p class="small" style="margin:0">This is your signing secret. Use it to check the <code>X-CODShield-Signature</code> header on every request (see the <a href="/developers#webhooks" target="_blank" rel="noopener">docs</a>). It isn't shown again.</p>
+        <div class="secret"><code style="word-break:break-all">${esc(r.signing_secret)}</code>${copyBtn(r.signing_secret)}</div></div>`;
+      loadHooks(); }catch(err){ flash("#hookMsg", err.message, false); } }); };
+};
+
 // ---------------- stores (platform) ----------------
 const storeForm = () => `<form id="storeForm"><div class="head" style="margin:0"><h2 style="margin:0">Add store</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
   <div class="row"><label class="f">Store name <input name="name" type="text" required></label><label class="f">Home country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label></div>
   <div class="row"><label class="f">Plan<select name="plan"><option value="free">Free</option><option value="growth">Growth</option><option value="enterprise">Enterprise</option></select></label>
-    <label class="f" style="align-self:end"><span style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" name="agreement_signed"> Data-sharing agreement signed</span></label></div>
+    <label class="f">Tier<select name="tier"><option value="contributor">Contributor (shares outcomes, sees full detail)</option><option value="score_only">Score-only (checks only, score and decision)</option></select></label></div>
+  <label style="display:flex;gap:8px;align-items:center;font-size:.9rem"><input type="checkbox" name="agreement_signed"> Data-sharing agreement signed</label>
   <label style="display:flex;gap:8px;align-items:center;font-size:.9rem"><input type="checkbox" name="require_approval" checked> Maker-checker for entries</label>
   <h2 style="margin:6px 0 0">First store administrator</h2>
   <div class="row"><label class="f">Name <input name="admin_name" type="text"></label><label class="f">Email <small>Gets full access to manage this store's team.</small><input name="admin_email" type="email"></label></div>
   <button class="btn" type="submit">Add store</button><div id="storeMsg"></div></form>`;
 $("#addStoreBtn").onclick = () => { openDlg(storeForm()); $("#storeForm").onsubmit = e => { e.preventDefault(); clear("#storeMsg");
   busy(e.target, async () => { const f = e.target;
-    try{ const r = await api("/v1/admin/merchants", {body: clean({name: f.name.value, country: f.country.value, plan: f.plan.value, agreement_signed: f.agreement_signed.checked,
+    try{ const r = await api("/v1/admin/merchants", {body: clean({name: f.name.value, country: f.country.value, plan: f.plan.value, tier: f.tier.value, agreement_signed: f.agreement_signed.checked,
           require_approval: f.require_approval.checked, admin_email: f.admin_email.value, admin_name: f.admin_name.value})});
       $("#dlgBody").innerHTML = `<div class="stack" style="gap:14px"><div class="head" style="margin:0"><h2 style="margin:0">${esc(r.name)} is set up</h2><button class="btn ghost sm" type="button" data-close>Done</button></div>
         <p class="small" style="margin:0">Copy these now; they aren't shown again.</p>
@@ -1043,9 +1163,10 @@ async function loadStores(){
       <div class="kpi"><b>${nf.format(st.identities)}</b><span>Customer fingerprints</span></div><div class="kpi"><b>${nf.format(st.events)}</b><span>Outcomes on file</span></div>
       <div class="kpi"><b>${nf.format(st.open_disputes)}</b><span>Open disputes</span></div></div>`;
     $("#storesBody").className = "";
-    $("#storesBody").innerHTML = ms.length ? `<div class="tablewrap"><table><thead><tr><th>Store</th><th>Country</th><th>Plan</th><th class="num">Users</th><th class="num">Checks this month</th><th>Maker-checker</th><th>Agreement</th><th>Status</th><th></th></tr></thead><tbody>
+    $("#storesBody").innerHTML = ms.length ? `<div class="tablewrap"><table><thead><tr><th>Store</th><th>Country</th><th>Plan</th><th>Tier</th><th class="num">Users</th><th class="num">Checks this month</th><th>Maker-checker</th><th>Agreement</th><th>Status</th><th></th></tr></thead><tbody>
       ${ms.map(m => `<tr data-id="${m.id}"><td>${esc(m.name)}</td><td>${m.country}</td>
         <td><select class="stPlan" style="width:auto;padding:4px 8px">${["free","growth","enterprise"].map(p => `<option value="${p}" ${p === m.plan ? "selected" : ""}>${PLAN_LABEL[p]}</option>`).join("")}</select></td>
+        <td><select class="stTier" style="width:auto;padding:4px 8px"><option value="contributor" ${m.tier !== "score_only" ? "selected" : ""}>Contributor</option><option value="score_only" ${m.tier === "score_only" ? "selected" : ""}>Score-only</option></select></td>
         <td class="num">${m.seats_used}${m.seats_limit ? " / " + m.seats_limit : ""}</td><td class="num">${nf.format(m.checks_this_month)}${m.checks_limit ? " / " + nf.format(m.checks_limit) : ""}</td>
         <td><input type="checkbox" class="stAppr" ${m.require_approval ? "checked" : ""} aria-label="Maker-checker"></td>
         <td>${m.agreement_signed ? '<span class="chip low">Signed</span>' : '<button class="btn ghost sm stSign" type="button">Mark signed</button>'}</td>
@@ -1055,6 +1176,7 @@ async function loadStores(){
     const patch = async (id, body) => { try{ await api("/v1/admin/merchants/" + id, {method:"PATCH", body}); loadStores(); flash("#storesMsg", "Saved.", true); }catch(err){ flash("#storesMsg", err.message, false); } };
     $("#storesBody").querySelectorAll("tr[data-id]").forEach(tr => { const id = tr.dataset.id, m = ms.find(x => x.id == id);
       tr.querySelector(".stPlan").onchange = e => patch(id, {plan: e.target.value});
+      tr.querySelector(".stTier").onchange = e => patch(id, {tier: e.target.value});
       tr.querySelector(".stAppr").onchange = e => patch(id, {require_approval: e.target.checked});
       const sg = tr.querySelector(".stSign"); sg && (sg.onclick = () => patch(id, {agreement_signed: true}));
       tr.querySelector(".stToggle").onclick = () => patch(id, {active: !m.active});

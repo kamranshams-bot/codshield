@@ -17,6 +17,24 @@ class Base(DeclarativeBase):
 def init_db() -> None:
     from . import models  # noqa: F401  (register tables)
     Base.metadata.create_all(engine)
+    _add_missing_columns()
+
+
+# Columns added after the first release. create_all() never alters existing tables,
+# so add them here. Only additive, nullable-or-defaulted changes belong in this list.
+_NEW_COLUMNS = [
+    ("merchants", "plan", "VARCHAR(20) DEFAULT 'free'"),
+    ("merchants", "require_approval", "BOOLEAN DEFAULT TRUE"),
+]
+
+
+def _add_missing_columns() -> None:
+    from sqlalchemy import inspect, text
+    insp = inspect(engine)
+    with engine.begin() as c:
+        for table, col, ddl in _NEW_COLUMNS:
+            if table in insp.get_table_names() and col not in {x["name"] for x in insp.get_columns(table)}:
+                c.execute(text(f"ALTER TABLE {table} ADD COLUMN {col} {ddl}"))
 
 
 def get_session():

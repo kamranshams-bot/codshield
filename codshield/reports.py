@@ -22,7 +22,8 @@ def _daily(rows, days, start):
     return {"dates": dates, "series": series}
 
 
-def build_report(s: Session, days: int = 30, merchant_id: int | None = None) -> dict:
+def build_report(s: Session, days: int = 30, merchant_id: int | None = None,
+                 countries: set | None = None) -> dict:
     days = max(1, min(int(days), 365))
     now = utcnow()
     start = (now - timedelta(days=days)).replace(hour=0, minute=0, second=0, microsecond=0)
@@ -32,6 +33,9 @@ def build_report(s: Session, days: int = 30, merchant_id: int | None = None) -> 
     if merchant_id is not None:
         ev_where.append(Event.merchant_id == merchant_id)
         ck_where.append(CheckLog.merchant_id == merchant_id)
+    if countries:
+        ev_where.append(Event.country.in_(sorted(countries)))
+        ck_where.append(CheckLog.country.in_(sorted(countries)))
 
     ev_day = func.date(Event.occurred_at)
     ev_rows = s.execute(select(ev_day, Event.type, func.count()).where(*ev_where)

@@ -23,6 +23,29 @@ Everything here is free and open source: Python, FastAPI, SQLAlchemy, SQLite
 | Contributors are accountable | Reporting requires a signed data-sharing agreement; merchants with many overturned reports are automatically down-weighted. |
 | PK + UAE number formats match | `0300-1234567`, `+92 300 1234567`, `923001234567`, `0092…` all match; same for `050…`, `+971…`, `00971…`. |
 
+## Accounts, roles and plans (SaaS)
+
+People sign in with email and password; systems use the store's API key.
+
+| Who | What they can do |
+|---|---|
+| **Platform admin** (you) | Add and suspend stores, set each store's plan and maker-checker rule, manage any store's users, decide consumer disputes, network report, full activity log. The first one is created on the sign-in page with the server's admin key. |
+| **Store user** | Whatever their store admin ticks, in the countries ticked (Pakistan, UAE or both). |
+
+Store permissions: `check` (check orders) · `submit` (maker, single entry) · `upload` (maker, bulk) ·
+`approve` (checker) · `reports` · `disputes` (withdraw or confirm records customers contest) ·
+`users` (store admin: team, settings, API key, activity log). Templates: Store admin, Maker, Checker,
+Call centre agent, Disputes officer, Viewer.
+
+**Maker-checker:** when on (the default), outcomes entered by staff wait in *Approvals* and only count once a
+different person approves them. Pending entries hold scrambled identifiers plus a masked contact
+(`+92•••••4567`) only. API-key integrations record directly.
+
+**Plans:** Free (3 users, 1,000 checks a month), Growth (25 users, 50,000), Enterprise (unlimited). Limits
+are enforced; billing is not built in yet, so plan changes are made by a platform admin.
+
+Every sign-in, entry, approval, user change, key rotation and dispute decision is written to the activity log.
+
 ## Run it locally (5 minutes)
 
 ```bash

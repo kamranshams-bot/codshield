@@ -54,14 +54,6 @@ nav button:hover{background:#ffffff0d;color:var(--side-hi)}
 nav button[aria-selected=true]{background:#ffffff14;color:var(--side-hi)}
 nav button[aria-selected=true] svg{opacity:1}
 nav .sep{height:1px;background:var(--side-line);margin:10px 6px}
-.keytoggle{display:none}
-.keys{margin-top:auto;border-top:1px solid var(--side-line);padding:14px 6px 0;display:grid;gap:10px}
-.keys label{display:grid;gap:4px;font-size:.78rem;color:var(--side-ink)}
-.keys input[type=password]{background:#ffffff0f;border:1px solid var(--side-line);border-radius:var(--r-sm);padding:7px 9px;color:var(--side-hi);font-size:.85rem}
-.keys .state{font-size:.78rem;display:flex;align-items:center;gap:6px}
-.dot{width:7px;height:7px;border-radius:50%;background:#5a6b82;display:inline-block}
-.dot.on{background:var(--good)}
-
 main{padding:28px clamp(16px,4vw,44px) 64px;max-width:1180px;width:100%}
 .head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px 24px;margin-bottom:22px}
 h1{font-family:Archivo,'Arial Narrow',system-ui,sans-serif;font-weight:800;font-variation-settings:"wdth" 108;font-size:1.75rem;line-height:1.15;margin:0;letter-spacing:-.015em}
@@ -150,20 +142,57 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .hbar .fill{height:100%;background:var(--bar);border-radius:0 4px 4px 0}
 .hbar .v{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-2)}
 .empty-state{padding:28px;text-align:center;color:var(--muted)}
+/* sidebar extras */
+.tenant{margin:-8px 8px 18px;padding:10px 12px;border:1px solid var(--side-line);border-radius:var(--r);font-size:.82rem}
+.tenant b{display:block;color:var(--side-hi);font-weight:600;font-size:.9rem}
+.pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:.72rem;font-weight:600;background:#ffffff14;color:var(--side-hi);margin-top:4px}
+nav .badge{margin-left:auto;background:var(--bad);color:#fff;border-radius:999px;font-size:.72rem;font-weight:700;padding:1px 7px}
+nav .grp{font-size:.72rem;color:#7d8ba1;padding:12px 10px 4px;font-weight:600}
+.me{margin-top:auto;border-top:1px solid var(--side-line);padding:14px 8px 0;font-size:.84rem}
+.me b{display:block;color:var(--side-hi);font-weight:600}
+.me .links{display:flex;gap:12px;margin-top:8px}
+.me button{background:none;border:0;padding:0;color:var(--side-ink);text-decoration:underline;cursor:pointer;font-size:.84rem}
+.me button:hover{color:var(--side-hi)}
+
+/* auth */
+.auth{min-height:100vh;display:grid;place-items:center;padding:24px 16px;
+  background:radial-gradient(1200px 500px at 15% -10%, #2453E61f, transparent 60%), var(--bg)}
+.auth .card{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);padding:28px}
+.auth .brand{color:var(--ink);padding:0 0 18px}
+.auth .foot{display:flex;justify-content:space-between;gap:12px;margin-top:18px;font-size:.86rem}
+
+/* checks, perms */
+.perms{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 16px}
+.perms label,.inline label{display:flex;gap:8px;align-items:flex-start;font-size:.9rem;font-weight:500}
+.perms small{display:block;color:var(--muted);font-weight:400;font-size:.8rem}
+.inline{display:flex;flex-wrap:wrap;gap:8px 18px}
+input[type=checkbox]{width:16px;height:16px;margin-top:3px;accent-color:var(--accent)}
+.tag{display:inline-block;padding:1px 7px;border-radius:5px;font-size:.76rem;background:var(--bg);border:1px solid var(--line);margin:0 4px 3px 0;color:var(--ink-2)}
+.banner{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--r);background:var(--accent-soft);color:var(--ink);font-size:.9rem;margin-bottom:18px}
+.usage{display:grid;gap:6px;font-size:.86rem}
+.usage .bar{height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
+.usage .bar i{display:block;height:100%;background:var(--accent);border-radius:4px}
+.dlg{position:fixed;inset:0;background:#0b121c99;display:grid;place-items:center;padding:16px;z-index:20}
+.dlg .panel{width:100%;max-width:640px;max-height:90vh;overflow:auto}
+.secret{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.secret code{font-size:.9rem;padding:6px 8px}
+.dispute{display:grid;gap:12px}
+.dispute + .dispute{border-top:1px solid var(--line);padding-top:18px;margin-top:18px}
+blockquote{margin:0;padding:10px 14px;border-left:3px solid var(--line-2);background:var(--bg);border-radius:0 var(--r-sm) var(--r-sm) 0}
 
 /* mobile */
 @media (max-width:860px){
   .shell{grid-template-columns:1fr}
-  aside{position:sticky;top:0;z-index:5;height:auto;padding:12px 12px 10px;flex-direction:column}
-  .brand{padding:0 4px 10px;font-size:1.1rem}
+  aside{position:sticky;top:0;z-index:5;height:auto;padding:12px 12px 10px}
+  .brand{padding:0 4px 8px;font-size:1.1rem}
+  .tenant{display:none}
   nav{flex-direction:row;overflow-x:auto;gap:4px;scrollbar-width:none}
   nav button{white-space:nowrap;padding:7px 10px}
-  nav .sep{display:none}
-  .keytoggle{display:inline-flex;margin-left:auto;background:#ffffff14;border:1px solid var(--side-line);color:var(--side-hi);
-    border-radius:999px;padding:4px 12px;font-family:Inter;font-size:.8rem;font-weight:600;cursor:pointer}
-  .keys{display:none;border-top:0;padding:8px 0 0;grid-template-columns:1fr 1fr;margin-top:6px}
-  .keys.open{display:grid}
-  .keys .state{grid-column:1/-1}
+  nav .sep,nav .grp{display:none}
+  .me{display:flex;align-items:center;justify-content:space-between;border-top:0;padding:8px 4px 0;margin-top:0}
+  .me b{display:inline}
+  .me .who span{display:none}
+  .me .links{margin-top:0}
   .grid2,.row{grid-template-columns:1fr}
   h1{font-size:1.45rem}
   .panel{padding:16px}
@@ -171,49 +200,100 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
-<div class="shell">
-<aside>
-  <div class="brand">
-    <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 2l9 3.5v6.2c0 6-3.9 10.4-9 12.3-5.1-1.9-9-6.3-9-12.3V5.5z" fill="#2453E6"/><path d="M8.5 13.2l3 3 6-6.4" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    CODShield
-    <button type="button" class="keytoggle" id="keyToggle" aria-expanded="false" aria-controls="keyBox">Keys</button>
+
+<!-- ======================= SIGN IN ======================= -->
+<div class="auth" id="authView" hidden>
+  <div class="card">
+    <div class="brand"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 2l9 3.5v6.2c0 6-3.9 10.4-9 12.3-5.1-1.9-9-6.3-9-12.3V5.5z" fill="#2453E6"/><path d="M8.5 13.2l3 3 6-6.4" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>CODShield</div>
+
+    <form id="loginForm">
+      <h1 style="font-size:1.4rem">Sign in</h1>
+      <label class="f">Email <input name="email" type="email" autocomplete="username" required></label>
+      <label class="f">Password <input name="password" type="password" autocomplete="current-password" required></label>
+      <button class="btn" type="submit">Sign in</button>
+      <div id="loginMsg"></div>
+    </form>
+
+    <form id="setupForm" hidden>
+      <h1 style="font-size:1.4rem">Set up CODShield</h1>
+      <p class="sub" style="margin:0">Create the first platform administrator. You'll need the admin key from your server settings.</p>
+      <label class="f">Admin key <input name="key" type="password" autocomplete="off" required></label>
+      <label class="f">Your name <input name="name" type="text" required></label>
+      <label class="f">Email <input name="email" type="email" autocomplete="username" required></label>
+      <label class="f">Password <small>At least 10 characters.</small><input name="password" type="password" autocomplete="new-password" minlength="10" required></label>
+      <button class="btn" type="submit">Create administrator</button>
+      <div id="setupMsg"></div>
+    </form>
+
+    <form id="pwForm" hidden>
+      <h1 style="font-size:1.4rem">Choose a new password</h1>
+      <p class="sub" style="margin:0">You signed in with a temporary password. Set your own to continue.</p>
+      <label class="f">Temporary password <input name="current_password" type="password" autocomplete="current-password" required></label>
+      <label class="f">New password <small>At least 10 characters.</small><input name="new_password" type="password" autocomplete="new-password" minlength="10" required></label>
+      <button class="btn" type="submit">Save password</button>
+      <div id="pwMsg"></div>
+    </form>
+
+    <div class="foot"><a href="#" id="toDispute">Contest a record about you</a><a href="#" id="toAbout">How it works</a></div>
   </div>
-  <nav role="tablist" aria-label="Sections">
-    <button role="tab" data-tab="check"><svg width="16" height="16" viewBox="0 0 16 16"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Check orders</button>
-    <button role="tab" data-tab="report"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 2h7l3 3v9H3z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M6 8h4M6 11h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Report outcomes</button>
-    <button role="tab" data-tab="reports"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 13V8M8 13V3M13 13V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Reports</button>
-    <div class="sep"></div>
-    <button role="tab" data-tab="dispute"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M2.5 3.5h11v7h-6l-3 3v-3h-2z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/></svg>Contest a record</button>
-    <button role="tab" data-tab="about"><svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M8 7.2V11M8 5h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>How it works</button>
-    <button role="tab" data-tab="admin"><svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M3.4 12.6l1.4-1.4M11.2 4.8l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Admin</button>
-  </nav>
-  <div class="keys" id="keyBox">
-    <label>Merchant API key
-      <input id="mkey" type="password" autocomplete="off" placeholder="cs_…">
-    </label>
-    <label>Admin key
-      <input id="akey" type="password" autocomplete="off" placeholder="Admins only">
-    </label>
-    <div class="state"><span class="dot" id="keydot"></span><span id="keystate">No key entered</span></div>
+</div>
+
+<!-- ======================= PUBLIC PAGES (no sign-in) ======================= -->
+<div class="auth" id="publicView" hidden>
+  <div class="card" style="max-width:640px">
+    <div class="brand"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 2l9 3.5v6.2c0 6-3.9 10.4-9 12.3-5.1-1.9-9-6.3-9-12.3V5.5z" fill="#2453E6"/><path d="M8.5 13.2l3 3 6-6.4" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>CODShield</div>
+    <div id="pubDispute">
+      <h1 style="font-size:1.4rem">Think a record about you is wrong?</h1>
+      <p class="sub">Tell us your phone number and what happened. While we review, records linked to that number stop affecting your orders. We aim to decide within 30 days.</p>
+      <form id="disputeForm" style="margin-top:16px">
+        <div class="row">
+          <label class="f">Phone <input name="phone" type="tel" required></label>
+          <label class="f">Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
+        </div>
+        <label class="f">What happened <small>For example: the courier never came, or I didn't place this order.</small><textarea name="reason" minlength="10" required style="min-height:110px"></textarea></label>
+        <label class="f">How we can reply <small>Optional email or phone.</small><input name="contact" type="text"></label>
+        <button class="btn" type="submit">Send for review</button>
+        <div id="disputeMsg"></div>
+      </form>
+    </div>
+    <div id="pubAbout" hidden>
+      <h1 style="font-size:1.4rem">How CODShield works</h1>
+      <p class="sub">Online stores in Pakistan and the UAE share what happened to their cash-on-delivery orders, so each store can decide which orders need a confirmation call or prepayment.</p>
+      <h2 style="margin-top:18px">What we keep</h2><p class="muted small">Only scrambled fingerprints of phone numbers, emails and addresses, which can't be turned back into the original details. We never store names. Stores report facts such as "refused at the door", never opinions about a person.</p>
+      <h2>How a result is decided</h2><p class="muted small">Recent reports count more than old ones, and records are deleted after two years. Successful paid deliveries lower the risk. One store's reports alone can never mark someone as high risk.</p>
+      <h2>Your rights</h2><p class="muted small">You can contest any record linked to your number. Records under review don't count against you.</p>
+    </div>
+    <div class="foot"><a href="#" class="toLogin">Back to sign in</a><a href="#" id="pubSwitch">How it works</a></div>
+  </div>
+</div>
+
+<!-- ======================= APP ======================= -->
+<div class="shell" id="appView" hidden>
+<aside>
+  <div class="brand"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 2l9 3.5v6.2c0 6-3.9 10.4-9 12.3-5.1-1.9-9-6.3-9-12.3V5.5z" fill="#2453E6"/><path d="M8.5 13.2l3 3 6-6.4" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>CODShield</div>
+  <div class="tenant" id="tenantBox"></div>
+  <nav role="tablist" aria-label="Sections" id="nav"></nav>
+  <div class="me">
+    <div class="who"><b id="meName"></b><span class="muted" id="meEmail"></span></div>
+    <div class="links"><button type="button" id="pwBtn">Change password</button><button type="button" id="logoutBtn">Sign out</button></div>
   </div>
 </aside>
 
 <main>
-<!-- ================= CHECK ================= -->
-<section id="tab-check">
+<!-- CHECK -->
+<section id="tab-check" hidden>
   <div class="head">
     <div><h1>Check orders before you ship</h1>
       <p class="sub">See what other stores in Pakistan and the UAE have reported about a customer before you send a cash-on-delivery parcel.</p></div>
     <div class="seg" data-seg="check"><button data-mode="one" aria-pressed="true">One order</button><button data-mode="many" aria-pressed="false">Many orders</button></div>
   </div>
-
   <div data-mode-panel="check:one" class="grid2">
     <div class="panel">
       <form id="checkForm">
         <label class="f">Phone <small>Any format: 0300-1234567, +971 50 123 4567</small><input name="phone" type="tel"></label>
         <label class="f">Email <input name="email" type="email"></label>
         <div class="row">
-          <label class="f">Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
+          <label class="f">Country<select name="country" class="countrySel"></select></label>
           <label class="f">City <input name="city" type="text"></label>
         </div>
         <label class="f">Delivery address <input name="address" type="text"></label>
@@ -223,7 +303,6 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
     </div>
     <div class="panel verdict empty" id="result" aria-live="polite">Enter a phone number or email to see the risk.</div>
   </div>
-
   <div data-mode-panel="check:many" class="stack" hidden>
     <div class="panel">
       <form id="checkManyForm">
@@ -238,15 +317,18 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
   </div>
 </section>
 
-<!-- ================= REPORT OUTCOMES ================= -->
-<section id="tab-report" hidden>
+<!-- ENTER OUTCOMES (maker) -->
+<section id="tab-enter" hidden>
   <div class="head">
-    <div><h1>Report what happened to orders</h1>
-      <p class="sub">Report facts you can back up with a courier record. Paid deliveries count too; they protect good customers.</p></div>
-    <div class="seg" data-seg="report"><button data-mode="one" aria-pressed="true">One order</button><button data-mode="many" aria-pressed="false">Many orders</button></div>
+    <div><h1>Enter outcomes</h1>
+      <p class="sub">Report what happened to orders. Use facts you can back up with a courier record; paid deliveries count too.</p></div>
+    <div class="seg" data-seg="enter" id="enterSeg"><button data-mode="one" aria-pressed="true">One order</button><button data-mode="many" aria-pressed="false">Many orders</button></div>
   </div>
-
-  <div data-mode-panel="report:one" class="panel">
+  <div class="banner" id="approvalBanner" hidden>
+    <svg width="18" height="18" viewBox="0 0 16 16" style="flex:none;margin-top:2px"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 4.5V8l2.3 1.6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+    <span>Your store uses maker-checker. Entries go to a checker and only count once approved. You can't approve your own entries.</span>
+  </div>
+  <div data-mode-panel="enter:one" class="panel">
     <form id="reportForm">
       <div class="row">
         <label class="f">Your order number <input name="order_ref" type="text" required></label>
@@ -268,7 +350,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
         <label class="f">Email <input name="email" type="email"></label>
       </div>
       <div class="row">
-        <label class="f">Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
+        <label class="f">Country<select name="country" class="countrySel"></select></label>
         <label class="f">City <input name="city" type="text"></label>
       </div>
       <label class="f">Delivery address <input name="address" type="text"></label>
@@ -277,32 +359,46 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
         <label class="f">Currency<select name="currency"><option>PKR</option><option>AED</option></select></label>
       </div>
       <label class="f">Courier tracking number <small>Evidence only. Don't add personal details here.</small><input name="evidence" type="text" maxlength="500"></label>
-      <button class="btn" type="submit">Report outcome</button>
+      <button class="btn" type="submit" id="reportBtn">Submit outcome</button>
       <div id="reportMsg"></div>
     </form>
   </div>
-
-  <div data-mode-panel="report:many" class="stack" hidden>
+  <div data-mode-panel="enter:many" class="stack" hidden>
     <div class="panel">
       <form id="reportManyForm">
         <label class="f">Paste outcomes <small>CSV with a header row. Columns: <code>order_ref, type, occurred_at, phone, email, address, city, country, amount, currency, evidence</code>. Up to 1,000 rows.</small>
-          <textarea name="rows" placeholder="order_ref,type,occurred_at,phone,city,country,amount,currency&#10;LF-1001,refused_at_door,2026-10-10,0300-1234567,Lahore,PK,4500,PKR&#10;LF-1002,delivered_paid,2026-10-11,0321-7654321,Karachi,PK,2200,PKR"></textarea></label>
+          <textarea name="rows" placeholder="order_ref,type,occurred_at,phone,city,country,amount,currency&#10;LF-1001,refused_at_door,2026-10-10,0300-1234567,Lahore,PK,4500,PKR"></textarea></label>
         <div class="drop"><span class="small muted">Or load a CSV file in the same format</span><input type="file" accept=".csv,text/csv" id="reportFile"></div>
-        <div class="actions"><button class="btn" type="submit">Report all outcomes</button><button class="btn ghost sm" type="button" id="templateBtn">Download template</button></div>
+        <div class="actions"><button class="btn" type="submit">Submit all outcomes</button><button class="btn ghost sm" type="button" id="templateBtn">Download template</button></div>
         <div id="reportManyMsg"></div>
       </form>
     </div>
     <div id="reportManyResult"></div>
   </div>
+  <div class="panel" style="margin-top:20px" id="myEntriesPanel">
+    <div class="head" style="margin-bottom:12px"><h2 style="margin:0">Your recent entries</h2>
+      <select id="myEntriesStatus" style="width:auto"><option value="all">All</option><option value="pending">Waiting for approval</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select></div>
+    <div id="myEntries" class="muted small">Loading…</div>
+  </div>
 </section>
 
-<!-- ================= REPORTS ================= -->
+<!-- APPROVALS (checker) -->
+<section id="tab-approvals" hidden>
+  <div class="head">
+    <div><h1>Approvals</h1>
+      <p class="sub">Entries from makers, waiting for a second person to check them. Approved entries join the network; rejected ones go back to the maker with your reason.</p></div>
+    <button class="btn ghost sm" type="button" id="apRefresh">Refresh</button>
+  </div>
+  <div id="apMsg"></div>
+  <div class="panel stack" id="apBody"></div>
+</section>
+
+<!-- REPORTS -->
 <section id="tab-reports" hidden>
   <div class="head">
     <div><h1 id="repTitle">Reports</h1>
       <p class="sub" id="repSub">Your checks and reported outcomes over time. Counts only; no customer details.</p></div>
     <div class="actions">
-      <div class="seg" data-seg="scope"><button data-mode="mine" aria-pressed="true">My store</button><button data-mode="network" aria-pressed="false">Whole network</button></div>
       <select id="repDays" style="width:auto"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option></select>
       <button class="btn ghost sm" id="repCsv" type="button">Download CSV</button>
     </div>
@@ -311,148 +407,101 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
   <div id="repBody" class="stack"></div>
 </section>
 
-<!-- ================= DISPUTE ================= -->
-<section id="tab-dispute" hidden>
-  <div class="head"><div><h1>Think a record about you is wrong?</h1>
-    <p class="sub">Tell us your phone number and what happened. While we review, records linked to that number stop affecting your orders. We aim to decide within 30 days.</p></div></div>
-  <div class="panel" style="max-width:640px">
-    <form id="disputeForm">
-      <div class="row">
-        <label class="f">Phone <input name="phone" type="tel" required></label>
-        <label class="f">Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
-      </div>
-      <label class="f">What happened <small>For example: the courier never came, or I didn't place this order.</small><textarea name="reason" minlength="10" required style="min-height:120px"></textarea></label>
-      <label class="f">How we can reply <small>Optional email or phone.</small><input name="contact" type="text"></label>
-      <button class="btn" type="submit">Send for review</button>
-      <div id="disputeMsg"></div>
-    </form>
-  </div>
+<!-- DISPUTES (store) -->
+<section id="tab-disputes" hidden>
+  <div class="head"><div><h1>Disputes about your records</h1>
+    <p class="sub">Customers who say a record is wrong. Their records stop counting while CODShield reviews. Withdraw a record if you agree it's wrong, or confirm it with your evidence.</p></div>
+    <button class="btn ghost sm" type="button" id="dsRefresh">Refresh</button></div>
+  <div id="dsMsg"></div>
+  <div class="panel" id="dsBody"></div>
 </section>
 
-<!-- ================= ABOUT ================= -->
-<section id="tab-about" hidden>
-  <div class="head"><div><h1>How CODShield works</h1>
-    <p class="sub">Online stores in Pakistan and the UAE share what happened to their cash-on-delivery orders, so each store can decide which orders need a confirmation call or prepayment.</p></div></div>
-  <div class="grid2">
-    <div class="panel"><h2>What we keep</h2><p class="muted" style="margin:0">Only scrambled fingerprints of phone numbers, emails and addresses, which can't be turned back into the original details. We never store names. Stores report facts such as "refused at the door", never opinions about a person.</p></div>
-    <div class="panel"><h2>How a result is decided</h2><p class="muted" style="margin:0">Recent reports count more than old ones, and records are deleted after two years. Successful paid deliveries lower the risk. One store's reports alone can never mark someone as high risk.</p></div>
-    <div class="panel"><h2>Your rights</h2><p class="muted" style="margin:0">You can contest any record linked to your number on the <a href="#dispute">Contest a record</a> page. Records under review don't count against you.</p></div>
-    <div class="panel"><h2>For developers</h2><p class="muted" style="margin:0">Everything on this site is also available as an API. See the <a href="/docs">API reference</a>.</p></div>
-  </div>
+<!-- TEAM (store admin) -->
+<section id="tab-team" hidden>
+  <div class="head"><div><h1 id="teamTitle">Team</h1>
+    <p class="sub" id="teamSub">Who can use CODShield for your store, what each person can do, and in which countries.</p></div>
+    <div class="actions" id="teamActions"><button class="btn" type="button" id="addUserBtn">Add user</button></div></div>
+  <div id="teamMsg"></div>
+  <div class="grid2" id="teamTop" style="margin-bottom:20px"></div>
+  <div class="panel"><div id="teamTable" class="muted small">Loading…</div></div>
 </section>
 
-<!-- ================= ADMIN ================= -->
-<section id="tab-admin" hidden>
-  <div class="head"><div><h1>Admin</h1><p class="sub">Add stores, review disputes and watch the network. Enter the admin key in the sidebar first.</p></div>
-    <button class="btn ghost sm" id="adminRefresh" type="button">Refresh</button></div>
-  <div id="adminMsg"></div>
-  <div class="stack">
-    <div id="stats"></div>
-    <div class="panel">
-      <div class="head" style="margin-bottom:14px"><h2 style="margin:0">Add merchants</h2>
-        <div class="seg" data-seg="merchant"><button data-mode="one" aria-pressed="true">One store</button><button data-mode="many" aria-pressed="false">Many stores</button></div></div>
-      <form id="merchantForm" data-mode-panel="merchant:one">
-        <div class="row">
-          <label class="f">Store name <input name="name" type="text" required></label>
-          <label class="f">Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
-        </div>
-        <label style="display:flex;gap:8px;align-items:center;font-size:.9rem"><input type="checkbox" name="agreement_signed"> Data-sharing agreement signed</label>
-        <button class="btn" type="submit">Add merchant</button>
-        <div id="merchantMsg"></div>
-      </form>
-      <form id="merchantManyForm" data-mode-panel="merchant:many" hidden>
-        <label class="f">Stores <small>One per line: <code>store name, country (PK or AE), signed (yes/no)</code>. Up to 200.</small>
-          <textarea name="rows" placeholder="Lahore Fashion, PK, yes&#10;Dubai Gadgets, AE, yes&#10;Karachi Shoes, PK, no"></textarea></label>
-        <button class="btn" type="submit">Add all merchants</button>
-        <div id="merchantManyMsg"></div>
-      </form>
-      <div id="newKeys"></div>
-    </div>
-    <div class="panel"><h2>Merchants</h2><div id="merchants" class="muted small">Enter the admin key to load.</div></div>
-    <div class="panel"><h2>Open disputes</h2><div id="disputes" class="muted small">Enter the admin key to load.</div></div>
-  </div>
+<!-- AUDIT -->
+<section id="tab-audit" hidden>
+  <div class="head"><div><h1>Activity log</h1><p class="sub">Every sign-in, entry, approval, user change and dispute decision, newest first.</p></div>
+    <button class="btn ghost sm" type="button" id="auditCsv">Download CSV</button></div>
+  <div id="auditMsg"></div>
+  <div class="panel"><div id="auditBody" class="muted small">Loading…</div></div>
+</section>
+
+<!-- STORES (platform) -->
+<section id="tab-stores" hidden>
+  <div class="head"><div><h1>Stores</h1><p class="sub">Every store on the platform: plan, usage, approval rule and status.</p></div>
+    <div class="actions"><button class="btn ghost" type="button" id="addStoresBtn">Add many</button><button class="btn" type="button" id="addStoreBtn">Add store</button></div></div>
+  <div id="storesMsg"></div>
+  <div id="storeKpis" style="margin-bottom:20px"></div>
+  <div class="panel"><div id="storesBody" class="muted small">Loading…</div></div>
+</section>
+
+<!-- NETWORK DISPUTES (platform) -->
+<section id="tab-pdisputes" hidden>
+  <div class="head"><div><h1>Dispute decisions</h1><p class="sub">Open consumer disputes across the network, with each store's response. Removing records deletes them from scoring for good; keeping them restores them.</p></div>
+    <button class="btn ghost sm" type="button" id="pdRefresh">Refresh</button></div>
+  <div id="pdMsg"></div>
+  <div class="panel" id="pdBody"></div>
 </section>
 </main>
 </div>
 
+<div class="dlg" id="dlg" hidden><div class="panel" role="dialog" aria-modal="true" id="dlgBody"></div></div>
+
 <script>
 const $ = s => document.querySelector(s);
-const tabs = ["check","report","reports","dispute","about","admin"];
-const store = {get(k){try{return sessionStorage.getItem(k)||""}catch(e){return ""}}, set(k,v){try{sessionStorage.setItem(k,v)}catch(e){}}};
-const keys = {m: store.get("cs_key"), a: store.get("cs_admin")};
-$("#mkey").value = keys.m; $("#akey").value = keys.a;
+const store = {get(k){try{return sessionStorage.getItem(k)||""}catch(e){return ""}}, set(k,v){try{v?sessionStorage.setItem(k,v):sessionStorage.removeItem(k)}catch(e){}}};
+let TOKEN = store.get("cs_token"), ME = null, META = null;
+const PERM_INFO = {
+  check:["Check orders","See the risk on a customer before shipping"],
+  submit:["Enter single outcomes","Maker: report one order at a time"],
+  upload:["Upload outcomes in bulk","Maker: paste or upload CSV files"],
+  approve:["Approve entries","Checker: approve or reject makers' entries"],
+  reports:["View reports","Store reports and CSV exports"],
+  disputes:["Respond to disputes","Withdraw or confirm records customers contest"],
+  users:["Administer users and settings","Add users, set roles, API key, activity log"]};
+const PRESETS = {"Store admin":Object.keys(PERM_INFO), "Maker":["check","submit","upload"], "Checker":["check","approve","reports"],
+  "Call centre agent":["check"], "Disputes officer":["disputes","reports"], "Viewer":["reports"]};
+const CNAME = {PK:"Pakistan", AE:"UAE"};
+const PLAN_LABEL = {free:"Free", growth:"Growth", enterprise:"Enterprise"};
 
-function keyState(){
-  const parts = [];
-  if(keys.m) parts.push("merchant"); if(keys.a) parts.push("admin");
-  $("#keydot").classList.toggle("on", parts.length > 0);
-  $("#keystate").textContent = parts.length ? "Using " + parts.join(" + ") + " key" : "No key entered";
-}
-$("#mkey").addEventListener("change", e => { keys.m = e.target.value.trim(); store.set("cs_key", keys.m); keyState(); });
-$("#akey").addEventListener("change", e => { keys.a = e.target.value.trim(); store.set("cs_admin", keys.a); keyState();
-  if(!$("#tab-admin").hidden) loadAdmin(); });
-keyState();
-$("#keyToggle").onclick = e => { const o = $("#keyBox").classList.toggle("open"); e.currentTarget.setAttribute("aria-expanded", o); };
-if(!keys.m && !keys.a) $("#keyBox").classList.add("open");
-
-function show(tab){
-  if(!tabs.includes(tab)) tab = "check";
-  tabs.forEach(t => {
-    $("#tab-"+t).hidden = t !== tab;
-    document.querySelector(`[data-tab=${t}]`).setAttribute("aria-selected", t === tab);
-  });
-  if(location.hash !== "#"+tab) history.replaceState(null,"","#"+tab);
-  if(tab === "reports") loadReport();
-  if(tab === "admin" && keys.a) loadAdmin();
-  window.scrollTo(0,0);
-}
-document.querySelectorAll("nav button[data-tab]").forEach(b => b.onclick = () => show(b.dataset.tab));
-window.addEventListener("hashchange", () => show(location.hash.slice(1)));
-
-const modes = {check:"one", report:"one", merchant:"one", scope:"mine"};
-document.querySelectorAll("[data-seg]").forEach(seg => seg.addEventListener("click", e => {
-  const b = e.target.closest("button[data-mode]"); if(!b) return;
-  const name = seg.dataset.seg; modes[name] = b.dataset.mode;
-  seg.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
-  document.querySelectorAll(`[data-mode-panel^="${name}:"]`).forEach(p => p.hidden = p.dataset.modePanel !== name + ":" + b.dataset.mode);
-  if(name === "scope") loadReport();
-}));
-
-// ---------- helpers ----------
-function flash(sel, text, ok){ const el = $(sel); el.className = "msg " + (ok ? "ok" : "err"); el.textContent = text; }
-function clear(sel){ const el = $(sel); el.className = ""; el.textContent = ""; }
+// ---------------- helpers ----------------
+function flash(sel, text, ok){ const el = $(sel); if(!el) return; el.className = "msg " + (ok ? "ok" : "err"); el.textContent = text; el.style.marginBottom = "14px"; }
+function clear(sel){ const el = $(sel); if(el){ el.className = ""; el.textContent = ""; } }
 function clean(o){ for(const k in o) if(o[k] === "" || o[k] == null) delete o[k]; return o; }
 function fd(form){ return clean(Object.fromEntries(new FormData(form).entries())); }
 function esc(s){ return String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 const nf = new Intl.NumberFormat("en");
+const has = p => ME && (ME.is_platform || ME.perms.includes(p));
+function fmtDT(s){ if(!s) return "—"; const d = new Date(s + (s.endsWith("Z") ? "" : "Z")); return d.toLocaleString("en-GB",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}); }
 
-async function api(path, {body, method, admin} = {}){
-  const headers = {"Content-Type":"application/json"};
-  if(admin) headers["X-Admin-Key"] = keys.a; else if(keys.m) headers["X-API-Key"] = keys.m;
-  const r = await fetch(path, {method: method || (body ? "POST" : "GET"), headers, body: body ? JSON.stringify(body) : undefined});
+async function api(path, {body, method, headers} = {}){
+  const h = {"Content-Type":"application/json", ...(headers||{})};
+  if(TOKEN && !h["X-Admin-Key"]) h.Authorization = "Bearer " + TOKEN;
+  const r = await fetch(path, {method: method || (body ? "POST" : "GET"), headers: h, body: body ? JSON.stringify(body) : undefined});
   let data = null; try { data = await r.json(); } catch(e) {}
+  if(r.status === 401 && TOKEN && !path.startsWith("/v1/auth/")){ signOut(true); throw new Error("Your session has ended. Sign in again."); }
   if(!r.ok){
     let d = data && data.detail;
     if(Array.isArray(d)) d = d.map(x => (x.loc||[]).filter(v => typeof v !== "number" && v !== "body").join(".") + ": " + x.msg).join("; ");
-    if(r.status === 401) d = admin ? "That admin key wasn't accepted. Check it in the sidebar." : "That merchant key wasn't accepted. Check it in the sidebar.";
     throw new Error(d || `Request failed (${r.status}).`);
   }
   return data;
 }
-function needKey(sel, admin){
-  if(admin ? keys.a : keys.m) return false;
-  flash(sel, admin ? "Enter the admin key in the sidebar first." : "Enter your merchant API key in the sidebar first.", false);
-  return true;
-}
-async function busy(form, fn){ const b = form.querySelector("button[type=submit]"); b.disabled = true; try { await fn(); } finally { b.disabled = false; } }
-
+async function busy(form, fn){ const b = form.querySelector("button[type=submit]"); if(b) b.disabled = true; try { await fn(); } finally { if(b) b.disabled = false; } }
 function parseCSV(text){
   const rows = []; let row = [], cur = "", q = false;
   for(let i = 0; i < text.length; i++){
     const c = text[i];
     if(q){ if(c === '"' && text[i+1] === '"'){ cur += '"'; i++; } else if(c === '"') q = false; else cur += c; }
-    else if(c === '"') q = true;
-    else if(c === ","){ row.push(cur); cur = ""; }
+    else if(c === '"') q = true; else if(c === ","){ row.push(cur); cur = ""; }
     else if(c === "\n" || c === "\r"){ if(c === "\r" && text[i+1] === "\n") i++; row.push(cur); rows.push(row); row = []; cur = ""; }
     else cur += c;
   }
@@ -460,19 +509,148 @@ function parseCSV(text){
   return rows.map(r => r.map(v => v.trim())).filter(r => r.some(v => v));
 }
 function toCSV(rows){ return rows.map(r => r.map(v => { v = String(v ?? ""); return /[",\n]/.test(v) ? '"' + v.replace(/"/g,'""') + '"' : v; }).join(",")).join("\n"); }
-function download(name, text){
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([text], {type:"text/csv"})); a.download = name;
-  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+function download(name, text){ const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type:"text/csv"})); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 0); }
+async function loadFileInto(input, ta){ const f = input.files[0]; if(f) ta.value = await f.text(); }
+function copyBtn(text){ return `<button class="btn ghost sm" type="button" data-copy="${esc(text)}">Copy</button>`; }
+document.addEventListener("click", e => { const b = e.target.closest("[data-copy]"); if(b){ navigator.clipboard?.writeText(b.dataset.copy); b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy", 1500); } });
+
+function openDlg(html){ $("#dlgBody").innerHTML = html; $("#dlg").hidden = false; const f = $("#dlgBody").querySelector("input,select,textarea,button"); f && f.focus(); }
+function closeDlg(){ $("#dlg").hidden = true; $("#dlgBody").innerHTML = ""; }
+$("#dlg").addEventListener("click", e => { if(e.target.id === "dlg" || e.target.closest("[data-close]")) closeDlg(); });
+document.addEventListener("keydown", e => { if(e.key === "Escape" && !$("#dlg").hidden) closeDlg(); });
+
+// ---------------- auth flow ----------------
+function showAuth(which){
+  $("#appView").hidden = true; $("#publicView").hidden = true; $("#authView").hidden = false;
+  ["loginForm","setupForm","pwForm"].forEach(id => $("#"+id).hidden = id !== which);
 }
-async function loadFileInto(input, textarea){ const f = input.files[0]; if(f) textarea.value = await f.text(); }
+function showPublic(which){
+  $("#appView").hidden = true; $("#authView").hidden = true; $("#publicView").hidden = false;
+  $("#pubDispute").hidden = which !== "dispute"; $("#pubAbout").hidden = which !== "about";
+  $("#pubSwitch").textContent = which === "dispute" ? "How it works" : "Contest a record";
+}
+$("#toDispute").onclick = e => { e.preventDefault(); showPublic("dispute"); };
+$("#toAbout").onclick = e => { e.preventDefault(); showPublic("about"); };
+$("#pubSwitch").onclick = e => { e.preventDefault(); showPublic($("#pubDispute").hidden ? "dispute" : "about"); };
+document.querySelectorAll(".toLogin").forEach(a => a.onclick = e => { e.preventDefault(); boot(); });
+
+$("#loginForm").onsubmit = e => { e.preventDefault(); clear("#loginMsg");
+  busy(e.target, async () => {
+    try{ const r = await api("/v1/auth/login", {body: fd(e.target)}); TOKEN = r.token; store.set("cs_token", TOKEN); e.target.reset(); boot(); }
+    catch(err){ flash("#loginMsg", err.message, false); }
+  });
+};
+$("#setupForm").onsubmit = e => { e.preventDefault(); clear("#setupMsg");
+  busy(e.target, async () => {
+    const b = fd(e.target);
+    try{ const r = await api("/v1/auth/setup", {body:{email:b.email, name:b.name, password:b.password}, headers:{"X-Admin-Key": b.key}});
+      TOKEN = r.token; store.set("cs_token", TOKEN); boot(); }
+    catch(err){ flash("#setupMsg", err.message, false); }
+  });
+};
+$("#pwForm").onsubmit = e => { e.preventDefault(); clear("#pwMsg");
+  busy(e.target, async () => {
+    try{ await api("/v1/auth/password", {body: fd(e.target)}); e.target.reset(); boot(); }
+    catch(err){ flash("#pwMsg", err.message, false); }
+  });
+};
+async function signOut(silent){
+  if(TOKEN && !silent){ try{ await fetch("/v1/auth/logout", {method:"POST", headers:{Authorization:"Bearer " + TOKEN}}); }catch(e){} }
+  TOKEN = ""; ME = null; store.set("cs_token", ""); boot();
+}
+$("#logoutBtn").onclick = () => signOut(false);
+$("#pwBtn").onclick = () => openDlg(`<form id="pw2"><div class="head" style="margin:0"><h2 style="margin:0">Change password</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+  <label class="f">Current password <input name="current_password" type="password" required autocomplete="current-password"></label>
+  <label class="f">New password <small>At least 10 characters.</small><input name="new_password" type="password" minlength="10" required autocomplete="new-password"></label>
+  <button class="btn" type="submit">Save password</button><div id="pw2Msg"></div></form>`) || ($("#pw2").onsubmit = e => { e.preventDefault();
+  busy(e.target, async () => { try{ await api("/v1/auth/password", {body: fd(e.target)}); flash("#pw2Msg","Password changed.", true); e.target.reset(); } catch(err){ flash("#pw2Msg", err.message, false); } }); });
+
+async function boot(){
+  try{ META = await api("/v1/meta"); }catch(err){ META = {setup_required:false}; }
+  if(!TOKEN){ showAuth(META.setup_required ? "setupForm" : "loginForm");
+    if(META.setup_required === undefined) flash("#loginMsg", "The server isn't reachable right now.", false); return; }
+  try{ ME = await api("/v1/me"); }catch(err){ TOKEN = ""; store.set("cs_token",""); showAuth("loginForm"); flash("#loginMsg", err.message, false); return; }
+  ME.countries = ["PK","AE"].filter(c => ME.countries.includes(c));
+  if(ME.user && ME.user.must_change_password){ showAuth("pwForm"); return; }
+  $("#authView").hidden = true; $("#publicView").hidden = true; $("#appView").hidden = false;
+  buildShell();
+}
+
+// ---------------- shell ----------------
+const ICONS = {
+  check:'<circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+  enter:'<path d="M3 2h7l3 3v9H3z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M6 8h4M6 11h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+  approvals:'<path d="M2.5 8.5l3.2 3.2L13.5 4" stroke="currentColor" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+  reports:'<path d="M3 13V8M8 13V3M13 13V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+  disputes:'<path d="M2.5 3.5h11v7h-6l-3 3v-3h-2z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/>',
+  team:'<circle cx="6" cy="5.5" r="2.4" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M1.8 13.5c.5-2.4 2.2-3.6 4.2-3.6s3.7 1.2 4.2 3.6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M10.5 3.5a2.3 2.3 0 010 4.4M12 9.9c1.2.5 2 1.6 2.2 3.6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>',
+  audit:'<path d="M8 2.5a5.5 5.5 0 105.5 5.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M8 5v3.2l2 1.3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/>',
+  stores:'<path d="M2 6.5l1.2-3.5h9.6L14 6.5M2.5 6.5V13h11V6.5M2 6.5h12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M6.5 13v-3.5h3V13" stroke="currentColor" stroke-width="1.5" fill="none"/>',
+  pdisputes:'<path d="M8 2l5.5 2v4c0 3.3-2.4 5.4-5.5 6.5C4.9 13.4 2.5 11.3 2.5 8V4z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M5.8 8.2l1.6 1.6 3-3.2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'};
+let TABS = [], CURRENT = "";
+function buildShell(){
+  const u = ME.user || {name:"Admin key", email:""};
+  $("#meName").textContent = u.name; $("#meEmail").textContent = u.email;
+  const t = ME.tenant;
+  $("#tenantBox").hidden = !t && !ME.is_platform;
+  $("#tenantBox").innerHTML = t ? `<b>${esc(t.name)}</b>${(ME.countries).map(c => CNAME[c]).join(" · ")}<br><span class="pill">${esc(t.plan_label)} plan</span>`
+                                : `<b>Platform administration</b>All stores · Pakistan · UAE`;
+  const store_ = !!t;
+  TABS = [
+    {id:"check", label:"Check orders", show: has("check")},
+    {id:"enter", label:"Enter outcomes", show: store_ && (has("submit") || has("upload"))},
+    {id:"approvals", label:"Approvals", show: store_ && has("approve"), badge: ME.pending_approvals},
+    {id:"reports", label: store_ ? "Reports" : "Network report", show: has("reports")},
+    {id:"disputes", label:"Disputes", show: store_ && has("disputes")},
+    {sep:true, show: store_ && has("users")},
+    {id:"team", label:"Team", show: store_ && has("users")},
+    {id:"audit", label:"Activity log", show: has("users")},
+    {grp:"Platform", show: ME.is_platform},
+    {id:"stores", label:"Stores", show: ME.is_platform},
+    {id:"pdisputes", label:"Dispute decisions", show: ME.is_platform},
+    {id:"team", key:"admins", label:"Platform admins", show: ME.is_platform && !store_},
+  ].filter(x => x.show);
+  $("#nav").innerHTML = TABS.map(x => x.sep ? `<div class="sep"></div>` : x.grp ? `<div class="grp">${x.grp}</div>` :
+    `<button role="tab" data-tab="${x.id}"><svg width="16" height="16" viewBox="0 0 16 16">${ICONS[x.id]}</svg>${x.label}${x.badge ? `<span class="badge">${x.badge}</span>` : ""}</button>`).join("");
+  $("#nav").querySelectorAll("button[data-tab]").forEach(b => b.onclick = () => show(b.dataset.tab));
+  document.querySelectorAll(".countrySel").forEach(sel => sel.innerHTML = ME.countries.map(c => `<option value="${c}">${CNAME[c]}</option>`).join(""));
+  // single/many availability for makers
+  const one = has("submit"), many = has("upload");
+  $("#enterSeg").hidden = !(one && many);
+  setMode("enter", one ? "one" : "many");
+  $("#approvalBanner").hidden = !(t && t.require_approval);
+  $("#reportBtn").textContent = t && t.require_approval ? "Send for approval" : "Submit outcome";
+  const first = TABS.find(x => x.id)?.id;
+  const want = location.hash.slice(1);
+  show(TABS.some(x => x.id === want) ? want : first);
+}
+function show(tab){
+  CURRENT = tab;
+  document.querySelectorAll("main > section").forEach(s => s.hidden = s.id !== "tab-" + tab);
+  $("#nav").querySelectorAll("button[data-tab]").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === tab));
+  if(location.hash !== "#"+tab) history.replaceState(null, "", "#"+tab);
+  ({enter: loadMyEntries, approvals: loadApprovals, reports: loadReport, disputes: loadDisputes, team: loadTeam,
+    audit: loadAudit, stores: loadStores, pdisputes: loadPDisputes}[tab] || (()=>{}))();
+  window.scrollTo(0,0);
+}
+async function refreshBadge(){
+  try{ ME = await api("/v1/me"); ME.countries = ["PK","AE"].filter(c => ME.countries.includes(c)); const b = $("#nav").querySelector('[data-tab="approvals"]');
+    if(b){ const old = b.querySelector(".badge"); old && old.remove(); if(ME.pending_approvals) b.insertAdjacentHTML("beforeend", `<span class="badge">${ME.pending_approvals}</span>`); } }catch(e){}
+}
+function setMode(name, mode){
+  const seg = document.querySelector(`[data-seg="${name}"]`);
+  seg && seg.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x.dataset.mode === mode));
+  document.querySelectorAll(`[data-mode-panel^="${name}:"]`).forEach(p => p.hidden = p.dataset.modePanel !== name + ":" + mode);
+}
+document.querySelectorAll("[data-seg]").forEach(seg => seg.addEventListener("click", e => {
+  const b = e.target.closest("button[data-mode]"); if(b) setMode(seg.dataset.seg, b.dataset.mode);
+}));
+
+// ---------------- check ----------------
 const BAND = {low:["Ship normally","No warning signs in the network"], medium:["Confirm first","Call or send an OTP before dispatch"], high:["Prepayment only","Ask for full or partial advance payment"]};
-const BAND_LABEL = {low:"Low", medium:"Medium", high:"High"};
 const TYPE_LABEL = {refused_at_door:"Refused at door", unreachable:"Unreachable", fake_address:"Fake address", fake_order:"Fake order",
   return_abuse:"Return abuse", chargeback:"Chargeback", delivered_paid:"Delivered and paid"};
-
-// ---------- check: one ----------
-$("#checkForm").onsubmit = e => { e.preventDefault(); clear("#checkMsg"); if(needKey("#checkMsg")) return;
+$("#checkForm").onsubmit = e => { e.preventDefault(); clear("#checkMsg");
   busy(e.target, async () => {
     try{
       const r = await api("/v1/check", {body: fd(e.target)});
@@ -486,75 +664,73 @@ $("#checkForm").onsubmit = e => { e.preventDefault(); clear("#checkMsg"); if(nee
     }catch(err){ flash("#checkMsg", err.message, false); }
   });
 };
-
-// ---------- check: many ----------
 function parseOrders(text){
   const rows = parseCSV(text); if(!rows.length) return [];
   let head = null;
   if(rows[0].some(v => /^(phone|order_ref|email|country)$/i.test(v))) head = rows.shift().map(h => h.toLowerCase().replace(/^﻿/,""));
   return rows.map(r => {
-    let o;
-    if(head) o = Object.fromEntries(head.map((h,i) => [h, r[i] || ""]));
-    else if(r.length === 1) o = {phone: r[0]};
-    else o = {order_ref: r[0], phone: r[1], email: r[2], city: r[3], country: r[4]};
-    o.country = (o.country || "PK").toUpperCase() === "AE" || /^uae$/i.test(o.country||"") ? "AE" : "PK";
-    return o;
+    let o = head ? Object.fromEntries(head.map((h,i) => [h, r[i] || ""])) : r.length === 1 ? {phone: r[0]} : {order_ref: r[0], phone: r[1], email: r[2], city: r[3], country: r[4]};
+    const c = (o.country || ME.countries[0]).toUpperCase(); o.country = (c === "UAE" ? "AE" : c); return o;
   });
 }
 let lastBatch = [];
 $("#checkFile").onchange = e => loadFileInto(e.target, $("#checkManyForm").rows);
 $("#checkManyForm").rows.oninput = () => { const n = parseOrders($("#checkManyForm").rows.value).length; $("#checkCount").textContent = n ? nf.format(n) + " orders" : ""; };
-$("#checkManyForm").onsubmit = e => { e.preventDefault(); clear("#checkManyMsg"); if(needKey("#checkManyMsg")) return;
+$("#checkManyForm").onsubmit = e => { e.preventDefault(); clear("#checkManyMsg");
   busy(e.target, async () => {
     try{
       const orders = parseOrders(e.target.rows.value);
       if(!orders.length) throw new Error("Paste at least one order or load a CSV.");
       if(orders.length > 500) throw new Error("Up to 500 orders per check. Split the list and try again.");
-      const body = orders.map(o => clean({phone:o.phone, email:o.email, address:o.address, city:o.city, country:o.country}));
-      const {results} = await api("/v1/check/batch", {body});
+      const {results} = await api("/v1/check/batch", {body: orders.map(o => clean({phone:o.phone, email:o.email, address:o.address, city:o.city, country:o.country}))});
       lastBatch = results.map((r,i) => ({...r, ref: orders[i].order_ref || "", phone: orders[i].phone || orders[i].email || ""}));
-      renderBatch("score");
+      renderBatch();
     }catch(err){ flash("#checkManyMsg", err.message, false); }
   });
 };
-function renderBatch(sortKey){
-  const rows = [...lastBatch];
-  if(sortKey === "score") rows.sort((a,b) => (b.ok ? b.score : -1) - (a.ok ? a.score : -1));
+function renderBatch(){
+  const rows = [...lastBatch].sort((a,b) => (b.ok ? b.score : -1) - (a.ok ? a.score : -1));
   const c = {low:0, medium:0, high:0, err:0}; rows.forEach(r => r.ok ? c[r.band]++ : c.err++);
   $("#checkManyResult").innerHTML = `<div class="panel stack">
-    <div class="head" style="margin:0"><div class="summary">
-      <span class="chip high">${c.high} prepayment only</span><span class="chip medium">${c.medium} confirm first</span>
+    <div class="head" style="margin:0"><div class="summary"><span class="chip high">${c.high} prepayment only</span><span class="chip medium">${c.medium} confirm first</span>
       <span class="chip low">${c.low} ship normally</span>${c.err ? `<span class="chip na">${c.err} couldn't check</span>` : ""}</div>
       <button class="btn ghost sm" type="button" id="batchCsv">Download results</button></div>
     <div class="tablewrap"><table><thead><tr><th>Order</th><th>Phone / email</th><th class="num">Risk</th><th>Decision</th><th>Why</th></tr></thead><tbody>
-    ${rows.map(r => r.ok ? `<tr><td>${esc(r.ref) || '<span class="muted">—</span>'}</td><td>${esc(r.phone)}</td><td class="num">${r.score}</td>
-        <td><span class="chip ${r.band}">${BAND[r.band][0]}</span></td><td class="wrap small muted">${esc(r.reasons.join("; ").replaceAll("_"," "))}</td></tr>`
+    ${rows.map(r => r.ok ? `<tr><td>${esc(r.ref) || '<span class="muted">—</span>'}</td><td>${esc(r.phone)}</td><td class="num">${r.score}</td><td><span class="chip ${r.band}">${BAND[r.band][0]}</span></td><td class="wrap small muted">${esc(r.reasons.join("; ").replaceAll("_"," "))}</td></tr>`
       : `<tr><td>${esc(r.ref) || '<span class="muted">—</span>'}</td><td>${esc(r.phone)}</td><td class="num">—</td><td><span class="chip na">Not checked</span></td><td class="wrap small">${esc(r.error)}</td></tr>`).join("")}
     </tbody></table></div></div>`;
   $("#batchCsv").onclick = () => download("codshield-checks.csv", toCSV([["order_ref","phone_or_email","score","decision","reasons"],
     ...lastBatch.map(r => [r.ref, r.phone, r.ok ? r.score : "", r.ok ? BAND[r.band][0] : "Not checked: " + r.error, r.ok ? r.reasons.join("; ") : ""])]));
 }
 
-// ---------- report: one ----------
+// ---------------- enter outcomes ----------------
 $("#reportForm").occurred_at.valueAsDate = new Date();
-$("#reportForm").onsubmit = e => { e.preventDefault(); clear("#reportMsg"); if(needKey("#reportMsg")) return;
+function outcomeMsg(r){
+  const n = o => r.results.filter(x => x.outcome === o).length;
+  const parts = [];
+  if(n("pending")) parts.push(`${n("pending")} sent for approval`);
+  if(n("created")) parts.push(`${n("created")} recorded`);
+  if(n("duplicate")) parts.push(`${n("duplicate")} already reported`);
+  if(n("rejected")) parts.push(`${n("rejected")} not accepted`);
+  return parts.join(", ") + (r.batch_ref ? ` (batch ${r.batch_ref}).` : ".");
+}
+$("#reportForm").onsubmit = e => { e.preventDefault(); clear("#reportMsg");
   busy(e.target, async () => {
-    const body = fd(e.target);
-    body.occurred_at += "T12:00:00";
+    const body = fd(e.target); body.occurred_at += "T12:00:00";
     if(body.amount) body.amount = Number(body.amount); else delete body.currency;
     try{
       const r = await api("/v1/events", {body});
-      flash("#reportMsg", r.outcome === "duplicate" ? "Already reported. Nothing changed." : "Outcome reported.", true);
-      if(r.outcome !== "duplicate"){ e.target.reset(); e.target.occurred_at.valueAsDate = new Date(); }
+      flash("#reportMsg", r.outcome === "pending" ? `Sent for approval (entry #${r.submission_id}).` : r.outcome === "duplicate" ? "Already reported. Nothing changed." : "Outcome recorded.", true);
+      if(r.outcome !== "duplicate"){ e.target.reset(); e.target.occurred_at.valueAsDate = new Date(); buildCountrySel(e.target); }
+      loadMyEntries();
     }catch(err){ flash("#reportMsg", err.message, false); }
   });
 };
-
-// ---------- report: many ----------
+function buildCountrySel(form){ form.querySelectorAll(".countrySel").forEach(sel => sel.innerHTML = ME.countries.map(c => `<option value="${c}">${CNAME[c]}</option>`).join("")); }
 const TEMPLATE = "order_ref,type,occurred_at,phone,email,address,city,country,amount,currency,evidence\nLF-1001,refused_at_door,2026-10-10,0300-1234567,,,Lahore,PK,4500,PKR,TCS:77812\n";
 $("#templateBtn").onclick = () => download("codshield-outcomes-template.csv", TEMPLATE);
 $("#reportFile").onchange = e => loadFileInto(e.target, $("#reportManyForm").rows);
-$("#reportManyForm").onsubmit = e => { e.preventDefault(); clear("#reportManyMsg"); if(needKey("#reportManyMsg")) return;
+$("#reportManyForm").onsubmit = e => { e.preventDefault(); clear("#reportManyMsg");
   busy(e.target, async () => {
     try{
       const rows = parseCSV(e.target.rows.value);
@@ -564,190 +740,367 @@ $("#reportManyForm").onsubmit = e => { e.preventDefault(); clear("#reportManyMsg
       const items = rows.map(r => { const o = clean(Object.fromEntries(head.map((h,i) => [h, r[i] || ""])));
         if(o.amount) o.amount = Number(o.amount);
         if(o.occurred_at && /^\d{4}-\d{2}-\d{2}$/.test(o.occurred_at)) o.occurred_at += "T12:00:00";
-        if(o.country) o.country = o.country.toUpperCase(); return o; });
+        if(o.country){ o.country = o.country.toUpperCase(); if(o.country === "UAE") o.country = "AE"; } return o; });
       if(items.length > 1000) throw new Error("Up to 1,000 rows per upload. Split the file and try again.");
-      const {results} = await api("/v1/events/batch", {body: items});
-      const n = o => results.filter(x => x.outcome === o).length;
-      flash("#reportManyMsg", `${n("created")} added, ${n("duplicate")} already reported, ${n("rejected")} rejected.`, n("rejected") === 0);
-      const bad = results.filter(x => x.outcome === "rejected");
-      $("#reportManyResult").innerHTML = bad.length ? `<div class="panel"><h2>Rows that weren't added</h2><div class="tablewrap"><table>
+      const r = await api("/v1/events/batch", {body: items});
+      const bad = r.results.filter(x => x.outcome === "rejected");
+      flash("#reportManyMsg", outcomeMsg(r), !bad.length);
+      $("#reportManyResult").innerHTML = bad.length ? `<div class="panel"><h2>Rows that weren't accepted</h2><div class="tablewrap"><table>
         <thead><tr><th class="num">Line</th><th>Order</th><th>Reason</th></tr></thead><tbody>${bad.map(x =>
         `<tr><td class="num">${x.index + 2}</td><td>${esc(items[x.index].order_ref)}</td><td class="wrap">${esc(x.error)}</td></tr>`).join("")}</tbody></table></div></div>` : "";
+      loadMyEntries();
     }catch(err){ flash("#reportManyMsg", err.message, false); }
   });
 };
+const STATUS_CHIP = {pending:'<span class="chip medium">Waiting</span>', approved:'<span class="chip low">Approved</span>', rejected:'<span class="chip high">Rejected</span>'};
+$("#myEntriesStatus").onchange = loadMyEntries;
+async function loadMyEntries(){
+  if(!(ME.tenant && ME.tenant.require_approval)){ $("#myEntriesPanel").hidden = true; return; }
+  $("#myEntriesPanel").hidden = false;
+  try{
+    const rows = (await api("/v1/submissions?status=" + $("#myEntriesStatus").value)).filter(x => !ME.user || x.maker_id === ME.user.id).slice(0, 100);
+    $("#myEntries").className = "";
+    $("#myEntries").innerHTML = rows.length ? `<div class="tablewrap"><table><thead><tr><th>Entered</th><th>Order</th><th>What happened</th><th>Contact</th><th>Status</th><th>Checker / reason</th></tr></thead><tbody>
+      ${rows.map(x => `<tr><td>${fmtDT(x.created_at)}</td><td>${esc(x.order_ref)}${x.batch_ref ? ` <span class="tag">${esc(x.batch_ref)}</span>` : ""}</td><td>${TYPE_LABEL[x.type] || x.type}</td>
+      <td>${esc(x.contact_hint || "—")}</td><td>${STATUS_CHIP[x.status]}</td><td class="wrap small">${esc(x.checker || "")}${x.reject_reason ? `: ${esc(x.reject_reason)}` : ""}</td></tr>`).join("")}</tbody></table></div>`
+      : `<p class="muted small" style="margin:0">No entries yet.</p>`;
+  }catch(err){ $("#myEntries").textContent = err.message; }
+}
 
-// ---------- reports ----------
+// ---------------- approvals ----------------
+$("#apRefresh").onclick = loadApprovals;
+async function loadApprovals(){
+  clear("#apMsg");
+  try{
+    const rows = await api("/v1/submissions?status=pending");
+    if(!rows.length){ $("#apBody").innerHTML = `<div class="empty-state">Nothing waiting. New entries from makers appear here.</div>`; refreshBadge(); return; }
+    $("#apBody").innerHTML = `<div class="actions"><button class="btn" type="button" id="apApprove">Approve selected</button>
+      <input type="text" id="apReason" placeholder="Reason, needed to reject" style="max-width:320px"><button class="btn ghost" type="button" id="apReject">Reject selected</button>
+      <span class="small muted" id="apSel">0 selected</span></div>
+      <div class="tablewrap"><table><thead><tr><th><input type="checkbox" id="apAll" aria-label="Select all"></th><th>Entered</th><th>Maker</th><th>Order</th><th>What happened</th><th>Date</th><th>Contact</th><th class="num">Value</th><th>Evidence</th></tr></thead><tbody>
+      ${rows.map(x => { const mine = ME.user && x.maker_id === ME.user.id;
+        return `<tr><td><input type="checkbox" class="apChk" value="${x.id}" ${mine ? "disabled title='You entered this, so someone else must check it'" : ""}></td>
+        <td>${fmtDT(x.created_at)}</td><td>${esc(x.maker)}${mine ? ' <span class="tag">you</span>' : ""}</td><td>${esc(x.order_ref)}${x.batch_ref ? ` <span class="tag">${esc(x.batch_ref)}</span>` : ""}</td>
+        <td>${TYPE_LABEL[x.type] || x.type}</td><td>${esc((x.occurred_at||"").slice(0,10))}</td><td>${esc(x.contact_hint || "—")}</td>
+        <td class="num">${x.amount != null ? esc(x.currency || "") + " " + nf.format(x.amount) : "—"}</td><td class="wrap small">${esc(x.evidence || "—")}</td></tr>`; }).join("")}
+      </tbody></table></div>`;
+    const sel = () => [...document.querySelectorAll(".apChk:checked")].map(x => +x.value);
+    const upd = () => $("#apSel").textContent = sel().length + " selected";
+    $("#apAll").onchange = e => { document.querySelectorAll(".apChk:not(:disabled)").forEach(x => x.checked = e.target.checked); upd(); };
+    document.querySelectorAll(".apChk").forEach(x => x.onchange = upd);
+    $("#apApprove").onclick = () => decide(true, sel());
+    $("#apReject").onclick = () => decide(false, sel(), $("#apReason").value.trim());
+    refreshBadge();
+  }catch(err){ flash("#apMsg", err.message, false); }
+}
+async function decide(approve, ids, reason){
+  if(!ids.length) return flash("#apMsg", "Tick at least one entry first.", false);
+  try{
+    const r = await api(approve ? "/v1/submissions/approve" : "/v1/submissions/reject", {body:{ids, reason}});
+    const ok = r.results.filter(x => x.ok).length, bad = r.results.filter(x => !x.ok);
+    await loadApprovals();
+    flash("#apMsg", `${ok} ${approve ? "approved" : "rejected"}.` + (bad.length ? ` ${bad.length} skipped: ${bad.map(x => `#${x.id} ${x.error}`).join("; ")}` : ""), !bad.length);
+  }catch(err){ flash("#apMsg", err.message, false); }
+}
+
+// ---------------- reports ----------------
 let lastReport = null;
 $("#repDays").onchange = loadReport;
 async function loadReport(){
-  const network = modes.scope === "network";
-  $("#repTitle").textContent = network ? "Network report" : "My store report";
-  $("#repSub").textContent = network ? "Activity across every store in the network. Counts only; no customer details."
-                                     : "Your checks and reported outcomes over time. Counts only; no customer details.";
-  clear("#repMsg");
-  if(needKey("#repMsg", network)){ $("#repBody").innerHTML = ""; return; }
-  $("#repBody").innerHTML = `<div class="panel empty-state">Loading…</div>`;
-  try{
-    const days = $("#repDays").value;
-    lastReport = await api(network ? `/v1/admin/reports?days=${days}` : `/v1/reports?days=${days}`, {admin: network});
-    renderReport(lastReport);
-  }catch(err){ $("#repBody").innerHTML = ""; flash("#repMsg", err.message, false); }
+  const network = !ME.tenant;
+  $("#repTitle").textContent = network ? "Network report" : "Store report";
+  $("#repSub").textContent = (network ? "Activity across every store in the network." : `Your store's checks and reported outcomes${ME.countries.length < 2 ? " in " + CNAME[ME.countries[0]] : ""}.`) + " Counts only; no customer details.";
+  clear("#repMsg"); $("#repBody").innerHTML = `<div class="panel empty-state">Loading…</div>`;
+  try{ lastReport = await api((network ? "/v1/admin/reports" : "/v1/reports") + "?days=" + $("#repDays").value); renderReport(lastReport); }
+  catch(err){ $("#repBody").innerHTML = ""; flash("#repMsg", err.message, false); }
 }
 function renderReport(r){
-  const t = r.totals;
-  const val = Object.entries(r.negative_value || {}).map(([c,v]) => `${c} ${nf.format(Math.round(v))}`).join(" · ") || "—";
-  const types = Object.entries(r.by_type).sort((a,b) => b[1]-a[1]);
-  const maxT = Math.max(1, ...types.map(x => x[1]));
+  const t = r.totals, val = Object.entries(r.negative_value || {}).map(([c,v]) => `${c} ${nf.format(Math.round(v))}`).join(" · ") || "—";
+  const types = Object.entries(r.by_type).sort((a,b) => b[1]-a[1]), maxT = Math.max(1, ...types.map(x => x[1]));
   const pk = r.by_country.PK || 0, ae = r.by_country.AE || 0;
   $("#repBody").innerHTML = `
-    <div class="kpis">
-      <div class="kpi"><b>${nf.format(t.checks)}</b><span>Orders checked</span></div>
-      <div class="kpi"><b>${nf.format(t.flagged)}</b><span>Flagged for a call or prepayment</span></div>
-      <div class="kpi"><b>${nf.format(t.high_risk)}</b><span>High risk (prepayment only)</span></div>
-      <div class="kpi"><b>${nf.format(t.negative_outcomes)}</b><span>Problem orders reported</span></div>
-      <div class="kpi"><b>${nf.format(t.paid_deliveries)}</b><span>Paid deliveries reported</span></div>
-    </div>
+    <div class="kpis"><div class="kpi"><b>${nf.format(t.checks)}</b><span>Orders checked</span></div><div class="kpi"><b>${nf.format(t.flagged)}</b><span>Flagged for a call or prepayment</span></div>
+      <div class="kpi"><b>${nf.format(t.high_risk)}</b><span>High risk (prepayment only)</span></div><div class="kpi"><b>${nf.format(t.negative_outcomes)}</b><span>Problem orders reported</span></div>
+      <div class="kpi"><b>${nf.format(t.paid_deliveries)}</b><span>Paid deliveries reported</span></div></div>
     <div class="panel"><h2>Orders checked per day, by decision</h2>
       <div class="legend"><span><i style="background:var(--bad)"></i>Prepayment only</span><span><i style="background:var(--warn)"></i>Confirm first</span><span><i style="background:var(--good)"></i>Ship normally</span></div>
       <div class="chart" id="chartChecks"></div></div>
     <div class="grid2">
-      <div class="panel"><h2>Reported outcomes by type</h2>
-        ${types.length ? `<div class="hbar">${types.map(([k,v]) => `<span>${TYPE_LABEL[k] || k}</span><div class="track"><div class="fill" style="width:${v/maxT*100}%"></div></div><span class="v">${nf.format(v)}</span>`).join("")}</div>`
-          : `<p class="muted small" style="margin:0">No outcomes reported in this period yet.</p>`}</div>
+      <div class="panel"><h2>Reported outcomes by type</h2>${types.length ? `<div class="hbar">${types.map(([k,v]) => `<span>${TYPE_LABEL[k] || k}</span><div class="track"><div class="fill" style="width:${v/maxT*100}%"></div></div><span class="v">${nf.format(v)}</span>`).join("")}</div>`
+        : `<p class="muted small" style="margin:0">No outcomes reported in this period yet.</p>`}</div>
       <div class="panel stack" style="gap:14px"><h2 style="margin:0">At a glance</h2>
         <div class="hbar"><span>Pakistan</span><div class="track"><div class="fill" style="width:${(pk/Math.max(1,pk+ae))*100}%"></div></div><span class="v">${nf.format(pk)}</span>
           <span>UAE</span><div class="track"><div class="fill" style="width:${(ae/Math.max(1,pk+ae))*100}%"></div></div><span class="v">${nf.format(ae)}</span></div>
         <p class="small" style="margin:0"><span class="muted">Value of problem orders reported:</span> ${esc(val)}</p>
         <p class="small" style="margin:0"><span class="muted">Network size:</span> ${nf.format(r.network.merchants)} stores, ${nf.format(r.network.customers_on_file)} customer fingerprints</p>
-        ${r.disputes ? `<p class="small" style="margin:0"><span class="muted">Disputes:</span> ${r.disputes.opened} opened, ${r.disputes.upheld} upheld, ${r.disputes.rejected} rejected, ${r.disputes.open_now} open now</p>` : ""}
-      </div>
-    </div>
-    ${r.top_contributors ? `<div class="panel"><h2>Most active stores</h2>${r.top_contributors.length ? `<div class="tablewrap"><table>
-      <thead><tr><th>Store</th><th>Country</th><th class="num">Outcomes reported</th><th class="num">Trust weight</th></tr></thead><tbody>
-      ${r.top_contributors.map(m => `<tr><td>${esc(m.name)}</td><td>${m.country}</td><td class="num">${nf.format(m.reports)}</td><td class="num">${m.trust_weight}</td></tr>`).join("")}
-      </tbody></table></div>` : `<p class="muted small" style="margin:0">No outcomes reported in this period yet.</p>`}</div>` : ""}`;
+        ${r.disputes ? `<p class="small" style="margin:0"><span class="muted">Disputes:</span> ${r.disputes.opened} opened, ${r.disputes.upheld} upheld, ${r.disputes.rejected} rejected, ${r.disputes.open_now} open now</p>` : ""}</div></div>
+    ${r.top_contributors ? `<div class="panel"><h2>Most active stores</h2>${r.top_contributors.length ? `<div class="tablewrap"><table><thead><tr><th>Store</th><th>Country</th><th class="num">Outcomes reported</th><th class="num">Trust weight</th></tr></thead><tbody>
+      ${r.top_contributors.map(m => `<tr><td>${esc(m.name)}</td><td>${m.country}</td><td class="num">${nf.format(m.reports)}</td><td class="num">${m.trust_weight}</td></tr>`).join("")}</tbody></table></div>` : `<p class="muted small" style="margin:0">No outcomes reported in this period yet.</p>`}</div>` : ""}`;
   stackedChecks($("#chartChecks"), r.checks_daily);
 }
 function stackedChecks(el, d){
   const order = ["low","medium","high"], color = {low:"var(--good)", medium:"var(--warn)", high:"var(--bad)"};
-  const n = d.dates.length, totals = d.dates.map((_,i) => order.reduce((s,k) => s + ((d.series[k]||[])[i]||0), 0));
-  const max = Math.max(...totals);
+  const n = d.dates.length, totals = d.dates.map((_,i) => order.reduce((s,k) => s + ((d.series[k]||[])[i]||0), 0)), max = Math.max(...totals);
   if(!max){ el.innerHTML = `<p class="muted small" style="margin:0">No orders checked in this period yet.</p>`; return; }
   const W = 900, H = 240, L = 34, B = 24, T = 8, pw = W - L - 6, ph = H - B - T;
-  const step = niceStep(max), top = Math.ceil(max/step)*step, slot = pw/n, bw = Math.max(2, Math.min(28, slot - Math.max(2, slot*.28)));
-  const y = v => T + ph - v/top*ph;
+  const step = niceStep(max), top = Math.ceil(max/step)*step, slot = pw/n, bw = Math.max(2, Math.min(28, slot - Math.max(2, slot*.28))), y = v => T + ph - v/top*ph;
   let s = "";
   for(let v = 0; v <= top; v += step) s += `<line class="grid" x1="${L}" x2="${W-6}" y1="${y(v)}" y2="${y(v)}"/><text class="axis" x="${L-8}" y="${y(v)+4}" text-anchor="end">${v}</text>`;
   const every = Math.ceil(n/8);
   d.dates.forEach((dt,i) => {
-    const x = L + i*slot + (slot-bw)/2;
-    let base = 0;
-    order.forEach((k,ki) => {
-      const v = (d.series[k]||[])[i]||0; if(!v) return;
-      const y1 = y(base + v), h = y(base) - y1 - (base ? 2 : 0);
-      const isTop = order.slice(ki+1).every(k2 => !((d.series[k2]||[])[i]));
-      s += isTop ? `<path d="${roundTop(x, y1, bw, Math.max(1,h), Math.min(4, bw/2))}" fill="${color[k]}"/>`
-                 : `<rect x="${x}" y="${y1}" width="${bw}" height="${Math.max(1,h)}" fill="${color[k]}"/>`;
-      base += v;
-    });
+    const x = L + i*slot + (slot-bw)/2; let base = 0;
+    order.forEach((k,ki) => { const v = (d.series[k]||[])[i]||0; if(!v) return;
+      const y1 = y(base + v), h = y(base) - y1 - (base ? 2 : 0), isTop = order.slice(ki+1).every(k2 => !((d.series[k2]||[])[i]));
+      s += isTop ? `<path d="${roundTop(x, y1, bw, Math.max(1,h), Math.min(4, bw/2))}" fill="${color[k]}"/>` : `<rect x="${x}" y="${y1}" width="${bw}" height="${Math.max(1,h)}" fill="${color[k]}"/>`; base += v; });
     if(i % every === 0) s += `<text class="axis" x="${x+bw/2}" y="${H-6}" text-anchor="middle">${fmtDay(dt)}</text>`;
     s += `<rect data-i="${i}" x="${L+i*slot}" y="${T}" width="${slot}" height="${ph}" fill="transparent"/>`;
   });
   el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Orders checked per day">${s}</svg><div class="tip"></div>`;
   const tip = el.querySelector(".tip"), svg = el.querySelector("svg");
-  svg.addEventListener("mousemove", e => {
-    const hit = e.target.closest("rect[data-i]"); if(!hit){ tip.style.opacity = 0; return; }
+  svg.addEventListener("mousemove", e => { const hit = e.target.closest("rect[data-i]"); if(!hit){ tip.style.opacity = 0; return; }
     const i = +hit.dataset.i, box = el.getBoundingClientRect(), sb = svg.getBoundingClientRect(), sc = sb.width / W;
     tip.innerHTML = `<b>${fmtDay(d.dates[i], true)}</b><br>${totals[i]} checked · ${(d.series.high||[])[i]||0} prepay · ${(d.series.medium||[])[i]||0} confirm · ${(d.series.low||[])[i]||0} ship`;
-    tip.style.left = (sb.left - box.left + (L + i*slot + slot/2)*sc) + "px";
-    tip.style.top = (sb.top - box.top + y(totals[i])*sc) + "px"; tip.style.opacity = 1;
-  });
+    tip.style.left = (sb.left - box.left + (L + i*slot + slot/2)*sc) + "px"; tip.style.top = (sb.top - box.top + y(totals[i])*sc) + "px"; tip.style.opacity = 1; });
   svg.addEventListener("mouseleave", () => tip.style.opacity = 0);
 }
 function roundTop(x,y,w,h,r){ r = Math.min(r,h); return `M${x},${y+h}V${y+r}Q${x},${y} ${x+r},${y}H${x+w-r}Q${x+w},${y} ${x+w},${y+r}V${y+h}Z`; }
 function niceStep(max){ const raw = max/4, p = Math.pow(10, Math.floor(Math.log10(raw))); return [1,2,5,10].map(m => m*p).find(s => s >= raw) || 1; }
 function fmtDay(s, long){ const d = new Date(s + "T00:00:00"); return d.toLocaleDateString("en-GB", long ? {day:"numeric", month:"short", year:"numeric"} : {day:"numeric", month:"short"}); }
-$("#repCsv").onclick = () => {
-  if(!lastReport) return;
-  const r = lastReport, rows = [["date","checked_low","checked_medium","checked_high", ...Object.keys(TYPE_LABEL).map(k => "outcome_" + k)]];
-  r.checks_daily.dates.forEach((dt,i) => rows.push([dt, ...["low","medium","high"].map(k => (r.checks_daily.series[k]||[])[i]||0),
-    ...Object.keys(TYPE_LABEL).map(k => (r.outcomes_daily.series[k]||[])[i]||0)]));
-  download(`codshield-${r.scope}-report-${r.from}-to-${r.to}.csv`, toCSV(rows));
-};
+$("#repCsv").onclick = () => { if(!lastReport) return; const r = lastReport, rows = [["date","checked_low","checked_medium","checked_high", ...Object.keys(TYPE_LABEL).map(k => "outcome_" + k)]];
+  r.checks_daily.dates.forEach((dt,i) => rows.push([dt, ...["low","medium","high"].map(k => (r.checks_daily.series[k]||[])[i]||0), ...Object.keys(TYPE_LABEL).map(k => (r.outcomes_daily.series[k]||[])[i]||0)]));
+  download(`codshield-${r.scope}-report-${r.from}-to-${r.to}.csv`, toCSV(rows)); };
 
-// ---------- dispute ----------
+// ---------------- store disputes ----------------
+$("#dsRefresh").onclick = loadDisputes;
+async function loadDisputes(){
+  clear("#dsMsg");
+  try{
+    const ds = await api("/v1/disputes");
+    $("#dsBody").innerHTML = ds.length ? ds.map(d => `<div class="dispute" data-id="${d.id}">
+      <div class="head" style="margin:0"><h2 style="margin:0">Dispute #${d.id}</h2><span class="small muted">Opened ${fmtDT(d.created_at)}</span></div>
+      <blockquote>${esc(d.reason)}</blockquote>
+      <div class="tablewrap"><table><thead><tr><th>Your order</th><th>What you reported</th><th>Date</th><th>Evidence</th></tr></thead><tbody>
+        ${d.your_records.map(r => `<tr><td>${esc(r.order_ref)}</td><td>${TYPE_LABEL[r.type] || r.type}</td><td>${r.occurred_at}</td><td class="wrap">${esc(r.evidence || "—")}</td></tr>`).join("")}</tbody></table></div>
+      ${d.your_response ? `<p class="small" style="margin:0"><span class="chip ${d.your_response.action === "withdraw" ? "low" : "medium"}">${d.your_response.action === "withdraw" ? "You withdrew these records" : "You confirmed these records"}</span> ${esc(d.your_response.note || "")}</p>` : ""}
+      <div class="actions"><input type="text" class="dsNote" placeholder="Note for CODShield (evidence, courier reference…)" style="max-width:420px">
+        <button class="btn ghost sm" data-act="confirm">Confirm our records</button><button class="btn sm" data-act="withdraw">Withdraw our records</button></div></div>`).join("")
+      : `<div class="empty-state">No open disputes involve your store's records.</div>`;
+  }catch(err){ flash("#dsMsg", err.message, false); }
+}
+$("#dsBody").addEventListener("click", async e => {
+  const b = e.target.closest("button[data-act]"); if(!b) return;
+  const box = b.closest(".dispute"), note = box.querySelector(".dsNote").value.trim();
+  try{ await api(`/v1/disputes/${box.dataset.id}/respond`, {body:{action: b.dataset.act, note}}); await loadDisputes();
+    flash("#dsMsg", b.dataset.act === "withdraw" ? "Records withdrawn." : "Response sent to CODShield.", true); }
+  catch(err){ flash("#dsMsg", err.message, false); }
+});
+
+// ---------------- team / users ----------------
+let TEAM_SCOPE = null;   // platform: merchant id being managed, or null for platform admins
+function permBoxes(selected, disabled){
+  return `<div class="perms">${Object.entries(PERM_INFO).map(([k,[l,d]]) => `<label><input type="checkbox" name="perm" value="${k}" ${selected.includes(k) ? "checked" : ""} ${disabled ? "disabled" : ""}><span>${l}<small>${d}</small></span></label>`).join("")}</div>`;
+}
+function countryBoxes(selected, allowed){
+  return `<div class="inline">${allowed.map(c => `<label><input type="checkbox" name="country" value="${c}" ${selected.includes(c) ? "checked" : ""}> ${CNAME[c]}</label>`).join("")}</div>`;
+}
+const userForm = (u, isNew) => {
+  const platformAdmins = ME.is_platform && TEAM_SCOPE === null;
+  return `<form id="userForm"><div class="head" style="margin:0"><h2 style="margin:0">${isNew ? (platformAdmins ? "Add platform admin" : "Add user") : "Edit " + esc(u.name)}</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+  ${isNew ? `<div class="row"><label class="f">Name <input name="name" type="text" required></label><label class="f">Email <input name="email" type="email" required></label></div>`
+          : `<label class="f">Name <input name="name" type="text" value="${esc(u.name)}"></label><p class="small muted" style="margin:0">${esc(u.email)}</p>`}
+  ${platformAdmins ? `<p class="small muted" style="margin:0">Platform admins can manage every store, decide disputes and see the network report.</p>` : `
+  <label class="f">Role template <select id="preset"><option value="">Choose to fill in permissions…</option>${Object.keys(PRESETS).map(p => `<option>${p}</option>`).join("")}</select></label>
+  <fieldset style="border:0;padding:0;margin:0"><legend class="small" style="font-weight:600;margin-bottom:8px">What they can do</legend>${permBoxes(u.perms || ["check"])}</fieldset>
+  <fieldset style="border:0;padding:0;margin:0"><legend class="small" style="font-weight:600;margin-bottom:8px">Countries</legend>${countryBoxes(u.countries || ME.countries, ME.is_platform ? ["PK","AE"] : ME.countries)}</fieldset>`}
+  ${!isNew ? `<div class="inline"><label><input type="checkbox" name="active" ${u.active ? "checked" : ""}> Account active</label><label><input type="checkbox" name="reset"> Reset password (gives a new temporary one)</label></div>` : ""}
+  <button class="btn" type="submit">${isNew ? "Add user" : "Save changes"}</button><div id="userMsg"></div></form>`;
+};
+function bindUserForm(u, isNew){
+  const f = $("#userForm");
+  const pr = $("#preset"); pr && (pr.onchange = () => { const p = PRESETS[pr.value]; if(p) f.querySelectorAll('[name=perm]').forEach(b => b.checked = p.includes(b.value)); });
+  f.onsubmit = e => { e.preventDefault(); clear("#userMsg");
+    busy(f, async () => {
+      const perms = [...f.querySelectorAll('[name=perm]:checked')].map(x => x.value), countries = [...f.querySelectorAll('[name=country]:checked')].map(x => x.value);
+      const platformAdmins = ME.is_platform && TEAM_SCOPE === null;
+      try{
+        let r;
+        if(isNew){
+          if(!platformAdmins && !perms.length) throw new Error("Tick at least one permission.");
+          if(!platformAdmins && !countries.length) throw new Error("Tick at least one country.");
+          r = await api("/v1/users", {body: clean({name: f.name.value, email: f.email.value, perms: platformAdmins ? ["check"] : perms, countries: platformAdmins ? ["PK","AE"] : countries,
+                merchant_id: ME.is_platform ? TEAM_SCOPE : null, is_platform_admin: platformAdmins})});
+        } else {
+          r = await api("/v1/users/" + u.id, {method:"PATCH", body: platformAdmins ? {name: f.name.value, active: f.active.checked, reset_password: f.reset.checked}
+                : {name: f.name.value, perms, countries, active: f.active.checked, reset_password: f.reset.checked}});
+        }
+        if(r.temporary_password){
+          $("#dlgBody").innerHTML = `<div class="stack" style="gap:14px"><div class="head" style="margin:0"><h2 style="margin:0">Temporary password</h2><button class="btn ghost sm" type="button" data-close>Done</button></div>
+            <p class="small" style="margin:0">Share this privately with <b>${esc(r.user.email)}</b>. They'll choose their own password when they first sign in. It isn't shown again.</p>
+            <div class="secret"><code>${esc(r.temporary_password)}</code>${copyBtn(r.temporary_password)}</div></div>`;
+        } else closeDlg();
+        loadTeam();
+      }catch(err){ flash("#userMsg", err.message, false); }
+    });
+  };
+}
+$("#addUserBtn").onclick = () => { openDlg(userForm({}, true)); bindUserForm({}, true); };
+async function loadTeam(){
+  clear("#teamMsg");
+  const platformAdmins = ME.is_platform && TEAM_SCOPE === null;
+  $("#teamTitle").textContent = platformAdmins ? "Platform admins" : ME.is_platform ? "Store users" : "Team";
+  $("#teamSub").textContent = platformAdmins ? "People who run CODShield itself." : "Who can use CODShield for this store, what each person can do, and in which countries.";
+  $("#addUserBtn").textContent = platformAdmins ? "Add platform admin" : "Add user";
+  try{
+    const users = await api("/v1/users" + (ME.is_platform && TEAM_SCOPE !== null ? "?merchant_id=" + TEAM_SCOPE : ""));
+    $("#teamTop").innerHTML = "";
+    if(ME.tenant && !ME.is_platform){
+      const t = (await api("/v1/me")).tenant;
+      const pct = (a,b) => b ? Math.min(100, a/b*100) : 0;
+      $("#teamTop").innerHTML = `<div class="panel usage"><h2 style="margin:0 0 6px">${esc(t.plan_label)} plan</h2>
+          <span>Users: ${t.seats_used} of ${t.seats_limit ?? "unlimited"}</span><div class="bar"><i style="width:${pct(t.seats_used,t.seats_limit)}%"></i></div>
+          <span>Order checks this month: ${nf.format(t.checks_this_month)} of ${t.checks_limit ? nf.format(t.checks_limit) : "unlimited"}</span><div class="bar"><i style="width:${pct(t.checks_this_month,t.checks_limit)}%"></i></div>
+          <span class="muted small">To change plan, contact CODShield.</span></div>
+        <div class="panel stack" style="gap:12px"><h2 style="margin:0">Store settings</h2>
+          <label style="display:flex;gap:8px;align-items:flex-start;font-size:.9rem"><input type="checkbox" id="reqAppr" ${t.require_approval ? "checked" : ""}><span>Maker-checker for entries<small class="muted" style="display:block">Outcomes entered by staff need a second person's approval. API integrations record directly.</small></span></label>
+          <div class="actions"><button class="btn ghost sm" type="button" id="rotateKey">Issue new API key</button></div><div id="keyOut"></div></div>`;
+      $("#reqAppr").onchange = async e => { try{ await api("/v1/tenant", {method:"PATCH", body:{require_approval: e.target.checked}}); ME = await api("/v1/me"); ME.countries = ["PK","AE"].filter(c => ME.countries.includes(c)); buildShellKeep(); flash("#teamMsg", "Setting saved.", true); }catch(err){ flash("#teamMsg", err.message, false); } };
+      $("#rotateKey").onclick = async () => { if(!confirmInline("#keyOut", "Your current API key will stop working straight away.", doRotate)) return; };
+    }
+    $("#teamTable").className = "";
+    $("#teamTable").innerHTML = users.length ? `<div class="tablewrap"><table><thead><tr><th>Name</th><th>Email</th>${platformAdmins ? "" : "<th>Permissions</th><th>Countries</th>"}<th>Status</th><th>Last sign-in</th><th></th></tr></thead><tbody>
+      ${users.map(u => `<tr><td>${esc(u.name)}</td><td>${esc(u.email)}</td>${platformAdmins ? "" : `<td class="wrap">${u.perms.map(p => `<span class="tag">${PERM_INFO[p] ? PERM_INFO[p][0] : p}</span>`).join("")}</td><td>${u.countries.map(c => CNAME[c]).join(", ")}</td>`}
+        <td>${u.active ? (u.must_change_password ? '<span class="chip medium">Invited</span>' : '<span class="chip low">Active</span>') : '<span class="chip na">Off</span>'}</td><td>${fmtDT(u.last_login_at)}</td>
+        <td><button class="btn ghost sm" type="button" data-edit="${u.id}">Edit</button></td></tr>`).join("")}</tbody></table></div>`
+      : `<div class="empty-state">No users yet. Add the first one.</div>`;
+    $("#teamTable").querySelectorAll("[data-edit]").forEach(b => b.onclick = () => { const u = users.find(x => x.id == b.dataset.edit); openDlg(userForm(u, false)); bindUserForm(u, false); });
+  }catch(err){ flash("#teamMsg", err.message, false); }
+}
+function confirmInline(sel, text, fn){
+  $(sel).innerHTML = `<div class="msg err" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">${esc(text)}<button class="btn sm" type="button" id="cfYes">Continue</button><button class="btn ghost sm" type="button" id="cfNo">Cancel</button></div>`;
+  $("#cfYes").onclick = fn; $("#cfNo").onclick = () => $(sel).innerHTML = ""; return false;
+}
+async function doRotate(){
+  try{ const r = await api("/v1/tenant/api-key", {method:"POST"});
+    $("#keyOut").innerHTML = `<div class="stack" style="gap:8px"><span class="small">New API key. Put it in your systems now; it isn't shown again.</span><div class="secret"><code>${esc(r.api_key)}</code>${copyBtn(r.api_key)}</div></div>`; }
+  catch(err){ $("#keyOut").innerHTML = `<div class="msg err">${esc(err.message)}</div>`; }
+}
+function buildShellKeep(){ const cur = CURRENT; buildShell(); show(cur); }
+
+// ---------------- audit ----------------
+let lastAudit = [];
+async function loadAudit(){
+  clear("#auditMsg");
+  try{
+    lastAudit = await api("/v1/audit?limit=500");
+    $("#auditBody").className = "";
+    $("#auditBody").innerHTML = lastAudit.length ? `<div class="tablewrap"><table><thead><tr><th>When</th>${ME.is_platform ? "<th>Store</th>" : ""}<th>Who</th><th>What</th><th>Details</th></tr></thead><tbody>
+      ${lastAudit.map(a => `<tr><td>${fmtDT(a.at)}</td>${ME.is_platform ? `<td>${esc(a.store || "—")}</td>` : ""}<td>${esc(a.actor.replace(/^user:/,""))}</td><td><span class="tag">${esc(a.action)}</span></td><td class="wrap small">${esc(a.detail || "")}</td></tr>`).join("")}</tbody></table></div>`
+      : `<div class="empty-state">No activity yet.</div>`;
+  }catch(err){ flash("#auditMsg", err.message, false); }
+}
+$("#auditCsv").onclick = () => download("codshield-activity.csv", toCSV([["when","store","who","action","details"], ...lastAudit.map(a => [a.at, a.store || "", a.actor, a.action, a.detail || ""])]));
+
+// ---------------- stores (platform) ----------------
+const storeForm = () => `<form id="storeForm"><div class="head" style="margin:0"><h2 style="margin:0">Add store</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+  <div class="row"><label class="f">Store name <input name="name" type="text" required></label><label class="f">Home country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label></div>
+  <div class="row"><label class="f">Plan<select name="plan"><option value="free">Free</option><option value="growth">Growth</option><option value="enterprise">Enterprise</option></select></label>
+    <label class="f" style="align-self:end"><span style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" name="agreement_signed"> Data-sharing agreement signed</span></label></div>
+  <label style="display:flex;gap:8px;align-items:center;font-size:.9rem"><input type="checkbox" name="require_approval" checked> Maker-checker for entries</label>
+  <h2 style="margin:6px 0 0">First store administrator</h2>
+  <div class="row"><label class="f">Name <input name="admin_name" type="text"></label><label class="f">Email <small>Gets full access to manage this store's team.</small><input name="admin_email" type="email"></label></div>
+  <button class="btn" type="submit">Add store</button><div id="storeMsg"></div></form>`;
+$("#addStoreBtn").onclick = () => { openDlg(storeForm()); $("#storeForm").onsubmit = e => { e.preventDefault(); clear("#storeMsg");
+  busy(e.target, async () => { const f = e.target;
+    try{ const r = await api("/v1/admin/merchants", {body: clean({name: f.name.value, country: f.country.value, plan: f.plan.value, agreement_signed: f.agreement_signed.checked,
+          require_approval: f.require_approval.checked, admin_email: f.admin_email.value, admin_name: f.admin_name.value})});
+      $("#dlgBody").innerHTML = `<div class="stack" style="gap:14px"><div class="head" style="margin:0"><h2 style="margin:0">${esc(r.name)} is set up</h2><button class="btn ghost sm" type="button" data-close>Done</button></div>
+        <p class="small" style="margin:0">Copy these now; they aren't shown again.</p>
+        <div><div class="small muted">API key for the store's systems</div><div class="secret"><code>${esc(r.api_key)}</code>${copyBtn(r.api_key)}</div></div>
+        ${r.admin_user ? `<div><div class="small muted">Temporary password for ${esc(r.admin_user.email)}</div><div class="secret"><code>${esc(r.admin_user.temporary_password)}</code>${copyBtn(r.admin_user.temporary_password)}</div></div>` : ""}</div>`;
+      loadStores(); }
+    catch(err){ flash("#storeMsg", err.message, false); } }); }; };
+$("#addStoresBtn").onclick = () => { openDlg(`<form id="storesForm"><div class="head" style="margin:0"><h2 style="margin:0">Add many stores</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+  <label class="f">Stores <small>One per line: <code>store name, country (PK/AE), plan (free/growth/enterprise), signed (yes/no), admin email</code>. Up to 200.</small>
+  <textarea name="rows" placeholder="Lahore Fashion, PK, growth, yes, owner@lahorefashion.pk&#10;Dubai Gadgets, AE, free, yes"></textarea></label>
+  <button class="btn" type="submit">Add all stores</button><div id="storesMsg2"></div></form>`);
+  $("#storesForm").onsubmit = e => { e.preventDefault(); clear("#storesMsg2");
+    busy(e.target, async () => {
+      try{ const rows = parseCSV(e.target.rows.value).filter(r => !/^store/i.test(r[0])); if(!rows.length) throw new Error("Add at least one store, one per line.");
+        const body = rows.map(r => clean({name: r[0], country: /^(ae|uae)$/i.test(r[1]||"") ? "AE" : "PK", plan: ["free","growth","enterprise"].includes((r[2]||"").toLowerCase()) ? r[2].toLowerCase() : "free",
+          agreement_signed: /^(y|yes|true|1|signed)$/i.test(r[3]||""), admin_email: r[4] || null}));
+        const {results} = await api("/v1/admin/merchants/batch", {body}); const ok = results.filter(x => x.ok);
+        $("#dlgBody").innerHTML = `<div class="stack" style="gap:14px"><div class="head" style="margin:0"><h2 style="margin:0">${ok.length} stores added</h2><button class="btn ghost sm" type="button" data-close>Done</button></div>
+          ${results.filter(x => !x.ok).map(x => `<div class="msg err">${esc(x.name)}: ${esc(x.error)}</div>`).join("")}
+          <p class="small" style="margin:0">Download the keys and temporary passwords now; they aren't shown again.</p><button class="btn" type="button" id="dlKeys">Download keys</button></div>`;
+        $("#dlKeys").onclick = () => download("codshield-new-stores.csv", toCSV([["store","api_key","admin_email","temporary_password"], ...ok.map(x => [x.name, x.api_key, x.admin_user?.email || "", x.admin_user?.temporary_password || ""])]));
+        loadStores(); }
+      catch(err){ flash("#storesMsg2", err.message, false); } }); }; };
+async function loadStores(){
+  clear("#storesMsg");
+  try{
+    const [st, ms] = await Promise.all([api("/v1/admin/stats"), api("/v1/admin/merchants")]);
+    $("#storeKpis").innerHTML = `<div class="kpis"><div class="kpi"><b>${nf.format(st.merchants)}</b><span>Stores</span></div><div class="kpi"><b>${nf.format(st.users)}</b><span>Active users</span></div>
+      <div class="kpi"><b>${nf.format(st.identities)}</b><span>Customer fingerprints</span></div><div class="kpi"><b>${nf.format(st.events)}</b><span>Outcomes on file</span></div>
+      <div class="kpi"><b>${nf.format(st.open_disputes)}</b><span>Open disputes</span></div></div>`;
+    $("#storesBody").className = "";
+    $("#storesBody").innerHTML = ms.length ? `<div class="tablewrap"><table><thead><tr><th>Store</th><th>Country</th><th>Plan</th><th class="num">Users</th><th class="num">Checks this month</th><th>Maker-checker</th><th>Agreement</th><th>Status</th><th></th></tr></thead><tbody>
+      ${ms.map(m => `<tr data-id="${m.id}"><td>${esc(m.name)}</td><td>${m.country}</td>
+        <td><select class="stPlan" style="width:auto;padding:4px 8px">${["free","growth","enterprise"].map(p => `<option value="${p}" ${p === m.plan ? "selected" : ""}>${PLAN_LABEL[p]}</option>`).join("")}</select></td>
+        <td class="num">${m.seats_used}${m.seats_limit ? " / " + m.seats_limit : ""}</td><td class="num">${nf.format(m.checks_this_month)}${m.checks_limit ? " / " + nf.format(m.checks_limit) : ""}</td>
+        <td><input type="checkbox" class="stAppr" ${m.require_approval ? "checked" : ""} aria-label="Maker-checker"></td>
+        <td>${m.agreement_signed ? '<span class="chip low">Signed</span>' : '<button class="btn ghost sm stSign" type="button">Mark signed</button>'}</td>
+        <td>${m.active ? '<span class="chip low">Active</span>' : '<span class="chip na">Suspended</span>'}</td>
+        <td><div class="actions" style="gap:6px"><button class="btn ghost sm stUsers" type="button">Users</button><button class="btn ghost sm stToggle" type="button">${m.active ? "Suspend" : "Reactivate"}</button></div></td></tr>`).join("")}</tbody></table></div>`
+      : `<div class="empty-state">No stores yet. Add the first one.</div>`;
+    const patch = async (id, body) => { try{ await api("/v1/admin/merchants/" + id, {method:"PATCH", body}); loadStores(); flash("#storesMsg", "Saved.", true); }catch(err){ flash("#storesMsg", err.message, false); } };
+    $("#storesBody").querySelectorAll("tr[data-id]").forEach(tr => { const id = tr.dataset.id, m = ms.find(x => x.id == id);
+      tr.querySelector(".stPlan").onchange = e => patch(id, {plan: e.target.value});
+      tr.querySelector(".stAppr").onchange = e => patch(id, {require_approval: e.target.checked});
+      const sg = tr.querySelector(".stSign"); sg && (sg.onclick = () => patch(id, {agreement_signed: true}));
+      tr.querySelector(".stToggle").onclick = () => patch(id, {active: !m.active});
+      tr.querySelector(".stUsers").onclick = () => { TEAM_SCOPE = +id; show("team"); $("#teamTitle").textContent = "Users of " + m.name;
+        $("#teamActions").querySelector("#backStores") || $("#teamActions").insertAdjacentHTML("afterbegin", `<button class="btn ghost" type="button" id="backStores">All stores</button>`);
+        $("#backStores").onclick = () => { TEAM_SCOPE = null; $("#backStores").remove(); show("stores"); }; };
+    });
+  }catch(err){ flash("#storesMsg", err.message, false); }
+}
+
+// ---------------- platform disputes ----------------
+$("#pdRefresh").onclick = loadPDisputes;
+async function loadPDisputes(){
+  clear("#pdMsg");
+  try{
+    const ds = await api("/v1/admin/disputes");
+    $("#pdBody").innerHTML = ds.length ? ds.map(d => `<div class="dispute"><div class="head" style="margin:0"><h2 style="margin:0">Dispute #${d.id}</h2><span class="small muted">Opened ${fmtDT(d.created_at)}${d.contact ? " · reply to " + esc(d.contact) : ""}</span></div>
+      <blockquote>${esc(d.reason)}</blockquote>
+      ${d.store_responses.length ? `<div class="small">${d.store_responses.map(r => `<div><span class="chip ${r.action === "withdraw" ? "low" : "medium"}">${esc(r.store)} ${r.action === "withdraw" ? "withdrew" : "confirmed"}</span> ${esc(r.note || "")}</div>`).join("")}</div>` : `<p class="small muted" style="margin:0">No store has responded yet.</p>`}
+      <div class="actions"><input type="text" class="pdNote" placeholder="Decision note (optional)" style="max-width:360px">
+        <button class="btn sm" data-d="${d.id}" data-u="1">Remove records</button><button class="btn ghost sm" data-d="${d.id}" data-u="0">Keep records</button></div></div>`).join("")
+      : `<div class="empty-state">No open disputes.</div>`;
+  }catch(err){ flash("#pdMsg", err.message, false); }
+}
+$("#pdBody").addEventListener("click", async e => {
+  const b = e.target.closest("button[data-d]"); if(!b) return;
+  const note = b.closest(".dispute").querySelector(".pdNote").value.trim();
+  try{ await api(`/v1/admin/disputes/${b.dataset.d}/resolve`, {body:{upheld: b.dataset.u === "1", note}}); await loadPDisputes(); flash("#pdMsg", "Decision saved.", true); }
+  catch(err){ flash("#pdMsg", err.message, false); }
+});
+
+// ---------------- public dispute ----------------
 $("#disputeForm").onsubmit = e => { e.preventDefault(); clear("#disputeMsg");
   busy(e.target, async () => {
-    try{
-      const r = await fetch("/v1/disputes", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(fd(e.target))});
+    try{ const r = await fetch("/v1/disputes", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(fd(e.target))});
       const data = await r.json().catch(() => ({}));
       if(!r.ok) throw new Error(typeof data.detail === "string" ? data.detail : "Please check the form and try again.");
-      flash("#disputeMsg", `Received. Your reference is #${data.dispute_id}. ${data.message}`, true); e.target.reset();
-    }catch(err){ flash("#disputeMsg", err.message, false); }
+      flash("#disputeMsg", `Received. Your reference is #${data.dispute_id}. ${data.message}`, true); e.target.reset(); }
+    catch(err){ flash("#disputeMsg", err.message, false); }
   });
 };
 
-// ---------- admin ----------
-$("#adminRefresh").onclick = () => { if(!needKey("#adminMsg", true)) loadAdmin(); };
-async function loadAdmin(){
-  clear("#adminMsg");
-  try{
-    const s = await api("/v1/admin/stats", {admin:true});
-    $("#stats").innerHTML = `<div class="kpis">
-      <div class="kpi"><b>${nf.format(s.merchants)}</b><span>Stores</span></div>
-      <div class="kpi"><b>${nf.format(s.identities)}</b><span>Customer fingerprints</span></div>
-      <div class="kpi"><b>${nf.format(s.events)}</b><span>Outcomes on file</span></div>
-      <div class="kpi"><b>${nf.format(s.open_disputes)}</b><span>Open disputes</span></div></div>`;
-    const ms = await api("/v1/admin/merchants", {admin:true});
-    $("#merchants").className = ""; $("#merchants").innerHTML = ms.length ? `<div class="tablewrap"><table><thead><tr><th class="num">ID</th><th>Store</th><th>Country</th><th>Agreement</th><th class="num">Trust</th></tr></thead><tbody>
-      ${ms.map(m => `<tr><td class="num">${m.id}</td><td>${esc(m.name)}</td><td>${m.country}</td><td>${m.agreement_signed ? '<span class="chip low">Signed</span>' : '<span class="chip medium">Missing</span>'}</td><td class="num">${m.trust_weight}</td></tr>`).join("")}</tbody></table></div>`
-      : `<p class="muted small" style="margin:0">No stores yet. Add your first one above.</p>`;
-    const ds = await api("/v1/admin/disputes", {admin:true});
-    $("#disputes").className = ""; $("#disputes").innerHTML = ds.length ? `<div class="tablewrap"><table><thead><tr><th class="num">#</th><th>What they said</th><th>Contact</th><th>Opened</th><th>Decision</th></tr></thead><tbody>
-      ${ds.map(d => `<tr><td class="num">${d.id}</td><td class="wrap">${esc(d.reason)}</td><td>${esc(d.contact)}</td><td>${d.created_at.slice(0,10)}</td>
-      <td><div class="actions"><button class="btn sm" data-d="${d.id}" data-u="1">Remove records</button><button class="btn ghost sm" data-d="${d.id}" data-u="0">Keep records</button></div></td></tr>`).join("")}</tbody></table></div>`
-      : `<p class="muted small" style="margin:0">No open disputes.</p>`;
-  }catch(err){ flash("#adminMsg", err.message, false); }
-}
-$("#disputes").onclick = async e => {
-  const b = e.target.closest("button[data-d]"); if(!b) return;
-  try{ await api(`/v1/admin/disputes/${b.dataset.d}/resolve`, {body:{upheld: b.dataset.u === "1"}, admin:true}); loadAdmin(); }
-  catch(err){ flash("#adminMsg", err.message, false); }
-};
-function showKeys(list){
-  const ok = list.filter(x => x.ok);
-  $("#newKeys").innerHTML = ok.length ? `<div class="stack" style="margin-top:18px;gap:10px">
-    <div class="msg ok">Copy these keys now and send each store its own. They aren't shown again.</div>
-    <div class="tablewrap"><table><thead><tr><th>Store</th><th>API key</th></tr></thead><tbody>
-    ${ok.map(x => `<tr><td>${esc(x.name)}</td><td><code>${esc(x.api_key)}</code></td></tr>`).join("")}</tbody></table></div>
-    <button class="btn ghost sm" type="button" id="keysCsv">Download keys</button></div>` : "";
-  if(ok.length) $("#keysCsv").onclick = () => download("codshield-merchant-keys.csv", toCSV([["store","api_key"], ...ok.map(x => [x.name, x.api_key])]));
-}
-$("#merchantForm").onsubmit = e => { e.preventDefault(); clear("#merchantMsg"); if(needKey("#merchantMsg", true)) return;
-  busy(e.target, async () => {
-    const body = fd(e.target); body.agreement_signed = !!body.agreement_signed;
-    try{ const r = await api("/v1/admin/merchants", {body, admin:true});
-      showKeys([{ok:true, name: body.name, api_key: r.api_key}]); flash("#merchantMsg", "Merchant added.", true); e.target.reset(); loadAdmin(); }
-    catch(err){ flash("#merchantMsg", err.message, false); }
-  });
-};
-$("#merchantManyForm").onsubmit = e => { e.preventDefault(); clear("#merchantManyMsg"); if(needKey("#merchantManyMsg", true)) return;
-  busy(e.target, async () => {
-    try{
-      const rows = parseCSV(e.target.rows.value).filter(r => !/^store/i.test(r[0]));
-      if(!rows.length) throw new Error("Add at least one store, one per line.");
-      if(rows.length > 200) throw new Error("Up to 200 stores at a time.");
-      const body = rows.map(r => ({name: r[0], country: /^(ae|uae)$/i.test(r[1]||"") ? "AE" : (r[1]||"PK").toUpperCase(), agreement_signed: /^(y|yes|true|1|signed)$/i.test(r[2]||"")}));
-      const {results} = await api("/v1/admin/merchants/batch", {body, admin:true});
-      const bad = results.filter(x => !x.ok);
-      flash("#merchantManyMsg", `${results.length - bad.length} added` + (bad.length ? `, ${bad.length} not added: ` + bad.map(x => `${x.name} (${x.error})`).join("; ") : "."), !bad.length);
-      showKeys(results); loadAdmin();
-    }catch(err){ flash("#merchantManyMsg", err.message, false); }
-  });
-};
+// Platform admins: Team tab without a store selected = platform admins
+document.addEventListener("click", e => { const b = e.target.closest('nav button[data-tab="team"]'); if(b && ME && ME.is_platform && !ME.tenant){ TEAM_SCOPE = null; const bk = $("#backStores"); bk && bk.remove(); } }, true);
 
-show(location.hash.slice(1) || "check");
+if(location.hash === "#dispute") showPublic("dispute"); else boot();
 </script>
 </body>
 </html>

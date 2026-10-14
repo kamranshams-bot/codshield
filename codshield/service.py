@@ -1,7 +1,7 @@
 """Core operations shared by the API and the agents."""
 import hashlib
 import secrets
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
@@ -52,12 +52,11 @@ def _get_or_create_identity(s: Session, kind: str, h: str, country: str) -> Iden
     return ident
 
 
-def report_event(s: Session, merchant: Merchant, *, order_ref: str, type: str,
-                 occurred_at: datetime, phone: str | None = None, email: str | None = None,
-                 address: str | None = None, city: str | None = None, country: str | None = None,
-                 amount: float | None = None, currency: str | None = None,
-                 evidence: str | None = None, source: str = "api") -> tuple[Event | None, str]:
-    """Returns (event, outcome) where outcome is created / duplicate."""
+def prepare_event(merchant: Merchant, *, order_ref: str, type: str, occurred_at: datetime,
+                  phone: str | None = None, email: str | None = None, address: str | None = None,
+                  city: str | None = None, country: str | None = None, amount: float | None = None,
+                  currency: str | None = None, evidence: str | None = None) -> dict:
+    """Validate an outcome and hash its identifiers. The result holds no raw personal data."""
     if merchant.agreement_signed_at is None:
         raise ValidationError("merchant has no signed data-sharing agreement")
     if type not in VALID_TYPES:
@@ -67,6 +66,8 @@ def report_event(s: Session, merchant: Merchant, *, order_ref: str, type: str,
     country = (country or merchant.country).upper()
     if country not in ("PK", "AE"):
         raise ValidationError("country must be PK or AE")
+    if occurred_at.tzinfo:
+        occurred_at = occurred_at.astimezone(timezone.utc).replace(tzinfo=None)
     if occurred_at > utcnow() + timedelta(hours=1):
         raise ValidationError("occurred_at is in the future")
     if occurred_at < utcnow() - timedelta(days=settings.RETENTION_DAYS):
@@ -74,26 +75,50 @@ def report_event(s: Session, merchant: Merchant, *, order_ref: str, type: str,
     ids = identifiers(phone, email, address, city, country)
     if not any(k in ("phone", "email") for k, _ in ids):
         raise ValidationError("a valid phone or email is required (address alone is not enough)")
+    return {"order_ref": str(order_ref)[:100], "type": type, "country": country, "amount": amount,
+            "currency": currency, "occurred_at": occurred_at, "evidence": evidence,
+            "identities": [list(x) for x in ids], "contact_hint": contact_hint(phone, email, country)}
 
+
+def contact_hint(phone, email, country) -> str | None:
+    """A masked contact for checkers to recognise an entry, e.g. +92•••••4567 or a•••@gmail.com."""
+    p = normalize_phone(phone or "", country)
+    if p:
+        return p[:3] + "•" * max(len(p) - 7, 3) + p[-4:]
+    if email and "@" in email:
+        local, _, dom = email.strip().lower().partition("@")
+        return (local[:1] or "") + "•••@" + dom
+    return None
+
+
+def commit_event(s: Session, merchant: Merchant, prepared: dict, source: str = "api") -> tuple[Event | None, str]:
     existing = s.scalar(select(Event).where(Event.merchant_id == merchant.id,
-                                            Event.order_ref == order_ref, Event.type == type))
+                                            Event.order_ref == prepared["order_ref"],
+                                            Event.type == prepared["type"]))
     if existing:
         return existing, "duplicate"
-
-    ev = Event(merchant_id=merchant.id, order_ref=order_ref, type=type, country=country,
-               amount=amount, currency=currency, occurred_at=occurred_at,
-               evidence=evidence, source=source)
+    occurred = prepared["occurred_at"]
+    if isinstance(occurred, str):
+        occurred = datetime.fromisoformat(occurred)
+    ev = Event(merchant_id=merchant.id, order_ref=prepared["order_ref"], type=prepared["type"],
+               country=prepared["country"], amount=prepared.get("amount"), currency=prepared.get("currency"),
+               occurred_at=occurred, evidence=prepared.get("evidence"), source=source)
     s.add(ev)
     try:
         s.flush()
-        for kind, h in ids:
-            ident = _get_or_create_identity(s, kind, h, country)
+        for kind, h in prepared["identities"]:
+            ident = _get_or_create_identity(s, kind, h, prepared["country"])
             s.add(EventIdentity(event_id=ev.id, identity_id=ident.id))
         s.commit()
     except IntegrityError:
         s.rollback()
         return None, "duplicate"
     return ev, "created"
+
+
+def report_event(s: Session, merchant: Merchant, *, source: str = "api", **fields) -> tuple[Event | None, str]:
+    """Validate, hash and store in one step (API-key integrations and agents)."""
+    return commit_event(s, merchant, prepare_event(merchant, **fields), source)
 
 
 def check(s: Session, *, phone=None, email=None, address=None, city=None, country="PK",

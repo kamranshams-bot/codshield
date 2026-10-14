@@ -46,6 +46,8 @@ class Merchant(Base):
     agreement_signed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     trust_weight: Mapped[float] = mapped_column(Float, default=1.0)  # lowered if abuse detected
     feed_config: Mapped[dict | None] = mapped_column(JSON, nullable=True)  # for ingestion agent
+    plan: Mapped[str] = mapped_column(String(20), default="free")
+    require_approval: Mapped[bool] = mapped_column(Boolean, default=True)  # maker-checker for UI entries
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
 
@@ -116,3 +118,83 @@ class AgentRun(Base):
     finished_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     stats: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     error: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+
+# ---------------------------------------------------------------- SaaS: users & workflow
+class Perm(str, Enum):
+    CHECK = "check"          # check orders
+    SUBMIT = "submit"        # maker: enter single outcomes
+    UPLOAD = "upload"        # maker: bulk upload outcomes
+    APPROVE = "approve"      # checker: approve / reject entries
+    REPORTS = "reports"      # view reports
+    DISPUTES = "disputes"    # respond to disputes about own records
+    USERS = "users"          # tenant admin: manage users, API key, audit log
+
+
+ALL_PERMS = [p.value for p in Perm]
+
+
+class User(Base):
+    __tablename__ = "users"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    merchant_id: Mapped[int | None] = mapped_column(ForeignKey("merchants.id"), nullable=True, index=True)
+    email: Mapped[str] = mapped_column(String(200), unique=True, index=True)
+    name: Mapped[str] = mapped_column(String(120))
+    password_hash: Mapped[str] = mapped_column(String(200))
+    perms: Mapped[str] = mapped_column(String(200), default="check")       # comma list of Perm
+    countries: Mapped[str] = mapped_column(String(20), default="PK,AE")     # comma list
+    is_platform_admin: Mapped[bool] = mapped_column(Boolean, default=False)
+    active: Mapped[bool] = mapped_column(Boolean, default=True)
+    must_change_password: Mapped[bool] = mapped_column(Boolean, default=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+    last_login_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+
+class UserSession(Base):
+    __tablename__ = "user_sessions"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    token_hash: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+
+class Submission(Base):
+    """An outcome entered by a maker, waiting for a checker. Holds hashed identifiers only."""
+    __tablename__ = "submissions"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    merchant_id: Mapped[int] = mapped_column(ForeignKey("merchants.id"), index=True)
+    maker_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True)
+    batch_ref: Mapped[str | None] = mapped_column(String(40), nullable=True, index=True)
+    status: Mapped[str] = mapped_column(String(10), default="pending", index=True)  # pending/approved/rejected
+    country: Mapped[str] = mapped_column(String(2))
+    payload: Mapped[dict] = mapped_column(JSON)          # order_ref, type, occurred_at, amount, ...
+    identities: Mapped[list] = mapped_column(JSON)       # [[kind, hash], ...]
+    contact_hint: Mapped[str | None] = mapped_column(String(40), nullable=True)  # masked, e.g. +92•••••4567
+    checker_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True)
+    decided_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    reject_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
+    event_id: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow, index=True)
+
+
+class DisputeResponse(Base):
+    __tablename__ = "dispute_responses"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    dispute_id: Mapped[int] = mapped_column(ForeignKey("disputes.id"), index=True)
+    merchant_id: Mapped[int] = mapped_column(ForeignKey("merchants.id"))
+    user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True)
+    action: Mapped[str] = mapped_column(String(10))      # withdraw / confirm
+    note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+
+class AuditLog(Base):
+    __tablename__ = "audit_log"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    merchant_id: Mapped[int | None] = mapped_column(Integer, nullable=True, index=True)
+    user_id: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    actor: Mapped[str] = mapped_column(String(200))      # "user:email" / "api-key" / "admin-key"
+    action: Mapped[str] = mapped_column(String(50), index=True)
+    detail: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow, index=True)

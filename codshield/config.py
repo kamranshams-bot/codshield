@@ -1,5 +1,29 @@
 """Runtime settings, read from environment variables (see .env.example)."""
 import os
+from pathlib import Path
+
+
+def _load_env_files() -> None:
+    """Load .env.local then .env (written by `neon deploy` / by hand) without
+    overriding variables already set in the real environment."""
+    root = Path(__file__).resolve().parent.parent
+    for name in (".env.local", ".env"):
+        f = root / name
+        if not f.is_file():
+            continue
+        for line in f.read_text(encoding="utf-8-sig").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, _, val = line.removeprefix("export ").partition("=")
+            val = val.strip()
+            if len(val) >= 2 and val[0] == val[-1] and val[0] in "\"'":
+                val = val[1:-1]
+            os.environ.setdefault(key.strip(), val)
+
+
+if not os.getenv("CODSHIELD_SKIP_ENV_FILES"):
+    _load_env_files()
 
 
 class Settings:

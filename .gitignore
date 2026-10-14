@@ -2,3 +2,7 @@ __pycache__/
 *.db
 .env
 .pytest_cache/
+.neon
+node_modules/
+node_modules/
+.env.local

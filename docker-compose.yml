@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: codshield
+      POSTGRES_PASSWORD: codshield
+      POSTGRES_DB: codshield
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+
+  api:
+    build: .
+    env_file: .env
+    environment:
+      CODSHIELD_DATABASE_URL: postgresql+psycopg://codshield:codshield@db:5432/codshield
+    ports: ["8000:8000"]
+    depends_on: [db]
+
+  agents:
+    build: .
+    env_file: .env
+    environment:
+      CODSHIELD_DATABASE_URL: postgresql+psycopg://codshield:codshield@db:5432/codshield
+    command: python -m codshield.agents run --loop --interval 3600
+    depends_on: [db]
+
+volumes:
+  pgdata:

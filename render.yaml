@@ -1,0 +1,20 @@
+# Render Blueprint: free web service. Database is Neon (free, no expiry).
+# Render: New > Blueprint > pick this repo. You'll be asked for the three secrets.
+services:
+  - type: web
+    name: codshield
+    runtime: python
+    plan: free
+    region: frankfurt          # pick the same region as your Neon project
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn codshield.api:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: DATABASE_URL            # Neon connection string
+        sync: false
+      - key: CODSHIELD_HASH_SECRET   # same value as the GitHub secret; never change it later
+        sync: false
+      - key: CODSHIELD_ADMIN_KEY
+        sync: false

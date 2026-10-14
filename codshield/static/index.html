@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CODShield</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E9EDEE; --sheet:#F7F9F9; --ink:#17262B; --muted:#5A6B70; --line:#C8D1D3;
+  --cobalt:#2346A0; --low:#2F7D5B; --mid:#B87A0A; --high:#B3261E;
+  --radius-sm:4px; --radius-lg:10px;
+}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Archivo,system-ui,sans-serif;
+  font-variation-settings:"wdth" 100;line-height:1.5}
+a{color:var(--cobalt)}
+header{display:flex;flex-wrap:wrap;gap:12px 32px;align-items:baseline;padding:20px 24px;border-bottom:2px solid var(--ink)}
+.brand{font-weight:850;font-size:1.35rem;font-variation-settings:"wdth" 125;letter-spacing:-.01em;margin:0}
+nav{display:flex;flex-wrap:wrap;gap:4px}
+nav button{font:inherit;font-size:.95rem;background:none;border:0;padding:6px 10px;border-radius:var(--radius-sm);
+  color:var(--muted);cursor:pointer}
+nav button[aria-selected=true]{color:var(--ink);background:var(--sheet);box-shadow:inset 0 -2px 0 var(--ink)}
+nav button:hover{color:var(--ink)}
+main{max-width:1080px;padding:32px 24px 64px}
+[hidden]{display:none!important}
+h1{font-size:2rem;line-height:1.15;font-weight:800;font-variation-settings:"wdth" 112;margin:0 0 8px;max-width:22ch}
+h2{font-size:1.2rem;font-weight:750;margin:32px 0 8px}
+p.lead{color:var(--muted);max-width:60ch;margin:0 0 28px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:start}
+@media (max-width:760px){.grid{grid-template-columns:1fr;gap:28px} h1{font-size:1.6rem}}
+form{display:grid;gap:14px;max-width:460px}
+label{display:grid;gap:4px;font-weight:600;font-size:.9rem}
+label small{font-weight:400;color:var(--muted)}
+input,select,textarea{font:inherit;font-size:1rem;padding:10px 12px;border:1px solid var(--line);
+  border-radius:var(--radius-sm);background:var(--sheet);color:var(--ink);width:100%}
+textarea{min-height:110px;resize:vertical}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:3px solid var(--cobalt);outline-offset:2px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{font:inherit;font-weight:700;padding:11px 18px;border-radius:var(--radius-sm);border:2px solid var(--ink);
+  background:var(--ink);color:var(--sheet);cursor:pointer;justify-self:start}
+.btn.secondary{background:transparent;color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:wait}
+.note{font-size:.88rem;color:var(--muted);max-width:60ch}
+.msg{padding:10px 12px;border-radius:var(--radius-sm);font-size:.92rem;max-width:460px}
+.msg.err{background:#F6E1DF;color:#7A1A14}
+.msg.ok{background:#DCEEE5;color:#1F5A40}
+
+/* the verdict stamp */
+.result{background:var(--sheet);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px;min-height:300px;
+  display:grid;align-content:start;gap:18px}
+.result.empty{place-content:center;text-align:center;color:var(--muted)}
+.stamp{justify-self:start;transform:rotate(-4deg);border:5px solid currentColor;border-radius:8px;padding:10px 18px 8px;
+  font-weight:900;font-variation-settings:"wdth" 125;font-size:2rem;line-height:1;letter-spacing:.01em;
+  margin-bottom:6px;mix-blend-mode:multiply;animation:press .32s cubic-bezier(.2,1.6,.4,1) both}
+.stamp small{display:block;font-size:.8rem;font-weight:700;font-variation-settings:"wdth" 100;margin-top:6px;letter-spacing:0}
+.stamp.low{color:var(--low)} .stamp.medium{color:var(--mid)} .stamp.high{color:var(--high)}
+@keyframes press{from{transform:rotate(-4deg) scale(1.5);opacity:0}to{transform:rotate(-4deg) scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){.stamp{animation:none}}
+@media (max-width:480px){.stamp{font-size:1.45rem;border-width:4px}.result{padding:22px}}
+.score{font-size:3.4rem;font-weight:850;font-variation-settings:"wdth" 70;line-height:1}
+.score span{font-size:1rem;font-weight:500;color:var(--muted);font-variation-settings:"wdth" 100}
+.meter{height:8px;border-radius:4px;background:linear-gradient(90deg,var(--low) 0 30%,var(--mid) 30% 60%,var(--high) 60%);position:relative}
+.meter i{position:absolute;top:-5px;width:4px;height:18px;background:var(--ink);border-radius:2px;transform:translateX(-50%)}
+.reasons{margin:0;padding-left:18px}
+table{border-collapse:collapse;width:100%;font-size:.92rem;background:var(--sheet)}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:700}
+.key{display:flex;gap:10px;flex-wrap:wrap;align-items:end;background:var(--sheet);border:1px solid var(--line);
+  border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:28px;max-width:720px}
+.key label{flex:1 1 260px}
+.chip{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.8rem;font-weight:700;background:var(--line)}
+code{font-size:.9em;background:var(--sheet);padding:1px 4px;border-radius:3px}
+</style>
+</head>
+<body>
+<header>
+  <p class="brand">CODShield</p>
+  <nav role="tablist" aria-label="Sections">
+    <button role="tab" data-tab="check">Check an order</button>
+    <button role="tab" data-tab="report">Report an outcome</button>
+    <button role="tab" data-tab="upload">Upload CSV</button>
+    <button role="tab" data-tab="dispute">Contest a record</button>
+    <button role="tab" data-tab="about">How it works</button>
+    <button role="tab" data-tab="admin">Admin</button>
+  </nav>
+</header>
+
+<main>
+  <div class="key" id="keybar">
+    <label>Merchant API key <small>Kept only in this browser tab.</small>
+      <input id="apikey" type="password" autocomplete="off" placeholder="cs_…">
+    </label>
+    <button class="btn secondary" id="savekey" type="button">Use this key</button>
+  </div>
+
+  <!-- CHECK -->
+  <section id="tab-check">
+    <h1>Check a COD order before you ship it</h1>
+    <p class="lead">Enter the customer's phone number (and email or address if you have them). You'll see what other stores in Pakistan and the UAE have reported.</p>
+    <div class="grid">
+      <form id="checkForm">
+        <label>Phone <small>Any format: 0300-1234567, +971 50 123 4567</small><input name="phone" inputmode="tel"></label>
+        <label>Email <input name="email" type="email"></label>
+        <div class="row">
+          <label>Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
+          <label>City <input name="city"></label>
+        </div>
+        <label>Delivery address <input name="address"></label>
+        <button class="btn" type="submit">Check order</button>
+        <div id="checkMsg"></div>
+      </form>
+      <div class="result empty" id="result" aria-live="polite">The result appears here.</div>
+    </div>
+  </section>
+
+  <!-- REPORT -->
+  <section id="tab-report" hidden>
+    <h1>Report what happened to an order</h1>
+    <p class="lead">Report facts you can back up with a courier record. Successful paid deliveries count too; they help good customers.</p>
+    <form id="reportForm">
+      <div class="row">
+        <label>Your order number <input name="order_ref" required></label>
+        <label>Date <input name="occurred_at" type="date" required></label>
+      </div>
+      <label>What happened
+        <select name="type" required>
+          <option value="refused_at_door">Refused the parcel at the door</option>
+          <option value="unreachable">Couldn't be reached at delivery</option>
+          <option value="fake_address">Address doesn't exist</option>
+          <option value="fake_order">Denied placing the order</option>
+          <option value="return_abuse">Returned a used, damaged or swapped item</option>
+          <option value="chargeback">Charged back a prepaid order</option>
+          <option value="delivered_paid">Delivered and paid</option>
+        </select>
+      </label>
+      <label>Phone <input name="phone" inputmode="tel"></label>
+      <label>Email <input name="email" type="email"></label>
+      <div class="row">
+        <label>Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
+        <label>City <input name="city"></label>
+      </div>
+      <label>Delivery address <input name="address"></label>
+      <div class="row">
+        <label>Order value <input name="amount" type="number" step="0.01" min="0"></label>
+        <label>Currency<select name="currency"><option>PKR</option><option>AED</option></select></label>
+      </div>
+      <label>Courier tracking number <small>Evidence only. Don't add personal details here.</small><input name="evidence" maxlength="500"></label>
+      <button class="btn" type="submit">Report outcome</button>
+      <div id="reportMsg"></div>
+    </form>
+  </section>
+
+  <!-- UPLOAD -->
+  <section id="tab-upload" hidden>
+    <h1>Upload many outcomes at once</h1>
+    <p class="lead">Use a CSV with these columns: <code>order_ref, type, occurred_at, phone, email, address, city, country, amount, currency, evidence</code>. Up to 1,000 rows per file.</p>
+    <form id="uploadForm">
+      <label>CSV file <input name="file" type="file" accept=".csv,text/csv" required></label>
+      <button class="btn" type="submit">Upload outcomes</button>
+      <div id="uploadMsg"></div>
+    </form>
+    <div id="uploadResult"></div>
+  </section>
+
+  <!-- DISPUTE (public) -->
+  <section id="tab-dispute" hidden>
+    <h1>Think a record about you is wrong?</h1>
+    <p class="lead">Tell us your phone number and what happened. While we review, any records linked to that number stop affecting your orders. We aim to decide within 30 days.</p>
+    <form id="disputeForm">
+      <div class="row">
+        <label>Phone <input name="phone" inputmode="tel" required></label>
+        <label>Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
+      </div>
+      <label>What happened <small>For example: the courier never came, or I didn't place this order.</small><textarea name="reason" minlength="10" required></textarea></label>
+      <label>How we can reply <small>Optional email or phone.</small><input name="contact"></label>
+      <button class="btn" type="submit">Send for review</button>
+      <div id="disputeMsg"></div>
+    </form>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="tab-about" hidden>
+    <h1>How CODShield works</h1>
+    <p class="lead">Online stores in Pakistan and the UAE share what happened to their cash-on-delivery orders, so each store can decide which orders need a confirmation call or prepayment.</p>
+    <h2>What we keep</h2>
+    <p class="note">Only scrambled fingerprints of phone numbers, emails and addresses, which can't be turned back into the original details. We never store names. Stores report facts such as "refused at the door", never opinions about a person.</p>
+    <h2>How a result is decided</h2>
+    <p class="note">Recent reports count more than old ones, and records are deleted after two years. Successful paid deliveries lower the risk. One store's reports alone can never mark someone as high risk.</p>
+    <h2>Your rights</h2>
+    <p class="note">You can contest any record linked to your number on the <a href="#dispute">Contest a record</a> page. Records under review don't count against you.</p>
+  </section>
+
+  <!-- ADMIN -->
+  <section id="tab-admin" hidden>
+    <h1>Admin</h1>
+    <div class="key">
+      <label>Admin key <input id="adminkey" type="password" autocomplete="off"></label>
+      <button class="btn secondary" id="loadAdmin" type="button">Load</button>
+    </div>
+    <div id="adminMsg"></div>
+    <div id="stats"></div>
+    <h2>Add a merchant</h2>
+    <form id="merchantForm">
+      <label>Store name <input name="name" required></label>
+      <label>Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
+      <label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" name="agreement_signed" style="width:auto"> Data-sharing agreement signed</label>
+      <button class="btn" type="submit">Add merchant</button>
+      <div id="merchantMsg"></div>
+    </form>
+    <h2>Merchants</h2><div id="merchants"></div>
+    <h2>Open disputes</h2><div id="disputes"></div>
+  </section>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+const tabs = ["check","report","upload","dispute","about","admin"];
+const merchantTabs = ["check","report","upload"];
+let KEY = "";
+try { KEY = sessionStorage.getItem("cs_key") || ""; } catch(e) {}
+$("#apikey").value = KEY;
+
+function show(tab){
+  if(!tabs.includes(tab)) tab = "check";
+  tabs.forEach(t => {
+    $("#tab-"+t).hidden = t !== tab;
+    document.querySelector(`[data-tab=${t}]`).setAttribute("aria-selected", t === tab);
+  });
+  $("#keybar").hidden = !merchantTabs.includes(tab);
+  if(location.hash !== "#"+tab) history.replaceState(null,"","#"+tab);
+}
+document.querySelectorAll("nav button").forEach(b => b.onclick = () => show(b.dataset.tab));
+window.addEventListener("hashchange", () => show(location.hash.slice(1)));
+show(location.hash.slice(1) || "check");
+
+$("#savekey").onclick = () => {
+  KEY = $("#apikey").value.trim();
+  try { sessionStorage.setItem("cs_key", KEY); } catch(e) {}
+  flash("#checkMsg", "Key saved for this tab.", true);
+};
+
+function flash(sel, text, ok){
+  const el = $(sel);
+  el.className = "msg " + (ok ? "ok" : "err");
+  el.textContent = text;
+}
+function clean(obj){ for(const k in obj) if(obj[k] === "" || obj[k] == null) delete obj[k]; return obj; }
+function fd(form){ return clean(Object.fromEntries(new FormData(form).entries())); }
+
+async function api(path, body, headers = {}, method = "POST"){
+  const r = await fetch(path, {method, headers:{"Content-Type":"application/json", ...headers},
+    body: body ? JSON.stringify(body) : undefined});
+  let data = null; try { data = await r.json(); } catch(e) {}
+  if(!r.ok){
+    let d = data && data.detail;
+    if(Array.isArray(d)) d = d.map(x => (x.loc||[]).slice(-1)[0] + ": " + x.msg).join("; ");
+    if(r.status === 401) d = "That key wasn't accepted. Check it and try again.";
+    throw new Error(d || `Request failed (${r.status}).`);
+  }
+  return data;
+}
+function needKey(sel){
+  if(!KEY){ flash(sel, "Enter your merchant API key above first.", false); return true; }
+  return false;
+}
+async function busy(form, fn){
+  const b = form.querySelector("button[type=submit]"); b.disabled = true;
+  try { await fn(); } finally { b.disabled = false; }
+}
+function esc(s){ return String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+const VERDICT = {
+  low:["Ship normally","No warning signs in the network"],
+  medium:["Confirm first","Call or send an OTP before dispatch"],
+  high:["Prepayment only","Ask for full or partial advance payment"]
+};
+
+$("#checkForm").onsubmit = e => { e.preventDefault(); if(needKey("#checkMsg")) return;
+  $("#checkMsg").className = ""; $("#checkMsg").textContent = "";
+  busy(e.target, async () => {
+    try{
+      const r = await api("/v1/check", fd(e.target), {"X-API-Key":KEY});
+      const [title, sub] = VERDICT[r.band];
+      $("#result").className = "result";
+      $("#result").innerHTML = `
+        <div class="stamp ${r.band}">${title}<small>${sub}</small></div>
+        <div class="score">${r.score}<span> / 100 risk</span></div>
+        <div class="meter" aria-hidden="true"><i style="left:${r.score}%"></i></div>
+        <ul class="reasons">${r.reasons.map(x => `<li>${esc(x.replaceAll("_"," "))}</li>`).join("")}</ul>
+        ${r.matched_on.length ? `<p class="note">Matched on: ${r.matched_on.join(", ")}</p>` : ""}`;
+    }catch(err){ flash("#checkMsg", err.message, false); }
+  });
+};
+
+$("#reportForm").onsubmit = e => { e.preventDefault(); if(needKey("#reportMsg")) return;
+  busy(e.target, async () => {
+    const body = fd(e.target);
+    body.occurred_at = body.occurred_at + "T12:00:00";
+    if(body.amount) body.amount = Number(body.amount); else delete body.currency;
+    try{
+      const r = await api("/v1/events", body, {"X-API-Key":KEY});
+      flash("#reportMsg", r.outcome === "duplicate" ? "Already reported. Nothing changed." : "Outcome reported.", true);
+      if(r.outcome !== "duplicate") e.target.reset();
+    }catch(err){ flash("#reportMsg", err.message, false); }
+  });
+};
+
+function parseCSV(text){
+  const rows = []; let row = [], cur = "", q = false;
+  for(let i = 0; i < text.length; i++){
+    const c = text[i];
+    if(q){ if(c === '"' && text[i+1] === '"'){ cur += '"'; i++; } else if(c === '"') q = false; else cur += c; }
+    else if(c === '"') q = true;
+    else if(c === ","){ row.push(cur); cur = ""; }
+    else if(c === "\n" || c === "\r"){ if(c === "\r" && text[i+1] === "\n") i++; row.push(cur); rows.push(row); row = []; cur = ""; }
+    else cur += c;
+  }
+  if(cur || row.length){ row.push(cur); rows.push(row); }
+  const head = rows.shift().map(h => h.trim().replace(/^﻿/, ""));
+  return rows.filter(r => r.some(v => v.trim())).map(r => Object.fromEntries(head.map((h,i) => [h, (r[i]||"").trim()])));
+}
+$("#uploadForm").onsubmit = e => { e.preventDefault(); if(needKey("#uploadMsg")) return;
+  busy(e.target, async () => {
+    try{
+      const rows = parseCSV(await e.target.file.files[0].text()).map(r => {
+        r = clean(r); if(r.amount) r.amount = Number(r.amount); return r; });
+      if(!rows.length) throw new Error("The file has no data rows.");
+      if(rows.length > 1000) throw new Error("Split the file: 1,000 rows maximum per upload.");
+      const r = await api("/v1/events/batch", rows, {"X-API-Key":KEY});
+      const n = o => r.results.filter(x => x.outcome === o).length;
+      flash("#uploadMsg", `${n("created")} added, ${n("duplicate")} already reported, ${n("rejected")} rejected.`, n("rejected") === 0);
+      const bad = r.results.filter(x => x.outcome === "rejected");
+      $("#uploadResult").innerHTML = bad.length ? `<h2>Rejected rows</h2><table><tr><th>Row</th><th>Reason</th></tr>${
+        bad.map(x => `<tr><td>${x.index + 2}</td><td>${esc(x.error)}</td></tr>`).join("")}</table>` : "";
+    }catch(err){ flash("#uploadMsg", err.message, false); }
+  });
+};
+
+$("#disputeForm").onsubmit = e => { e.preventDefault();
+  busy(e.target, async () => {
+    try{
+      const r = await api("/v1/disputes", fd(e.target));
+      flash("#disputeMsg", `Received. Your reference is #${r.dispute_id}. ${r.message}`, true);
+      e.target.reset();
+    }catch(err){ flash("#disputeMsg", err.message, false); }
+  });
+};
+
+// admin
+const AK = () => ({"X-Admin-Key": $("#adminkey").value.trim()});
+async function loadAdmin(){
+  try{
+    const s = await api("/v1/admin/stats", null, AK(), "GET");
+    $("#stats").innerHTML = `<table><tr><th>Merchants</th><th>Customers on file</th><th>Reports</th><th>Open disputes</th></tr>
+      <tr><td>${s.merchants}</td><td>${s.identities}</td><td>${s.events}</td><td>${s.open_disputes}</td></tr></table>`;
+    const ms = await api("/v1/admin/merchants", null, AK(), "GET");
+    $("#merchants").innerHTML = ms.length ? `<table><tr><th>ID</th><th>Store</th><th>Country</th><th>Agreement</th><th>Trust</th></tr>${
+      ms.map(m => `<tr><td>${m.id}</td><td>${esc(m.name)}</td><td>${m.country}</td><td>${m.agreement_signed ? "Signed" : "Missing"}</td><td>${m.trust_weight}</td></tr>`).join("")}</table>`
+      : `<p class="note">No merchants yet. Add your first one above.</p>`;
+    const ds = await api("/v1/admin/disputes", null, AK(), "GET");
+    $("#disputes").innerHTML = ds.length ? `<table><tr><th>#</th><th>Reason</th><th>Contact</th><th>Opened</th><th>Decision</th></tr>${
+      ds.map(d => `<tr><td>${d.id}</td><td>${esc(d.reason)}</td><td>${esc(d.contact)}</td><td>${d.created_at.slice(0,10)}</td>
+      <td><button class="btn secondary" data-d="${d.id}" data-u="1">Remove records</button>
+          <button class="btn secondary" data-d="${d.id}" data-u="0">Keep records</button></td></tr>`).join("")}</table>`
+      : `<p class="note">No open disputes.</p>`;
+    $("#adminMsg").className = ""; $("#adminMsg").textContent = "";
+  }catch(err){ flash("#adminMsg", err.message.replace("That key","That admin key"), false); }
+}
+$("#loadAdmin").onclick = loadAdmin;
+$("#disputes").onclick = async e => {
+  const b = e.target.closest("button[data-d]"); if(!b) return;
+  try{ await api(`/v1/admin/disputes/${b.dataset.d}/resolve`, {upheld: b.dataset.u === "1"}, AK()); loadAdmin(); }
+  catch(err){ flash("#adminMsg", err.message, false); }
+};
+$("#merchantForm").onsubmit = e => { e.preventDefault();
+  busy(e.target, async () => {
+    const body = fd(e.target); body.agreement_signed = !!body.agreement_signed;
+    try{
+      const r = await api("/v1/admin/merchants", body, AK());
+      flash("#merchantMsg", `Merchant added. API key (shown once, copy it now): ${r.api_key}`, true);
+      e.target.reset(); loadAdmin();
+    }catch(err){ flash("#merchantMsg", err.message, false); }
+  });
+};
+</script>
+</body>
+</html>

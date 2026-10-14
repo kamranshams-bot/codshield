@@ -1,0 +1,4 @@
+order_ref,type,occurred_at,phone,email,address,city,country,amount,currency,evidence
+LF-1001,refused_at_door,2026-10-10T14:20:00,0300-1234567,,House 12 Street 4 DHA Phase 5,Lahore,PK,4500,PKR,TCS:77812
+LF-1002,delivered_paid,2026-10-11T11:05:00,0321-7654321,,,Karachi,PK,2200,PKR,Leopards:99120
+DG-0055,return_abuse,2026-10-12T16:40:00,050 123 4567,buyer@example.com,,Dubai,AE,899,AED,returned box contained different item

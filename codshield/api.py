@@ -593,12 +593,24 @@ def check_batch(body: list[CheckIn], actor: Actor = Depends(get_actor), s: Sessi
     if actor.merchant and actor.mode == "live":
         auth.check_quota(s, actor.merchant, len(body))
         before = auth.checks_this_month(s, actor.merchant.id)
-    results = []
+    results: list = [None] * len(body)
+    live = []
     for i, item in enumerate(body):
         try:
-            results.append({"index": i, "ok": True, **_run_check(s, actor, item)})
+            actor.require_country(item.country)
+            if actor.mode == "test":
+                results[i] = {"index": i, "ok": True, **devapi.sandbox_check(item.phone, item.email, item.country)}
+            else:
+                live.append((i, item))
         except (service.ValidationError, AuthError, devapi.PlatformError) as e:
-            results.append({"index": i, "ok": False, "error": str(e)})
+            results[i] = {"index": i, "ok": False, "error": str(e)}
+    if live:                 # one lookup and one log write for the whole batch
+        score_only = actor.merchant is not None and (actor.merchant.tier or "contributor") == "score_only"
+        for (i, _), r in zip(live, service.check_many(s, [it.model_dump() for _, it in live], actor.merchant)):
+            if "error" in r:
+                results[i] = {"index": i, "ok": False, "error": r["error"]}
+            else:
+                results[i] = {"index": i, "ok": True, **(devapi.score_only_view(r) if score_only else r)}
     if actor.mode == "live":
         _quota_warning(s, actor.merchant, before, sum(1 for r in results if r["ok"]))
     return {"results": results}

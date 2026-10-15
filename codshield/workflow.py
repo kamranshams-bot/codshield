@@ -16,27 +16,32 @@ def submit(s: Session, actor: Actor, items: list[dict], *, bulk: bool) -> dict:
     actor.require("upload" if bulk else "submit")
     batch_ref = ("B-" + secrets.token_hex(4).upper()) if bulk else None
     direct = not m.require_approval or actor.kind == "api_key"
-    results = []
+    results, ready, subs = [None] * len(items), [], []
     for i, item in enumerate(items):
         try:
             country = (item.get("country") or m.country).upper()
             actor.require_country(country)
             prepared = service.prepare_event(m, **item)
         except (service.ValidationError, AuthError) as e:
-            results.append({"index": i, "outcome": "rejected", "error": str(e)})
+            results[i] = {"index": i, "outcome": "rejected", "error": str(e)}
             continue
         if direct:
-            ev, outcome = service.commit_event(s, m, prepared, source="ui" if actor.user else "api")
-            results.append({"index": i, "outcome": outcome, "event_id": ev.id if ev else None})
+            ready.append((i, prepared))
             continue
         payload = {k: (v.isoformat() if hasattr(v, "isoformat") else v)
                    for k, v in prepared.items() if k not in ("identities", "contact_hint")}
-        sub = Submission(merchant_id=m.id, maker_id=actor.user.id if actor.user else None, batch_ref=batch_ref,
-                         country=prepared["country"], payload=payload, identities=prepared["identities"],
-                         contact_hint=prepared["contact_hint"])
-        s.add(sub)
-        s.flush()
-        results.append({"index": i, "outcome": "pending", "submission_id": sub.id})
+        subs.append((i, Submission(merchant_id=m.id, maker_id=actor.user.id if actor.user else None,
+                                   batch_ref=batch_ref, country=prepared["country"], payload=payload,
+                                   identities=prepared["identities"], contact_hint=prepared["contact_hint"])))
+    if ready:               # one bulk write for the whole batch
+        stored = service.commit_events_bulk(s, m, [p for _, p in ready], source="ui" if actor.user else "api")
+        for (i, _), (eid, outcome) in zip(ready, stored):
+            results[i] = {"index": i, "outcome": outcome, "event_id": eid}
+    if subs:
+        s.add_all([sub for _, sub in subs])
+        s.flush()           # one round trip; ids come back for every entry
+        for i, sub in subs:
+            results[i] = {"index": i, "outcome": "pending", "submission_id": sub.id}
     s.commit()
     n = lambda o: sum(1 for r in results if r["outcome"] == o)
     audit(s, actor, "outcomes.submit" if not direct else "outcomes.record",
@@ -73,9 +78,12 @@ def decide(s: Session, actor: Actor, ids: list[int], approve: bool, reason: str 
     actor.require("approve")
     if not approve and not (reason or "").strip():
         raise AuthError(422, "Give a reason when rejecting, so the maker can fix the entry.")
-    out = []
+    by_id = {sub.id: sub for chunk in service._chunks(set(ids))
+             for sub in s.scalars(select(Submission).where(Submission.id.in_(chunk)))}
+    out, approved = [], []
+    now = utcnow()
     for sid in ids:
-        sub = s.get(Submission, sid)
+        sub = by_id.get(sid)
         if not sub or sub.merchant_id != m.id:
             out.append({"id": sid, "ok": False, "error": "not found"}); continue
         if sub.status != "pending":
@@ -84,22 +92,27 @@ def decide(s: Session, actor: Actor, ids: list[int], approve: bool, reason: str 
             out.append({"id": sid, "ok": False, "error": "outside your countries"}); continue
         if actor.user and sub.maker_id == actor.user.id:
             out.append({"id": sid, "ok": False, "error": "you entered this yourself; another checker must approve it"}); continue
-        sub.checker_id = actor.user.id if actor.user else None
-        sub.decided_at = utcnow()
+        sub.checker_id, sub.decided_at = (actor.user.id if actor.user else None), now
         if approve:
-            prepared = {**sub.payload, "identities": sub.identities}
-            ev, outcome = service.commit_event(s, m, prepared, source="ui")
-            sub = s.get(Submission, sid)                      # commit_event may have rolled back
-            sub.status, sub.event_id = "approved", ev.id if ev else None
-            sub.checker_id, sub.decided_at = actor.user.id if actor.user else None, utcnow()
-            out.append({"id": sid, "ok": True, "outcome": outcome})
+            approved.append(sub)
+            out.append({"id": sid, "ok": True, "outcome": None})
         else:
             sub.status, sub.reject_reason = "rejected", reason.strip()[:1000]
             out.append({"id": sid, "ok": True, "outcome": "rejected"})
-        s.commit()
+    if approved:            # one bulk write for every approved entry
+        stored = service.commit_events_bulk(s, m, [{**sub.payload, "identities": sub.identities} for sub in approved],
+                                            source="ui")
+        result_for = {}
+        for sub, (eid, outcome) in zip(approved, stored):
+            sub.status, sub.event_id = "approved", eid
+            result_for[sub.id] = outcome
+        for x in out:
+            if x["ok"] and x["outcome"] is None:
+                x["outcome"] = result_for.get(x["id"])
+    s.commit()
     done = [x["id"] for x in out if x["ok"]]
     if done:
-        refs = {sub.id: sub.payload.get("order_ref") for sub in s.scalars(select(Submission).where(Submission.id.in_(done)))}
+        refs = {i: by_id[i].payload.get("order_ref") for i in done}
         devapi.emit(s, m.id, "entry.approved" if approve else "entry.rejected",
                     {"entries": [{"submission_id": i, "order_ref": refs.get(i)} for i in done],
                      **({} if approve else {"reason": reason})})

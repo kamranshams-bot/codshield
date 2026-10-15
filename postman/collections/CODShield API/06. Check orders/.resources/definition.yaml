@@ -1,0 +1,5 @@
+$kind: collection
+name: '06. Check orders'
+order: 6000
+description: |-
+  Uses {{apiKey}} (check scope). Live checks count toward the monthly quota.

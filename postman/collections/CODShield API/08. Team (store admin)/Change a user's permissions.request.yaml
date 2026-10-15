@@ -1,0 +1,27 @@
+$kind: http-request
+method: PATCH
+url: '{{baseUrl}}/v1/users/{{userId}}'
+order: 4000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "perms": [
+        "check",
+        "submit"
+      ],
+      "countries": [
+        "PK",
+        "AE"
+      ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+examples: './.resources/Change a user''s permissions.resources/examples/'
+# path variables come from the environment: userId

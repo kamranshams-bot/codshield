@@ -1,0 +1,21 @@
+$kind: http-request
+name: 'Store 2: suspend'
+method: PATCH
+url: '{{baseUrl}}/v1/admin/merchants/{{merchantId2}}'
+order: 8000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "active": false
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+examples: './.resources/Store 2- suspend.resources/examples/'
+# path variables come from the environment: merchantId2

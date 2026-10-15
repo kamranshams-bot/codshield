@@ -1,0 +1,21 @@
+$kind: http-example
+name: '201 Created'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/admin/merchants'
+  method: POST
+response:
+  statusCode: 201
+  statusText: 'Created'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "merchant_id": 2,
+        "name": "Test Store AE 1792064437",
+        "api_key": "cs_live_EXAMPLEKEYdoNotUse0000000000000",
+        "note": "Store this key now; it is not shown again."
+      }

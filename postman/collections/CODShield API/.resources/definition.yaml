@@ -1,0 +1,25 @@
+$kind: collection
+name: CODShield API v1
+description: |-
+  Every CODShield endpoint, with 5,000 synthetic TEST- outcomes and 500 checks.
+
+  Quick start
+  1. Import the collection and the Live (or Local) environment; select it.
+  2. In the environment fill adminKey, adminEmail/adminPassword (first-time setup only) and newPassword (10+ characters).
+  3. Run the whole collection in the Collection Runner (folders 01-12, skip 13), or send requests one by one. Each request saves the IDs and keys the next ones need.
+
+  Credentials: apiKey / apiKey2 / testApiKey → X-API-Key; sessionToken / checkerToken → Bearer; adminKey → X-Admin-Key.
+
+  Remove the test data afterwards: python -m codshield.testdata purge
+variables:
+  - key: baseUrl
+    value: 'https://codshield-sx1i.onrender.com'
+auth:
+  type: apikey
+  credentials:
+    - key: 'key'
+      value: 'X-API-Key'
+    - key: 'value'
+      value: '{{apiKey}}'
+    - key: 'in'
+      value: 'header'

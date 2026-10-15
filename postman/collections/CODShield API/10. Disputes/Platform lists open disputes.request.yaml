@@ -1,0 +1,22 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/v1/admin/disputes?status=open'
+order: 4000
+queryParams:
+  - key: 'status'
+    value: 'open'
+auth:
+  type: apikey
+  credentials:
+    - key: 'key'
+      value: 'X-Admin-Key'
+    - key: 'value'
+      value: '{{adminKey}}'
+    - key: 'in'
+      value: 'header'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+examples: './.resources/Platform lists open disputes.resources/examples/'

@@ -1,0 +1,23 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/check'
+order: 2000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "phone": "0501234567",
+      "email": "ali.khan@gmail.com",
+      "address": "Flat 1204, Building 7, Al Nahda 2",
+      "city": "Dubai",
+      "country": "AE"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+examples: './.resources/Check one customer (phone + email + address).resources/examples/'

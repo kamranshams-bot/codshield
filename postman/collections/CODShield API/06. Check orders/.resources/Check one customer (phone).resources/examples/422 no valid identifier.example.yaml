@@ -1,0 +1,24 @@
+$kind: http-example
+name: '422 no valid identifier'
+order: 5000
+request:
+  url: '{{baseUrl}}/v1/check'
+  method: POST
+response:
+  statusCode: 422
+  statusText: 'Unprocessable Content'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "detail": "provide at least one valid phone, email or address",
+        "error": {
+          "code": "validation_failed",
+          "message": "provide at least one valid phone, email or address",
+          "status": 422,
+          "request_id": "req_fd1a73ca431b84bc"
+        }
+      }

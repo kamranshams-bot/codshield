@@ -1,0 +1,29 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/events'
+order: 2000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "order_ref": "TEST-PK-{{$timestamp}}",
+      "type": "refused_at_door",
+      "occurred_at": "2026-10-12T15:30:00Z",
+      "phone": "03001234567",
+      "city": "Lahore",
+      "country": "PK",
+      "amount": 4500,
+      "currency": "PKR",
+      "evidence": "TCS CN 77812345"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 201", () => pm.response.to.have.status(201));
+      pm.environment.set("submissionId", pm.response.json().submission_id);
+      pm.test("pending", () => pm.expect(pm.response.json().outcome).to.eql("pending"));
+examples: './.resources/Maker enters an outcome (waits for a checker).resources/examples/'

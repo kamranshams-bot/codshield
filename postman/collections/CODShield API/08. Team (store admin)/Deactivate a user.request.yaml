@@ -1,0 +1,20 @@
+$kind: http-request
+method: PATCH
+url: '{{baseUrl}}/v1/users/{{userId}}'
+order: 6000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "active": false
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+examples: './.resources/Deactivate a user.resources/examples/'
+# path variables come from the environment: userId

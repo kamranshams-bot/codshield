@@ -1,0 +1,43 @@
+$kind: http-example
+name: '422 Unprocessable Content'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/events'
+  method: POST
+response:
+  statusCode: 422
+  statusText: 'Unprocessable Content'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "detail": [
+          {
+            "type": "datetime_from_date_parsing",
+            "loc": [
+              "body",
+              "occurred_at"
+            ],
+            "msg": "Input should be a valid datetime or date, input is too short",
+            "input": "yesterday",
+            "ctx": {
+              "error": "input is too short"
+            }
+          }
+        ],
+        "error": {
+          "code": "validation_failed",
+          "message": "occurred_at: Input should be a valid datetime or date, input is too short",
+          "status": 422,
+          "request_id": "req_ef516bd286194017",
+          "fields": [
+            {
+              "field": "occurred_at",
+              "message": "Input should be a valid datetime or date, input is too short"
+            }
+          ]
+        }
+      }

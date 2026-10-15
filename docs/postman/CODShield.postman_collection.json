@@ -145,7 +145,7 @@
        "script": {
         "type": "text/javascript",
         "exec": [
-         "pm.test(\"status 200\", () => pm.response.to.have.status(200));",
+         "pm.test(\"status 201\", () => pm.response.to.have.status(201));",
          "pm.environment.set(\"merchantId\", pm.response.json().merchant_id);",
          "pm.environment.set(\"apiKey\", pm.response.json().api_key);",
          "pm.environment.set(\"userEmail\", pm.response.json().admin_user.email);",
@@ -193,7 +193,7 @@
        "script": {
         "type": "text/javascript",
         "exec": [
-         "pm.test(\"status 200\", () => pm.response.to.have.status(200));",
+         "pm.test(\"status 201\", () => pm.response.to.have.status(201));",
          "pm.environment.set(\"merchantId2\", pm.response.json().merchant_id);",
          "pm.environment.set(\"apiKey2\", pm.response.json().api_key);"
         ]

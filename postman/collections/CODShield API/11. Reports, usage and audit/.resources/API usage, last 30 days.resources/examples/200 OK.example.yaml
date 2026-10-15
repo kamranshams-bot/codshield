@@ -1,0 +1,64 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/usage?days=30'
+  method: GET
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "days": 30,
+        "total_calls": 26,
+        "error_calls": 9,
+        "daily": {
+          "dates": [
+            "2026-09-15",
+            "2026-09-16",
+            "2026-09-17"
+          ],
+          "calls": [
+            0,
+            0,
+            0
+          ]
+        },
+        "by_key": [
+          [
+            "Postman live (cs_live_yyUH…)",
+            18
+          ],
+          [
+            "Postman sandbox (cs_test_bjwy…)",
+            8
+          ]
+        ],
+        "by_endpoint": [
+          [
+            "POST /v1/events",
+            11
+          ],
+          [
+            "POST /v1/check",
+            8
+          ],
+          [
+            "POST /v1/events/batch",
+            4
+          ],
+          [
+            "GET /v1/reports",
+            2
+          ],
+          [
+            "POST /v1/check/batch",
+            1
+          ]
+        ]
+      }

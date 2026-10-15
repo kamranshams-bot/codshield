@@ -1,0 +1,24 @@
+$kind: http-example
+name: '422 unknown type'
+order: 2000
+request:
+  url: '{{baseUrl}}/v1/events'
+  method: POST
+response:
+  statusCode: 422
+  statusText: 'Unprocessable Content'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "detail": "unknown event type 'fraud'",
+        "error": {
+          "code": "validation_failed",
+          "message": "unknown event type 'fraud'",
+          "status": 422,
+          "request_id": "req_d2d23fbe20b5ba16"
+        }
+      }

@@ -1,12 +1,13 @@
 """Build the Postman collection + environments from the test data.
 
-    python testdata/generate.py && python postman/build.py
+    python testdata/generate.py && python tools/postman/build.py
 """
 import json
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
-DATA = ROOT.parent / "testdata" / "out"
+REPO = Path(__file__).resolve().parents[2]
+ROOT = REPO / "docs" / "postman"            # importable v2.1 collection + environments
+DATA = REPO / "testdata" / "out"
 LIVE_URL = "https://codshield-sx1i.onrender.com"
 
 
@@ -92,13 +93,13 @@ setup = folder("01. Start here: health and stores", "Wakes the server and create
     req("First-time setup (first platform admin; once only)", "POST", "/v1/auth/setup",
         body={"email": "{{adminEmail}}", "name": "Platform Admin", "password": "{{adminPassword}}"}, status=None,
         desc="Only works on an empty system; afterwards it answers 409, which is fine."),
-    req("Add store 1 (PK, with admin user)", "POST", "/v1/admin/merchants",
+    req("Add store 1 (PK, with admin user)", "POST", "/v1/admin/merchants", status=201,
         body={"name": "Test Store PK {{$timestamp}}", "country": "PK", "agreement_signed": True, "plan": "growth",
               "require_approval": False, "tier": "contributor", "admin_email": "owner.{{$timestamp}}@example.com",
               "admin_name": "Store Owner"},
         saves=[("merchantId", "pm.response.json().merchant_id"), ("apiKey", "pm.response.json().api_key")]
         + save_admin_user("user")),
-    req("Add store 2 (AE)", "POST", "/v1/admin/merchants",
+    req("Add store 2 (AE)", "POST", "/v1/admin/merchants", status=201,
         body={"name": "Test Store AE {{$timestamp}}", "country": "AE", "agreement_signed": True, "plan": "growth",
               "require_approval": False},
         saves=[("merchantId2", "pm.response.json().merchant_id"), ("apiKey2", "pm.response.json().api_key")]),
@@ -306,6 +307,7 @@ def main():
     live, local = env("CODShield Live", LIVE_URL), env("CODShield Local", "http://127.0.0.1:8000")
     for e in (live, local):
         next(v for v in e["values"] if v["key"] == "disputePhone")["value"] = first
+    ROOT.mkdir(parents=True, exist_ok=True)
     (ROOT / "CODShield.postman_collection.json").write_text(json.dumps(collection, indent=1))
     (ROOT / "CODShield-Live.postman_environment.json").write_text(json.dumps(live, indent=1))
     (ROOT / "CODShield-Local.postman_environment.json").write_text(json.dumps(local, indent=1))

@@ -1,0 +1,51 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/webhooks'
+  method: GET
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "events": {
+          "entry.approved": "Entries you submitted were approved and now count in the network",
+          "entry.rejected": "Entries were rejected by a checker (with the reason)",
+          "dispute.opened": "A customer contested records your store reported",
+          "dispute.resolved": "CODShield decided a dispute involving your records",
+          "quota.warning": "Your store has used 80% of this month's order checks"
+        },
+        "endpoints": [
+          {
+            "id": 1,
+            "url": "https://hooks.example.com/x",
+            "events": [
+              "entry.approved",
+              "entry.rejected",
+              "dispute.opened",
+              "dispute.resolved",
+              "quota.warning"
+            ],
+            "active": true,
+            "secret_hint": "whsec_dDlE…",
+            "created_at": "2026-10-15T11:40:37.139394",
+            "recent": [
+              {
+                "id": 1,
+                "event": "ping",
+                "status": "pending",
+                "attempts": 1,
+                "response_code": null,
+                "error": "403 Forbidden",
+                "at": "2026-10-15T11:40:37.186109"
+              }
+            ]
+          }
+        ]
+      }

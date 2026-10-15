@@ -1,0 +1,145 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/admin/reports?days=30'
+  method: GET
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "days": 30,
+        "from": "2026-09-15",
+        "to": "2026-10-15",
+        "scope": "network",
+        "totals": {
+          "checks": 502,
+          "flagged": 65,
+          "high_risk": 41,
+          "outcomes_reported": 410,
+          "negative_outcomes": 156,
+          "paid_deliveries": 254
+        },
+        "negative_value": {
+          "AED": 30870.0,
+          "PKR": 1493500.0
+        },
+        "by_type": {
+          "delivered_paid": 254,
+          "return_abuse": 23,
+          "chargeback": 10,
+          "fake_order": 5,
+          "refused_at_door": 58,
+          "unreachable": 42,
+          "fake_address": 18
+        },
+        "by_country": {
+          "AE": 115,
+          "PK": 295
+        },
+        "checks_by_band": {
+          "low": 437,
+          "medium": 24,
+          "high": 41
+        },
+        "outcomes_daily": {
+          "dates": [
+            "2026-09-15",
+            "2026-09-16",
+            "2026-09-17"
+          ],
+          "series": {
+            "delivered_paid": [
+              10,
+              4,
+              11
+            ],
+            "return_abuse": [
+              3,
+              2,
+              1
+            ],
+            "chargeback": [
+              0,
+              1,
+              0
+            ],
+            "fake_order": [
+              0,
+              1,
+              0
+            ],
+            "refused_at_door": [
+              0,
+              1,
+              2
+            ],
+            "unreachable": [
+              0,
+              2,
+              2
+            ],
+            "fake_address": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "checks_daily": {
+          "dates": [
+            "2026-09-15",
+            "2026-09-16",
+            "2026-09-17"
+          ],
+          "series": {
+            "high": [
+              0,
+              0,
+              0
+            ],
+            "low": [
+              0,
+              0,
+              0
+            ],
+            "medium": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "network": {
+          "merchants": 2,
+          "customers_on_file": 1613
+        },
+        "top_contributors": [
+          {
+            "id": 2,
+            "name": "Test Store AE 1792064437",
+            "country": "AE",
+            "trust_weight": 1.0,
+            "reports": 408
+          },
+          {
+            "id": 1,
+            "name": "Test Store PK 1792064436",
+            "country": "PK",
+            "trust_weight": 1.0,
+            "reports": 2
+          }
+        ],
+        "disputes": {
+          "opened": 1,
+          "open_now": 0,
+          "upheld": 0,
+          "rejected": 1
+        }
+      }

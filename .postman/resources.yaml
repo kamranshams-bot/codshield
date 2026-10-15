@@ -1,0 +1,13 @@
+localResources:
+  collections:
+    - ../docs/postman/CODShield.postman_collection.json
+    - ../postman/collections/CODShield API
+  environments:
+    - ../postman/environments/live.yaml
+    - ../postman/environments/local.yaml
+    - ../docs/postman/CODShield-Live.postman_environment.json
+    - ../docs/postman/CODShield-Local.postman_environment.json
+  specs:
+    - ../postman/specs/codshield-openapi.json
+workspace:
+  id: ''

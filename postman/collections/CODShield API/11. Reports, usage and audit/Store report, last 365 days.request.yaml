@@ -1,0 +1,13 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/v1/reports?days=365'
+order: 2000
+queryParams:
+  - key: 'days'
+    value: '365'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+examples: './.resources/Store report, last 365 days.resources/examples/'

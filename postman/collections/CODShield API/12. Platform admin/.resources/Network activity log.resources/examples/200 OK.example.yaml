@@ -1,0 +1,38 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/audit?limit=200'
+  method: GET
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      [
+        {
+          "at": "2026-10-15T11:41:04.176879",
+          "actor": "admin-key",
+          "action": "user.created",
+          "detail": "ops.1792064464@example.com perms= countries=PK,AE",
+          "store": null
+        },
+        {
+          "at": "2026-10-15T11:41:04.057048",
+          "actor": "admin-key",
+          "action": "tenant.updated",
+          "detail": "Test Store AE 1792064437: {'active': True}",
+          "store": "Test Store AE 1792064437"
+        },
+        {
+          "at": "2026-10-15T11:41:04.024763",
+          "actor": "admin-key",
+          "action": "tenant.updated",
+          "detail": "Test Store AE 1792064437: {'active': False}",
+          "store": "Test Store AE 1792064437"
+        }
+      ]

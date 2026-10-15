@@ -1,0 +1,64 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/me'
+  method: GET
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "kind": "user",
+        "is_platform": false,
+        "perms": [
+          "approve",
+          "check",
+          "disputes"
+        ],
+        "countries": [
+          "AE",
+          "PK"
+        ],
+        "user": {
+          "id": 2,
+          "email": "owner.1792064436@example.com",
+          "name": "Store Owner",
+          "merchant_id": 1,
+          "perms": [
+            "check",
+            "submit",
+            "upload"
+          ],
+          "countries": [
+            "PK",
+            "AE"
+          ],
+          "is_platform_admin": false,
+          "active": true,
+          "must_change_password": false,
+          "last_login_at": "2026-10-15T11:40:36.696649",
+          "created_at": "2026-10-15T11:40:36.529610"
+        },
+        "tenant": {
+          "id": 1,
+          "name": "Test Store PK 1792064436",
+          "country": "PK",
+          "plan": "growth",
+          "plan_label": "Growth",
+          "require_approval": false,
+          "seats_used": 1,
+          "seats_limit": 25,
+          "checks_this_month": 0,
+          "checks_limit": 50000,
+          "agreement_signed": true,
+          "tier": "contributor",
+          "tier_label": "Contributor"
+        },
+        "pending_approvals": 0
+      }

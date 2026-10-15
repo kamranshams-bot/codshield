@@ -1,0 +1,28 @@
+$kind: http-request
+name: '422: occurred_at ''yesterday'''
+method: POST
+url: '{{baseUrl}}/v1/events'
+order: 8000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "order_ref": "TEST-SCHEMA",
+      "type": "refused_at_door",
+      "occurred_at": "yesterday",
+      "phone": "03211956644",
+      "city": "Lahore",
+      "country": "PK",
+      "amount": 12800,
+      "currency": "PKR",
+      "evidence": "Trax CN 58314653"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 422", () => pm.response.to.have.status(422));
+examples: './.resources/422- occurred_at ''yesterday''.resources/examples/'

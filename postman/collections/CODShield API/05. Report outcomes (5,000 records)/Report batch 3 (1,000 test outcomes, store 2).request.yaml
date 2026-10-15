@@ -1,0 +1,65 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/events/batch'
+order: 4000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    [
+      {
+        "order_ref": "TEST-PK-102937",
+        "type": "refused_at_door",
+        "occurred_at": "2026-03-11T10:33:30Z",
+        "phone": "03216409497",
+        "city": "Faisalabad",
+        "country": "PK",
+        "amount": 16400,
+        "currency": "PKR",
+        "evidence": "Trax CN 67406408"
+      },
+      {
+        "order_ref": "TEST-PK-101756",
+        "type": "fake_address",
+        "occurred_at": "2026-03-11T10:47:30Z",
+        "phone": "03335262790",
+        "email": "rashid.1440.test@gmail.com",
+        "address": "House 299, Street 29, Gulshan-e-Iqbal Block 13",
+        "city": "Hyderabad",
+        "country": "PK",
+        "amount": 7800,
+        "currency": "PKR",
+        "evidence": "PostEx CN 92396004"
+      },
+      {
+        "order_ref": "TEST-AE-101014",
+        "type": "fake_address",
+        "occurred_at": "2026-03-11T12:37:30Z",
+        "phone": "0505005431",
+        "email": "yousuf.6039.test@gmail.com",
+        "city": "Ajman",
+        "country": "AE",
+        "amount": 680,
+        "currency": "AED",
+        "evidence": "Fetchr CN 52345750"
+      }
+    ]
+auth:
+  type: apikey
+  credentials:
+    - key: 'key'
+      value: 'X-API-Key'
+    - key: 'value'
+      value: '{{apiKey2}}'
+    - key: 'in'
+      value: 'header'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+      pm.test("every row has an outcome", () => pm.response.json().results.forEach(r => pm.expect(r.outcome).to.be.a("string")));
+      const c = {}; pm.response.json().results.forEach(r => c[r.outcome] = (c[r.outcome] || 0) + 1); console.log("outcomes", JSON.stringify(c)); pm.test("outcomes: " + JSON.stringify(c), () => true);
+examples: './.resources/Report batch 3 (1,000 test outcomes, store 2).resources/examples/'

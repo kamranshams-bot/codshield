@@ -1,0 +1,22 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/admin/stats'
+  method: GET
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "merchants": 2,
+        "users": 3,
+        "identities": 1613,
+        "events": 5002,
+        "open_disputes": 0
+      }

@@ -1,0 +1,10 @@
+$kind: collection
+name: '08. Team (store admin)'
+order: 8000
+description: |-
+  Session token of a store user with the users permission.
+auth:
+  type: bearer
+  credentials:
+    - key: 'token'
+      value: '{{sessionToken}}'

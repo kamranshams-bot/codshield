@@ -204,3 +204,20 @@ def test_purge_test_data():
         assert testdata.count(s)["events"] == 0
         from codshield.models import Event
         assert s.get(Event, keep["event_id"]) is not None
+
+
+def test_error_envelope_and_rate_headers():
+    r = c.post("/v1/check", json={"phone": "03001234567"})
+    e = r.json()["error"]
+    assert r.status_code == 401 and e["code"] == "unauthenticated" and e["request_id"] == r.headers["X-Request-ID"]
+    _, H, _ = new_tenant()
+    k, _ = make_key(H, ["check"])
+    r = c.post("/v1/events", headers=k, json=outcome(uniq("E"), "03001234567"))
+    assert r.json()["error"]["code"] == "missing_scope" and "detail" in r.json()
+    r = c.post("/v1/check", headers=k, json={"phone": "03001234567", "country": "IN"})
+    e = r.json()["error"]
+    assert r.status_code == 422 and e["code"] == "validation_failed" and e["fields"][0]["field"] == "country"
+    r = c.post("/v1/check", headers=k, json={"phone": "03001234567"})
+    assert int(r.headers["X-RateLimit-Limit"]) == 600 and int(r.headers["X-RateLimit-Remaining"]) < 600
+    assert "X-RateLimit-Reset" in r.headers
+    assert c.get("/v1/nope").json()["error"]["code"] == "not_found"

@@ -1,0 +1,28 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/admin/merchants/batch'
+order: 4000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    [
+      {
+        "name": "Bulk Store A {{$timestamp}}",
+        "country": "PK",
+        "agreement_signed": true
+      },
+      {
+        "name": "Bulk Store B {{$timestamp}}",
+        "country": "AE",
+        "agreement_signed": true
+      }
+    ]
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+examples: './.resources/Add stores in bulk.resources/examples/'

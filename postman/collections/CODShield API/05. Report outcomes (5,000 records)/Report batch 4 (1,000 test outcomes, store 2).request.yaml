@@ -1,0 +1,67 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/events/batch'
+order: 5000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    [
+      {
+        "order_ref": "TEST-PK-102130",
+        "type": "unreachable",
+        "occurred_at": "2026-05-23T17:23:30Z",
+        "phone": "03019711920",
+        "email": "usman.5710.test@yahoo.com",
+        "city": "Peshawar",
+        "country": "PK",
+        "amount": 3800,
+        "currency": "PKR",
+        "evidence": "BlueEx CN 31611003"
+      },
+      {
+        "order_ref": "TEST-PK-101748",
+        "type": "delivered_paid",
+        "occurred_at": "2026-05-23T21:45:30Z",
+        "phone": "03004269338",
+        "email": "aisha.9783.test@gmail.com",
+        "address": "House 45, Street 11, Bahria Town",
+        "city": "Hyderabad",
+        "country": "PK",
+        "amount": 4100,
+        "currency": "PKR",
+        "evidence": "PostEx CN 62868679"
+      },
+      {
+        "order_ref": "TEST-PK-101751",
+        "type": "delivered_paid",
+        "occurred_at": "2026-05-23T21:47:30Z",
+        "phone": "03004269338",
+        "email": "aisha.9783.test@gmail.com",
+        "address": "House 45, Street 11, Bahria Town",
+        "city": "Hyderabad",
+        "country": "PK",
+        "amount": 2900,
+        "currency": "PKR",
+        "evidence": "PostEx CN 67094874"
+      }
+    ]
+auth:
+  type: apikey
+  credentials:
+    - key: 'key'
+      value: 'X-API-Key'
+    - key: 'value'
+      value: '{{apiKey2}}'
+    - key: 'in'
+      value: 'header'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+      pm.test("every row has an outcome", () => pm.response.json().results.forEach(r => pm.expect(r.outcome).to.be.a("string")));
+      const c = {}; pm.response.json().results.forEach(r => c[r.outcome] = (c[r.outcome] || 0) + 1); console.log("outcomes", JSON.stringify(c)); pm.test("outcomes: " + JSON.stringify(c), () => true);
+examples: './.resources/Report batch 4 (1,000 test outcomes, store 2).resources/examples/'

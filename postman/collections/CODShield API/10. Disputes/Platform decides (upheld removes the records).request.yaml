@@ -1,0 +1,30 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/admin/disputes/{{disputeId}}/resolve'
+order: 5000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "upheld": false,
+      "note": "Store confirmed with courier proof."
+    }
+auth:
+  type: apikey
+  credentials:
+    - key: 'key'
+      value: 'X-Admin-Key'
+    - key: 'value'
+      value: '{{adminKey}}'
+    - key: 'in'
+      value: 'header'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+examples: './.resources/Platform decides (upheld removes the records).resources/examples/'
+# path variables come from the environment: disputeId

@@ -1,0 +1,49 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/events/batch'
+order: 1000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    [
+      {
+        "order_ref": "TEST-BAD-001",
+        "type": "not_a_type",
+        "occurred_at": "2026-09-01T10:00:00Z",
+        "phone": "03001234567",
+        "city": "Lahore",
+        "country": "PK",
+        "amount": 2500,
+        "currency": "PKR"
+      },
+      {
+        "order_ref": "TEST-BAD-002",
+        "type": "REFUSED",
+        "occurred_at": "2026-09-01T10:00:00Z",
+        "phone": "03001234567",
+        "city": "Lahore",
+        "country": "PK",
+        "amount": 2500,
+        "currency": "PKR"
+      },
+      {
+        "order_ref": "TEST-BAD-003",
+        "type": "delivered",
+        "occurred_at": "2026-09-01T10:00:00Z",
+        "phone": "03001234567",
+        "city": "Lahore",
+        "country": "PK",
+        "amount": 2500,
+        "currency": "PKR"
+      }
+    ]
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+      pm.test("all rejected", () => pm.response.json().results.forEach(r => pm.expect(r.outcome).to.eql("rejected")));
+examples: './.resources/Batch of 14 bad rows (each rejected).resources/examples/'

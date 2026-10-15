@@ -1,0 +1,12 @@
+$kind: collection
+name: '02. Sign in'
+order: 2000
+description: |-
+  Logs in as {{userEmail}} and saves {{sessionToken}} (valid 12 hours).
+
+  - Set a permanent password: New users get a temporary password. newPassword needs 10+ characters.
+auth:
+  type: bearer
+  credentials:
+    - key: 'token'
+      value: '{{sessionToken}}'

@@ -1,0 +1,55 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/submissions?status=all'
+  method: GET
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      [
+        {
+          "id": 2,
+          "status": "rejected",
+          "batch_ref": null,
+          "country": "PK",
+          "contact_hint": "+92••••••4567",
+          "order_ref": "TEST-PK-1792064463-2",
+          "type": "unreachable",
+          "amount": 4500.0,
+          "currency": "PKR",
+          "occurred_at": "2026-10-12T15:30:00",
+          "evidence": "TCS CN 77812345",
+          "maker": "Store Owner",
+          "maker_id": 2,
+          "checker": "Test Checker",
+          "reject_reason": "Wrong order number",
+          "created_at": "2026-10-15T11:41:03.005747",
+          "decided_at": "2026-10-15T11:41:03.206559"
+        },
+        {
+          "id": 1,
+          "status": "approved",
+          "batch_ref": null,
+          "country": "PK",
+          "contact_hint": "+92••••••4567",
+          "order_ref": "TEST-PK-1792064463",
+          "type": "refused_at_door",
+          "amount": 4500.0,
+          "currency": "PKR",
+          "occurred_at": "2026-10-12T15:30:00",
+          "evidence": "TCS CN 77812345",
+          "maker": "Store Owner",
+          "maker_id": 2,
+          "checker": "Test Checker",
+          "reject_reason": null,
+          "created_at": "2026-10-15T11:41:02.967549",
+          "decided_at": "2026-10-15T11:41:03.161275"
+        }
+      ]

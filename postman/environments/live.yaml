@@ -1,0 +1,102 @@
+name: 'CODShield Live'
+values:
+  - key: baseUrl
+    value: 'https://codshield-sx1i.onrender.com'
+    enabled: true
+    type: default
+  - key: apiKey
+    value: ''
+    enabled: true
+    type: secret
+  - key: apiKey2
+    value: ''
+    enabled: true
+    type: secret
+  - key: testApiKey
+    value: ''
+    enabled: true
+    type: secret
+  - key: adminKey
+    value: ''
+    enabled: true
+    type: secret
+  - key: sessionToken
+    value: ''
+    enabled: true
+    type: secret
+  - key: userEmail
+    value: ''
+    enabled: true
+    type: default
+  - key: userPassword
+    value: ''
+    enabled: true
+    type: secret
+  - key: newPassword
+    value: ''
+    enabled: true
+    type: secret
+  - key: adminEmail
+    value: ''
+    enabled: true
+    type: default
+  - key: adminPassword
+    value: ''
+    enabled: true
+    type: secret
+  - key: webhookUrl
+    value: 'https://webhook.site/your-id'
+    enabled: true
+    type: default
+  - key: webhookSecret
+    value: ''
+    enabled: true
+    type: secret
+  - key: disputePhone
+    value: ''
+    enabled: true
+    type: default
+  - key: merchantId
+    value: ''
+    enabled: true
+    type: default
+  - key: userId
+    value: ''
+    enabled: true
+    type: default
+  - key: keyId
+    value: ''
+    enabled: true
+    type: default
+  - key: webhookId
+    value: ''
+    enabled: true
+    type: default
+  - key: disputeId
+    value: ''
+    enabled: true
+    type: default
+  - key: submissionId
+    value: ''
+    enabled: true
+    type: default
+  - key: submissionId2
+    value: ''
+    enabled: true
+    type: default
+  - key: merchantId2
+    value: ''
+    enabled: true
+    type: default
+  - key: checkerEmail
+    value: ''
+    enabled: true
+    type: default
+  - key: checkerPassword
+    value: ''
+    enabled: true
+    type: secret
+  - key: checkerToken
+    value: ''
+    enabled: true
+    type: secret

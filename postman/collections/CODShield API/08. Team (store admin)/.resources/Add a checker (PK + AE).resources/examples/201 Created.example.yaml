@@ -1,0 +1,40 @@
+$kind: http-example
+name: '201 Created'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/users'
+  method: POST
+response:
+  statusCode: 201
+  statusText: 'Created'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "user": {
+          "id": 3,
+          "email": "checker.1792064463@example.com",
+          "name": "Test Checker",
+          "merchant_id": 1,
+          "perms": [
+            "check",
+            "approve",
+            "reports",
+            "disputes"
+          ],
+          "countries": [
+            "PK",
+            "AE"
+          ],
+          "is_platform_admin": false,
+          "active": true,
+          "must_change_password": true,
+          "last_login_at": null,
+          "created_at": "2026-10-15T11:41:02.624449"
+        },
+        "temporary_password": "TempPass-example",
+        "note": "Share the temporary password privately. The user must change it at first sign-in."
+      }

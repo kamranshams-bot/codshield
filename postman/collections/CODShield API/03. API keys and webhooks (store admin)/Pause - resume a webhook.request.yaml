@@ -1,0 +1,21 @@
+$kind: http-request
+name: 'Pause / resume a webhook'
+method: PATCH
+url: '{{baseUrl}}/v1/webhooks/{{webhookId}}'
+order: 9000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "active": true
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+examples: './.resources/Pause - resume a webhook.resources/examples/'
+# path variables come from the environment: webhookId

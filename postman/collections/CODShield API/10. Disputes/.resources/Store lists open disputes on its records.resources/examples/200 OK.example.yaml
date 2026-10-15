@@ -1,0 +1,46 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/disputes'
+  method: GET
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      [
+        {
+          "id": 1,
+          "reason": "I never placed these orders. Please remove them.",
+          "created_at": "2026-10-15T11:41:03.347389",
+          "your_records": [
+            {
+              "order_ref": "TEST-PK-104352",
+              "type": "refused_at_door",
+              "occurred_at": "2025-10-19",
+              "evidence": "Trax CN 58314653",
+              "status": "disputed"
+            },
+            {
+              "order_ref": "TEST-PK-104347",
+              "type": "unreachable",
+              "occurred_at": "2025-11-02",
+              "evidence": "BlueEx CN 72435983",
+              "status": "disputed"
+            },
+            {
+              "order_ref": "TEST-PK-104788",
+              "type": "fake_address",
+              "occurred_at": "2025-11-07",
+              "evidence": "Trax CN 94463567",
+              "status": "disputed"
+            }
+          ],
+          "your_response": null
+        }
+      ]

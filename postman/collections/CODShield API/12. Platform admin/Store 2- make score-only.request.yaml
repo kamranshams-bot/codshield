@@ -1,0 +1,21 @@
+$kind: http-request
+name: 'Store 2: make score-only'
+method: PATCH
+url: '{{baseUrl}}/v1/admin/merchants/{{merchantId2}}'
+order: 5000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "tier": "score_only"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+examples: './.resources/Store 2- make score-only.resources/examples/'
+# path variables come from the environment: merchantId2

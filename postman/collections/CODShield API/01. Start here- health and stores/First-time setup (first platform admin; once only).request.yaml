@@ -1,0 +1,16 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/auth/setup'
+order: 3000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "email": "{{adminEmail}}",
+      "name": "Platform Admin",
+      "password": "{{adminPassword}}"
+    }
+examples: './.resources/First-time setup (first platform admin; once only).resources/examples/'

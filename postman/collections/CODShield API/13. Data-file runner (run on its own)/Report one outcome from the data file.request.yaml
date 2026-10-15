@@ -1,0 +1,29 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/events'
+order: 1000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "order_ref": "{{order_ref}}",
+      "type": "{{type}}",
+      "occurred_at": "{{occurred_at}}",
+      "phone": "{{phone}}",
+      "email": "{{email}}",
+      "address": "{{address}}",
+      "city": "{{city}}",
+      "country": "{{country}}",
+      "amount": {{amount}},
+      "currency": "{{currency}}",
+      "evidence": "{{evidence}}"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 201", () => pm.response.to.have.status(201));
+      pm.test("recorded", () => pm.expect(["created","duplicate","pending"]).to.include(pm.response.json().outcome));

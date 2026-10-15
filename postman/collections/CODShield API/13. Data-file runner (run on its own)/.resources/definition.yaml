@@ -1,0 +1,5 @@
+$kind: collection
+name: '13. Data-file runner (run on its own)'
+order: 13000
+description: |-
+  Run only this folder in the Collection Runner with testdata/out/outcomes_all.csv (or a part file) as the data file: one call per row. Slower than the batches (Free plan: 60 calls a minute; Growth: 600).

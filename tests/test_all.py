@@ -29,7 +29,7 @@ def iso(days_ago=1):
 def new_merchant(name, country="PK", signed=True, feed=None):
     r = client.post("/v1/admin/merchants", headers=ADM,
                     json={"name": name, "country": country, "agreement_signed": signed, "feed_config": feed})
-    assert r.status_code == 200, r.text
+    assert r.status_code == 201, r.text
     return {"X-API-Key": r.json()["api_key"]}, r.json()["merchant_id"]
 
 

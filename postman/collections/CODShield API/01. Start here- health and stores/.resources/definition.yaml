@@ -1,0 +1,17 @@
+$kind: collection
+name: '01. Start here: health and stores'
+order: 1000
+description: |-
+  Wakes the server and creates two test stores with the X-Admin-Key. Saves the stores' keys to {{apiKey}} / {{apiKey2}} and the first store admin's login to {{userEmail}} / {{userPassword}}. Skip the two 'Add' requests if you already have a store and keys.
+
+  - Health: The free server sleeps after 15 minutes; the first call can take ~50 seconds.
+  - First-time setup (first platform admin; once only): Only works on an empty system; afterwards it answers 409, which is fine.
+auth:
+  type: apikey
+  credentials:
+    - key: 'key'
+      value: 'X-Admin-Key'
+    - key: 'value'
+      value: '{{adminKey}}'
+    - key: 'in'
+      value: 'header'

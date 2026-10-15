@@ -1,0 +1,24 @@
+$kind: http-example
+name: '401 no key'
+order: 2000
+request:
+  url: '{{baseUrl}}/v1/check'
+  method: POST
+response:
+  statusCode: 401
+  statusText: 'Unauthorized'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "detail": "Sign in, or send an API key.",
+        "error": {
+          "code": "unauthenticated",
+          "message": "Sign in, or send an API key.",
+          "status": 401,
+          "request_id": "req_0d0bc144f20535ce"
+        }
+      }

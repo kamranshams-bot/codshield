@@ -1,0 +1,28 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/check'
+  method: POST
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "score": 0,
+        "band": "low",
+        "recommended_action": "ship_normally",
+        "reasons": [
+          "no history in network"
+        ],
+        "negative_events": 0,
+        "paid_deliveries": 0,
+        "reporting_merchants": 0,
+        "last_negative_at": null,
+        "matched_on": []
+      }

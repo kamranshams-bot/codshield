@@ -1,0 +1,12 @@
+$kind: collection
+name: '03. API keys and webhooks (store admin)'
+order: 3000
+description: |-
+  Session token of a store user with the users permission.
+
+  - Add a webhook: Put a https://webhook.site URL in webhookUrl to watch deliveries arrive. The signing secret is shown once.
+auth:
+  type: bearer
+  credentials:
+    - key: 'token'
+      value: '{{sessionToken}}'

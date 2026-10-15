@@ -1,0 +1,36 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/events/batch'
+  method: POST
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "batch_ref": "B-739BE959",
+        "requires_approval": false,
+        "results": [
+          {
+            "index": 0,
+            "outcome": "created",
+            "event_id": 3002
+          },
+          {
+            "index": 1,
+            "outcome": "created",
+            "event_id": 3003
+          },
+          {
+            "index": 2,
+            "outcome": "created",
+            "event_id": 3004
+          }
+        ]
+      }

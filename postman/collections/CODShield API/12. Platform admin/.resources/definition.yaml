@@ -1,0 +1,14 @@
+$kind: collection
+name: '12. Platform admin'
+order: 12000
+description: |-
+  Uses the X-Admin-Key ({{adminKey}}).
+auth:
+  type: apikey
+  credentials:
+    - key: 'key'
+      value: 'X-Admin-Key'
+    - key: 'value'
+      value: '{{adminKey}}'
+    - key: 'in'
+      value: 'header'

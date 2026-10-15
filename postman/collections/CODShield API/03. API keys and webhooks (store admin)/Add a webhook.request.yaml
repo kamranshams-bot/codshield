@@ -1,0 +1,28 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/webhooks'
+order: 6000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "url": "{{webhookUrl}}",
+      "events": [
+        "entry.approved",
+        "entry.rejected",
+        "dispute.opened",
+        "dispute.resolved",
+        "quota.warning"
+      ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 201", () => pm.response.to.have.status(201));
+      pm.environment.set("webhookId", pm.response.json().endpoint.id);
+      pm.environment.set("webhookSecret", pm.response.json().signing_secret);
+examples: './.resources/Add a webhook.resources/examples/'

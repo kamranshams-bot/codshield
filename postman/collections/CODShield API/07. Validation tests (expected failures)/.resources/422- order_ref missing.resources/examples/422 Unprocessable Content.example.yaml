@@ -1,0 +1,49 @@
+$kind: http-example
+name: '422 Unprocessable Content'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/events'
+  method: POST
+response:
+  statusCode: 422
+  statusText: 'Unprocessable Content'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "detail": [
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "order_ref"
+            ],
+            "msg": "Field required",
+            "input": {
+              "type": "refused_at_door",
+              "occurred_at": "2025-10-19T13:03:30Z",
+              "phone": "03211956644",
+              "city": "Lahore",
+              "country": "PK",
+              "amount": 12800,
+              "currency": "PKR",
+              "evidence": "Trax CN 58314653"
+            }
+          }
+        ],
+        "error": {
+          "code": "validation_failed",
+          "message": "order_ref: Field required",
+          "status": 422,
+          "request_id": "req_734fe25d133f45b9",
+          "fields": [
+            {
+              "field": "order_ref",
+              "message": "Field required"
+            }
+          ]
+        }
+      }

@@ -1,0 +1,25 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/disputes'
+order: 1000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "phone": "{{disputePhone}}",
+      "country": "PK",
+      "reason": "I never placed these orders. Please remove them.",
+      "contact": "test@example.com"
+    }
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+      pm.environment.set("disputeId", pm.response.json().dispute_id);
+examples: './.resources/Customer opens a dispute (public).resources/examples/'

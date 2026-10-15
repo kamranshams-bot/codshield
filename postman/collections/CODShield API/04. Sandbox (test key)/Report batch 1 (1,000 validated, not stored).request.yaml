@@ -1,0 +1,54 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/events/batch'
+order: 8000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    [
+      {
+        "order_ref": "TEST-PK-104352",
+        "type": "refused_at_door",
+        "occurred_at": "2025-10-19T13:03:30Z",
+        "phone": "03211956644",
+        "city": "Lahore",
+        "country": "PK",
+        "amount": 12800,
+        "currency": "PKR",
+        "evidence": "Trax CN 58314653"
+      },
+      {
+        "order_ref": "TEST-PK-102010",
+        "type": "unreachable",
+        "occurred_at": "2025-10-19T15:14:30Z",
+        "phone": "03459811833",
+        "email": "yousuf.9832.test@outlook.com",
+        "address": "House 163, Street 31, G-11/2",
+        "city": "Islamabad",
+        "country": "PK",
+        "amount": 11000,
+        "currency": "PKR",
+        "evidence": "M&P CN 14610340"
+      },
+      {
+        "order_ref": "TEST-PK-102454",
+        "type": "delivered_paid",
+        "occurred_at": "2025-10-19T16:04:30Z",
+        "phone": "03006951164",
+        "city": "Gujranwala",
+        "country": "PK",
+        "amount": 21600,
+        "currency": "PKR",
+        "evidence": "PostEx CN 42555275"
+      }
+    ]
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+      const c = {}; pm.response.json().results.forEach(r => c[r.outcome] = (c[r.outcome] || 0) + 1); console.log("outcomes", JSON.stringify(c)); pm.test("outcomes: " + JSON.stringify(c), () => true);
+examples: './.resources/Report batch 1 (1,000 validated, not stored).resources/examples/'

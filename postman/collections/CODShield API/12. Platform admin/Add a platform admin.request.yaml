@@ -1,0 +1,26 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/users'
+order: 11000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "email": "ops.{{$timestamp}}@example.com",
+      "name": "Ops Admin",
+      "is_platform_admin": true,
+      "perms": [],
+      "countries": [
+        "PK",
+        "AE"
+      ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 201", () => pm.response.to.have.status(201));
+examples: './.resources/Add a platform admin.resources/examples/'

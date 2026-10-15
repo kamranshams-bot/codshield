@@ -1,0 +1,90 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/reports?days=30'
+  method: GET
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "days": 30,
+        "from": "2026-09-15",
+        "to": "2026-10-15",
+        "scope": "merchant",
+        "totals": {
+          "checks": 502,
+          "flagged": 65,
+          "high_risk": 41,
+          "outcomes_reported": 2,
+          "negative_outcomes": 2,
+          "paid_deliveries": 0
+        },
+        "negative_value": {
+          "PKR": 9000.0
+        },
+        "by_type": {
+          "refused_at_door": 2
+        },
+        "by_country": {
+          "PK": 2
+        },
+        "checks_by_band": {
+          "low": 437,
+          "medium": 24,
+          "high": 41
+        },
+        "outcomes_daily": {
+          "dates": [
+            "2026-09-15",
+            "2026-09-16",
+            "2026-09-17"
+          ],
+          "series": {
+            "refused_at_door": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "checks_daily": {
+          "dates": [
+            "2026-09-15",
+            "2026-09-16",
+            "2026-09-17"
+          ],
+          "series": {
+            "high": [
+              0,
+              0,
+              0
+            ],
+            "low": [
+              0,
+              0,
+              0
+            ],
+            "medium": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "network": {
+          "merchants": 2,
+          "customers_on_file": 1613
+        },
+        "merchant": {
+          "id": 1,
+          "name": "Test Store PK 1792064436",
+          "country": "PK"
+        }
+      }

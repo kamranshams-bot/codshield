@@ -1,0 +1,34 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/admin/merchants/batch'
+  method: POST
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "results": [
+          {
+            "index": 0,
+            "ok": true,
+            "merchant_id": 3,
+            "name": "Bulk Store A 1792064464",
+            "api_key": "cs_live_EXAMPLEKEYdoNotUse0000000000000"
+          },
+          {
+            "index": 1,
+            "ok": true,
+            "merchant_id": 4,
+            "name": "Bulk Store B 1792064464",
+            "api_key": "cs_live_EXAMPLEKEYdoNotUse0000000000000"
+          }
+        ],
+        "note": "Store these keys now; they are not shown again."
+      }

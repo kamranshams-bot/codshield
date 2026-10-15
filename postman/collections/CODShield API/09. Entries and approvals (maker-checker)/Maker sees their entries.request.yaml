@@ -1,0 +1,13 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/v1/submissions?status=all'
+order: 8000
+queryParams:
+  - key: 'status'
+    value: 'all'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+examples: './.resources/Maker sees their entries.resources/examples/'

@@ -1,0 +1,30 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/admin/merchants'
+order: 4000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "name": "Test Store PK {{$timestamp}}",
+      "country": "PK",
+      "agreement_signed": true,
+      "plan": "growth",
+      "require_approval": false,
+      "tier": "contributor",
+      "admin_email": "owner.{{$timestamp}}@example.com",
+      "admin_name": "Store Owner"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 201", () => pm.response.to.have.status(201));
+      pm.environment.set("merchantId", pm.response.json().merchant_id);
+      pm.environment.set("apiKey", pm.response.json().api_key);
+      pm.environment.set("userEmail", pm.response.json().admin_user.email);
+      pm.environment.set("userPassword", pm.response.json().admin_user.temporary_password);
+examples: './.resources/Add store 1 (PK, with admin user).resources/examples/'

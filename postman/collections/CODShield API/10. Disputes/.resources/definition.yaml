@@ -1,0 +1,13 @@
+$kind: collection
+name: '10. Disputes'
+order: 10000
+description: |-
+  A customer contests their records; the store answers; CODShield decides.
+
+  - Customer opens a dispute (public): disputePhone must have records (it defaults to the first customer in batch 1); otherwise 422.
+  - Store responds (confirm or withdraw): withdraw removes your records now; confirm stands by them for CODShield's decision.
+auth:
+  type: bearer
+  credentials:
+    - key: 'token'
+      value: '{{sessionToken}}'

@@ -1,0 +1,72 @@
+$kind: http-example
+name: '422 missing fields'
+order: 3000
+request:
+  url: '{{baseUrl}}/v1/events'
+  method: POST
+response:
+  statusCode: 422
+  statusText: 'Unprocessable Content'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "detail": [
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "order_ref"
+            ],
+            "msg": "Field required",
+            "input": {
+              "phone": "03001234567"
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "type"
+            ],
+            "msg": "Field required",
+            "input": {
+              "phone": "03001234567"
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "occurred_at"
+            ],
+            "msg": "Field required",
+            "input": {
+              "phone": "03001234567"
+            }
+          }
+        ],
+        "error": {
+          "code": "validation_failed",
+          "message": "order_ref: Field required; type: Field required; occurred_at: Field required",
+          "status": 422,
+          "request_id": "req_1b472333984ffcdb",
+          "fields": [
+            {
+              "field": "order_ref",
+              "message": "Field required"
+            },
+            {
+              "field": "type",
+              "message": "Field required"
+            },
+            {
+              "field": "occurred_at",
+              "message": "Field required"
+            }
+          ]
+        }
+      }

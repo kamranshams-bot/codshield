@@ -1,0 +1,38 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/check/batch'
+order: 3000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    [
+      {
+        "phone": "0555080487",
+        "address": "Flat 1806, Building 69, Al Nahda 2",
+        "city": "Abu Dhabi",
+        "country": "AE"
+      },
+      {
+        "phone": "03215764290",
+        "email": "ahmed.2447.test@yahoo.com",
+        "address": "House 37, Street 1, Satellite Town",
+        "city": "Faisalabad",
+        "country": "PK"
+      },
+      {
+        "phone": "03003333221",
+        "address": "House 153, Street 50, Gulshan-e-Iqbal Block 13",
+        "city": "Islamabad",
+        "country": "PK"
+      }
+    ]
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+      const c = {}; pm.response.json().results.forEach(r => c[r.band || "error"] = (c[r.band || "error"] || 0) + 1); pm.test("bands: " + JSON.stringify(c), () => true);
+examples: './.resources/Check batch (500 test customers).resources/examples/'

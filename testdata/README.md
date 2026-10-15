@@ -33,15 +33,17 @@ python -m codshield.testdata purge
 python testdata/generate.py                                    # rebuild the files (same output every time)
 python testdata/upload.py --key cs_test_...                    # 5 batches + 500 checks through the API
 python testdata/upload.py --key cs_live_A... --key2 cs_live_B...  # two stores, so high-risk results appear
-python postman/build.py                                        # rebuild the Postman collection
+python tools/postman/build.py                                  # rebuild the Postman collection (docs/postman/)
 ```
 
 ## Postman
 
-Import `postman/CODShield.postman_collection.json` and `postman/CODShield-Live.postman_environment.json` (or `-Local`), then select the environment. In the environment, fill in:
+Import `docs/postman/CODShield.postman_collection.json` and `docs/postman/CODShield-Live.postman_environment.json` (or `-Local`), then select the environment. In the environment, fill in:
 
 - `adminKey`
 - `newPassword` (10+ characters)
 - `adminEmail` / `adminPassword`, only on an empty system
 
 Run folders 01–12 in the Collection Runner. Each request saves the keys and IDs the next one needs. Folder 13 runs on its own with `out/outcomes_all.csv` as the data file.
+
+The same requests also exist as a git-native Postman v3 collection in `postman/collections/CODShield API/`, with 88 saved example responses. The Postman CLI and Postman's Git sync read that format; the OpenAPI spec is in `postman/specs/`. Rebuild it after an API change with `tools/postman/build_v3.py` (see the steps at the top of that file).

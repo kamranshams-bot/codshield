@@ -1,0 +1,25 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/submissions/reject'
+order: 7000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "ids": [{{submissionId2}}],
+      "reason": "Wrong order number"
+    }
+auth:
+  type: bearer
+  credentials:
+    - key: 'token'
+      value: '{{checkerToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+examples: './.resources/Checker rejects one (reason required).resources/examples/'

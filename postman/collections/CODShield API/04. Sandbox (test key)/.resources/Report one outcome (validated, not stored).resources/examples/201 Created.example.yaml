@@ -1,0 +1,21 @@
+$kind: http-example
+name: '201 Created'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/events'
+  method: POST
+response:
+  statusCode: 201
+  statusText: 'Created'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "index": 0,
+        "outcome": "test_accepted",
+        "test_mode": true,
+        "requires_approval": false
+      }

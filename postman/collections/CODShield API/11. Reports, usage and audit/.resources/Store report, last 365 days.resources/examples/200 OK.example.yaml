@@ -1,0 +1,128 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/reports?days=365'
+  method: GET
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "days": 365,
+        "from": "2025-10-15",
+        "to": "2026-10-15",
+        "scope": "merchant",
+        "totals": {
+          "checks": 502,
+          "flagged": 65,
+          "high_risk": 41,
+          "outcomes_reported": 2002,
+          "negative_outcomes": 808,
+          "paid_deliveries": 1194
+        },
+        "negative_value": {
+          "AED": 208970.0,
+          "PKR": 7016300.0
+        },
+        "by_type": {
+          "delivered_paid": 1194,
+          "refused_at_door": 347,
+          "unreachable": 196,
+          "fake_address": 75,
+          "return_abuse": 105,
+          "fake_order": 52,
+          "chargeback": 33
+        },
+        "by_country": {
+          "AE": 595,
+          "PK": 1407
+        },
+        "checks_by_band": {
+          "low": 437,
+          "medium": 24,
+          "high": 41
+        },
+        "outcomes_daily": {
+          "dates": [
+            "2025-10-15",
+            "2025-10-16",
+            "2025-10-17"
+          ],
+          "series": {
+            "delivered_paid": [
+              0,
+              0,
+              0
+            ],
+            "refused_at_door": [
+              0,
+              0,
+              0
+            ],
+            "unreachable": [
+              0,
+              0,
+              0
+            ],
+            "fake_address": [
+              0,
+              0,
+              0
+            ],
+            "return_abuse": [
+              0,
+              0,
+              0
+            ],
+            "fake_order": [
+              0,
+              0,
+              0
+            ],
+            "chargeback": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "checks_daily": {
+          "dates": [
+            "2025-10-15",
+            "2025-10-16",
+            "2025-10-17"
+          ],
+          "series": {
+            "high": [
+              0,
+              0,
+              0
+            ],
+            "low": [
+              0,
+              0,
+              0
+            ],
+            "medium": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "network": {
+          "merchants": 2,
+          "customers_on_file": 1613
+        },
+        "merchant": {
+          "id": 1,
+          "name": "Test Store PK 1792064436",
+          "country": "PK"
+        }
+      }

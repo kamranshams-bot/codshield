@@ -1,0 +1,31 @@
+$kind: http-request
+name: 'Store 2: score-only check (no reasons)'
+method: POST
+url: '{{baseUrl}}/v1/check'
+order: 6000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "phone": "{{disputePhone}}",
+      "country": "PK"
+    }
+auth:
+  type: apikey
+  credentials:
+    - key: 'key'
+      value: 'X-API-Key'
+    - key: 'value'
+      value: '{{apiKey2}}'
+    - key: 'in'
+      value: 'header'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+      pm.test("score only", () => pm.expect(pm.response.json().detail).to.eql("score_only_tier"));
+examples: './.resources/Store 2- score-only check (no reasons).resources/examples/'

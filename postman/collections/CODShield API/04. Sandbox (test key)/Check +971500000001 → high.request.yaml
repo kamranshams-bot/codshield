@@ -1,0 +1,22 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/check'
+order: 4000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "phone": "+971500000001",
+      "country": "AE"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+      pm.test("band is high", () => pm.expect(pm.response.json().band).to.eql("high"));
+      pm.test("test_mode", () => pm.expect(pm.response.json().test_mode).to.eql(true));
+examples: './.resources/Check +971500000001 → high.resources/examples/'

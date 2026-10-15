@@ -1,0 +1,28 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/events'
+order: 7000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "order_ref": "TEST-PK-900001",
+      "type": "refused_at_door",
+      "occurred_at": "2026-10-12T15:30:00Z",
+      "phone": "03001234567",
+      "city": "Lahore",
+      "country": "PK",
+      "amount": 4500,
+      "currency": "PKR",
+      "evidence": "TCS CN 77812345"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 201", () => pm.response.to.have.status(201));
+      pm.test("test_accepted", () => pm.expect(pm.response.json().outcome).to.eql("test_accepted"));
+examples: './.resources/Report one outcome (validated, not stored).resources/examples/'

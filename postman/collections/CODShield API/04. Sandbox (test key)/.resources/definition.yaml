@@ -1,0 +1,14 @@
+$kind: collection
+name: '04. Sandbox (test key)'
+order: 4000
+description: |-
+  Uses {{testApiKey}} (cs_test_…): fixed answers, nothing stored, no quota used.
+auth:
+  type: apikey
+  credentials:
+    - key: 'key'
+      value: 'X-API-Key'
+    - key: 'value'
+      value: '{{testApiKey}}'
+    - key: 'in'
+      value: 'header'

@@ -1,0 +1,28 @@
+$kind: http-request
+name: '422: currency PKRS'
+method: POST
+url: '{{baseUrl}}/v1/events'
+order: 4000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "order_ref": "TEST-SCHEMA",
+      "type": "refused_at_door",
+      "occurred_at": "2025-10-19T13:03:30Z",
+      "phone": "03211956644",
+      "city": "Lahore",
+      "country": "PK",
+      "amount": 12800,
+      "currency": "PKRS",
+      "evidence": "Trax CN 58314653"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 422", () => pm.response.to.have.status(422));
+examples: './.resources/422- currency PKRS.resources/examples/'

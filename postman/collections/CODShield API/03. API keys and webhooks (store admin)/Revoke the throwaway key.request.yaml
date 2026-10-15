@@ -1,0 +1,11 @@
+$kind: http-request
+method: DELETE
+url: '{{baseUrl}}/v1/api-keys/{{keyId}}'
+order: 4000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+examples: './.resources/Revoke the throwaway key.resources/examples/'
+# path variables come from the environment: keyId

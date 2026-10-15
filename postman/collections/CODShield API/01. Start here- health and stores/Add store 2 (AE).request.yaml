@@ -1,0 +1,25 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/admin/merchants'
+order: 5000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "name": "Test Store AE {{$timestamp}}",
+      "country": "AE",
+      "agreement_signed": true,
+      "plan": "growth",
+      "require_approval": false
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 201", () => pm.response.to.have.status(201));
+      pm.environment.set("merchantId2", pm.response.json().merchant_id);
+      pm.environment.set("apiKey2", pm.response.json().api_key);
+examples: './.resources/Add store 2 (AE).resources/examples/'

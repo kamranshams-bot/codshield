@@ -1,0 +1,10 @@
+$kind: collection
+name: '09. Entries and approvals (maker-checker)'
+order: 9000
+description: |-
+  The store owner enters an outcome as maker; the checker approves it (nobody can approve their own entry).
+auth:
+  type: bearer
+  credentials:
+    - key: 'token'
+      value: '{{sessionToken}}'

@@ -1,0 +1,29 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/users'
+order: 2000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "email": "maker.{{$timestamp}}@example.com",
+      "name": "Test Maker",
+      "perms": [
+        "check",
+        "submit",
+        "upload"
+      ],
+      "countries": [
+        "PK"
+      ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 201", () => pm.response.to.have.status(201));
+      pm.environment.set("userId", pm.response.json().user.id);
+examples: './.resources/Add a maker (PK only).resources/examples/'

@@ -1,0 +1,67 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/check/batch'
+  method: POST
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "results": [
+          {
+            "index": 0,
+            "ok": true,
+            "score": 0,
+            "band": "low",
+            "recommended_action": "ship_normally",
+            "reasons": [
+              "no history in network"
+            ],
+            "negative_events": 0,
+            "paid_deliveries": 0,
+            "reporting_merchants": 0,
+            "last_negative_at": null,
+            "matched_on": []
+          },
+          {
+            "index": 1,
+            "ok": true,
+            "score": 0,
+            "band": "low",
+            "recommended_action": "ship_normally",
+            "reasons": [
+              "no history in network"
+            ],
+            "negative_events": 0,
+            "paid_deliveries": 0,
+            "reporting_merchants": 0,
+            "last_negative_at": null,
+            "matched_on": []
+          },
+          {
+            "index": 2,
+            "ok": true,
+            "score": 0,
+            "band": "low",
+            "recommended_action": "ship_normally",
+            "reasons": [
+              "6 successful paid deliveries"
+            ],
+            "negative_events": 0,
+            "paid_deliveries": 6,
+            "reporting_merchants": 0,
+            "last_negative_at": null,
+            "matched_on": [
+              "address",
+              "phone"
+            ]
+          }
+        ]
+      }

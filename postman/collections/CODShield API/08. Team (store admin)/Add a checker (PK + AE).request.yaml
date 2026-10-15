@@ -1,0 +1,32 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/users'
+order: 1000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "email": "checker.{{$timestamp}}@example.com",
+      "name": "Test Checker",
+      "perms": [
+        "check",
+        "approve",
+        "reports",
+        "disputes"
+      ],
+      "countries": [
+        "PK",
+        "AE"
+      ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 201", () => pm.response.to.have.status(201));
+      pm.environment.set("checkerEmail", pm.response.json().user.email);
+      pm.environment.set("checkerPassword", pm.response.json().temporary_password);
+examples: './.resources/Add a checker (PK + AE).resources/examples/'

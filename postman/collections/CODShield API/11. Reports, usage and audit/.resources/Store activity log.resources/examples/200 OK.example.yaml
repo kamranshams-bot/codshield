@@ -1,0 +1,38 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/audit?limit=100'
+  method: GET
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      [
+        {
+          "at": "2026-10-15T11:41:03.459651",
+          "actor": "user:owner.1792064436@example.com",
+          "action": "dispute.confirm",
+          "detail": "dispute #1, 6 record(s): Courier proof on file.",
+          "store": null
+        },
+        {
+          "at": "2026-10-15T11:41:03.306985",
+          "actor": "user:owner.1792064436@example.com",
+          "action": "tenant.updated",
+          "detail": "require_approval=False",
+          "store": null
+        },
+        {
+          "at": "2026-10-15T11:41:03.219897",
+          "actor": "user:checker.1792064463@example.com",
+          "action": "outcomes.reject",
+          "detail": "1 entry: #2 — reason: Wrong order number",
+          "store": null
+        }
+      ]

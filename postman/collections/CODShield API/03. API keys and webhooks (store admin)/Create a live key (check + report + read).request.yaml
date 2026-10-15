@@ -1,0 +1,26 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/api-keys'
+order: 1000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "name": "Postman live",
+      "mode": "live",
+      "scopes": [
+        "check",
+        "report",
+        "read"
+      ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 201", () => pm.response.to.have.status(201));
+      pm.environment.set("apiKey", pm.response.json().api_key);
+examples: './.resources/Create a live key (check + report + read).resources/examples/'

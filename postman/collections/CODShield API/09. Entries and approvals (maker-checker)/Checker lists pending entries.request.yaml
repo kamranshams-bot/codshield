@@ -1,0 +1,18 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/v1/submissions?status=pending'
+order: 5000
+queryParams:
+  - key: 'status'
+    value: 'pending'
+auth:
+  type: bearer
+  credentials:
+    - key: 'token'
+      value: '{{checkerToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+examples: './.resources/Checker lists pending entries.resources/examples/'

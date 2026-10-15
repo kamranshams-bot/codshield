@@ -110,7 +110,7 @@ elif risk["band"] == "medium":
   headers: { "X-API-Key": process.env.CODSHIELD_KEY, "Content-Type": "application/json" },
   body: JSON.stringify({ phone: "0300-1234567", country: "PK" }),
 });
-if (!r.ok) throw new Error((await r.json()).detail);
+if (!r.ok) { const { error } = await r.json(); throw new Error(`${error.code}: ${error.message}`); }
 const risk = await r.json();   // { score, band, recommended_action, reasons, ... }</code></pre>
 
 <h3>Report what happened</h3>
@@ -283,16 +283,26 @@ export function verify(rawBody, header, secret) {
 }</code></pre>
 
 <h2 id="errors">Errors</h2>
-<p>Errors return a JSON body <code>{"detail": "…"}</code> with a plain-language message you can log or show to staff.</p>
-<div class="tw"><table><thead><tr><th>Status</th><th>Meaning</th><th>What to do</th></tr></thead><tbody>
-<tr><td><code>401</code></td><td>Missing, wrong or revoked key</td><td>Check the <code>X-API-Key</code> header</td></tr>
-<tr><td><code>402</code></td><td>Plan limit reached (monthly checks)</td><td>Upgrade the plan; don't retry until next month</td></tr>
-<tr><td><code>403</code></td><td>Key lacks the scope, country not allowed, or tier doesn't include it</td><td>Use a key with the right scope</td></tr>
-<tr><td><code>404</code></td><td>Not found</td><td>Check the ID</td></tr>
-<tr><td><code>413</code></td><td>Batch too large</td><td>Split into 500 checks / 1,000 outcomes</td></tr>
-<tr><td><code>422</code></td><td>Validation failed</td><td>Fix the field named in <code>detail</code>; don't retry unchanged</td></tr>
-<tr><td><code>429</code></td><td>Rate limit</td><td>Wait and retry with backoff</td></tr>
-<tr><td><code>5xx</code> / <code>503</code></td><td>Temporary problem</td><td>Retry with backoff; outcomes are safe to retry</td></tr>
+<p>Every error has the same shape. Branch on <code>error.code</code>, which never changes; show or log <code>error.message</code>; quote <code>error.request_id</code> to support. Validation errors list every bad field at once in <code>error.fields</code>. The older <code>detail</code> field is kept for existing integrations.</p>
+<pre><code>{
+  "detail": "This API key doesn't have the 'report' scope.",
+  "error": {
+    "code": "missing_scope",
+    "message": "This API key doesn't have the 'report' scope.",
+    "status": 403,
+    "request_id": "req_2548d6f3f1575c5a"
+  }
+}</code></pre>
+<div class="tw"><table><thead><tr><th>Status</th><th><code>error.code</code></th><th>Meaning</th><th>What to do</th></tr></thead><tbody>
+<tr><td><code>401</code></td><td><code>unauthenticated</code>, <code>invalid_api_key</code>, <code>session_expired</code></td><td>No key, a wrong or revoked key, or an ended session</td><td>Check the <code>X-API-Key</code> header</td></tr>
+<tr><td><code>402</code></td><td><code>quota_exceeded</code></td><td>This month's order checks are used up</td><td>Upgrade the plan; don't retry until next month</td></tr>
+<tr><td><code>403</code></td><td><code>missing_scope</code>, <code>tier_not_allowed</code>, <code>country_not_enabled</code>, <code>forbidden</code></td><td>The key or user isn't allowed to do this</td><td>Use a key with the right scope</td></tr>
+<tr><td><code>404</code></td><td><code>not_found</code></td><td>No such record or path</td><td>Check the ID</td></tr>
+<tr><td><code>409</code></td><td><code>conflict</code></td><td>Already exists, e.g. a user's email</td><td>Use the existing record</td></tr>
+<tr><td><code>413</code></td><td><code>batch_too_large</code></td><td>Batch too large</td><td>Split into 500 checks / 1,000 outcomes</td></tr>
+<tr><td><code>422</code></td><td><code>validation_failed</code></td><td>Invalid input; see <code>error.fields</code></td><td>Fix the fields; don't retry unchanged</td></tr>
+<tr><td><code>429</code></td><td><code>rate_limited</code></td><td>Over the per-minute limit</td><td>Wait the <code>Retry-After</code> seconds, then retry</td></tr>
+<tr><td><code>5xx</code> / <code>503</code></td><td><code>service_unavailable</code>, <code>server_error</code></td><td>Temporary problem</td><td>Retry with backoff; outcomes are safe to retry</td></tr>
 </tbody></table></div>
 
 <h2 id="limits">Limits and tiers</h2>
@@ -306,6 +316,8 @@ export function verify(rawBody, header, secret) {
 <tr><td><b>Score-only</b></td><td>No</td><td>Score, band, recommended action and <code>matched_on</code></td></tr>
 </tbody></table></div>
 <p>Sandbox calls don't count toward monthly checks but do count toward the per-minute rate.</p>
+<p>Every API-key response announces the limit, so you can slow down before you hit it: <code>X-RateLimit-Limit</code> (requests a minute), <code>X-RateLimit-Remaining</code> and <code>X-RateLimit-Reset</code> (Unix time the window frees up). A <code>429</code> also carries <code>Retry-After</code> in seconds.</p>
+<p><b>Retries are safe.</b> An outcome is stored once per store, <code>order_ref</code> and <code>type</code>; sending it again returns <code>duplicate</code>, so you can retry a timed-out batch without double counting.</p>
 
 <h2 id="privacy">Privacy</h2>
 <ul>

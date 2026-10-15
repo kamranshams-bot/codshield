@@ -56,7 +56,7 @@ def new_tenant(country="PK", plan="growth", approval=True):
     r = c.post("/v1/admin/merchants", headers=P, json={
         "name": uniq("Store "), "country": country, "agreement_signed": True, "plan": plan,
         "require_approval": approval, "admin_email": admin_email, "admin_name": "Store Admin"})
-    assert r.status_code == 200, r.text
+    assert r.status_code == 201, r.text
     body = r.json()
     tmp = body["admin_user"]["temporary_password"]
     H = login(admin_email, tmp)

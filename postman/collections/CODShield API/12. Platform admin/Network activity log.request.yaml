@@ -1,0 +1,13 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/v1/audit?limit=200'
+order: 12000
+queryParams:
+  - key: 'limit'
+    value: '200'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+examples: './.resources/Network activity log.resources/examples/'

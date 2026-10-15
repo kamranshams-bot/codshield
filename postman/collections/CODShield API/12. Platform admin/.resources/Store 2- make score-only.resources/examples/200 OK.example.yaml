@@ -1,0 +1,30 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/admin/merchants/{{merchantId2}}'
+  method: PATCH
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "id": 2,
+        "name": "Test Store AE 1792064437",
+        "country": "AE",
+        "active": true,
+        "agreement_signed": true,
+        "trust_weight": 1.0,
+        "plan": "growth",
+        "require_approval": false,
+        "tier": "score_only",
+        "seats_used": 0,
+        "seats_limit": 25,
+        "checks_this_month": 0,
+        "checks_limit": 50000
+      }

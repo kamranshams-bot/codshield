@@ -1,0 +1,33 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/check'
+  method: POST
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "score": 44,
+        "band": "medium",
+        "recommended_action": "confirm_by_call_or_otp",
+        "reasons": [
+          "1 x refused_at_door",
+          "1 x unreachable",
+          "reported by 2 merchant(s)"
+        ],
+        "negative_events": 2,
+        "paid_deliveries": 0,
+        "reporting_merchants": 2,
+        "last_negative_at": null,
+        "matched_on": [
+          "phone"
+        ],
+        "test_mode": true
+      }

@@ -1,0 +1,40 @@
+$kind: http-example
+name: '422 Unprocessable Content'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/events'
+  method: POST
+response:
+  statusCode: 422
+  statusText: 'Unprocessable Content'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "detail": [
+          {
+            "type": "float_parsing",
+            "loc": [
+              "body",
+              "amount"
+            ],
+            "msg": "Input should be a valid number, unable to parse string as a number",
+            "input": "lots"
+          }
+        ],
+        "error": {
+          "code": "validation_failed",
+          "message": "amount: Input should be a valid number, unable to parse string as a number",
+          "status": 422,
+          "request_id": "req_5125a10d4c71f5f1",
+          "fields": [
+            {
+              "field": "amount",
+              "message": "Input should be a valid number, unable to parse string as a number"
+            }
+          ]
+        }
+      }

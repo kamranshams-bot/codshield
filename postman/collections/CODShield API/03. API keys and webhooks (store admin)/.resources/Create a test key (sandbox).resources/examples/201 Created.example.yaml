@@ -1,0 +1,33 @@
+$kind: http-example
+name: '201 Created'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/api-keys'
+  method: POST
+response:
+  statusCode: 201
+  statusText: 'Created'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "key": {
+          "id": 2,
+          "name": "Postman sandbox",
+          "prefix": "cs_test_abcd…",
+          "mode": "test",
+          "scopes": [
+            "check",
+            "report",
+            "read"
+          ],
+          "created_at": "2026-10-15T11:40:36.996116",
+          "last_used_at": null,
+          "revoked": false
+        },
+        "api_key": "cs_test_EXAMPLEKEYdoNotUse0000000000000",
+        "note": "Store this key now; it is not shown again."
+      }

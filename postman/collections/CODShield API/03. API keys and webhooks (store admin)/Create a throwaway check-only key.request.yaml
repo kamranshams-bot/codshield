@@ -1,0 +1,24 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/api-keys'
+order: 3000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "name": "Throwaway",
+      "mode": "live",
+      "scopes": [
+        "check"
+      ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 201", () => pm.response.to.have.status(201));
+      pm.environment.set("keyId", pm.response.json().key.id);
+examples: './.resources/Create a throwaway check-only key.resources/examples/'

@@ -1,0 +1,20 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/disputes'
+  method: POST
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "dispute_id": 1,
+        "status": "open",
+        "message": "Records are excluded from scoring while we review."
+      }

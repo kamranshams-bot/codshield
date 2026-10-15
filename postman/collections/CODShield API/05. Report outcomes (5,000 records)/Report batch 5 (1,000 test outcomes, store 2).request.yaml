@@ -1,0 +1,67 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/events/batch'
+order: 6000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    [
+      {
+        "order_ref": "TEST-PK-104902",
+        "type": "delivered_paid",
+        "occurred_at": "2026-08-01T21:20:30Z",
+        "phone": "03212303184",
+        "email": "sana.2128.test@yahoo.com",
+        "address": "House 303, Street 44, G-11/2",
+        "city": "Gujranwala",
+        "country": "PK",
+        "amount": 14900,
+        "currency": "PKR",
+        "evidence": "M&P CN 42770305"
+      },
+      {
+        "order_ref": "TEST-PK-104682",
+        "type": "delivered_paid",
+        "occurred_at": "2026-08-01T21:59:30Z",
+        "phone": "03012433841",
+        "email": "imran.2283.test@outlook.com",
+        "address": "House 219, Street 32, DHA Phase 5",
+        "city": "Lahore",
+        "country": "PK",
+        "amount": 5400,
+        "currency": "PKR",
+        "evidence": "PostEx CN 26006062"
+      },
+      {
+        "order_ref": "TEST-PK-104632",
+        "type": "delivered_paid",
+        "occurred_at": "2026-08-02T02:49:30Z",
+        "phone": "03018226615",
+        "address": "House 227, Street 50, F-7 Markaz",
+        "city": "Rawalpindi",
+        "country": "PK",
+        "amount": 13100,
+        "currency": "PKR",
+        "evidence": "TCS CN 75788625"
+      }
+    ]
+auth:
+  type: apikey
+  credentials:
+    - key: 'key'
+      value: 'X-API-Key'
+    - key: 'value'
+      value: '{{apiKey2}}'
+    - key: 'in'
+      value: 'header'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+      pm.test("every row has an outcome", () => pm.response.json().results.forEach(r => pm.expect(r.outcome).to.be.a("string")));
+      const c = {}; pm.response.json().results.forEach(r => c[r.outcome] = (c[r.outcome] || 0) + 1); console.log("outcomes", JSON.stringify(c)); pm.test("outcomes: " + JSON.stringify(c), () => true);
+examples: './.resources/Report batch 5 (1,000 test outcomes, store 2).resources/examples/'

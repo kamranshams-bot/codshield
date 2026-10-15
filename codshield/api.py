@@ -13,11 +13,14 @@ from pathlib import Path
 from typing import Literal
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
+from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import HTMLResponse
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, Field
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from . import auth, devapi, reports, service, workflow
 from .auth import Actor, AuthError, PLANS, audit
@@ -60,21 +63,75 @@ app = FastAPI(lifespan=lifespan, title="CODShield", version="0.3.0",
                           "Stores hashed identifiers only. Multi-tenant with role-based access.")
 
 
+ERROR_CODES = {400: "bad_request", 401: "unauthenticated", 402: "quota_exceeded", 403: "forbidden",
+               404: "not_found", 405: "method_not_allowed", 409: "conflict", 413: "batch_too_large",
+               422: "validation_failed", 429: "rate_limited", 503: "service_unavailable"}
+
+
+def _error_code(status: int, message: str) -> str:
+    m = message.lower()
+    if status == 403:
+        if "scope" in m:
+            return "missing_scope"
+        if "score-only" in m:
+            return "tier_not_allowed"
+        if "isn't set up for" in m:
+            return "country_not_enabled"
+        if "platform" in m:
+            return "platform_only"
+    if status == 401 and "session" in m:
+        return "session_expired"
+    if status == 401 and m.startswith("invalid") and "key" in m:
+        return "invalid_api_key"
+    return ERROR_CODES.get(status, "server_error" if status >= 500 else "error")
+
+
+def error_response(request: Request, status: int, detail, headers: dict | None = None) -> JSONResponse:
+    """One error shape everywhere. `detail` stays for existing clients; `error` adds a stable machine-readable code."""
+    fields = None
+    if isinstance(detail, list):        # pydantic validation errors: report all fields together
+        fields = [{"field": ".".join(str(x) for x in e.get("loc", []) if x != "body"), "message": e.get("msg", "")}
+                  for e in detail]
+        message = "; ".join(f"{f['field']}: {f['message']}" for f in fields)
+    else:
+        message = str(detail)
+    err = {"code": _error_code(status, message), "message": message, "status": status,
+           "request_id": getattr(request.state, "request_id", None)}
+    if fields:
+        err["fields"] = fields
+    return JSONResponse(status_code=status, content={"detail": detail, "error": err}, headers=headers)
+
+
 @app.exception_handler(AuthError)
-async def _auth_error(_req, exc: AuthError):
-    return JSONResponse(status_code=exc.status, content={"detail": str(exc)})
+async def _auth_error(request: Request, exc: AuthError):
+    return error_response(request, exc.status, str(exc))
 
 
 @app.exception_handler(devapi.PlatformError)
-async def _platform_error(_req, exc):
-    return JSONResponse(status_code=exc.status, content={"detail": str(exc)})
+async def _platform_error(request: Request, exc):
+    return error_response(request, exc.status, str(exc))
+
+
+@app.exception_handler(StarletteHTTPException)
+async def _http_error(request: Request, exc: StarletteHTTPException):
+    return error_response(request, exc.status_code, exc.detail, getattr(exc, "headers", None))
+
+
+@app.exception_handler(RequestValidationError)
+async def _validation_error(request: Request, exc: RequestValidationError):
+    return error_response(request, 422, jsonable_encoder(exc.errors()))
 
 
 @app.middleware("http")
 async def request_id_and_metering(request: Request, call_next):
-    rid = request.headers.get("x-request-id") or "req_" + secrets.token_hex(8)
+    rid = (request.headers.get("x-request-id") or "req_" + secrets.token_hex(8))[:64]
+    request.state.request_id = rid
     response = await call_next(request)
-    response.headers["X-Request-ID"] = rid[:64]
+    response.headers["X-Request-ID"] = rid
+    rate = getattr(request.state, "rate", None)
+    if rate:
+        response.headers["X-RateLimit-Limit"], response.headers["X-RateLimit-Remaining"], \
+            response.headers["X-RateLimit-Reset"] = (str(v) for v in rate)
     meter = getattr(request.state, "meter", None)
     if meter:
         from .db import SessionLocal
@@ -103,8 +160,8 @@ async def require_configuration(request, call_next):
     if request.url.path.startswith("/v1/"):
         missing = _setup_problems()
         if missing:
-            return JSONResponse(status_code=503, content={
-                "detail": "This CODShield server isn't set up yet: missing " + ", ".join(missing) + "."})
+            return error_response(request, 503, "This CODShield server isn't set up yet: missing "
+                                  + ", ".join(missing) + ".")
     return await call_next(request)
 
 
@@ -112,14 +169,22 @@ async def require_configuration(request, call_next):
 _hits: dict[str, deque] = defaultdict(deque)
 
 
-def _rate_limit(key: str, per_min: int | None = None):
+def _rate_limit(key: str, per_min: int | None = None, request: Request | None = None):
+    """Sliding one-minute window. With `request`, the limit is announced in X-RateLimit-* headers."""
     now = time.time()
+    limit = per_min or settings.RATE_LIMIT_PER_MIN
     q = _hits[key]
     while q and now - q[0] > 60:
         q.popleft()
-    if len(q) >= (per_min or settings.RATE_LIMIT_PER_MIN):
-        raise HTTPException(429, "Too many requests. Wait a minute and try again.")
+    reset = int((q[0] + 60) if q else now + 60)
+    if len(q) >= limit:
+        if request is not None:
+            request.state.rate = (limit, 0, reset)
+        raise HTTPException(429, "Too many requests. Wait a minute and try again.",
+                            headers={"Retry-After": str(max(1, int(reset - now)))})
     q.append(now)
+    if request is not None:
+        request.state.rate = (limit, limit - len(q), reset)
 
 
 # ---------- who is calling ----------
@@ -130,7 +195,7 @@ def get_actor(request: Request, authorization: str | None = Header(None), x_api_
         if not u:
             raise HTTPException(401, "Your session has ended. Sign in again.")
         a = auth.actor_for_user(s, u)
-        _rate_limit(f"u{u.id}")
+        _rate_limit(f"u{u.id}", request=request)
         return a
     if x_api_key:
         key = devapi.find_api_key(s, x_api_key)
@@ -142,7 +207,7 @@ def get_actor(request: Request, authorization: str | None = Header(None), x_api_
             key.last_used_at = utcnow()
             s.commit()
         request.state.meter = (m.id, a.api_key_id)
-        _rate_limit(f"k{m.id}:{a.api_key_id}", devapi.PLAN_RATE.get(m.plan or "free", 60))
+        _rate_limit(f"k{m.id}:{a.api_key_id}", devapi.PLAN_RATE.get(m.plan or "free", 60), request)
         return a
     if x_admin_key:
         if x_admin_key != settings.ADMIN_KEY:
@@ -776,7 +841,7 @@ def _create_merchant(s: Session, actor: Actor, item: MerchantIn) -> dict:
     return out
 
 
-@app.post("/v1/admin/merchants", tags=["platform"])
+@app.post("/v1/admin/merchants", tags=["platform"], status_code=201)
 def add_merchant(body: MerchantIn, actor: Actor = Depends(platform), s: Session = Depends(get_session)):
     try:
         out = _create_merchant(s, actor, body)
@@ -857,3 +922,116 @@ def stats(actor: Actor = Depends(platform), s: Session = Depends(get_session)):
             "identities": s.scalar(select(func.count(Identity.id))),
             "events": s.scalar(select(func.count(Event.id))),
             "open_disputes": s.scalar(select(func.count(Dispute.id)).where(Dispute.status == "open"))}
+
+
+# ================================================================ OpenAPI contract
+PUBLIC_OPS = {("get", "/health"), ("get", "/v1/meta"), ("post", "/v1/disputes"), ("post", "/v1/auth/login")}
+_RATE_HEADERS = {
+    "X-Request-ID": {"description": "Quote this to support.", "schema": {"type": "string"}},
+    "X-RateLimit-Limit": {"description": "Requests allowed per minute for this key (API keys).", "schema": {"type": "integer"}},
+    "X-RateLimit-Remaining": {"description": "Requests left in the current minute.", "schema": {"type": "integer"}},
+    "X-RateLimit-Reset": {"description": "Unix time when the window frees up.", "schema": {"type": "integer"}},
+}
+
+
+def _error_response(desc: str, code: str, msg: str, status: int, extra_headers=None) -> dict:
+    r = {"description": desc, "content": {"application/json": {
+        "schema": {"$ref": "#/components/schemas/ErrorResponse"},
+        "example": {"detail": msg, "error": {"code": code, "message": msg, "status": status,
+                                              "request_id": "req_2548d6f3f1575c5a"}}}}}
+    if extra_headers:
+        r["headers"] = extra_headers
+    return r
+
+
+def custom_openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+    from fastapi.openapi.utils import get_openapi
+    spec = get_openapi(title="CODShield API", version=app.version, routes=app.routes, description=(
+        "Check a cash-on-delivery customer's risk before shipping, and report delivery outcomes afterwards "
+        "(Pakistan and UAE).\n\nAuthentication: system integrations send `X-API-Key` (scopes check / report / read; "
+        "`cs_test_` keys run in a sandbox). People sign in with `POST /v1/auth/login` and send the session token as "
+        "`Authorization: Bearer`. Platform operators use `X-Admin-Key`. Store admins create API keys in the web app "
+        "(Developers) or with `POST /v1/api-keys`.\n\nErrors share one shape: branch on `error.code`. Batches: up to "
+        "500 checks or 1,000 outcomes per call; rows fail one by one. Retrying an outcome is safe (stored once per "
+        "store, order_ref and type).\n\nGuide and data dictionary: /developers"))
+    spec["servers"] = [{"url": "https://codshield-sx1i.onrender.com", "description": "Production"}]
+    comps = spec.setdefault("components", {})
+    comps["securitySchemes"] = {
+        "ApiKey": {"type": "apiKey", "in": "header", "name": "X-API-Key",
+                   "description": "Store API key (cs_live_ / cs_test_), created by a store admin."},
+        "Session": {"type": "http", "scheme": "bearer", "description": "Session token from POST /v1/auth/login (12 hours)."},
+        "AdminKey": {"type": "apiKey", "in": "header", "name": "X-Admin-Key", "description": "Platform operators only."},
+    }
+    comps.setdefault("schemas", {})["ErrorResponse"] = {
+        "type": "object", "required": ["error"],
+        "properties": {
+            "detail": {"description": "Kept for older integrations: the message, or the list of validation errors."},
+            "error": {"type": "object", "required": ["code", "message", "status"], "properties": {
+                "code": {"type": "string", "description": (
+                    "Stable machine-readable code. Handling: unauthenticated / invalid_api_key / session_expired -> "
+                    "fix credentials or sign in again, don't retry; missing_scope / tier_not_allowed / "
+                    "country_not_enabled / forbidden / platform_only -> use a key or user with that access, don't retry; "
+                    "validation_failed -> fix error.fields, don't retry unchanged; quota_exceeded -> upgrade the plan, "
+                    "retry next month; batch_too_large -> split the batch; rate_limited -> wait Retry-After seconds "
+                    "then retry; service_unavailable / server_error -> retry with backoff; not_found / conflict -> "
+                    "check the ID or use the existing record."),
+                         "enum": sorted(set(ERROR_CODES.values()) | {"missing_scope", "tier_not_allowed",
+                                        "country_not_enabled", "platform_only", "session_expired",
+                                        "invalid_api_key", "server_error"})},
+                "message": {"type": "string", "description": "Plain-language explanation."},
+                "status": {"type": "integer"},
+                "request_id": {"type": "string", "description": "Same as the X-Request-ID header."},
+                "fields": {"type": "array", "description": "422 only: every invalid field.", "items": {
+                    "type": "object", "properties": {"field": {"type": "string"}, "message": {"type": "string"}}}},
+            }},
+        }}
+    common = {
+        "401": _error_response("Missing, wrong or revoked credentials", "unauthenticated", "Sign in, or send an API key.", 401),
+        "403": _error_response("Not allowed for this key, user, tier or country", "missing_scope",
+                               "This API key doesn't have the 'report' scope.", 403),
+        "429": _error_response("Rate limit reached", "rate_limited", "Too many requests. Wait a minute and try again.", 429,
+                               {"Retry-After": {"description": "Seconds to wait.", "schema": {"type": "integer"}}}),
+    }
+    for path, ops in spec["paths"].items():
+        for method, op in ops.items():
+            public = (method, path) in PUBLIC_OPS
+            tags = op.get("tags", [])
+            if public:
+                op["security"] = []
+            elif "platform" in tags:
+                op["security"] = [{"AdminKey": []}, {"Session": []}]
+            elif tags and tags[0] in ("auth", "admin", "developers") and path not in ("/v1/usage",):
+                op["security"] = [{"Session": []}]
+            else:
+                op["security"] = [{"ApiKey": []}, {"Session": []}]
+            # header params duplicated by the security schemes add noise
+            op["parameters"] = [p for p in op.get("parameters", [])
+                                if not (p.get("in") == "header" and p["name"].lower() in ("authorization", "x-api-key", "x-admin-key"))]
+            if not op["parameters"]:
+                op.pop("parameters")
+            resp = op.setdefault("responses", {})
+            for code, r in resp.items():
+                if code.startswith("2"):
+                    r.setdefault("headers", {}).update(_RATE_HEADERS)
+            if "422" in resp:
+                resp["422"] = _error_response("Validation failed; error.fields lists every invalid field",
+                                              "validation_failed", "country: Input should be 'PK' or 'AE'", 422)
+            if not public:
+                for code, r in common.items():
+                    resp.setdefault(code, r)
+            else:
+                resp.setdefault("429", common["429"])
+    if "/v1/check" in spec["paths"]:
+        spec["paths"]["/v1/check"]["post"].setdefault("responses", {})["402"] = _error_response(
+            "Monthly check quota used up", "quota_exceeded", "This month's 1,000 order checks on the Free plan are used up.", 402)
+    for p in ("/v1/check/batch", "/v1/events/batch"):
+        if p in spec["paths"]:
+            spec["paths"][p]["post"]["responses"]["413"] = _error_response(
+                "Batch too large", "batch_too_large", "max 500 orders per batch", 413)
+    app.openapi_schema = spec
+    return spec
+
+
+app.openapi = custom_openapi

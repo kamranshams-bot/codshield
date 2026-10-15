@@ -3,6 +3,7 @@
 Run:  uvicorn codshield.api:app --reload
 Docs: http://localhost:8000/docs
 """
+import logging
 import os
 import secrets
 import time
@@ -20,12 +21,22 @@ from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, Field
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import OperationalError as SQLAOperationalError
+from sqlalchemy.exc import TimeoutError as SQLATimeoutError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from . import auth, devapi, reports, service, workflow
 from .auth import Actor, AuthError, PLANS, audit
 from .config import settings
-from .db import get_session, init_db
+from .db import get_session, init_db, pool_status
+
+log = logging.getLogger("codshield")
+if not log.handlers:                         # uvicorn only configures its own loggers
+    _h = logging.StreamHandler()
+    _h.setFormatter(logging.Formatter("%(levelname)s:    codshield %(message)s"))
+    log.addHandler(_h)
+    log.setLevel(logging.INFO)
+    log.propagate = False
 from .models import (ALL_PERMS, AuditLog, Dispute, Event, Identity, Merchant,
                      Submission, User, utcnow)
 
@@ -46,7 +57,41 @@ async def _webhook_retry_loop():
         try:
             await run_in_threadpool(tick)
         except Exception:                     # never let the loop die
-            pass
+            log.exception("webhook retry tick failed")
+        try:
+            await run_in_threadpool(_log_pool_health)
+        except Exception:
+            log.exception("pool health check failed")
+
+
+_pool_full_minutes = 0
+
+
+def _log_pool_health():
+    """Log the pool every minute; when it runs low, also log what each database connection is doing.
+    If it stays completely full for two checks in a row, swap in a fresh pool so new requests work again."""
+    global _pool_full_minutes
+    from .db import IS_SQLITE, engine, pool_status
+    st = pool_status()
+    if not st:
+        return
+    log.info("db pool %s", st)
+    full = st["checked_out"] >= st["size"] + 10
+    _pool_full_minutes = _pool_full_minutes + 1 if full else 0
+    if _pool_full_minutes >= 2:
+        log.error("db pool stuck full for %d minutes; replacing it: %s", _pool_full_minutes, st)
+        engine.dispose(close=False)      # stuck connections are abandoned, not waited for
+        _pool_full_minutes = 0
+        return
+    if st["checked_out"] >= 8 and not IS_SQLITE:
+        from sqlalchemy import text
+        with engine.connect() as c:
+            rows = c.execute(text(
+                "SELECT state, wait_event_type, wait_event, now() - xact_start AS xact_age, "
+                "now() - state_change AS state_age, left(query, 120) AS query FROM pg_stat_activity "
+                "WHERE datname = current_database() AND pid <> pg_backend_pid() ORDER BY xact_start NULLS LAST")).all()
+        for r in rows:
+            log.warning("db activity %s", dict(r._mapping))
 
 
 @asynccontextmanager
@@ -117,6 +162,19 @@ async def _http_error(request: Request, exc: StarletteHTTPException):
     return error_response(request, exc.status_code, exc.detail, getattr(exc, "headers", None))
 
 
+@app.exception_handler(SQLATimeoutError)
+async def _pool_busy(request: Request, exc):
+    log.error("database pool exhausted: %s", pool_status())
+    return error_response(request, 503, "The service is busy. Try again in a few seconds.", {"Retry-After": "5"})
+
+
+@app.exception_handler(SQLAOperationalError)
+async def _db_unreachable(request: Request, exc):
+    log.error("database unreachable: %s %s", type(exc.orig).__name__ if exc.orig else "", pool_status())
+    return error_response(request, 503, "The database can't be reached right now. Try again in a few seconds.",
+                          {"Retry-After": "5"})
+
+
 @app.exception_handler(RequestValidationError)
 async def _validation_error(request: Request, exc: RequestValidationError):
     return error_response(request, 422, jsonable_encoder(exc.errors()))
@@ -134,11 +192,19 @@ async def request_id_and_metering(request: Request, call_next):
             response.headers["X-RateLimit-Reset"] = (str(v) for v in rate)
     meter = getattr(request.state, "meter", None)
     if meter:
-        from .db import SessionLocal
-        with SessionLocal() as s:
-            devapi.record_usage(s, meter[0], meter[1], devapi.endpoint_label(request.method, request.url.path),
-                                error=response.status_code >= 400)
+        from starlette.concurrency import run_in_threadpool
+        try:      # a blocking DB write on the event loop would stall every request; metering must never fail one
+            await run_in_threadpool(_record_usage, meter, devapi.endpoint_label(request.method, request.url.path),
+                                    response.status_code >= 400)
+        except Exception:
+            log.exception("usage metering failed")
     return response
+
+
+def _record_usage(meter, label, error):
+    from .db import SessionLocal
+    with SessionLocal() as s:
+        devapi.record_usage(s, meter[0], meter[1], label, error=error)
 
 
 def _setup_problems() -> list[str]:
@@ -356,7 +422,16 @@ def home():
 
 @app.get("/health")
 def health():
-    return {"ok": True}
+    """Liveness plus a real database round trip, so a platform health check can restart a stuck server."""
+    from sqlalchemy import text
+    from .db import engine
+    try:
+        with engine.connect() as c:
+            c.execute(text("SELECT 1"))
+        return {"ok": True, "db": "ok", "pool": pool_status()}
+    except Exception as e:
+        log.error("health check failed: %s %s", type(e).__name__, pool_status())
+        return JSONResponse(status_code=503, content={"ok": False, "db": type(e).__name__, "pool": pool_status()})
 
 
 @app.get("/v1/meta", tags=["public"])

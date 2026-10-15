@@ -15,11 +15,12 @@ response:
     content: |-
       {
         "merchant_id": 1,
-        "name": "Test Store PK 1792064436",
+        "name": "Test Store PK 1792081051",
         "api_key": "cs_live_EXAMPLEKEYdoNotUse0000000000000",
         "admin_user": {
-          "email": "owner.1792064436@example.com",
-          "temporary_password": "TempPass-example"
+          "email": "owner.1792081051@example.com",
+          "temporary_password": "TempPass-example",
+          "invite_sent": false
         },
         "note": "Store this key now; it is not shown again."
       }

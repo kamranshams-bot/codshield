@@ -16,7 +16,7 @@ response:
       [
         {
           "id": 2,
-          "email": "owner.1792064436@example.com",
+          "email": "owner.1792081051@example.com",
           "name": "Store Owner",
           "merchant_id": 1,
           "perms": [
@@ -31,12 +31,12 @@ response:
           "is_platform_admin": false,
           "active": true,
           "must_change_password": false,
-          "last_login_at": "2026-10-15T11:40:36.696649",
-          "created_at": "2026-10-15T11:40:36.529610"
+          "last_login_at": "2026-10-15T16:17:30.819384",
+          "created_at": "2026-10-15T16:17:30.647886"
         },
         {
           "id": 3,
-          "email": "checker.1792064463@example.com",
+          "email": "checker.1792081056@example.com",
           "name": "Test Checker",
           "merchant_id": 1,
           "perms": [
@@ -53,11 +53,11 @@ response:
           "active": true,
           "must_change_password": true,
           "last_login_at": null,
-          "created_at": "2026-10-15T11:41:02.624449"
+          "created_at": "2026-10-15T16:17:36.182481"
         },
         {
           "id": 4,
-          "email": "maker.1792064463@example.com",
+          "email": "maker.1792081056@example.com",
           "name": "Test Maker",
           "merchant_id": 1,
           "perms": [
@@ -72,6 +72,6 @@ response:
           "active": true,
           "must_change_password": true,
           "last_login_at": null,
-          "created_at": "2026-10-15T11:41:02.712383"
+          "created_at": "2026-10-15T16:17:36.302237"
         }
       ]

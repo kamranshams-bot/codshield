@@ -2,7 +2,7 @@ $kind: http-example
 name: '200 OK'
 order: 1000
 request:
-  url: '{{baseUrl}}/v1/admin/disputes?status=open'
+  url: '{{baseUrl}}/v1/admin/disputes?status=unverified'
   method: GET
 response:
   statusCode: 200
@@ -18,15 +18,9 @@ response:
           "id": 1,
           "reason": "I never placed these orders. Please remove them.",
           "contact": "test@example.com",
-          "status": "open",
-          "created_at": "2026-10-15T11:41:03.347389",
-          "store_responses": [
-            {
-              "store": "Test Store PK 1792064436",
-              "action": "confirm",
-              "note": "Courier proof on file.",
-              "at": "2026-10-15T11:41:03.455712"
-            }
-          ]
+          "status": "unverified",
+          "verified": false,
+          "created_at": "2026-10-15T16:17:37.022793",
+          "store_responses": []
         }
       ]

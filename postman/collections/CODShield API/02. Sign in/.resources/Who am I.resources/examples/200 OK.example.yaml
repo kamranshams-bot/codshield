@@ -27,7 +27,7 @@ response:
         ],
         "user": {
           "id": 2,
-          "email": "owner.1792064436@example.com",
+          "email": "owner.1792081051@example.com",
           "name": "Store Owner",
           "merchant_id": 1,
           "perms": [
@@ -42,12 +42,12 @@ response:
           "is_platform_admin": false,
           "active": true,
           "must_change_password": false,
-          "last_login_at": "2026-10-15T11:40:36.696649",
-          "created_at": "2026-10-15T11:40:36.529610"
+          "last_login_at": "2026-10-15T16:17:30.819384",
+          "created_at": "2026-10-15T16:17:30.647886"
         },
         "tenant": {
           "id": 1,
-          "name": "Test Store PK 1792064436",
+          "name": "Test Store PK 1792081051",
           "country": "PK",
           "plan": "growth",
           "plan_label": "Growth",

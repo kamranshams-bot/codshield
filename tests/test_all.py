@@ -10,6 +10,7 @@ os.environ["CODSHIELD_ADMIN_KEY"] = "adm"
 
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
+from tests import verified_dispute  # noqa: E402
 
 from codshield.api import app  # noqa: E402
 from codshield.db import SessionLocal, init_db  # noqa: E402
@@ -163,8 +164,7 @@ def test_dispute_freezes_then_restores_or_removes():
                                                    "occurred_at": iso(), "phone": phone})
     assert client.post("/v1/check", headers=k1, json={"phone": phone}).json()["score"] > 0
 
-    r = client.post("/v1/disputes", json={"phone": phone, "country": "PK",
-                                          "reason": "I was abroad, I never placed these orders."})
+    r = verified_dispute(client, phone, "I was abroad, I never placed these orders.")
     did = r.json()["dispute_id"]
     assert client.post("/v1/check", headers=k1, json={"phone": phone}).json()["score"] == 0
 
@@ -173,16 +173,14 @@ def test_dispute_freezes_then_restores_or_removes():
     assert client.post("/v1/check", headers=k1, json={"phone": phone}).json()["score"] > 0
 
     # new dispute upheld -> removed permanently
-    did2 = client.post("/v1/disputes", json={"phone": phone, "country": "PK",
-                                             "reason": "Courier marked refused but never came."}).json()["dispute_id"]
+    did2 = verified_dispute(client, phone, "Courier marked refused but never came.").json()["dispute_id"]
     client.post(f"/v1/admin/disputes/{did2}/resolve", headers=ADM, json={"upheld": True, "note": "courier error"})
     assert client.post("/v1/check", headers=k1, json={"phone": phone}).json()["score"] == 0
 
 
 def test_dispute_unknown_number():
-    r = client.post("/v1/disputes", json={"phone": "03110000000", "country": "PK",
-                                          "reason": "checking whether I am listed"})
-    assert r.status_code == 422
+    r = verified_dispute(client, "03110000000", "checking whether I am listed")
+    assert r.status_code == 200 and r.json()["status"] == "no_records"
 
 
 def test_no_raw_pii_in_database():
@@ -335,3 +333,56 @@ def test_batch_merchants():
     res = r.json()["results"]
     assert all(x["ok"] for x in res) and all(x["api_key"].startswith("cs_") for x in res)
     assert client.post("/v1/admin/merchants/batch", headers=ADM, json=[{"name": "X", "country": "IN"}]).status_code == 422
+
+
+def test_dispute_needs_code_and_unverified_path():
+    from codshield import notify
+    k1, _ = new_merchant("DispV1")
+    k2, _ = new_merchant("DispV2")
+    phone = "03007776665"
+    for k, ref in ((k1, "v1"), (k2, "v2")):
+        client.post("/v1/events", headers=k, json={"order_ref": ref, "type": "refused_at_door",
+                                                   "occurred_at": iso(), "phone": phone})
+    before = client.post("/v1/check", headers=k1, json={"phone": phone}).json()["score"]
+    # SMS available: no code -> refused; wrong code -> refused; nothing frozen
+    assert client.post("/v1/disputes", json={"phone": phone, "country": "PK", "reason": "not me at all, please"}).status_code == 422
+    v = client.post("/v1/disputes/verify", json={"phone": phone, "country": "PK"}).json()
+    bad = client.post("/v1/disputes", json={"phone": phone, "country": "PK", "reason": "not me at all, please",
+                                            "verification_id": v["verification_id"], "code": "000000"})
+    assert bad.status_code == 422 and client.post("/v1/check", headers=k1, json={"phone": phone}).json()["score"] == before
+    # SMS not configured: accepted as unverified, same answer as for an unknown number, nothing frozen
+    notify.TEST_MODE = False
+    try:
+        r1 = client.post("/v1/disputes", json={"phone": phone, "country": "PK", "reason": "not me at all, please"}).json()
+        r2 = client.post("/v1/disputes", json={"phone": "03119990001", "country": "PK", "reason": "not me at all, please"}).json()
+    finally:
+        notify.TEST_MODE = True
+    assert r1 == r2 and r1["status"] == "received" and "dispute_id" not in r1
+    assert client.post("/v1/check", headers=k1, json={"phone": phone}).json()["score"] == before
+    pend = client.get("/v1/admin/disputes", headers=ADM, params={"status": "unverified"}).json()
+    did = next(d["id"] for d in pend if d["reason"] == "not me at all, please")
+    assert client.post(f"/v1/admin/disputes/{did}/verify", headers=ADM).json()["status"] == "open"
+    assert client.post("/v1/check", headers=k1, json={"phone": phone}).json()["score"] == 0
+    client.post(f"/v1/admin/disputes/{did}/resolve", headers=ADM, json={"upheld": False})
+    assert client.post("/v1/check", headers=k1, json={"phone": phone}).json()["score"] == before
+
+
+def test_code_rate_limit_per_phone():
+    for _ in range(3):
+        assert client.post("/v1/disputes/verify", json={"phone": "03005554443", "country": "PK"}).status_code == 200
+    assert client.post("/v1/disputes/verify", json={"phone": "03005554443", "country": "PK"}).status_code == 422
+
+
+def test_housekeeping_runs_when_due():
+    from codshield.agents.runner import run_due
+    from codshield.db import SessionLocal
+    from codshield.models import AgentRun
+    with SessionLocal() as s:
+        s.query(AgentRun).filter(AgentRun.agent == "maintenance").delete()
+        s.commit()
+        first = run_due(s)
+        second = run_due(s)
+    assert "maintenance" in first and "maintenance" not in second
+    h = client.get("/v1/admin/housekeeping", headers=ADM).json()
+    assert h["last_maintenance"] and h["retention_days"] == 730
+    assert "stats" in client.post("/v1/admin/housekeeping/run", headers=ADM).json()

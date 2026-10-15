@@ -2,9 +2,10 @@ $kind: collection
 name: '10. Disputes'
 order: 10000
 description: |-
-  A customer contests their records; the store answers; CODShield decides.
+  A customer contests their records. With SMS set up they first get a texted code; without it the dispute waits until a platform admin confirms the phone belongs to them.
 
-  - Customer opens a dispute (public): disputePhone must have records (it defaults to the first customer in batch 1); otherwise 422.
+  - Customer asks for a code by text (only when SMS is set up): Returns a verification_id and texts a 6-digit code. Answers 422 while SMS isn't configured.
+  - Customer opens a dispute (public): With SMS set up, add "verification_id": "{{verificationId}}" and "code": "<the texted code>". Without a code the dispute is received as unverified: nothing changes until a platform admin confirms it. The answer is the same whether or not we hold records, so the form can't be used to look people up.
   - Store responds (confirm or withdraw): withdraw removes your records now; confirm stands by them for CODShield's decision.
 auth:
   type: bearer

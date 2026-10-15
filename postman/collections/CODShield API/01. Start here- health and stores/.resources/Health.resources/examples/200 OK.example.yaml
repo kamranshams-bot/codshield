@@ -14,5 +14,12 @@ response:
     type: json
     content: |-
       {
-        "ok": true
+        "ok": true,
+        "db": "ok",
+        "pool": {
+          "size": 5,
+          "checked_out": 0,
+          "overflow": -3,
+          "idle": 2
+        }
       }

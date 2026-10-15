@@ -13,6 +13,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Literal
 
+import httpx
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
@@ -62,6 +63,20 @@ async def _webhook_retry_loop():
             await run_in_threadpool(_log_pool_health)
         except Exception:
             log.exception("pool health check failed")
+        try:
+            await run_in_threadpool(_housekeeping_tick)
+        except Exception:
+            log.exception("housekeeping failed")
+
+
+def _housekeeping_tick():
+    """Retention purge, stale-dispute flags and abuse checks once a day; feed ingestion hourly."""
+    from .agents.runner import run_due
+    from .db import SessionLocal
+    with SessionLocal() as s:
+        done = run_due(s)
+    if done:
+        log.info("housekeeping ran: %s", {k: (v if k != "ingest" else len(v)) for k, v in done.items()})
 
 
 _pool_full_minutes = 0
@@ -324,6 +339,20 @@ class DisputeIn(BaseModel):
     country: Country
     reason: str = Field(..., min_length=10, max_length=2000)
     contact: str | None = Field(None, max_length=200)
+    verification_id: str | None = Field(None, max_length=40, description="From POST /v1/disputes/verify")
+    code: str | None = Field(None, max_length=10, description="The 6-digit code texted to the phone")
+
+
+class VerifyPhoneIn(BaseModel):
+    phone: str
+    country: Country
+
+
+def _client_ip(request: Request) -> str:
+    """The visitor's address. Render's proxy appends it as the last X-Forwarded-For entry; earlier
+    entries come from the client and could be faked to dodge rate limits."""
+    fwd = [x.strip() for x in request.headers.get("x-forwarded-for", "").split(",") if x.strip()]
+    return fwd[-1] if fwd else (request.client.host if request.client else "?")
 
 
 class MerchantIn(BaseModel):
@@ -438,10 +467,28 @@ def health():
 def meta(s: Session = Depends(get_session)):
     """What the sign-in screen needs to know."""
     has_admin = s.scalar(select(func.count(User.id)).where(User.is_platform_admin.is_(True))) > 0
+    from . import notify
     return {"setup_required": not has_admin, "permissions": ALL_PERMS, "plans": PLANS,
+            "sms_enabled": notify.sms_enabled(), "mail_enabled": notify.mail_enabled(),
             "api": {"scopes": devapi.SCOPES, "tiers": devapi.TIERS, "webhook_events": devapi.WEBHOOK_EVENTS,
                     "rate_limits_per_minute": devapi.PLAN_RATE,
                     "sandbox_numbers": {k: {"band": v[0], "score": v[1]} for k, v in devapi.SANDBOX_NUMBERS.items()}}}
+
+
+@app.get("/downloads/codshield-woocommerce.zip", include_in_schema=False)
+def woocommerce_plugin():
+    """The WordPress plugin, zipped on the fly from plugins/woocommerce/codshield/."""
+    import io
+    import zipfile
+    from fastapi.responses import Response
+    src = Path(__file__).resolve().parent.parent / "plugins" / "woocommerce" / "codshield"
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+        for f in sorted(src.rglob("*")):
+            if f.is_file():
+                z.write(f, "codshield/" + f.relative_to(src).as_posix())
+    return Response(buf.getvalue(), media_type="application/zip",
+                    headers={"Content-Disposition": 'attachment; filename="codshield-woocommerce.zip"'})
 
 
 @app.get("/developers", include_in_schema=False, response_class=HTMLResponse)
@@ -449,16 +496,37 @@ def developers():
     return FileResponse(STATIC / "developers.html")
 
 
-@app.post("/v1/disputes", tags=["public"], summary="A consumer contests records linked to their phone number")
-def create_dispute(body: DisputeIn, s: Session = Depends(get_session)):
-    _rate_limit("disputes")
+@app.post("/v1/disputes/verify", tags=["public"], summary="Text a verification code to the phone being disputed")
+def dispute_verify(body: VerifyPhoneIn, request: Request, s: Session = Depends(get_session)):
+    _rate_limit(f"disputes:{_client_ip(request)}", settings.DISPUTE_RATE_PER_MIN)
     try:
-        d = service.open_dispute(s, phone=body.phone, country=body.country, reason=body.reason, contact=body.contact)
+        return service.start_phone_verification(s, phone=body.phone, country=body.country)
     except service.ValidationError as e:
         _bad(e)
-    audit(s, None, "dispute.opened", f"dispute #{d.id}", merchant_id=None)
+
+
+@app.post("/v1/disputes", tags=["public"], summary="A consumer contests records linked to their phone number")
+def create_dispute(body: DisputeIn, request: Request, s: Session = Depends(get_session)):
+    _rate_limit(f"disputes:{_client_ip(request)}", settings.DISPUTE_RATE_PER_MIN)
+    try:
+        d = service.open_dispute(s, phone=body.phone, country=body.country, reason=body.reason, contact=body.contact,
+                                 verification_id=body.verification_id, code=body.code)
+    except service.ValidationError as e:
+        _bad(e)
+    verified = bool(body.verification_id)
+    if d is None:
+        if verified:            # the phone is proven theirs, so they may know we hold nothing
+            return {"dispute_id": None, "status": "no_records", "message": "We hold no records linked to this number."}
+        return {"status": "received", "message": _UNVERIFIED_MSG}
+    audit(s, None, "dispute.opened" if verified else "dispute.received", f"dispute #{d.id}", merchant_id=None)
+    if not verified:            # same answer whether or not we hold records, so the form can't be used to look people up
+        return {"status": "received", "message": _UNVERIFIED_MSG}
     _notify_dispute(s, d, "dispute.opened")
     return {"dispute_id": d.id, "status": d.status, "message": "Records are excluded from scoring while we review."}
+
+
+_UNVERIFIED_MSG = ("Thank you. If we hold records linked to this number, we'll confirm it belongs to you "
+                   "and review them. We'll contact you if you left contact details.")
 
 
 def _notify_dispute(s: Session, d: Dispute, event: str) -> None:
@@ -470,6 +538,23 @@ def _notify_dispute(s: Session, d: Dispute, event: str) -> None:
         per.setdefault(mid, []).append({"order_ref": ref, "type": typ})
     for mid, recs in per.items():
         devapi.emit(s, mid, event, {"dispute_id": d.id, "status": d.status, "your_records": recs})
+    if event == "dispute.opened":
+        _email_dispute_officers(s, d, per)
+
+
+def _email_dispute_officers(s: Session, d: Dispute, per: dict) -> None:
+    from . import notify
+    if not notify.mail_enabled():
+        return
+    for mid, recs in per.items():
+        users = s.scalars(select(User).where(User.merchant_id == mid, User.active.is_(True))).all()
+        for u in users:
+            if "disputes" in (u.perms or "").split(","):
+                refs = ", ".join(sorted({r["order_ref"] for r in recs})[:10])
+                notify.send_mail(u.email, f"A customer contested your records (dispute #{d.id})",
+                                 f"Hello {u.name},\n\nA customer has contested records your store reported "
+                                 f"(orders: {refs}). They don't count in scores while CODShield reviews them.\n\n"
+                                 f"Withdraw or confirm them here: {settings.PUBLIC_URL}/ (Disputes tab).\n\nCODShield")
 
 
 # ================================================================ sign in
@@ -489,8 +574,7 @@ def setup(body: SetupIn, x_admin_key: str = Header(...), s: Session = Depends(ge
 
 @app.post("/v1/auth/login", tags=["auth"])
 def login(body: LoginIn, request: Request, s: Session = Depends(get_session)):
-    ip = request.client.host if request.client else "?"
-    _rate_limit(f"login:{ip}", 60)
+    _rate_limit(f"login:{_client_ip(request)}", settings.LOGIN_RATE_PER_MIN)
     _rate_limit(f"login:{body.email.lower()}", 8)
     u = s.scalar(select(User).where(func.lower(User.email) == body.email.strip().lower()))
     if not u or not auth.verify_password(body.password, u.password_hash):
@@ -504,6 +588,44 @@ def login(body: LoginIn, request: Request, s: Session = Depends(get_session)):
     token = auth.create_session(s, u)
     audit(s, auth.actor_for_user(s, u), "auth.login", "", merchant_id=u.merchant_id)
     return {"token": token}
+
+
+class ForgotIn(BaseModel):
+    email: str = Field(..., max_length=200)
+
+
+class ResetIn(BaseModel):
+    token: str = Field(..., max_length=100)
+    new_password: str = Field(..., max_length=200)
+
+
+_FORGOT_MSG = "If an account exists for that email, we've sent a link to choose a new password. It works for one hour."
+
+
+@app.post("/v1/auth/forgot", tags=["auth"], summary="Email a password-reset link")
+def forgot(body: ForgotIn, request: Request, s: Session = Depends(get_session)):
+    from . import notify
+    _rate_limit(f"forgot:{_client_ip(request)}", 10)
+    _rate_limit(f"forgot:{body.email.strip().lower()}", 3)
+    if not notify.mail_enabled():
+        return {"ok": False, "message": "Email isn't set up yet. Ask your administrator to reset your password."}
+    u = s.scalar(select(User).where(func.lower(User.email) == body.email.strip().lower()))
+    if u and u.active:
+        link = auth.create_password_link(s, u, "reset")
+        notify.send_mail(u.email, "Reset your CODShield password",
+                         f"Hello {u.name},\n\nSomeone (hopefully you) asked to reset your CODShield password.\n\n"
+                         f"Choose a new password here (the link works once, for one hour):\n{link}\n\n"
+                         "If you didn't ask for this, ignore this email; your password stays the same.\n\nCODShield")
+        audit(s, auth.actor_for_user(s, u), "auth.reset_requested", "", merchant_id=u.merchant_id)
+    return {"ok": True, "message": _FORGOT_MSG}      # same answer whether or not the account exists
+
+
+@app.post("/v1/auth/reset", tags=["auth"], summary="Set a new password with an emailed link (reset or invitation)")
+def reset_password(body: ResetIn, request: Request, s: Session = Depends(get_session)):
+    _rate_limit(f"reset:{_client_ip(request)}", 20)
+    u = auth.use_password_link(s, body.token, body.new_password)
+    audit(s, auth.actor_for_user(s, u), "auth.password_set_by_link", "", merchant_id=u.merchant_id)
+    return {"ok": True, "email": u.email, "token": auth.create_session(s, u)}
 
 
 @app.post("/v1/auth/logout", tags=["auth"])
@@ -724,8 +846,10 @@ def add_user(body: UserIn, actor: Actor = Depends(get_actor), s: Session = Depen
     u, temp = auth.create_user(s, merchant=m, email=body.email, name=body.name, perms=body.perms,
                                countries=body.countries, is_platform_admin=body.is_platform_admin)
     audit(s, actor, "user.created", f"{u.email} perms={u.perms} countries={u.countries}", merchant_id=scope)
-    return {"user": auth.public_user(u), "temporary_password": temp,
-            "note": "Share the temporary password privately. The user must change it at first sign-in."}
+    invited = auth.send_invite(s, u, actor.user.name if actor.user else "")
+    return {"user": auth.public_user(u), "temporary_password": temp, "invite_sent": invited,
+            "note": ("We've emailed an invitation link. " if invited else "")
+                    + "Share the temporary password privately. The user must change it at first sign-in."}
 
 
 @app.patch("/v1/users/{user_id}", tags=["admin"])
@@ -764,7 +888,15 @@ def edit_user(user_id: int, body: UserPatch, actor: Actor = Depends(get_actor), 
         auth.end_all_sessions(s, u.id); changes.append("password reset")
     s.commit()
     audit(s, actor, "user.updated", f"{u.email}: {', '.join(changes) or 'no change'}", merchant_id=u.merchant_id)
-    return {"user": auth.public_user(u), "temporary_password": temp}
+    emailed = False
+    if body.reset_password:
+        from . import notify
+        if notify.mail_enabled():
+            link = auth.create_password_link(s, u, "reset")
+            emailed = notify.send_mail(u.email, "Your CODShield password was reset",
+                                       f"Hello {u.name},\n\nAn administrator reset your CODShield password. Choose a new one "
+                                       f"here (the link works once, for one hour):\n{link}\n\nCODShield")
+    return {"user": auth.public_user(u), "temporary_password": temp, "reset_link_sent": emailed}
 
 
 @app.patch("/v1/tenant", tags=["admin"], summary="Store settings (user admins)")
@@ -850,6 +982,115 @@ def usage(days: int = 30, actor: Actor = Depends(get_actor), s: Session = Depend
     return devapi.usage_report(s, m.id, days)
 
 
+# ================================================================ store integrations (Shopify)
+class ShopifyIn(BaseModel):
+    shop: str = Field(..., max_length=200, examples=["mystore.myshopify.com"])
+    client_id: str | None = Field(None, max_length=200)
+    client_secret: str = Field(..., max_length=300)
+    access_token: str | None = Field(None, max_length=300, description="Legacy custom apps only (shpat_...)")
+    check_all_orders: bool = False
+    add_note: bool = True
+    auto_delivered: bool = True
+
+
+class IntegrationPatch(BaseModel):
+    active: bool | None = None
+    check_all_orders: bool | None = None
+    add_note: bool | None = None
+    auto_delivered: bool | None = None
+
+
+def _integration(s: Session, actor: Actor, integration_id: int):
+    from .models import Integration
+    m = _key_admin(actor)
+    integ = s.get(Integration, integration_id)
+    if not integ or integ.merchant_id != m.id:
+        raise AuthError(404, "Integration not found.")
+    return m, integ
+
+
+@app.get("/v1/integrations", tags=["developers"], summary="Connected shops")
+def list_integrations(actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
+    from . import shopify
+    from .models import Integration
+    m = _key_admin(actor)
+    rows = s.scalars(select(Integration).where(Integration.merchant_id == m.id).order_by(Integration.created_at)).all()
+    return {"integrations": [shopify.view(i) for i in rows], "outcome_tags": shopify.OUTCOME_TAGS}
+
+
+@app.post("/v1/integrations/shopify", tags=["developers"], status_code=201, summary="Connect a Shopify store")
+def connect_shopify(body: ShopifyIn, actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
+    from . import shopify
+    m = _key_admin(actor)
+    try:
+        integ = shopify.connect(s, m, shop=body.shop, client_id=body.client_id, client_secret=body.client_secret,
+                                access_token=body.access_token,
+                                options={"check_all_orders": body.check_all_orders, "add_note": body.add_note,
+                                         "auto_delivered": body.auto_delivered})
+    except shopify.ShopifyError as e:
+        raise AuthError(422, str(e))
+    except httpx.HTTPError as e:
+        raise AuthError(502, f"Couldn't reach Shopify: {type(e).__name__}")
+    audit(s, actor, "integration.connected", f"shopify {integ.shop}")
+    return shopify.view(integ)
+
+
+@app.patch("/v1/integrations/{integration_id}", tags=["developers"])
+def update_integration(integration_id: int, body: IntegrationPatch, actor: Actor = Depends(get_actor),
+                       s: Session = Depends(get_session)):
+    from . import shopify
+    _, integ = _integration(s, actor, integration_id)
+    changes = body.model_dump(exclude_none=True)
+    if "active" in changes:
+        integ.active = changes.pop("active")
+    integ.settings = {**shopify.DEFAULT_SETTINGS, **(integ.settings or {}), **changes}
+    s.commit()
+    audit(s, actor, "integration.updated", f"{integ.kind} {integ.shop}: {body.model_dump(exclude_none=True)}")
+    return shopify.view(integ)
+
+
+@app.delete("/v1/integrations/{integration_id}", tags=["developers"])
+def delete_integration(integration_id: int, actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
+    _, integ = _integration(s, actor, integration_id)
+    shop = integ.shop
+    s.delete(integ)
+    s.commit()
+    audit(s, actor, "integration.removed", f"shopify {shop}")
+    return {"removed": True, "note": "Also uninstall the app in Shopify so it stops sending order webhooks."}
+
+
+@app.post("/shopify/webhooks/{integration_id}", include_in_schema=False)
+async def shopify_webhook(integration_id: int, request: Request):
+    """Shopify order webhooks. Verified with the app's client secret, answered at once, processed in the background."""
+    from starlette.concurrency import run_in_threadpool
+    from . import shopify
+    from .db import SessionLocal
+    from .models import Integration
+    raw = await request.body()
+
+    def load():
+        with SessionLocal() as s:
+            integ = s.get(Integration, integration_id)
+            if integ is None:
+                return None, None
+            s.expunge(integ)
+            return integ, shopify.verify(integ, raw, request.headers.get("x-shopify-hmac-sha256"))
+    integ, ok = await run_in_threadpool(load)
+    if integ is None:
+        return JSONResponse(status_code=404, content={"ok": False})
+    if not ok or request.headers.get("x-shopify-shop-domain", integ.shop) != integ.shop:
+        return JSONResponse(status_code=401, content={"ok": False})
+    topic = request.headers.get("x-shopify-topic", "")
+    if integ.active and topic in shopify.TOPICS.values():
+        import json as _json
+        try:
+            order = _json.loads(raw)
+        except ValueError:
+            return JSONResponse(status_code=400, content={"ok": False})
+        await run_in_threadpool(shopify.accept, integration_id, topic, order, request.headers.get("x-shopify-webhook-id"))
+    return {"ok": True}
+
+
 @app.get("/v1/webhooks", tags=["developers"])
 def list_webhooks(actor: Actor = Depends(get_actor), s: Session = Depends(get_session)):
     m = _key_admin(actor)
@@ -923,7 +1164,8 @@ def _create_merchant(s: Session, actor: Actor, item: MerchantIn) -> dict:
     if item.admin_email:
         u, temp = auth.create_user(s, merchant=m, email=item.admin_email, name=item.admin_name or "",
                                    perms=ALL_PERMS, countries=["PK", "AE"])
-        out["admin_user"] = {"email": u.email, "temporary_password": temp}
+        out["admin_user"] = {"email": u.email, "temporary_password": temp,
+                             "invite_sent": auth.send_invite(s, u, actor.user.name if actor.user else "")}
     audit(s, actor, "tenant.created", f"{m.name} ({m.country}, {m.plan})", merchant_id=m.id)
     return out
 
@@ -985,9 +1227,21 @@ def network_report(days: int = 30, actor: Actor = Depends(platform), s: Session 
 @app.get("/v1/admin/disputes", tags=["platform"])
 def list_disputes(status: str = "open", actor: Actor = Depends(platform), s: Session = Depends(get_session)):
     rows = s.scalars(select(Dispute).where(Dispute.status == status).order_by(Dispute.created_at)).all()
-    return [{"id": d.id, "reason": d.reason, "contact": d.contact, "status": d.status,
+    return [{"id": d.id, "reason": d.reason, "contact": d.contact, "status": d.status, "verified": d.verified,
              "created_at": d.created_at.isoformat(), "store_responses": workflow.dispute_responses(s, d.id)}
             for d in rows]
+
+
+@app.post("/v1/admin/disputes/{dispute_id}/verify", tags=["platform"],
+          summary="Confirm the number belongs to the customer (records stop counting while reviewed)")
+def admin_verify_dispute(dispute_id: int, actor: Actor = Depends(platform), s: Session = Depends(get_session)):
+    try:
+        d = service.verify_dispute(s, dispute_id)
+    except service.ValidationError as e:
+        _bad(e)
+    audit(s, actor, "dispute.verified", f"dispute #{d.id}", merchant_id=None)
+    _notify_dispute(s, d, "dispute.opened")
+    return {"dispute_id": d.id, "status": d.status}
 
 
 @app.post("/v1/admin/disputes/{dispute_id}/resolve", tags=["platform"])
@@ -1002,6 +1256,20 @@ def resolve(dispute_id: int, body: ResolveIn, actor: Actor = Depends(platform), 
     return {"dispute_id": d.id, "status": d.status}
 
 
+@app.get("/v1/admin/housekeeping", tags=["platform"], summary="When retention purge and checks last ran")
+def housekeeping(actor: Actor = Depends(platform), s: Session = Depends(get_session)):
+    from .agents.runner import housekeeping_status
+    return housekeeping_status(s)
+
+
+@app.post("/v1/admin/housekeeping/run", tags=["platform"], summary="Run retention purge and checks now")
+def housekeeping_run(actor: Actor = Depends(platform), s: Session = Depends(get_session)):
+    from .agents.runner import housekeeping_status, run_maintenance
+    stats = run_maintenance(s)
+    audit(s, actor, "housekeeping.run", str({k: v for k, v in stats.items() if not isinstance(v, list)}))
+    return {"stats": stats, **housekeeping_status(s)}
+
+
 @app.get("/v1/admin/stats", tags=["platform"])
 def stats(actor: Actor = Depends(platform), s: Session = Depends(get_session)):
     return {"merchants": s.scalar(select(func.count(Merchant.id))),
@@ -1012,7 +1280,8 @@ def stats(actor: Actor = Depends(platform), s: Session = Depends(get_session)):
 
 
 # ================================================================ OpenAPI contract
-PUBLIC_OPS = {("get", "/health"), ("get", "/v1/meta"), ("post", "/v1/disputes"), ("post", "/v1/auth/login")}
+PUBLIC_OPS = {("get", "/health"), ("get", "/v1/meta"), ("post", "/v1/disputes"), ("post", "/v1/auth/login"),
+              ("post", "/v1/disputes/verify"), ("post", "/v1/auth/forgot"), ("post", "/v1/auth/reset")}
 _RATE_HEADERS = {
     "X-Request-ID": {"description": "Quote this to support.", "schema": {"type": "string"}},
     "X-RateLimit-Limit": {"description": "Requests allowed per minute for this key (API keys).", "schema": {"type": "integer"}},

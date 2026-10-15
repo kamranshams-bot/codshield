@@ -9,6 +9,7 @@ os.environ.setdefault("CODSHIELD_WEBHOOKS_ALLOW_PRIVATE", "1")
 import httpx  # noqa: E402
 import pytest  # noqa: E402
 
+from tests import verified_dispute  # noqa: E402
 from tests.test_saas import (add_user, c, login, new_tenant, outcome,  # noqa: E402
                              platform_session, uniq)
 
@@ -132,7 +133,7 @@ def test_webhooks_signed_and_events(hook):
     assert hmac.compare_digest(v1, hmac.new(secret.encode(), f"{t}.".encode() + req.content, hashlib.sha256).hexdigest())
     # a dispute about this phone notifies the store
     n = len(hook.calls)
-    c.post("/v1/disputes", json={"phone": phone, "country": "PK", "reason": "I never ordered anything from this store."})
+    verified_dispute(c, phone, "I never ordered anything from this store.")
     assert len(hook.calls) == n + 1 and hook.calls[-1].headers["X-CODShield-Event"] == "dispute.opened"
     # not subscribed -> nothing sent
     n = len(hook.calls)

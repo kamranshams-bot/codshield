@@ -16,7 +16,7 @@ response:
       {
         "user": {
           "id": 5,
-          "email": "ops.1792064464@example.com",
+          "email": "ops.1792081058@example.com",
           "name": "Ops Admin",
           "merchant_id": null,
           "perms": [
@@ -32,8 +32,9 @@ response:
           "active": true,
           "must_change_password": true,
           "last_login_at": null,
-          "created_at": "2026-10-15T11:41:04.173801"
+          "created_at": "2026-10-15T16:17:37.816194"
         },
         "temporary_password": "TempPass-example",
+        "invite_sent": false,
         "note": "Share the temporary password privately. The user must change it at first sign-in."
       }

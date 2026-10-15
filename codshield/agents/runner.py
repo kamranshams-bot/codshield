@@ -137,12 +137,58 @@ def run_maintenance(s) -> dict:
                 downgraded.append(mid)
     stats["downgraded_merchants"] = downgraded
 
+    # 4. expired one-time codes and links, old webhook delivery logs
+    from ..models import PasswordToken, PhoneVerification, WebhookDelivery
+    week_ago, month_ago = now - timedelta(days=7), now - timedelta(days=30)
+    stats["expired_codes"] = s.query(PhoneVerification).filter(PhoneVerification.expires_at < week_ago).delete(
+        synchronize_session=False)
+    stats["expired_links"] = s.query(PasswordToken).filter(PasswordToken.expires_at < week_ago).delete(
+        synchronize_session=False)
+    stats["old_webhook_logs"] = s.query(WebhookDelivery).filter(WebhookDelivery.created_at < month_ago,
+                                                               WebhookDelivery.status != "pending").delete(
+        synchronize_session=False)
+
     s.commit()
     from .. import devapi
     stats["webhook_retries"] = devapi.retry_due(s)
     _finish(s, run, stats)
     log.info("maintenance %s", stats)
     return stats
+
+
+MAINTENANCE_EVERY = timedelta(hours=24)
+INGEST_EVERY = timedelta(hours=1)
+
+
+def _last_finished(s, agent: str):
+    return s.scalar(select(func.max(AgentRun.finished_at)).where(AgentRun.agent == agent, AgentRun.error.is_(None)))
+
+
+def run_due(s) -> dict:
+    """Run whatever is due. Called every minute by the web server; safe to call often (it checks the
+    last successful run in agent_runs, so restarts and sleeps don't cause repeats or gaps)."""
+    now, done = utcnow(), {}
+    last = _last_finished(s, "maintenance")
+    if last is None or now - last >= MAINTENANCE_EVERY:
+        done["maintenance"] = run_maintenance(s)
+    has_feeds = s.scalar(select(func.count(Merchant.id)).where(Merchant.active.is_(True),
+                                                               Merchant.feed_config.is_not(None)))
+    last = _last_finished(s, "ingest")
+    if has_feeds and (last is None or now - last >= INGEST_EVERY):
+        done["ingest"] = run_ingest(s)
+    return done
+
+
+def housekeeping_status(s) -> dict:
+    rows = s.scalars(select(AgentRun).where(AgentRun.agent.in_(["maintenance", "ingest"]))
+                     .order_by(AgentRun.started_at.desc()).limit(10)).all()
+    last = _last_finished(s, "maintenance")
+    return {"last_maintenance": last.isoformat() if last else None,
+            "next_due": (last + MAINTENANCE_EVERY).isoformat() if last else "now",
+            "retention_days": settings.RETENTION_DAYS,
+            "recent": [{"agent": r.agent, "started_at": r.started_at.isoformat(),
+                        "finished_at": r.finished_at.isoformat() if r.finished_at else None,
+                        "stats": r.stats, "error": r.error} for r in rows]}
 
 
 def run_once() -> dict:

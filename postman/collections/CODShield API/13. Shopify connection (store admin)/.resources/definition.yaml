@@ -1,0 +1,10 @@
+$kind: collection
+name: '13. Shopify connection (store admin)'
+order: 13000
+description: |-
+  Connects a Shopify store with a Dev Dashboard app's client ID and secret. Needs a real store, so it is not part of the end-to-end run.
+auth:
+  type: bearer
+  credentials:
+    - key: 'token'
+      value: '{{sessionToken}}'

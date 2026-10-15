@@ -9,6 +9,7 @@
   "/health": {
    "get": {
     "summary": "Health",
+    "description": "Liveness plus a real database round trip, so a platform health check can restart a stuck server.",
     "operationId": "health_health_get",
     "responses": {
      "200": {
@@ -115,6 +116,108 @@
         "description": "Unix time when the window frees up.",
         "schema": {
          "type": "integer"
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate limit reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Too many requests. Wait a minute and try again.",
+         "error": {
+          "code": "rate_limited",
+          "message": "Too many requests. Wait a minute and try again.",
+          "status": 429,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      },
+      "headers": {
+       "Retry-After": {
+        "description": "Seconds to wait.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     }
+    },
+    "security": []
+   }
+  },
+  "/v1/disputes/verify": {
+   "post": {
+    "tags": [
+     "public"
+    ],
+    "summary": "Text a verification code to the phone being disputed",
+    "operationId": "dispute_verify_v1_disputes_verify_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/VerifyPhoneIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "headers": {
+       "X-Request-ID": {
+        "description": "Quote this to support.",
+        "schema": {
+         "type": "string"
+        }
+       },
+       "X-RateLimit-Limit": {
+        "description": "Requests allowed per minute for this key (API keys).",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Remaining": {
+        "description": "Requests left in the current minute.",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Reset": {
+        "description": "Unix time when the window frees up.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation failed; error.fields lists every invalid field",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "country: Input should be 'PK' or 'AE'",
+         "error": {
+          "code": "validation_failed",
+          "message": "country: Input should be 'PK' or 'AE'",
+          "status": 422,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
         }
        }
       }
@@ -543,6 +646,210 @@
       "application/json": {
        "schema": {
         "$ref": "#/components/schemas/LoginIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "headers": {
+       "X-Request-ID": {
+        "description": "Quote this to support.",
+        "schema": {
+         "type": "string"
+        }
+       },
+       "X-RateLimit-Limit": {
+        "description": "Requests allowed per minute for this key (API keys).",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Remaining": {
+        "description": "Requests left in the current minute.",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Reset": {
+        "description": "Unix time when the window frees up.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation failed; error.fields lists every invalid field",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "country: Input should be 'PK' or 'AE'",
+         "error": {
+          "code": "validation_failed",
+          "message": "country: Input should be 'PK' or 'AE'",
+          "status": 422,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate limit reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Too many requests. Wait a minute and try again.",
+         "error": {
+          "code": "rate_limited",
+          "message": "Too many requests. Wait a minute and try again.",
+          "status": 429,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      },
+      "headers": {
+       "Retry-After": {
+        "description": "Seconds to wait.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     }
+    },
+    "security": []
+   }
+  },
+  "/v1/auth/forgot": {
+   "post": {
+    "tags": [
+     "auth"
+    ],
+    "summary": "Email a password-reset link",
+    "operationId": "forgot_v1_auth_forgot_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ForgotIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "headers": {
+       "X-Request-ID": {
+        "description": "Quote this to support.",
+        "schema": {
+         "type": "string"
+        }
+       },
+       "X-RateLimit-Limit": {
+        "description": "Requests allowed per minute for this key (API keys).",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Remaining": {
+        "description": "Requests left in the current minute.",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Reset": {
+        "description": "Unix time when the window frees up.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation failed; error.fields lists every invalid field",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "country: Input should be 'PK' or 'AE'",
+         "error": {
+          "code": "validation_failed",
+          "message": "country: Input should be 'PK' or 'AE'",
+          "status": 422,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate limit reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Too many requests. Wait a minute and try again.",
+         "error": {
+          "code": "rate_limited",
+          "message": "Too many requests. Wait a minute and try again.",
+          "status": 429,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      },
+      "headers": {
+       "Retry-After": {
+        "description": "Seconds to wait.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     }
+    },
+    "security": []
+   }
+  },
+  "/v1/auth/reset": {
+   "post": {
+    "tags": [
+     "auth"
+    ],
+    "summary": "Set a new password with an emailed link (reset or invitation)",
+    "operationId": "reset_password_v1_auth_reset_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ResetIn"
        }
       }
      },
@@ -3913,6 +4220,582 @@
     ]
    }
   },
+  "/v1/integrations": {
+   "get": {
+    "tags": [
+     "developers"
+    ],
+    "summary": "Connected shops",
+    "operationId": "list_integrations_v1_integrations_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "headers": {
+       "X-Request-ID": {
+        "description": "Quote this to support.",
+        "schema": {
+         "type": "string"
+        }
+       },
+       "X-RateLimit-Limit": {
+        "description": "Requests allowed per minute for this key (API keys).",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Remaining": {
+        "description": "Requests left in the current minute.",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Reset": {
+        "description": "Unix time when the window frees up.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation failed; error.fields lists every invalid field",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "country: Input should be 'PK' or 'AE'",
+         "error": {
+          "code": "validation_failed",
+          "message": "country: Input should be 'PK' or 'AE'",
+          "status": 422,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Missing, wrong or revoked credentials",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Sign in, or send an API key.",
+         "error": {
+          "code": "unauthenticated",
+          "message": "Sign in, or send an API key.",
+          "status": 401,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Not allowed for this key, user, tier or country",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "This API key doesn't have the 'report' scope.",
+         "error": {
+          "code": "missing_scope",
+          "message": "This API key doesn't have the 'report' scope.",
+          "status": 403,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate limit reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Too many requests. Wait a minute and try again.",
+         "error": {
+          "code": "rate_limited",
+          "message": "Too many requests. Wait a minute and try again.",
+          "status": 429,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      },
+      "headers": {
+       "Retry-After": {
+        "description": "Seconds to wait.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     }
+    },
+    "security": [
+     {
+      "Session": []
+     }
+    ]
+   }
+  },
+  "/v1/integrations/shopify": {
+   "post": {
+    "tags": [
+     "developers"
+    ],
+    "summary": "Connect a Shopify store",
+    "operationId": "connect_shopify_v1_integrations_shopify_post",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ShopifyIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "headers": {
+       "X-Request-ID": {
+        "description": "Quote this to support.",
+        "schema": {
+         "type": "string"
+        }
+       },
+       "X-RateLimit-Limit": {
+        "description": "Requests allowed per minute for this key (API keys).",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Remaining": {
+        "description": "Requests left in the current minute.",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Reset": {
+        "description": "Unix time when the window frees up.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation failed; error.fields lists every invalid field",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "country: Input should be 'PK' or 'AE'",
+         "error": {
+          "code": "validation_failed",
+          "message": "country: Input should be 'PK' or 'AE'",
+          "status": 422,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Missing, wrong or revoked credentials",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Sign in, or send an API key.",
+         "error": {
+          "code": "unauthenticated",
+          "message": "Sign in, or send an API key.",
+          "status": 401,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Not allowed for this key, user, tier or country",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "This API key doesn't have the 'report' scope.",
+         "error": {
+          "code": "missing_scope",
+          "message": "This API key doesn't have the 'report' scope.",
+          "status": 403,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate limit reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Too many requests. Wait a minute and try again.",
+         "error": {
+          "code": "rate_limited",
+          "message": "Too many requests. Wait a minute and try again.",
+          "status": 429,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      },
+      "headers": {
+       "Retry-After": {
+        "description": "Seconds to wait.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     }
+    },
+    "security": [
+     {
+      "Session": []
+     }
+    ]
+   }
+  },
+  "/v1/integrations/{integration_id}": {
+   "patch": {
+    "tags": [
+     "developers"
+    ],
+    "summary": "Update Integration",
+    "operationId": "update_integration_v1_integrations__integration_id__patch",
+    "parameters": [
+     {
+      "name": "integration_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Integration Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/IntegrationPatch"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "headers": {
+       "X-Request-ID": {
+        "description": "Quote this to support.",
+        "schema": {
+         "type": "string"
+        }
+       },
+       "X-RateLimit-Limit": {
+        "description": "Requests allowed per minute for this key (API keys).",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Remaining": {
+        "description": "Requests left in the current minute.",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Reset": {
+        "description": "Unix time when the window frees up.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation failed; error.fields lists every invalid field",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "country: Input should be 'PK' or 'AE'",
+         "error": {
+          "code": "validation_failed",
+          "message": "country: Input should be 'PK' or 'AE'",
+          "status": 422,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Missing, wrong or revoked credentials",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Sign in, or send an API key.",
+         "error": {
+          "code": "unauthenticated",
+          "message": "Sign in, or send an API key.",
+          "status": 401,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Not allowed for this key, user, tier or country",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "This API key doesn't have the 'report' scope.",
+         "error": {
+          "code": "missing_scope",
+          "message": "This API key doesn't have the 'report' scope.",
+          "status": 403,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate limit reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Too many requests. Wait a minute and try again.",
+         "error": {
+          "code": "rate_limited",
+          "message": "Too many requests. Wait a minute and try again.",
+          "status": 429,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      },
+      "headers": {
+       "Retry-After": {
+        "description": "Seconds to wait.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     }
+    },
+    "security": [
+     {
+      "Session": []
+     }
+    ]
+   },
+   "delete": {
+    "tags": [
+     "developers"
+    ],
+    "summary": "Delete Integration",
+    "operationId": "delete_integration_v1_integrations__integration_id__delete",
+    "parameters": [
+     {
+      "name": "integration_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Integration Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "headers": {
+       "X-Request-ID": {
+        "description": "Quote this to support.",
+        "schema": {
+         "type": "string"
+        }
+       },
+       "X-RateLimit-Limit": {
+        "description": "Requests allowed per minute for this key (API keys).",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Remaining": {
+        "description": "Requests left in the current minute.",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Reset": {
+        "description": "Unix time when the window frees up.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation failed; error.fields lists every invalid field",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "country: Input should be 'PK' or 'AE'",
+         "error": {
+          "code": "validation_failed",
+          "message": "country: Input should be 'PK' or 'AE'",
+          "status": 422,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Missing, wrong or revoked credentials",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Sign in, or send an API key.",
+         "error": {
+          "code": "unauthenticated",
+          "message": "Sign in, or send an API key.",
+          "status": 401,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Not allowed for this key, user, tier or country",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "This API key doesn't have the 'report' scope.",
+         "error": {
+          "code": "missing_scope",
+          "message": "This API key doesn't have the 'report' scope.",
+          "status": 403,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate limit reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Too many requests. Wait a minute and try again.",
+         "error": {
+          "code": "rate_limited",
+          "message": "Too many requests. Wait a minute and try again.",
+          "status": 429,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      },
+      "headers": {
+       "Retry-After": {
+        "description": "Seconds to wait.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     }
+    },
+    "security": [
+     {
+      "Session": []
+     }
+    ]
+   }
+  },
   "/v1/webhooks": {
    "get": {
     "tags": [
@@ -5378,6 +6261,154 @@
     ]
    }
   },
+  "/v1/admin/disputes/{dispute_id}/verify": {
+   "post": {
+    "tags": [
+     "platform"
+    ],
+    "summary": "Confirm the number belongs to the customer (records stop counting while reviewed)",
+    "operationId": "admin_verify_dispute_v1_admin_disputes__dispute_id__verify_post",
+    "parameters": [
+     {
+      "name": "dispute_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Dispute Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "headers": {
+       "X-Request-ID": {
+        "description": "Quote this to support.",
+        "schema": {
+         "type": "string"
+        }
+       },
+       "X-RateLimit-Limit": {
+        "description": "Requests allowed per minute for this key (API keys).",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Remaining": {
+        "description": "Requests left in the current minute.",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Reset": {
+        "description": "Unix time when the window frees up.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation failed; error.fields lists every invalid field",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "country: Input should be 'PK' or 'AE'",
+         "error": {
+          "code": "validation_failed",
+          "message": "country: Input should be 'PK' or 'AE'",
+          "status": 422,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Missing, wrong or revoked credentials",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Sign in, or send an API key.",
+         "error": {
+          "code": "unauthenticated",
+          "message": "Sign in, or send an API key.",
+          "status": 401,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Not allowed for this key, user, tier or country",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "This API key doesn't have the 'report' scope.",
+         "error": {
+          "code": "missing_scope",
+          "message": "This API key doesn't have the 'report' scope.",
+          "status": 403,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate limit reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Too many requests. Wait a minute and try again.",
+         "error": {
+          "code": "rate_limited",
+          "message": "Too many requests. Wait a minute and try again.",
+          "status": 429,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      },
+      "headers": {
+       "Retry-After": {
+        "description": "Seconds to wait.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     }
+    },
+    "security": [
+     {
+      "AdminKey": []
+     },
+     {
+      "Session": []
+     }
+    ]
+   }
+  },
   "/v1/admin/disputes/{dispute_id}/resolve": {
    "post": {
     "tags": [
@@ -5406,6 +6437,280 @@
       }
      }
     },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "headers": {
+       "X-Request-ID": {
+        "description": "Quote this to support.",
+        "schema": {
+         "type": "string"
+        }
+       },
+       "X-RateLimit-Limit": {
+        "description": "Requests allowed per minute for this key (API keys).",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Remaining": {
+        "description": "Requests left in the current minute.",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Reset": {
+        "description": "Unix time when the window frees up.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation failed; error.fields lists every invalid field",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "country: Input should be 'PK' or 'AE'",
+         "error": {
+          "code": "validation_failed",
+          "message": "country: Input should be 'PK' or 'AE'",
+          "status": 422,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Missing, wrong or revoked credentials",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Sign in, or send an API key.",
+         "error": {
+          "code": "unauthenticated",
+          "message": "Sign in, or send an API key.",
+          "status": 401,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Not allowed for this key, user, tier or country",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "This API key doesn't have the 'report' scope.",
+         "error": {
+          "code": "missing_scope",
+          "message": "This API key doesn't have the 'report' scope.",
+          "status": 403,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate limit reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Too many requests. Wait a minute and try again.",
+         "error": {
+          "code": "rate_limited",
+          "message": "Too many requests. Wait a minute and try again.",
+          "status": 429,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      },
+      "headers": {
+       "Retry-After": {
+        "description": "Seconds to wait.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     }
+    },
+    "security": [
+     {
+      "AdminKey": []
+     },
+     {
+      "Session": []
+     }
+    ]
+   }
+  },
+  "/v1/admin/housekeeping": {
+   "get": {
+    "tags": [
+     "platform"
+    ],
+    "summary": "When retention purge and checks last ran",
+    "operationId": "housekeeping_v1_admin_housekeeping_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "headers": {
+       "X-Request-ID": {
+        "description": "Quote this to support.",
+        "schema": {
+         "type": "string"
+        }
+       },
+       "X-RateLimit-Limit": {
+        "description": "Requests allowed per minute for this key (API keys).",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Remaining": {
+        "description": "Requests left in the current minute.",
+        "schema": {
+         "type": "integer"
+        }
+       },
+       "X-RateLimit-Reset": {
+        "description": "Unix time when the window frees up.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation failed; error.fields lists every invalid field",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "country: Input should be 'PK' or 'AE'",
+         "error": {
+          "code": "validation_failed",
+          "message": "country: Input should be 'PK' or 'AE'",
+          "status": 422,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Missing, wrong or revoked credentials",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Sign in, or send an API key.",
+         "error": {
+          "code": "unauthenticated",
+          "message": "Sign in, or send an API key.",
+          "status": 401,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Not allowed for this key, user, tier or country",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "This API key doesn't have the 'report' scope.",
+         "error": {
+          "code": "missing_scope",
+          "message": "This API key doesn't have the 'report' scope.",
+          "status": 403,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate limit reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        },
+        "example": {
+         "detail": "Too many requests. Wait a minute and try again.",
+         "error": {
+          "code": "rate_limited",
+          "message": "Too many requests. Wait a minute and try again.",
+          "status": 429,
+          "request_id": "req_2548d6f3f1575c5a"
+         }
+        }
+       }
+      },
+      "headers": {
+       "Retry-After": {
+        "description": "Seconds to wait.",
+        "schema": {
+         "type": "integer"
+        }
+       }
+      }
+     }
+    },
+    "security": [
+     {
+      "AdminKey": []
+     },
+     {
+      "Session": []
+     }
+    ]
+   }
+  },
+  "/v1/admin/housekeeping/run": {
+   "post": {
+    "tags": [
+     "platform"
+    ],
+    "summary": "Run retention purge and checks now",
+    "operationId": "housekeeping_run_v1_admin_housekeeping_run_post",
     "responses": {
      "200": {
       "description": "Successful Response",
@@ -5832,6 +7137,32 @@
        }
       ],
       "title": "Contact"
+     },
+     "verification_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 40
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Verification Id",
+      "description": "From POST /v1/disputes/verify"
+     },
+     "code": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 10
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Code",
+      "description": "The 6-digit code texted to the phone"
      }
     },
     "type": "object",
@@ -5965,6 +7296,20 @@
     ],
     "title": "EventIn"
    },
+   "ForgotIn": {
+    "properties": {
+     "email": {
+      "type": "string",
+      "maxLength": 200,
+      "title": "Email"
+     }
+    },
+    "type": "object",
+    "required": [
+     "email"
+    ],
+    "title": "ForgotIn"
+   },
    "HTTPValidationError": {
     "properties": {
      "detail": {
@@ -5977,6 +7322,56 @@
     },
     "type": "object",
     "title": "HTTPValidationError"
+   },
+   "IntegrationPatch": {
+    "properties": {
+     "active": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Active"
+     },
+     "check_all_orders": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Check All Orders"
+     },
+     "add_note": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Add Note"
+     },
+     "auto_delivered": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Auto Delivered"
+     }
+    },
+    "type": "object",
+    "title": "IntegrationPatch"
    },
    "LoginIn": {
     "properties": {
@@ -6169,6 +7564,26 @@
     ],
     "title": "PasswordIn"
    },
+   "ResetIn": {
+    "properties": {
+     "token": {
+      "type": "string",
+      "maxLength": 100,
+      "title": "Token"
+     },
+     "new_password": {
+      "type": "string",
+      "maxLength": 200,
+      "title": "New Password"
+     }
+    },
+    "type": "object",
+    "required": [
+     "token",
+     "new_password"
+    ],
+    "title": "ResetIn"
+   },
    "ResolveIn": {
     "properties": {
      "upheld": {
@@ -6244,6 +7659,69 @@
      "password"
     ],
     "title": "SetupIn"
+   },
+   "ShopifyIn": {
+    "properties": {
+     "shop": {
+      "type": "string",
+      "maxLength": 200,
+      "title": "Shop",
+      "examples": [
+       "mystore.myshopify.com"
+      ]
+     },
+     "client_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 200
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Client Id"
+     },
+     "client_secret": {
+      "type": "string",
+      "maxLength": 300,
+      "title": "Client Secret"
+     },
+     "access_token": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 300
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Access Token",
+      "description": "Legacy custom apps only (shpat_...)"
+     },
+     "check_all_orders": {
+      "type": "boolean",
+      "title": "Check All Orders",
+      "default": false
+     },
+     "add_note": {
+      "type": "boolean",
+      "title": "Add Note",
+      "default": true
+     },
+     "auto_delivered": {
+      "type": "boolean",
+      "title": "Auto Delivered",
+      "default": true
+     }
+    },
+    "type": "object",
+    "required": [
+     "shop",
+     "client_secret"
+    ],
+    "title": "ShopifyIn"
    },
    "TenantPatch": {
     "properties": {
@@ -6425,6 +7903,28 @@
      "type"
     ],
     "title": "ValidationError"
+   },
+   "VerifyPhoneIn": {
+    "properties": {
+     "phone": {
+      "type": "string",
+      "title": "Phone"
+     },
+     "country": {
+      "type": "string",
+      "enum": [
+       "PK",
+       "AE"
+      ],
+      "title": "Country"
+     }
+    },
+    "type": "object",
+    "required": [
+     "phone",
+     "country"
+    ],
+    "title": "VerifyPhoneIn"
    },
    "WebhookIn": {
     "properties": {

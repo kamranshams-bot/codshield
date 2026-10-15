@@ -9,6 +9,7 @@ if "CODSHIELD_DATABASE_URL" not in os.environ:
     os.environ["CODSHIELD_ADMIN_KEY"] = "adm"
 
 from fastapi.testclient import TestClient  # noqa: E402
+from tests import verified_dispute  # noqa: E402
 
 from codshield.api import app  # noqa: E402
 from codshield.config import settings  # noqa: E402
@@ -238,7 +239,7 @@ def test_store_dispute_response_withdraw():
     c.post("/v1/events", headers=H, json=outcome(uniq("W"), phone))
     c.post("/v1/events", headers=H2, json=outcome(uniq("W"), phone, "fake_order"))
     _, disp = add_user(H, ["disputes"])
-    did = c.post("/v1/disputes", json={"phone": phone, "country": "PK", "reason": "I never ordered from these shops."}).json()["dispute_id"]
+    did = verified_dispute(c, phone, "I never ordered from these shops.").json()["dispute_id"]
     mine = c.get("/v1/disputes", headers=disp).json()
     d = next(x for x in mine if x["id"] == did)
     assert len(d["your_records"]) == 1
@@ -261,3 +262,48 @@ def test_audit_and_api_key_rotation():
     assert c.post("/v1/check", headers={"X-API-Key": new}, json={"phone": "03001234567"}).status_code == 200
     actions = [a["action"] for a in c.get("/v1/audit", headers=H).json()]
     assert {"user.created", "tenant.api_key_rotated", "auth.login"} <= set(actions)
+
+
+# ------------------------------------------------------------------ email: reset and invitations
+def _link_token(to):
+    import re
+    from tests import last_message
+    return re.search(r"#(?:reset|invite)=(pw_[\w-]+)", last_message("email", to)["text"]).group(1)
+
+
+def test_forgot_password_flow():
+    _, H, _ = new_tenant()
+    email = uniq("fp") + "@store.test"
+    r = c.post("/v1/users", headers=H, json={"email": email, "name": "Fay", "perms": ["check"], "countries": ["PK"]}).json()
+    assert r["invite_sent"] is True
+    temp = r["temporary_password"]
+    a = c.post("/v1/auth/forgot", json={"email": email}).json()
+    b = c.post("/v1/auth/forgot", json={"email": "nobody-" + email}).json()
+    assert a == b and a["ok"] is True                      # no account enumeration
+    tok = _link_token(email)
+    assert c.post("/v1/auth/reset", json={"token": tok, "new_password": "short"}).status_code == 422
+    done = c.post("/v1/auth/reset", json={"token": tok, "new_password": "brand-new-pass-1"})
+    assert done.status_code == 200 and done.json()["token"].startswith("sess_")
+    assert c.post("/v1/auth/reset", json={"token": tok, "new_password": "another-pass-22"}).status_code == 400
+    assert c.post("/v1/auth/login", json={"email": email, "password": temp}).status_code == 401
+    login(email, "brand-new-pass-1")
+
+
+def test_invite_link_sets_password_and_clears_first_login_change():
+    _, H, _ = new_tenant()
+    email = uniq("inv") + "@store.test"
+    c.post("/v1/users", headers=H, json={"email": email, "name": "Ivy", "perms": ["check"], "countries": ["PK"]})
+    tok = _link_token(email)
+    h = {"Authorization": "Bearer " + c.post("/v1/auth/reset", json={"token": tok, "new_password": "my-own-pass-12"}).json()["token"]}
+    assert c.get("/v1/me", headers=h).json()["user"]["must_change_password"] is False
+
+
+def test_dispute_emails_store_officers():
+    from tests import last_message, verified_dispute
+    _, H, _ = new_tenant(approval=False)
+    off = uniq("off") + "@store.test"
+    c.post("/v1/users", headers=H, json={"email": off, "name": "Officer", "perms": ["disputes"], "countries": ["PK", "AE"]})
+    phone = "0345" + str(6000000 + int(uniq("")))
+    c.post("/v1/events", headers=H, json=outcome(uniq("EM"), phone))
+    verified_dispute(c, phone, "I never ordered anything at all.")
+    assert "contested" in last_message("email", off)["subject"]

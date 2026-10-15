@@ -6,7 +6,7 @@ description: |-
   Quick start
   1. Import the collection and the Live (or Local) environment; select it.
   2. In the environment fill adminKey, adminEmail/adminPassword (first-time setup only) and newPassword (10+ characters).
-  3. Run the whole collection in the Collection Runner (folders 01-12, skip 13), or send requests one by one. Each request saves the IDs and keys the next ones need.
+  3. Run the whole collection in the Collection Runner (folders 01-12; 13-15 are separate), or send requests one by one. Each request saves the IDs and keys the next ones need.
 
   Credentials: apiKey / apiKey2 / testApiKey → X-API-Key; sessionToken / checkerToken → Bearer; adminKey → X-Admin-Key.
 

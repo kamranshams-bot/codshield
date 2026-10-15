@@ -3,7 +3,7 @@ import hashlib
 import secrets
 from datetime import datetime, timedelta, timezone
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -144,34 +144,118 @@ def check(s: Session, *, phone=None, email=None, address=None, city=None, countr
     return result
 
 
-def open_dispute(s: Session, *, phone: str, country: str, reason: str, contact: str | None) -> Dispute:
+CODE_TTL = timedelta(minutes=10)
+MAX_CODES_PER_HOUR = 3
+MAX_CODE_ATTEMPTS = 5
+
+
+def _code_hash(vid: str, code: str) -> str:
+    return hashlib.sha256(f"{vid}:{code}:{settings.HASH_SECRET}".encode()).hexdigest()
+
+
+def start_phone_verification(s: Session, *, phone: str, country: str) -> dict:
+    """Text a 6-digit code to the phone. Never reveals whether we hold records for it."""
+    from . import notify
+    from .models import PhoneVerification
     p = normalize_phone(phone, country)
     if not p:
         raise ValidationError("invalid phone number")
-    ident = s.scalar(select(Identity).where(Identity.hash == keyed_hash("phone", p)))
-    if ident is None:
-        raise ValidationError("no records found for this number")
-    d = Dispute(identity_id=ident.id, reason=reason[:2000], contact=contact)
-    s.add(d)
-    # freeze negative events tied to this identity while under review
+    if not notify.sms_enabled():
+        raise ValidationError("verification by text message isn't available yet; send the dispute without a code")
+    ph = keyed_hash("phone", p)
+    recent = s.scalar(select(func.count(PhoneVerification.id)).where(
+        PhoneVerification.phone_hash == ph, PhoneVerification.created_at > utcnow() - timedelta(hours=1))) or 0
+    if recent >= MAX_CODES_PER_HOUR:
+        raise ValidationError("too many codes requested for this number; try again in an hour")
+    vid = "pv_" + secrets.token_urlsafe(16)
+    code = f"{secrets.randbelow(1_000_000):06d}"
+    s.add(PhoneVerification(id=vid, phone_hash=ph, code_hash=_code_hash(vid, code),
+                            expires_at=utcnow() + CODE_TTL))
+    s.commit()
+    notify.send_sms(p, f"Your CODShield verification code is {code}. It expires in 10 minutes.")
+    return {"verification_id": vid, "expires_in": int(CODE_TTL.total_seconds())}
+
+
+def _check_code(s: Session, vid: str, phone_hash: str, code: str):
+    from .models import PhoneVerification
+    v = s.get(PhoneVerification, vid)
+    if not v or v.phone_hash != phone_hash or v.used_at or v.expires_at < utcnow():
+        raise ValidationError("this code has expired; request a new one")
+    if v.attempts >= MAX_CODE_ATTEMPTS:
+        raise ValidationError("too many wrong codes; request a new one")
+    v.attempts += 1
+    if not secrets.compare_digest(v.code_hash, _code_hash(vid, (code or "").strip())):
+        s.commit()
+        raise ValidationError("wrong code")
+    v.verified_at = v.used_at = utcnow()
+    return v
+
+
+def _freeze(s: Session, identity_id: int) -> int:
     evs = s.scalars(select(Event).join(EventIdentity).where(
-        EventIdentity.identity_id == ident.id, Event.status == EventStatus.ACTIVE.value,
+        EventIdentity.identity_id == identity_id, Event.status == EventStatus.ACTIVE.value,
         Event.type != EventType.DELIVERED_PAID.value)).all()
     for ev in evs:
         ev.status = EventStatus.DISPUTED.value
+    return len(evs)
+
+
+def open_dispute(s: Session, *, phone: str, country: str, reason: str, contact: str | None,
+                 verification_id: str | None = None, code: str | None = None) -> Dispute | None:
+    """A consumer contests the records linked to their phone.
+
+    With a valid code the phone is proven theirs: the records stop counting at once ("open").
+    Without SMS configured the dispute is "unverified": nothing is frozen until a platform admin
+    confirms the number belongs to the customer. Returns None when we hold no records."""
+    from . import notify
+    p = normalize_phone(phone, country)
+    if not p:
+        raise ValidationError("invalid phone number")
+    ph = keyed_hash("phone", p)
+    verified = False
+    if verification_id or code:
+        _check_code(s, verification_id or "", ph, code or "")
+        verified = True
+    elif notify.sms_enabled():
+        raise ValidationError("enter the code we texted to this number")
+    ident = s.scalar(select(Identity).where(Identity.hash == ph))
+    if ident is None:
+        s.commit()
+        return None
+    d = Dispute(identity_id=ident.id, reason=reason[:2000], contact=contact,
+                status="open" if verified else "unverified", verified=verified)
+    s.add(d)
+    if verified:
+        _freeze(s, ident.id)        # records stop counting while we review
+    s.commit()
+    return d
+
+
+def verify_dispute(s: Session, dispute_id: int) -> Dispute:
+    """Platform admin confirmed (e.g. by calling) that the number belongs to the customer."""
+    d = s.get(Dispute, dispute_id)
+    if d is None or d.status != "unverified":
+        raise ValidationError("dispute not found or already verified")
+    d.status, d.verified = "open", True
+    _freeze(s, d.identity_id)
     s.commit()
     return d
 
 
 def resolve_dispute(s: Session, dispute_id: int, upheld: bool, note: str | None) -> Dispute:
     d = s.get(Dispute, dispute_id)
-    if d is None or d.status != "open":
+    if d is None or d.status not in ("open", "unverified"):
         raise ValidationError("dispute not found or already resolved")
-    new_status = EventStatus.REMOVED.value if upheld else EventStatus.ACTIVE.value
-    evs = s.scalars(select(Event).join(EventIdentity).where(
-        EventIdentity.identity_id == d.identity_id, Event.status == EventStatus.DISPUTED.value)).all()
-    for ev in evs:
-        ev.status = new_status
+    unverified = d.status == "unverified"
+    if unverified and upheld:                   # removing records needs them frozen first
+        _freeze(s, d.identity_id)
+        s.flush()
+    if upheld or not unverified:                # dismissing an unverified dispute changes no records
+        new_status = EventStatus.REMOVED.value if upheld else EventStatus.ACTIVE.value
+        evs = s.scalars(select(Event).join(EventIdentity).where(
+            EventIdentity.identity_id == d.identity_id, Event.status == EventStatus.DISPUTED.value)).all()
+        for ev in evs:
+            ev.status = new_status
     d.status = "upheld" if upheld else "rejected"
     d.resolution_note = note
     d.resolved_at = utcnow()

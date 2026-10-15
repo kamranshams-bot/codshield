@@ -19,6 +19,6 @@ response:
           "code": "validation_failed",
           "message": "unknown event type 'fraud'",
           "status": 422,
-          "request_id": "req_d2d23fbe20b5ba16"
+          "request_id": "req_334a821d65c072b4"
         }
       }

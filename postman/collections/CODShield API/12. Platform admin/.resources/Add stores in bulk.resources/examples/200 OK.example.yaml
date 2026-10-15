@@ -19,14 +19,14 @@ response:
             "index": 0,
             "ok": true,
             "merchant_id": 3,
-            "name": "Bulk Store A 1792064464",
+            "name": "Bulk Store A 1792081058",
             "api_key": "cs_live_EXAMPLEKEYdoNotUse0000000000000"
           },
           {
             "index": 1,
             "ok": true,
             "merchant_id": 4,
-            "name": "Bulk Store B 1792064464",
+            "name": "Bulk Store B 1792081058",
             "api_key": "cs_live_EXAMPLEKEYdoNotUse0000000000000"
           }
         ],

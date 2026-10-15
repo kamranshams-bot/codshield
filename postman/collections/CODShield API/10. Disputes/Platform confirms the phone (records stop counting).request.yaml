@@ -1,10 +1,7 @@
 $kind: http-request
-method: GET
-url: '{{baseUrl}}/v1/admin/disputes?status=open'
+method: POST
+url: '{{baseUrl}}/v1/admin/disputes/{{disputeId}}/verify'
 order: 4000
-queryParams:
-  - key: 'status'
-    value: 'open'
 auth:
   type: apikey
   credentials:
@@ -19,4 +16,5 @@ scripts:
     language: text/javascript
     code: |-
       pm.test("status 200", () => pm.response.to.have.status(200));
-examples: './.resources/Platform lists open disputes.resources/examples/'
+examples: './.resources/Platform confirms the phone (records stop counting).resources/examples/'
+# path variables come from the environment: disputeId

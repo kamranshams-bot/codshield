@@ -1,7 +1,7 @@
 {
  "info": {
   "name": "CODShield API v1",
-  "description": "Every CODShield endpoint, with 5,000 synthetic TEST- outcomes and 500 checks.\n\nQuick start\n1. Import the collection and the Live (or Local) environment; select it.\n2. In the environment fill adminKey, adminEmail/adminPassword (first-time setup only) and newPassword (10+ characters).\n3. Run the whole collection in the Collection Runner (folders 01-12, skip 13), or send requests one by one. Each request saves the IDs and keys the next ones need.\n\nCredentials: apiKey / apiKey2 / testApiKey \u2192 X-API-Key; sessionToken / checkerToken \u2192 Bearer; adminKey \u2192 X-Admin-Key.\n\nRemove the test data afterwards: python -m codshield.testdata purge",
+  "description": "Every CODShield endpoint, with 5,000 synthetic TEST- outcomes and 500 checks.\n\nQuick start\n1. Import the collection and the Live (or Local) environment; select it.\n2. In the environment fill adminKey, adminEmail/adminPassword (first-time setup only) and newPassword (10+ characters).\n3. Run the whole collection in the Collection Runner (folders 01-12; 13-15 are separate), or send requests one by one. Each request saves the IDs and keys the next ones need.\n\nCredentials: apiKey / apiKey2 / testApiKey \u2192 X-API-Key; sessionToken / checkerToken \u2192 Bearer; adminKey \u2192 X-Admin-Key.\n\nRemove the test data afterwards: python -m codshield.testdata purge",
   "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
  },
  "auth": {
@@ -2789,8 +2789,55 @@
   },
   {
    "name": "10. Disputes",
-   "description": "A customer contests their records; the store answers; CODShield decides.",
+   "description": "A customer contests their records. With SMS set up they first get a texted code; without it the dispute waits until a platform admin confirms the phone belongs to them.",
    "item": [
+    {
+     "name": "Customer asks for a code by text (only when SMS is set up)",
+     "event": [
+      {
+       "listen": "test",
+       "script": {
+        "type": "text/javascript",
+        "exec": [
+         "pm.environment.set(\"verificationId\", (pm.response.json() || {}).verification_id || '');"
+        ]
+       }
+      }
+     ],
+     "request": {
+      "method": "POST",
+      "header": [
+       {
+        "key": "Content-Type",
+        "value": "application/json"
+       }
+      ],
+      "url": {
+       "raw": "{{baseUrl}}/v1/disputes/verify",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "disputes",
+        "verify"
+       ]
+      },
+      "description": "Returns a verification_id and texts a 6-digit code. Answers 422 while SMS isn't configured.",
+      "body": {
+       "mode": "raw",
+       "raw": "{\n  \"phone\": \"{{disputePhone}}\",\n  \"country\": \"PK\"\n}",
+       "options": {
+        "raw": {
+         "language": "json"
+        }
+       }
+      },
+      "auth": {
+       "type": "noauth"
+      }
+     }
+    },
     {
      "name": "Customer opens a dispute (public)",
      "event": [
@@ -2799,8 +2846,7 @@
        "script": {
         "type": "text/javascript",
         "exec": [
-         "pm.test(\"status 200\", () => pm.response.to.have.status(200));",
-         "pm.environment.set(\"disputeId\", pm.response.json().dispute_id);"
+         "pm.test(\"status 200\", () => pm.response.to.have.status(200));"
         ]
        }
       }
@@ -2823,7 +2869,7 @@
         "disputes"
        ]
       },
-      "description": "disputePhone must have records (it defaults to the first customer in batch 1); otherwise 422.",
+      "description": "With SMS set up, add \"verification_id\": \"{{verificationId}}\" and \"code\": \"<the texted code>\". Without a code the dispute is received as unverified: nothing changes until a platform admin confirms it. The answer is the same whether or not we hold records, so the form can't be used to look people up.",
       "body": {
        "mode": "raw",
        "raw": "{\n  \"phone\": \"{{disputePhone}}\",\n  \"country\": \"PK\",\n  \"reason\": \"I never placed these orders. Please remove them.\",\n  \"contact\": \"test@example.com\"\n}",
@@ -2835,6 +2881,115 @@
       },
       "auth": {
        "type": "noauth"
+      }
+     }
+    },
+    {
+     "name": "Platform lists disputes waiting for phone confirmation",
+     "event": [
+      {
+       "listen": "test",
+       "script": {
+        "type": "text/javascript",
+        "exec": [
+         "pm.test(\"status 200\", () => pm.response.to.have.status(200));",
+         "pm.environment.set(\"disputeId\", (pm.response.json().slice(-1)[0] || {}).id);"
+        ]
+       }
+      }
+     ],
+     "request": {
+      "method": "GET",
+      "header": [],
+      "url": {
+       "raw": "{{baseUrl}}/v1/admin/disputes?status=unverified",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "admin",
+        "disputes"
+       ],
+       "query": [
+        {
+         "key": "status",
+         "value": "unverified"
+        }
+       ]
+      },
+      "description": "",
+      "auth": {
+       "type": "apikey",
+       "apikey": [
+        {
+         "key": "key",
+         "value": "X-Admin-Key",
+         "type": "string"
+        },
+        {
+         "key": "value",
+         "value": "{{adminKey}}",
+         "type": "string"
+        },
+        {
+         "key": "in",
+         "value": "header",
+         "type": "string"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "name": "Platform confirms the phone (records stop counting)",
+     "event": [
+      {
+       "listen": "test",
+       "script": {
+        "type": "text/javascript",
+        "exec": [
+         "pm.test(\"status 200\", () => pm.response.to.have.status(200));"
+        ]
+       }
+      }
+     ],
+     "request": {
+      "method": "POST",
+      "header": [],
+      "url": {
+       "raw": "{{baseUrl}}/v1/admin/disputes/{{disputeId}}/verify",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "admin",
+        "disputes",
+        "{{disputeId}}",
+        "verify"
+       ]
+      },
+      "description": "",
+      "auth": {
+       "type": "apikey",
+       "apikey": [
+        {
+         "key": "key",
+         "value": "X-Admin-Key",
+         "type": "string"
+        },
+        {
+         "key": "value",
+         "value": "{{adminKey}}",
+         "type": "string"
+        },
+        {
+         "key": "in",
+         "value": "header",
+         "type": "string"
+        }
+       ]
       }
      }
     },
@@ -2909,62 +3064,6 @@
          "language": "json"
         }
        }
-      }
-     }
-    },
-    {
-     "name": "Platform lists open disputes",
-     "event": [
-      {
-       "listen": "test",
-       "script": {
-        "type": "text/javascript",
-        "exec": [
-         "pm.test(\"status 200\", () => pm.response.to.have.status(200));"
-        ]
-       }
-      }
-     ],
-     "request": {
-      "method": "GET",
-      "header": [],
-      "url": {
-       "raw": "{{baseUrl}}/v1/admin/disputes?status=open",
-       "host": [
-        "{{baseUrl}}"
-       ],
-       "path": [
-        "v1",
-        "admin",
-        "disputes"
-       ],
-       "query": [
-        {
-         "key": "status",
-         "value": "open"
-        }
-       ]
-      },
-      "description": "",
-      "auth": {
-       "type": "apikey",
-       "apikey": [
-        {
-         "key": "key",
-         "value": "X-Admin-Key",
-         "type": "string"
-        },
-        {
-         "key": "value",
-         "value": "{{adminKey}}",
-         "type": "string"
-        },
-        {
-         "key": "in",
-         "value": "header",
-         "type": "string"
-        }
-       ]
       }
      }
     },
@@ -3721,7 +3820,362 @@
    }
   },
   {
-   "name": "13. Data-file runner (run on its own)",
+   "name": "13. Shopify connection (store admin)",
+   "description": "Connects a Shopify store with a Dev Dashboard app's client ID and secret. Needs a real store, so it is not part of the end-to-end run.",
+   "item": [
+    {
+     "name": "List connected shops",
+     "event": [
+      {
+       "listen": "test",
+       "script": {
+        "type": "text/javascript",
+        "exec": [
+         "pm.test(\"status 200\", () => pm.response.to.have.status(200));"
+        ]
+       }
+      }
+     ],
+     "request": {
+      "method": "GET",
+      "header": [],
+      "url": {
+       "raw": "{{baseUrl}}/v1/integrations",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "integrations"
+       ]
+      },
+      "description": ""
+     }
+    },
+    {
+     "name": "Connect a Shopify store",
+     "event": [
+      {
+       "listen": "test",
+       "script": {
+        "type": "text/javascript",
+        "exec": [
+         "pm.test(\"status 201\", () => pm.response.to.have.status(201));",
+         "pm.environment.set(\"integrationId\", pm.response.json().id);"
+        ]
+       }
+      }
+     ],
+     "request": {
+      "method": "POST",
+      "header": [
+       {
+        "key": "Content-Type",
+        "value": "application/json"
+       }
+      ],
+      "url": {
+       "raw": "{{baseUrl}}/v1/integrations/shopify",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "integrations",
+        "shopify"
+       ]
+      },
+      "description": "",
+      "body": {
+       "mode": "raw",
+       "raw": "{\n  \"shop\": \"mystore.myshopify.com\",\n  \"client_id\": \"{{shopifyClientId}}\",\n  \"client_secret\": \"{{shopifyClientSecret}}\",\n  \"check_all_orders\": false,\n  \"add_note\": true,\n  \"auto_delivered\": true\n}",
+       "options": {
+        "raw": {
+         "language": "json"
+        }
+       }
+      }
+     }
+    },
+    {
+     "name": "Pause / change settings",
+     "event": [
+      {
+       "listen": "test",
+       "script": {
+        "type": "text/javascript",
+        "exec": [
+         "pm.test(\"status 200\", () => pm.response.to.have.status(200));"
+        ]
+       }
+      }
+     ],
+     "request": {
+      "method": "PATCH",
+      "header": [
+       {
+        "key": "Content-Type",
+        "value": "application/json"
+       }
+      ],
+      "url": {
+       "raw": "{{baseUrl}}/v1/integrations/{{integrationId}}",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "integrations",
+        "{{integrationId}}"
+       ]
+      },
+      "description": "",
+      "body": {
+       "mode": "raw",
+       "raw": "{\n  \"active\": true,\n  \"add_note\": true\n}",
+       "options": {
+        "raw": {
+         "language": "json"
+        }
+       }
+      }
+     }
+    },
+    {
+     "name": "Disconnect",
+     "event": [
+      {
+       "listen": "test",
+       "script": {
+        "type": "text/javascript",
+        "exec": [
+         "pm.test(\"status 200\", () => pm.response.to.have.status(200));"
+        ]
+       }
+      }
+     ],
+     "request": {
+      "method": "DELETE",
+      "header": [],
+      "url": {
+       "raw": "{{baseUrl}}/v1/integrations/{{integrationId}}",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "integrations",
+        "{{integrationId}}"
+       ]
+      },
+      "description": ""
+     }
+    }
+   ],
+   "auth": {
+    "type": "bearer",
+    "bearer": [
+     {
+      "key": "token",
+      "value": "{{sessionToken}}",
+      "type": "string"
+     }
+    ]
+   }
+  },
+  {
+   "name": "14. Password reset and housekeeping",
+   "description": "",
+   "item": [
+    {
+     "name": "Forgot password (emails a link)",
+     "event": [
+      {
+       "listen": "test",
+       "script": {
+        "type": "text/javascript",
+        "exec": [
+         "pm.test(\"status 200\", () => pm.response.to.have.status(200));"
+        ]
+       }
+      }
+     ],
+     "request": {
+      "method": "POST",
+      "header": [
+       {
+        "key": "Content-Type",
+        "value": "application/json"
+       }
+      ],
+      "url": {
+       "raw": "{{baseUrl}}/v1/auth/forgot",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "auth",
+        "forgot"
+       ]
+      },
+      "description": "Same answer whether or not the account exists. Says so when email isn't configured.",
+      "body": {
+       "mode": "raw",
+       "raw": "{\n  \"email\": \"{{userEmail}}\"\n}",
+       "options": {
+        "raw": {
+         "language": "json"
+        }
+       }
+      },
+      "auth": {
+       "type": "noauth"
+      }
+     }
+    },
+    {
+     "name": "Set a password from an emailed link",
+     "event": [],
+     "request": {
+      "method": "POST",
+      "header": [
+       {
+        "key": "Content-Type",
+        "value": "application/json"
+       }
+      ],
+      "url": {
+       "raw": "{{baseUrl}}/v1/auth/reset",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "auth",
+        "reset"
+       ]
+      },
+      "description": "The token is the part of the emailed link after #reset= or #invite=. Signs you in.",
+      "body": {
+       "mode": "raw",
+       "raw": "{\n  \"token\": \"pw_paste-the-token-from-the-link\",\n  \"new_password\": \"{{newPassword}}\"\n}",
+       "options": {
+        "raw": {
+         "language": "json"
+        }
+       }
+      },
+      "auth": {
+       "type": "noauth"
+      }
+     }
+    },
+    {
+     "name": "Housekeeping status (platform)",
+     "event": [
+      {
+       "listen": "test",
+       "script": {
+        "type": "text/javascript",
+        "exec": [
+         "pm.test(\"status 200\", () => pm.response.to.have.status(200));"
+        ]
+       }
+      }
+     ],
+     "request": {
+      "method": "GET",
+      "header": [],
+      "url": {
+       "raw": "{{baseUrl}}/v1/admin/housekeeping",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "admin",
+        "housekeeping"
+       ]
+      },
+      "description": "",
+      "auth": {
+       "type": "apikey",
+       "apikey": [
+        {
+         "key": "key",
+         "value": "X-Admin-Key",
+         "type": "string"
+        },
+        {
+         "key": "value",
+         "value": "{{adminKey}}",
+         "type": "string"
+        },
+        {
+         "key": "in",
+         "value": "header",
+         "type": "string"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "name": "Run housekeeping now (platform)",
+     "event": [
+      {
+       "listen": "test",
+       "script": {
+        "type": "text/javascript",
+        "exec": [
+         "pm.test(\"status 200\", () => pm.response.to.have.status(200));"
+        ]
+       }
+      }
+     ],
+     "request": {
+      "method": "POST",
+      "header": [],
+      "url": {
+       "raw": "{{baseUrl}}/v1/admin/housekeeping/run",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "admin",
+        "housekeeping",
+        "run"
+       ]
+      },
+      "description": "",
+      "auth": {
+       "type": "apikey",
+       "apikey": [
+        {
+         "key": "key",
+         "value": "X-Admin-Key",
+         "type": "string"
+        },
+        {
+         "key": "value",
+         "value": "{{adminKey}}",
+         "type": "string"
+        },
+        {
+         "key": "in",
+         "value": "header",
+         "type": "string"
+        }
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "name": "15. Data-file runner (run on its own)",
    "description": "Run only this folder in the Collection Runner with testdata/out/outcomes_all.csv (or a part file) as the data file: one call per row. Slower than the batches (Free plan: 60 calls a minute; Growth: 600).",
    "item": [
     {

@@ -1,0 +1,8 @@
+$kind: collection
+name: '14. Password reset and housekeeping'
+order: 14000
+description: |-
+
+
+  - Forgot password (emails a link): Same answer whether or not the account exists. Says so when email isn't configured.
+  - Set a password from an emailed link: The token is the part of the emailed link after #reset= or #invite=. Signs you in.

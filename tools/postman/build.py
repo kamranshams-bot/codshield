@@ -214,20 +214,51 @@ entries = folder("09. Entries and approvals (maker-checker)", "The store owner e
     req("Turn approval off again", "PATCH", "/v1/tenant", body={"require_approval": False}),
 ], "session")
 
-disputes = folder("10. Disputes", "A customer contests their records; the store answers; CODShield decides.", [
+disputes = folder("10. Disputes", "A customer contests their records. With SMS set up they first get a texted code; "
+                 "without it the dispute waits until a platform admin confirms the phone belongs to them.", [
+    req("Customer asks for a code by text (only when SMS is set up)", "POST", "/v1/disputes/verify", auth_kind="none",
+        body={"phone": "{{disputePhone}}", "country": "PK"}, status=None,
+        saves=[("verificationId", "(pm.response.json() || {}).verification_id || ''")],
+        desc="Returns a verification_id and texts a 6-digit code. Answers 422 while SMS isn't configured."),
     req("Customer opens a dispute (public)", "POST", "/v1/disputes", auth_kind="none",
         body={"phone": "{{disputePhone}}", "country": "PK", "reason": "I never placed these orders. Please remove them.",
               "contact": "test@example.com"},
-        saves=[("disputeId", "pm.response.json().dispute_id")],
-        desc="disputePhone must have records (it defaults to the first customer in batch 1); otherwise 422."),
+        desc="With SMS set up, add \"verification_id\": \"{{verificationId}}\" and \"code\": \"<the texted code>\". "
+             "Without a code the dispute is received as unverified: nothing changes until a platform admin confirms it. "
+             "The answer is the same whether or not we hold records, so the form can't be used to look people up."),
+    req("Platform lists disputes waiting for phone confirmation", "GET", "/v1/admin/disputes",
+        query={"status": "unverified"}, auth_kind="admin",
+        saves=[("disputeId", "(pm.response.json().slice(-1)[0] || {}).id")]),
+    req("Platform confirms the phone (records stop counting)", "POST", "/v1/admin/disputes/{{disputeId}}/verify",
+        auth_kind="admin"),
     req("Store lists open disputes on its records", "GET", "/v1/disputes"),
     req("Store responds (confirm or withdraw)", "POST", "/v1/disputes/{{disputeId}}/respond",
         body={"action": "confirm", "note": "Courier proof on file."},
         desc="withdraw removes your records now; confirm stands by them for CODShield's decision."),
-    req("Platform lists open disputes", "GET", "/v1/admin/disputes", query={"status": "open"}, auth_kind="admin"),
     req("Platform decides (upheld removes the records)", "POST", "/v1/admin/disputes/{{disputeId}}/resolve",
         body={"upheld": False, "note": "Store confirmed with courier proof."}, auth_kind="admin"),
 ], "session")
+
+shopify_folder = folder("13. Shopify connection (store admin)", "Connects a Shopify store with a Dev Dashboard app's client "
+                        "ID and secret. Needs a real store, so it is not part of the end-to-end run.", [
+    req("List connected shops", "GET", "/v1/integrations"),
+    req("Connect a Shopify store", "POST", "/v1/integrations/shopify", status=201,
+        body={"shop": "mystore.myshopify.com", "client_id": "{{shopifyClientId}}", "client_secret": "{{shopifyClientSecret}}",
+              "check_all_orders": False, "add_note": True, "auto_delivered": True},
+        saves=[("integrationId", "pm.response.json().id")]),
+    req("Pause / change settings", "PATCH", "/v1/integrations/{{integrationId}}", body={"active": True, "add_note": True}),
+    req("Disconnect", "DELETE", "/v1/integrations/{{integrationId}}"),
+], "session")
+
+password_folder = folder("14. Password reset and housekeeping", "", [
+    req("Forgot password (emails a link)", "POST", "/v1/auth/forgot", auth_kind="none", body={"email": "{{userEmail}}"},
+        desc="Same answer whether or not the account exists. Says so when email isn't configured."),
+    req("Set a password from an emailed link", "POST", "/v1/auth/reset", auth_kind="none", status=None,
+        body={"token": "pw_paste-the-token-from-the-link", "new_password": "{{newPassword}}"},
+        desc="The token is the part of the emailed link after #reset= or #invite=. Signs you in."),
+    req("Housekeeping status (platform)", "GET", "/v1/admin/housekeeping", auth_kind="admin"),
+    req("Run housekeeping now (platform)", "POST", "/v1/admin/housekeeping/run", auth_kind="admin"),
+])
 
 reports = folder("11. Reports, usage and audit", "", [
     req("Store report, last 30 days", "GET", "/v1/reports", query={"days": 30}),
@@ -261,7 +292,7 @@ platform = folder("12. Platform admin", "Uses the X-Admin-Key ({{adminKey}}).", 
 runner_body = ('{\n  "order_ref": "{{order_ref}}",\n  "type": "{{type}}",\n  "occurred_at": "{{occurred_at}}",\n'
                '  "phone": "{{phone}}",\n  "email": "{{email}}",\n  "address": "{{address}}",\n  "city": "{{city}}",\n'
                '  "country": "{{country}}",\n  "amount": {{amount}},\n  "currency": "{{currency}}",\n  "evidence": "{{evidence}}"\n}')
-runner = folder("13. Data-file runner (run on its own)", "Run only this folder in the Collection Runner with "
+runner = folder("15. Data-file runner (run on its own)", "Run only this folder in the Collection Runner with "
                 "testdata/out/outcomes_all.csv (or a part file) as the data file: one call per row. Slower than the "
                 "batches (Free plan: 60 calls a minute; Growth: 600).", [
     req("Report one outcome from the data file", "POST", "/v1/events", raw_body=runner_body, status=201,
@@ -274,7 +305,7 @@ collection = {
                             "Quick start\n1. Import the collection and the Live (or Local) environment; select it.\n"
                             "2. In the environment fill adminKey, adminEmail/adminPassword (first-time setup only) "
                             "and newPassword (10+ characters).\n"
-                            "3. Run the whole collection in the Collection Runner (folders 01-12, skip 13), or "
+                            "3. Run the whole collection in the Collection Runner (folders 01-12; 13-15 are separate), or "
                             "send requests one by one. Each request saves the IDs and keys the next ones need.\n\n"
                             "Credentials: apiKey / apiKey2 / testApiKey → X-API-Key; sessionToken / checkerToken → "
                             "Bearer; adminKey → X-Admin-Key.\n\n"
@@ -283,7 +314,8 @@ collection = {
     "auth": auth("key"),
     "event": [{"listen": "test", "script": {"type": "text/javascript", "exec": [
         'if (pm.response.code >= 400) console.log(pm.info.requestName, pm.response.code, pm.response.text());']}}],
-    "item": [setup, signin, developer, sandbox, outcomes, checks, validation, team, entries, disputes, reports, platform, runner],
+    "item": [setup, signin, developer, sandbox, outcomes, checks, validation, team, entries, disputes, reports, platform,
+             shopify_folder, password_folder, runner],
 }
 
 
@@ -296,7 +328,8 @@ def env(name, base):
             ("userId", "", "default"), ("keyId", "", "default"), ("webhookId", "", "default"),
             ("disputeId", "", "default"), ("submissionId", "", "default"), ("submissionId2", "", "default"),
             ("merchantId2", "", "default"), ("checkerEmail", "", "default"), ("checkerPassword", "", "secret"),
-            ("checkerToken", "", "secret")]
+            ("checkerToken", "", "secret"), ("verificationId", "", "default"), ("integrationId", "", "default"),
+            ("shopifyClientId", "", "default"), ("shopifyClientSecret", "", "secret")]
     return {"name": name, "values": [{"key": k, "value": v, "type": t, "enabled": True} for k, v, t in vals],
             "_postman_variable_scope": "environment"}
 

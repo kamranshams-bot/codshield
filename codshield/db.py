@@ -56,6 +56,7 @@ _NEW_COLUMNS = [
     ("merchants", "plan", "VARCHAR(20) DEFAULT 'free'"),
     ("merchants", "require_approval", "BOOLEAN DEFAULT TRUE"),
     ("merchants", "tier", "VARCHAR(20) DEFAULT 'contributor'"),
+    ("disputes", "verified", "BOOLEAN DEFAULT TRUE"),
 ]
 
 

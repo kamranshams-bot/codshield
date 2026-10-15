@@ -16,7 +16,7 @@ response:
       [
         {
           "id": 1,
-          "name": "Test Store PK 1792064436",
+          "name": "Test Store PK 1792081051",
           "country": "PK",
           "active": true,
           "agreement_signed": true,
@@ -31,7 +31,7 @@ response:
         },
         {
           "id": 2,
-          "name": "Test Store AE 1792064437",
+          "name": "Test Store AE 1792081051",
           "country": "AE",
           "active": true,
           "agreement_signed": true,

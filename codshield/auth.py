@@ -256,3 +256,54 @@ def audit(s: Session, actor: Actor | None, action: str, detail: str = "", mercha
                    actor=actor.label if actor else "public", action=action, detail=detail[:2000]))
     if commit:
         s.commit()
+
+
+# ------------------------------------------------------------------ password links (reset / invite)
+RESET_HOURS, INVITE_HOURS = 1, 72
+
+
+def create_password_link(s: Session, user: User, purpose: str) -> str:
+    """A single-use link; only its hash is stored. purpose: reset (1 hour) or invite (72 hours)."""
+    from .config import settings
+    from .models import PasswordToken
+    token = "pw_" + secrets.token_urlsafe(32)
+    hours = RESET_HOURS if purpose == "reset" else INVITE_HOURS
+    s.add(PasswordToken(user_id=user.id, token_hash=_token_hash(token), purpose=purpose,
+                        expires_at=utcnow() + timedelta(hours=hours)))
+    s.commit()
+    return f"{settings.PUBLIC_URL}/#{'reset' if purpose == 'reset' else 'invite'}={token}"
+
+
+def use_password_link(s: Session, token: str, new_password: str) -> User:
+    from .models import PasswordToken
+    pt = s.scalar(select(PasswordToken).where(PasswordToken.token_hash == _token_hash(token or "")))
+    if not pt or pt.used_at or pt.expires_at < utcnow():
+        raise AuthError(400, "This link has expired or was already used. Ask for a new one.")
+    u = s.get(User, pt.user_id)
+    if not u or not u.active:
+        raise AuthError(400, "This account is switched off. Ask your administrator.")
+    check_password_strength(new_password)
+    u.password_hash, u.must_change_password = hash_password(new_password), False
+    pt.used_at = utcnow()
+    # any other open links for this user stop working too
+    for other in s.scalars(select(PasswordToken).where(PasswordToken.user_id == u.id, PasswordToken.used_at.is_(None))):
+        other.used_at = utcnow()
+    s.commit()
+    end_all_sessions(s, u.id)
+    return u
+
+
+def send_invite(s: Session, user: User, invited_by: str = "") -> bool:
+    """Email a new user a link to choose their own password. False when email isn't set up."""
+    from . import notify
+    if not notify.mail_enabled():
+        return False
+    link = create_password_link(s, user, "invite")
+    store = ""
+    if user.merchant_id:
+        m = s.get(Merchant, user.merchant_id)
+        store = f" for {m.name}" if m else ""
+    return notify.send_mail(user.email, f"Your CODShield account{store}",
+                            f"Hello {user.name},\n\n{invited_by or 'An administrator'} has set up a CODShield account"
+                            f"{store} for you.\n\nChoose your password here (the link works once, for 72 hours):\n{link}\n\n"
+                            "Then sign in with this email address.\n\nCODShield")

@@ -1,0 +1,22 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/disputes/verify'
+order: 1000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "phone": "{{disputePhone}}",
+      "country": "PK"
+    }
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.environment.set("verificationId", (pm.response.json() || {}).verification_id || '');
+examples: './.resources/Customer asks for a code by text (only when SMS is set up).resources/examples/'

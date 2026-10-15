@@ -14,7 +14,6 @@ response:
     type: json
     content: |-
       {
-        "dispute_id": 1,
-        "status": "open",
-        "message": "Records are excluded from scoring while we review."
+        "status": "received",
+        "message": "Thank you. If we hold records linked to this number, we'll confirm it belongs to you and review them. We'll contact you if you left contact details."
       }

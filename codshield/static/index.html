@@ -78,6 +78,7 @@ input[type=text],input[type=email],input[type=tel],input[type=number],input[type
 input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:3px solid var(--accent-soft);outline-offset:0}
 textarea{min-height:150px;resize:vertical;font-size:.9rem;line-height:1.45}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .btn{display:inline-flex;align-items:center;gap:8px;justify-self:start;border:1px solid transparent;border-radius:var(--r-sm);
   padding:10px 16px;font-weight:600;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
 .btn:hover{filter:brightness(1.07)}
@@ -211,7 +212,27 @@ blockquote{margin:0;padding:10px 14px;border-left:3px solid var(--line-2);backgr
       <label class="f">Email <input name="email" type="email" autocomplete="username" required></label>
       <label class="f">Password <input name="password" type="password" autocomplete="current-password" required></label>
       <button class="btn" type="submit">Sign in</button>
+      <a href="#" id="toForgot" class="small">Forgot your password?</a>
       <div id="loginMsg"></div>
+    </form>
+
+    <form id="forgotForm" hidden>
+      <h1 style="font-size:1.4rem">Reset your password</h1>
+      <p class="sub" style="margin:0">Enter the email you sign in with. We'll email you a link to choose a new password.</p>
+      <label class="f">Email <input name="email" type="email" autocomplete="username" required></label>
+      <button class="btn" type="submit">Email me a link</button>
+      <a href="#" class="small backToLogin">Back to sign in</a>
+      <div id="forgotMsg"></div>
+    </form>
+
+    <form id="linkForm" hidden>
+      <h1 style="font-size:1.4rem" id="linkTitle">Choose a new password</h1>
+      <p class="sub" style="margin:0" id="linkSub">Pick a password you don't use anywhere else.</p>
+      <label class="f">New password <small>At least 10 characters.</small><input name="new_password" type="password" autocomplete="new-password" minlength="10" required></label>
+      <label class="f">Type it again <input name="again" type="password" autocomplete="new-password" minlength="10" required></label>
+      <button class="btn" type="submit">Save and sign in</button>
+      <a href="#" class="small backToLogin">Back to sign in</a>
+      <div id="linkMsg"></div>
     </form>
 
     <form id="setupForm" hidden>
@@ -244,11 +265,15 @@ blockquote{margin:0;padding:10px 14px;border-left:3px solid var(--line-2);backgr
     <div class="brand"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 2l9 3.5v6.2c0 6-3.9 10.4-9 12.3-5.1-1.9-9-6.3-9-12.3V5.5z" fill="#2453E6"/><path d="M8.5 13.2l3 3 6-6.4" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>CODShield</div>
     <div id="pubDispute">
       <h1 style="font-size:1.4rem">Think a record about you is wrong?</h1>
-      <p class="sub">Tell us your phone number and what happened. While we review, records linked to that number stop affecting your orders. We aim to decide within 30 days.</p>
+      <p class="sub" id="disputeIntro">Tell us your phone number and what happened. We first confirm the number is yours; then records linked to it stop affecting your orders while we review. We aim to decide within 30 days.</p>
       <form id="disputeForm" style="margin-top:16px">
         <div class="row">
           <label class="f">Phone <input name="phone" type="tel" required></label>
           <label class="f">Country<select name="country"><option value="PK">Pakistan</option><option value="AE">UAE</option></select></label>
+        </div>
+        <div id="codeRow" hidden>
+          <div class="actions" style="margin:0 0 4px"><button class="btn ghost sm" type="button" id="sendCode">Text me a code</button><span class="small muted" id="codeHint">We'll send a 6-digit code to this number.</span></div>
+          <label class="f">Code from the text message <input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}"></label>
         </div>
         <label class="f">What happened <small>For example: the courier never came, or I didn't place this order.</small><textarea name="reason" minlength="10" required style="min-height:110px"></textarea></label>
         <label class="f">How we can reply <small>Optional email or phone.</small><input name="contact" type="text"></label>
@@ -455,6 +480,20 @@ blockquote{margin:0;padding:10px 14px;border-left:3px solid var(--line-2);backgr
         <button class="btn" type="button" id="newHookBtn">Add endpoint</button></div>
       <div id="hooksBody" class="muted small">Loading…</div>
     </div>
+    <div class="panel" id="shopPanel">
+      <div class="head" style="margin-bottom:12px"><div><h2 style="margin:0">Shopify</h2><p class="small muted" style="margin:4px 0 0">New cash-on-delivery orders are checked automatically and tagged <code>codshield-high</code>, <code>-medium</code> or <code>-low</code> with a note for your team. Tag an order <code>cod-refused</code>, <code>cod-delivered</code> and so on to report what happened.</p></div>
+        <button class="btn" type="button" id="connectShopBtn">Connect Shopify</button></div>
+      <div id="shopBody" class="muted small">Loading…</div>
+    </div>
+    <div class="panel">
+      <div class="head" style="margin-bottom:12px"><div><h2 style="margin:0">WooCommerce</h2><p class="small muted" style="margin:4px 0 0">A WordPress plugin that checks cash-on-delivery orders at checkout, can hide cash on delivery for high-risk customers, and reports outcomes from the order screen.</p></div>
+        <a class="btn" href="/downloads/codshield-woocommerce.zip" download>Download plugin</a></div>
+      <ol class="small" style="margin:0;padding-left:18px;line-height:1.7">
+        <li>Create a <b>live key</b> above with the <i>check</i> and <i>report</i> scopes.</li>
+        <li>In WordPress: Plugins → Add New → Upload Plugin → choose the zip → Activate.</li>
+        <li>WooCommerce → Settings → CODShield: paste the key, choose what to do with medium and high risk orders.</li>
+      </ol>
+    </div>
   </div>
 </section>
 
@@ -546,14 +585,14 @@ document.addEventListener("keydown", e => { if(e.key === "Escape" && !$("#dlg").
 // ---------------- auth flow ----------------
 function showAuth(which){
   $("#appView").hidden = true; $("#publicView").hidden = true; $("#authView").hidden = false;
-  ["loginForm","setupForm","pwForm"].forEach(id => $("#"+id).hidden = id !== which);
+  ["loginForm","setupForm","pwForm","forgotForm","linkForm"].forEach(id => $("#"+id).hidden = id !== which);
 }
 function showPublic(which){
   $("#appView").hidden = true; $("#authView").hidden = true; $("#publicView").hidden = false;
   $("#pubDispute").hidden = which !== "dispute"; $("#pubAbout").hidden = which !== "about";
   $("#pubSwitch").textContent = which === "dispute" ? "How it works" : "Contest a record";
 }
-$("#toDispute").onclick = e => { e.preventDefault(); showPublic("dispute"); };
+$("#toDispute").onclick = e => { e.preventDefault(); showPublic("dispute"); prepareDisputeForm(); };
 $("#toAbout").onclick = e => { e.preventDefault(); showPublic("about"); };
 $("#pubSwitch").onclick = e => { e.preventDefault(); showPublic($("#pubDispute").hidden ? "dispute" : "about"); };
 document.querySelectorAll(".toLogin").forEach(a => a.onclick = e => { e.preventDefault(); boot(); });
@@ -562,6 +601,30 @@ $("#loginForm").onsubmit = e => { e.preventDefault(); clear("#loginMsg");
   busy(e.target, async () => {
     try{ const r = await api("/v1/auth/login", {body: fd(e.target)}); TOKEN = r.token; store.set("cs_token", TOKEN); e.target.reset(); boot(); }
     catch(err){ flash("#loginMsg", err.message, false); }
+  });
+};
+$("#toForgot").onclick = e => { e.preventDefault(); clear("#forgotMsg"); showAuth("forgotForm");
+  $("#forgotForm").email.value = $("#loginForm").email.value; };
+document.querySelectorAll(".backToLogin").forEach(a => a.onclick = e => { e.preventDefault(); history.replaceState(null, "", location.pathname); clear("#loginMsg"); showAuth("loginForm"); });
+$("#forgotForm").onsubmit = e => { e.preventDefault(); clear("#forgotMsg");
+  busy(e.target, async () => {
+    try{ const r = await api("/v1/auth/forgot", {body: fd(e.target)}); flash("#forgotMsg", r.message, r.ok !== false); }
+    catch(err){ flash("#forgotMsg", err.message, false); }
+  });
+};
+let LINK_TOKEN = "";
+function openLinkForm(kind, token){
+  LINK_TOKEN = token; showAuth("linkForm");
+  $("#linkTitle").textContent = kind === "invite" ? "Welcome to CODShield" : "Choose a new password";
+  $("#linkSub").textContent = kind === "invite" ? "Choose a password to finish setting up your account." : "Pick a password you don't use anywhere else.";
+}
+$("#linkForm").onsubmit = e => { e.preventDefault(); clear("#linkMsg");
+  const b = fd(e.target);
+  if(b.new_password !== b.again){ flash("#linkMsg", "The two passwords don't match.", false); return; }
+  busy(e.target, async () => {
+    try{ const r = await api("/v1/auth/reset", {body:{token: LINK_TOKEN, new_password: b.new_password}});
+      history.replaceState(null, "", location.pathname); TOKEN = r.token; store.set("cs_token", TOKEN); e.target.reset(); boot(); }
+    catch(err){ flash("#linkMsg", err.message, false); }
   });
 };
 $("#setupForm").onsubmit = e => { e.preventDefault(); clear("#setupMsg");
@@ -961,6 +1024,7 @@ function bindUserForm(u, isNew){
         }
         if(r.temporary_password){
           $("#dlgBody").innerHTML = `<div class="stack" style="gap:14px"><div class="head" style="margin:0"><h2 style="margin:0">Temporary password</h2><button class="btn ghost sm" type="button" data-close>Done</button></div>
+            ${r.invite_sent || r.reset_link_sent ? `<div class="msg ok">We've emailed <b>${esc(r.user.email)}</b> a link to choose their own password. You only need the password below if the email doesn't arrive.</div>` : ""}
             <p class="small" style="margin:0">Share this privately with <b>${esc(r.user.email)}</b>. They'll choose their own password when they first sign in. It isn't shown again.</p>
             <div class="secret"><code>${esc(r.temporary_password)}</code>${copyBtn(r.temporary_password)}</div></div>`;
         } else closeDlg();
@@ -1028,7 +1092,63 @@ $("#auditCsv").onclick = () => download("codshield-activity.csv", toCSV([["when"
 
 // ---------------- developers ----------------
 const SCOPE_INFO = {check:"Check orders", report:"Report outcomes", read:"Read reports and usage"};
-async function loadDevelopers(){ clear("#devMsg"); loadKeys(); loadUsage(); loadHooks(); }
+async function loadDevelopers(){ clear("#devMsg"); loadKeys(); loadUsage(); loadHooks(); loadShops(); }
+const OUTCOME_TAG_LABEL = {"cod-refused":"Refused at the door","cod-unreachable":"Phone off / unreachable","cod-fake-order":"Says they never ordered",
+  "cod-fake-address":"Address doesn't exist","cod-return-abuse":"Return abuse","cod-chargeback":"Chargeback","cod-delivered":"Delivered and paid"};
+async function loadShops(){
+  try{
+    const r = await api("/v1/integrations");
+    $("#shopBody").className = "";
+    $("#shopBody").innerHTML = (r.integrations.length ? r.integrations.map(i => `<div class="dispute" data-i="${i.id}">
+      <div class="head" style="margin:0"><h2 style="margin:0">${esc(i.stats.shop_name || i.shop)} <span class="chip ${i.active ? "low" : "medium"}">${i.active ? "Connected" : "Paused"}</span></h2>
+        <span class="small muted"><code>${esc(i.shop)}</code> · ${i.last_event_at ? "last order " + fmtDT(i.last_event_at) : "no orders yet"}</span></div>
+      <p class="small" style="margin:0">${nf.format(i.stats.checked || 0)} orders checked (${nf.format(i.stats.band_high || 0)} high, ${nf.format(i.stats.band_medium || 0)} medium) · ${nf.format(i.stats.outcomes_created || 0)} outcomes reported</p>
+      ${i.last_error ? `<div class="msg err">Last problem: ${esc(i.last_error)}</div>` : ""}
+      <div class="actions">
+        <label class="small"><input type="checkbox" data-opt="check_all_orders" ${i.settings.check_all_orders ? "checked" : ""}> Check prepaid orders too</label>
+        <label class="small"><input type="checkbox" data-opt="add_note" ${i.settings.add_note ? "checked" : ""}> Add a note to the order</label>
+        <label class="small"><input type="checkbox" data-opt="auto_delivered" ${i.settings.auto_delivered ? "checked" : ""}> Paid + fulfilled COD order counts as delivered</label>
+        <button class="btn ghost sm" data-act="${i.active ? "pause" : "resume"}">${i.active ? "Pause" : "Resume"}</button>
+        <button class="btn ghost sm" data-act="remove">Disconnect</button></div></div>`).join("")
+      : `<div class="empty-state">No Shopify store connected yet.</div>`)
+      + `<details style="margin-top:14px"><summary class="small">Outcome tags your team can add to an order</summary><div class="tablewrap" style="margin-top:8px"><table><tbody>
+        ${Object.keys(r.outcome_tags).map(t => `<tr><td><code>${t}</code></td><td>${OUTCOME_TAG_LABEL[t] || r.outcome_tags[t]}</td></tr>`).join("")}</tbody></table></div></details>`;
+  }catch(err){ $("#shopBody").innerHTML = `<div class="msg err">${esc(err.message)}</div>`; }
+}
+$("#shopBody").addEventListener("change", async e => {
+  const cb = e.target.closest("[data-opt]"); if(!cb) return;
+  const id = cb.closest("[data-i]").dataset.i;
+  try{ await api("/v1/integrations/" + id, {method:"PATCH", body:{[cb.dataset.opt]: cb.checked}}); flash("#devMsg", "Shopify setting saved.", true); }
+  catch(err){ flash("#devMsg", err.message, false); cb.checked = !cb.checked; }
+});
+$("#shopBody").addEventListener("click", async e => {
+  const b = e.target.closest("button[data-act]"); if(!b) return;
+  const id = b.closest("[data-i]").dataset.i;
+  try{
+    if(b.dataset.act === "remove"){ if(!confirmInline(b)) return; const r = await api("/v1/integrations/" + id, {method:"DELETE"}); flash("#devMsg", r.note, true); }
+    else await api("/v1/integrations/" + id, {method:"PATCH", body:{active: b.dataset.act === "resume"}});
+    loadShops();
+  }catch(err){ flash("#devMsg", err.message, false); }
+});
+function confirmInline(b){ if(b.dataset.sure) return true; b.dataset.sure = "1"; b.textContent = "Click again to disconnect"; setTimeout(() => { delete b.dataset.sure; b.textContent = "Disconnect"; }, 4000); return false; }
+$("#connectShopBtn").onclick = () => {
+  openDlg(`<form id="shopForm"><div class="head" style="margin:0"><h2 style="margin:0">Connect a Shopify store</h2><button class="btn ghost sm" type="button" data-close>Close</button></div>
+    <ol class="small" style="margin:0;padding-left:18px;line-height:1.7">
+      <li>In Shopify, open the <b>Dev Dashboard</b> and create an app for your store.</li>
+      <li>Give it the Admin API scopes <code>read_orders</code> and <code>write_orders</code>, release a version and <b>install it on your store</b>.</li>
+      <li>Copy the app's <b>Client ID</b> and <b>Client secret</b> from its settings into the boxes below.</li></ol>
+    <label class="f">Store address <input name="shop" type="text" placeholder="mystore.myshopify.com" required></label>
+    <div class="row"><label class="f">Client ID <input name="client_id" type="text" autocomplete="off"></label>
+      <label class="f">Client secret <input name="client_secret" type="password" autocomplete="off" required></label></div>
+    <details><summary class="small">I have an older custom app with an Admin API access token</summary>
+      <label class="f" style="margin-top:8px">Admin API access token <small>Starts with shpat_. Put the app's API secret key in "Client secret" and leave Client ID empty.</small><input name="access_token" type="password" autocomplete="off"></label></details>
+    <button class="btn" type="submit">Connect</button><div id="shopMsg"></div></form>`);
+  $("#shopForm").onsubmit = e => { e.preventDefault(); const b = fd(e.target);
+    busy(e.target, async () => { try{
+      const r = await api("/v1/integrations/shopify", {body:{shop: b.shop, client_id: b.client_id || null, client_secret: b.client_secret, access_token: b.access_token || null}});
+      closeDlg(); flash("#devMsg", `Connected ${r.stats.shop_name || r.shop}. New cash-on-delivery orders will be checked and tagged.`, true); loadShops();
+    }catch(err){ flash("#shopMsg", err.message, false); } }); };
+};
 async function loadKeys(){
   try{
     const ks = await api("/v1/api-keys");
@@ -1136,6 +1256,7 @@ $("#addStoreBtn").onclick = () => { openDlg(storeForm()); $("#storeForm").onsubm
       $("#dlgBody").innerHTML = `<div class="stack" style="gap:14px"><div class="head" style="margin:0"><h2 style="margin:0">${esc(r.name)} is set up</h2><button class="btn ghost sm" type="button" data-close>Done</button></div>
         <p class="small" style="margin:0">Copy these now; they aren't shown again.</p>
         <div><div class="small muted">API key for the store's systems</div><div class="secret"><code>${esc(r.api_key)}</code>${copyBtn(r.api_key)}</div></div>
+        ${r.admin_user && r.admin_user.invite_sent ? `<div class="msg ok">Invitation emailed to ${esc(r.admin_user.email)}.</div>` : ""}
         ${r.admin_user ? `<div><div class="small muted">Temporary password for ${esc(r.admin_user.email)}</div><div class="secret"><code>${esc(r.admin_user.temporary_password)}</code>${copyBtn(r.admin_user.temporary_password)}</div></div>` : ""}</div>`;
       loadStores(); }
     catch(err){ flash("#storeMsg", err.message, false); } }); }; };
@@ -1192,29 +1313,58 @@ $("#pdRefresh").onclick = loadPDisputes;
 async function loadPDisputes(){
   clear("#pdMsg");
   try{
-    const ds = await api("/v1/admin/disputes");
-    $("#pdBody").innerHTML = ds.length ? ds.map(d => `<div class="dispute"><div class="head" style="margin:0"><h2 style="margin:0">Dispute #${d.id}</h2><span class="small muted">Opened ${fmtDT(d.created_at)}${d.contact ? " · reply to " + esc(d.contact) : ""}</span></div>
+    const [pending, ds] = await Promise.all([api("/v1/admin/disputes?status=unverified"), api("/v1/admin/disputes")]);
+    const pend = pending.map(d => `<div class="dispute"><div class="head" style="margin:0"><h2 style="margin:0">Dispute #${d.id} <span class="chip medium">Phone not confirmed</span></h2><span class="small muted">Received ${fmtDT(d.created_at)}${d.contact ? " · reply to " + esc(d.contact) : ""}</span></div>
+      <blockquote>${esc(d.reason)}</blockquote>
+      <p class="small muted" style="margin:0">Records still count. Confirm the number belongs to this person (for example, call them on it) before freezing anything.</p>
+      <div class="actions"><button class="btn sm" data-v="${d.id}">Phone confirmed, start review</button><button class="btn ghost sm" data-d="${d.id}" data-u="0">Dismiss</button></div></div>`).join("");
+    const open = ds.map(d => `<div class="dispute"><div class="head" style="margin:0"><h2 style="margin:0">Dispute #${d.id}</h2><span class="small muted">Opened ${fmtDT(d.created_at)}${d.contact ? " · reply to " + esc(d.contact) : ""}</span></div>
       <blockquote>${esc(d.reason)}</blockquote>
       ${d.store_responses.length ? `<div class="small">${d.store_responses.map(r => `<div><span class="chip ${r.action === "withdraw" ? "low" : "medium"}">${esc(r.store)} ${r.action === "withdraw" ? "withdrew" : "confirmed"}</span> ${esc(r.note || "")}</div>`).join("")}</div>` : `<p class="small muted" style="margin:0">No store has responded yet.</p>`}
       <div class="actions"><input type="text" class="pdNote" placeholder="Decision note (optional)" style="max-width:360px">
-        <button class="btn sm" data-d="${d.id}" data-u="1">Remove records</button><button class="btn ghost sm" data-d="${d.id}" data-u="0">Keep records</button></div></div>`).join("")
-      : `<div class="empty-state">No open disputes.</div>`;
+        <button class="btn sm" data-d="${d.id}" data-u="1">Remove records</button><button class="btn ghost sm" data-d="${d.id}" data-u="0">Keep records</button></div></div>`).join("");
+    $("#pdBody").innerHTML = (pend ? `<h2>Waiting for phone confirmation</h2>${pend}<hr style="border:0;border-top:1px solid var(--line);margin:22px 0">` : "")
+      + (open ? `<h2>Under review</h2>${open}` : `<div class="empty-state">No open disputes.</div>`);
   }catch(err){ flash("#pdMsg", err.message, false); }
 }
 $("#pdBody").addEventListener("click", async e => {
+  const v = e.target.closest("button[data-v]");
+  if(v){ try{ await api(`/v1/admin/disputes/${v.dataset.v}/verify`, {method:"POST"}); await loadPDisputes(); flash("#pdMsg", "Confirmed. The records are frozen and the stores have been told.", true); }
+         catch(err){ flash("#pdMsg", err.message, false); } return; }
   const b = e.target.closest("button[data-d]"); if(!b) return;
-  const note = b.closest(".dispute").querySelector(".pdNote").value.trim();
+  const n = b.closest(".dispute").querySelector(".pdNote"), note = n ? n.value.trim() : "";
   try{ await api(`/v1/admin/disputes/${b.dataset.d}/resolve`, {body:{upheld: b.dataset.u === "1", note}}); await loadPDisputes(); flash("#pdMsg", "Decision saved.", true); }
   catch(err){ flash("#pdMsg", err.message, false); }
 });
 
 // ---------------- public dispute ----------------
+let DISPUTE_VID = null, SMS_ON = false;
+async function prepareDisputeForm(){
+  try{ const m = await (await fetch("/v1/meta")).json(); SMS_ON = !!m.sms_enabled; }catch(e){ SMS_ON = false; }
+  $("#codeRow").hidden = !SMS_ON; $("#disputeForm").code.required = SMS_ON;
+}
+$("#sendCode").onclick = async () => {
+  const f = $("#disputeForm"); clear("#disputeMsg");
+  if(!f.phone.value.trim()){ flash("#disputeMsg", "Enter your phone number first.", false); return; }
+  const b = $("#sendCode"); b.disabled = true;
+  try{ const r = await fetch("/v1/disputes/verify", {method:"POST", headers:{"Content-Type":"application/json"},
+         body: JSON.stringify({phone: f.phone.value, country: f.country.value})});
+    const data = await r.json().catch(() => ({}));
+    if(!r.ok) throw new Error((data.error && data.error.message) || data.detail || "Couldn't send the code.");
+    DISPUTE_VID = data.verification_id; $("#codeHint").textContent = "Code sent. It expires in 10 minutes."; f.code.focus(); }
+  catch(err){ flash("#disputeMsg", err.message, false); }
+  finally{ setTimeout(() => { b.disabled = false; b.textContent = "Send a new code"; }, 30000); }
+};
 $("#disputeForm").onsubmit = e => { e.preventDefault(); clear("#disputeMsg");
   busy(e.target, async () => {
-    try{ const r = await fetch("/v1/disputes", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(fd(e.target))});
+    try{ const body = fd(e.target);
+      if(SMS_ON){ if(!DISPUTE_VID) throw new Error("Tap “Text me a code” first, then enter the code."); body.verification_id = DISPUTE_VID; }
+      else delete body.code;
+      const r = await fetch("/v1/disputes", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body)});
       const data = await r.json().catch(() => ({}));
-      if(!r.ok) throw new Error(typeof data.detail === "string" ? data.detail : "Please check the form and try again.");
-      flash("#disputeMsg", `Received. Your reference is #${data.dispute_id}. ${data.message}`, true); e.target.reset(); }
+      if(!r.ok) throw new Error((data.error && data.error.message) || (typeof data.detail === "string" ? data.detail : "Please check the form and try again."));
+      flash("#disputeMsg", data.dispute_id ? `Received. Your reference is #${data.dispute_id}. ${data.message}` : data.message, true);
+      e.target.reset(); DISPUTE_VID = null; $("#codeHint").textContent = "We'll send a 6-digit code to this number."; }
     catch(err){ flash("#disputeMsg", err.message, false); }
   });
 };
@@ -1222,7 +1372,9 @@ $("#disputeForm").onsubmit = e => { e.preventDefault(); clear("#disputeMsg");
 // Platform admins: Team tab without a store selected = platform admins
 document.addEventListener("click", e => { const b = e.target.closest('nav button[data-tab="team"]'); if(b && ME && ME.is_platform && !ME.tenant){ TEAM_SCOPE = null; const bk = $("#backStores"); bk && bk.remove(); } }, true);
 
-if(location.hash === "#dispute") showPublic("dispute"); else boot();
+const LINK = location.hash.match(/^#(reset|invite)=(pw_[\w-]+)$/);
+if(LINK) openLinkForm(LINK[1], LINK[2]);
+else if(location.hash === "#dispute"){ showPublic("dispute"); prepareDisputeForm(); } else boot();
 </script>
 </body>
 </html>

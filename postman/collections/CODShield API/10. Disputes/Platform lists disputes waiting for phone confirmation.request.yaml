@@ -1,0 +1,23 @@
+$kind: http-request
+method: GET
+url: '{{baseUrl}}/v1/admin/disputes?status=unverified'
+order: 3000
+queryParams:
+  - key: 'status'
+    value: 'unverified'
+auth:
+  type: apikey
+  credentials:
+    - key: 'key'
+      value: 'X-Admin-Key'
+    - key: 'value'
+      value: '{{adminKey}}'
+    - key: 'in'
+      value: 'header'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 200", () => pm.response.to.have.status(200));
+      pm.environment.set("disputeId", (pm.response.json().slice(-1)[0] || {}).id);
+examples: './.resources/Platform lists disputes waiting for phone confirmation.resources/examples/'

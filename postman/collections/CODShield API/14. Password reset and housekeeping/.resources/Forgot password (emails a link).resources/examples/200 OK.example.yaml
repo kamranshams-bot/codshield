@@ -1,0 +1,19 @@
+$kind: http-example
+name: '200 OK'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/auth/forgot'
+  method: POST
+response:
+  statusCode: 200
+  statusText: 'OK'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "ok": false,
+        "message": "Email isn't set up yet. Ask your administrator to reset your password."
+      }

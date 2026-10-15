@@ -1,0 +1,24 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/v1/integrations/shopify'
+order: 2000
+headers:
+  - key: 'Content-Type'
+    value: 'application/json'
+body:
+  type: json
+  content: |-
+    {
+      "shop": "mystore.myshopify.com",
+      "client_id": "{{shopifyClientId}}",
+      "client_secret": "{{shopifyClientSecret}}",
+      "check_all_orders": false,
+      "add_note": true,
+      "auto_delivered": true
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("status 201", () => pm.response.to.have.status(201));
+      pm.environment.set("integrationId", pm.response.json().id);

@@ -15,7 +15,7 @@ response:
     content: |-
       {
         "id": 2,
-        "name": "Test Store AE 1792064437",
+        "name": "Test Store AE 1792081051",
         "country": "AE",
         "active": true,
         "agreement_signed": true,

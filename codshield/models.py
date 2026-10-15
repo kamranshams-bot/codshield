@@ -93,7 +93,8 @@ class Dispute(Base):
     identity_id: Mapped[int] = mapped_column(ForeignKey("identities.id"))
     reason: Mapped[str] = mapped_column(Text)
     contact: Mapped[str | None] = mapped_column(String(200), nullable=True)  # how to reply; consented
-    status: Mapped[str] = mapped_column(String(10), default="open")  # open / upheld / rejected
+    status: Mapped[str] = mapped_column(String(10), default="open")  # unverified / open / upheld / rejected
+    verified: Mapped[bool] = mapped_column(Boolean, default=True)    # phone ownership proven by a code
     resolution_note: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
     resolved_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
@@ -255,3 +256,47 @@ class WebhookDelivery(Base):
     last_error: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow, index=True)
     last_attempt_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+
+class PhoneVerification(Base):
+    """A one-time code sent to a phone before a consumer dispute can freeze records."""
+    __tablename__ = "phone_verifications"
+    id: Mapped[str] = mapped_column(String(40), primary_key=True)
+    phone_hash: Mapped[str] = mapped_column(String(64), index=True)
+    code_hash: Mapped[str] = mapped_column(String(64))
+    attempts: Mapped[int] = mapped_column(Integer, default=0)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow, index=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime)
+    verified_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    used_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+
+class PasswordToken(Base):
+    """Single-use link for password reset or a new user's invitation (only the hash is stored)."""
+    __tablename__ = "password_tokens"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    token_hash: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    purpose: Mapped[str] = mapped_column(String(10))            # reset / invite
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+    expires_at: Mapped[datetime] = mapped_column(DateTime)
+    used_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+
+class Integration(Base):
+    """A store's connected shop (Shopify). Secrets are encrypted at rest."""
+    __tablename__ = "integrations"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    merchant_id: Mapped[int] = mapped_column(ForeignKey("merchants.id"), index=True)
+    kind: Mapped[str] = mapped_column(String(20))                # shopify
+    shop: Mapped[str] = mapped_column(String(200))               # mystore.myshopify.com
+    client_id: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    secret_enc: Mapped[str] = mapped_column(Text)                # client secret (or admin token), encrypted
+    token_enc: Mapped[str | None] = mapped_column(Text, nullable=True)
+    token_expires_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    settings: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    active: Mapped[bool] = mapped_column(Boolean, default=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+    last_event_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    last_error: Mapped[str | None] = mapped_column(Text, nullable=True)
+    stats: Mapped[dict | None] = mapped_column(JSON, nullable=True)

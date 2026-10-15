@@ -37,6 +37,8 @@ response:
             "checks": null
           }
         },
+        "sms_enabled": false,
+        "mail_enabled": false,
         "api": {
           "scopes": {
             "check": "Check orders (single and batch)",

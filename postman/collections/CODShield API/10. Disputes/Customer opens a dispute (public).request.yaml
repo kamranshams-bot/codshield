@@ -1,7 +1,7 @@
 $kind: http-request
 method: POST
 url: '{{baseUrl}}/v1/disputes'
-order: 1000
+order: 2000
 headers:
   - key: 'Content-Type'
     value: 'application/json'
@@ -21,5 +21,4 @@ scripts:
     language: text/javascript
     code: |-
       pm.test("status 200", () => pm.response.to.have.status(200));
-      pm.environment.set("disputeId", pm.response.json().dispute_id);
 examples: './.resources/Customer opens a dispute (public).resources/examples/'

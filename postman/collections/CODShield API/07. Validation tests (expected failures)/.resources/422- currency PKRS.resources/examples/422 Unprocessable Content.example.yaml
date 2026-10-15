@@ -32,7 +32,7 @@ response:
           "code": "validation_failed",
           "message": "currency: String should have at most 3 characters",
           "status": 422,
-          "request_id": "req_b0b9efb7552482f3",
+          "request_id": "req_32a83f06af632497",
           "fields": [
             {
               "field": "currency",

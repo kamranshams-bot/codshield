@@ -15,22 +15,22 @@ response:
     content: |-
       [
         {
-          "at": "2026-10-15T11:41:03.459651",
-          "actor": "user:owner.1792064436@example.com",
+          "at": "2026-10-15T16:17:37.202422",
+          "actor": "user:owner.1792081051@example.com",
           "action": "dispute.confirm",
           "detail": "dispute #1, 6 record(s): Courier proof on file.",
           "store": null
         },
         {
-          "at": "2026-10-15T11:41:03.306985",
-          "actor": "user:owner.1792064436@example.com",
+          "at": "2026-10-15T16:17:36.963551",
+          "actor": "user:owner.1792081051@example.com",
           "action": "tenant.updated",
           "detail": "require_approval=False",
           "store": null
         },
         {
-          "at": "2026-10-15T11:41:03.219897",
-          "actor": "user:checker.1792064463@example.com",
+          "at": "2026-10-15T16:17:36.852326",
+          "actor": "user:checker.1792081056@example.com",
           "action": "outcomes.reject",
           "detail": "1 entry: #2 — reason: Wrong order number",
           "store": null

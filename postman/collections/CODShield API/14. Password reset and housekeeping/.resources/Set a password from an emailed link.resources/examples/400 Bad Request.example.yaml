@@ -1,0 +1,24 @@
+$kind: http-example
+name: '400 Bad Request'
+order: 1000
+request:
+  url: '{{baseUrl}}/v1/auth/reset'
+  method: POST
+response:
+  statusCode: 400
+  statusText: 'Bad Request'
+  headers:
+    - key: Content-Type
+      value: 'application/json'
+  body:
+    type: json
+    content: |-
+      {
+        "detail": "This link has expired or was already used. Ask for a new one.",
+        "error": {
+          "code": "bad_request",
+          "message": "This link has expired or was already used. Ask for a new one.",
+          "status": 400,
+          "request_id": "req_d3c067b0f91ae0ab"
+        }
+      }

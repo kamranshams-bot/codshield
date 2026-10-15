@@ -14,7 +14,7 @@ response:
     type: json
     content: |-
       {
-        "batch_ref": "B-D2F9F0A8",
+        "batch_ref": "B-BB5A3EF4",
         "requires_approval": false,
         "results": [
           {

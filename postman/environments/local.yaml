@@ -100,3 +100,19 @@ values:
     value: ''
     enabled: true
     type: secret
+  - key: verificationId
+    value: ''
+    enabled: true
+    type: default
+  - key: integrationId
+    value: ''
+    enabled: true
+    type: default
+  - key: shopifyClientId
+    value: ''
+    enabled: true
+    type: default
+  - key: shopifyClientSecret
+    value: ''
+    enabled: true
+    type: secret

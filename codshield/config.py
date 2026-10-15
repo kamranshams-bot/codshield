@@ -47,6 +47,30 @@ class Settings:
     HALF_LIFE_DAYS: float = float(os.getenv("CODSHIELD_HALF_LIFE_DAYS", "180"))
     RETENTION_DAYS: int = int(os.getenv("CODSHIELD_RETENTION_DAYS", "730"))  # 2 years
 
+    # Public address of this server (links in emails, Shopify webhook URLs).
+    PUBLIC_URL: str = os.getenv("CODSHIELD_PUBLIC_URL", "https://codshield-sx1i.onrender.com").rstrip("/")
+
+    # Email (password resets, invitations, dispute notices). Either SMTP (Gmail app password, Brevo...)
+    # or the Resend HTTP API. With neither set, emails are not sent and admins hand out reset links.
+    MAIL_FROM: str = os.getenv("CODSHIELD_MAIL_FROM", "")
+    SMTP_HOST: str = os.getenv("CODSHIELD_SMTP_HOST", "")
+    SMTP_PORT: int = int(os.getenv("CODSHIELD_SMTP_PORT", "587"))
+    SMTP_USER: str = os.getenv("CODSHIELD_SMTP_USER", "")
+    SMTP_PASSWORD: str = os.getenv("CODSHIELD_SMTP_PASSWORD", "")
+    RESEND_API_KEY: str = os.getenv("RESEND_API_KEY", "")
+
+    # SMS for dispute verification codes (Twilio). With none set, disputes wait for a manual check.
+    TWILIO_ACCOUNT_SID: str = os.getenv("TWILIO_ACCOUNT_SID", "")
+    TWILIO_AUTH_TOKEN: str = os.getenv("TWILIO_AUTH_TOKEN", "")
+    TWILIO_FROM: str = os.getenv("TWILIO_FROM", "")            # sender number or messaging service SID (MG...)
+    SMS_LOG_ONLY: bool = os.getenv("CODSHIELD_SMS_LOG_ONLY", "") == "1"   # tests/local: print codes instead
+
+    # Sign-in attempts per minute per visitor (per-email limit is fixed at 8)
+    LOGIN_RATE_PER_MIN: int = int(os.getenv("CODSHIELD_LOGIN_RATE", "60"))
+
+    # Public dispute form: requests per minute per visitor
+    DISPUTE_RATE_PER_MIN: int = int(os.getenv("CODSHIELD_DISPUTE_RATE", "10"))
+
     # Simple per-key rate limit (requests per minute)
     RATE_LIMIT_PER_MIN: int = int(os.getenv("CODSHIELD_RATE_LIMIT", "600"))
 

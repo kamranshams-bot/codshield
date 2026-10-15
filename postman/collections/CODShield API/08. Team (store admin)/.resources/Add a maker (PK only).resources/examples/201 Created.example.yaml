@@ -16,7 +16,7 @@ response:
       {
         "user": {
           "id": 4,
-          "email": "maker.1792064463@example.com",
+          "email": "maker.1792081056@example.com",
           "name": "Test Maker",
           "merchant_id": 1,
           "perms": [
@@ -31,8 +31,9 @@ response:
           "active": true,
           "must_change_password": true,
           "last_login_at": null,
-          "created_at": "2026-10-15T11:41:02.712383"
+          "created_at": "2026-10-15T16:17:36.302237"
         },
         "temporary_password": "TempPass-example",
+        "invite_sent": false,
         "note": "Share the temporary password privately. The user must change it at first sign-in."
       }

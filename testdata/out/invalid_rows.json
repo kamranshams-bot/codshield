@@ -1,0 +1,141 @@
+[
+ {
+  "order_ref": "TEST-BAD-001",
+  "type": "not_a_type",
+  "occurred_at": "2026-09-01T10:00:00Z",
+  "phone": "03001234567",
+  "city": "Lahore",
+  "country": "PK",
+  "amount": 2500,
+  "currency": "PKR"
+ },
+ {
+  "order_ref": "TEST-BAD-002",
+  "type": "REFUSED",
+  "occurred_at": "2026-09-01T10:00:00Z",
+  "phone": "03001234567",
+  "city": "Lahore",
+  "country": "PK",
+  "amount": 2500,
+  "currency": "PKR"
+ },
+ {
+  "order_ref": "TEST-BAD-003",
+  "type": "delivered",
+  "occurred_at": "2026-09-01T10:00:00Z",
+  "phone": "03001234567",
+  "city": "Lahore",
+  "country": "PK",
+  "amount": 2500,
+  "currency": "PKR"
+ },
+ {
+  "order_ref": "TEST-BAD-004",
+  "type": "fraud",
+  "occurred_at": "2026-09-01T10:00:00Z",
+  "phone": "03001234567",
+  "city": "Lahore",
+  "country": "PK",
+  "amount": 2500,
+  "currency": "PKR"
+ },
+ {
+  "order_ref": "TEST-BAD-005",
+  "type": "refused_at_door",
+  "occurred_at": "2026-09-01T10:00:00Z",
+  "phone": "12345",
+  "city": "Lahore",
+  "country": "PK",
+  "amount": 2500,
+  "currency": "PKR"
+ },
+ {
+  "order_ref": "TEST-BAD-006",
+  "type": "refused_at_door",
+  "occurred_at": "2026-09-01T10:00:00Z",
+  "phone": "abc",
+  "city": "Lahore",
+  "country": "PK",
+  "amount": 2500,
+  "currency": "PKR"
+ },
+ {
+  "order_ref": "TEST-BAD-007",
+  "type": "refused_at_door",
+  "occurred_at": "2026-09-01T10:00:00Z",
+  "phone": "0300",
+  "city": "Lahore",
+  "country": "PK",
+  "amount": 2500,
+  "currency": "PKR"
+ },
+ {
+  "order_ref": "TEST-BAD-008",
+  "type": "refused_at_door",
+  "occurred_at": "2026-09-01T10:00:00Z",
+  "phone": "0000000000",
+  "city": "Lahore",
+  "country": "PK",
+  "amount": 2500,
+  "currency": "PKR"
+ },
+ {
+  "order_ref": "TEST-BAD-009",
+  "type": "refused_at_door",
+  "occurred_at": "2026-09-01T10:00:00Z",
+  "phone": "0300123",
+  "city": "Lahore",
+  "country": "PK",
+  "amount": 2500,
+  "currency": "PKR"
+ },
+ {
+  "order_ref": "TEST-BAD-010",
+  "type": "refused_at_door",
+  "occurred_at": "2026-09-01T10:00:00Z",
+  "phone": "+971 4 000",
+  "city": "Lahore",
+  "country": "PK",
+  "amount": 2500,
+  "currency": "PKR"
+ },
+ {
+  "order_ref": "TEST-BAD-011",
+  "type": "refused_at_door",
+  "occurred_at": "2026-09-01T10:00:00Z",
+  "city": "Lahore",
+  "country": "PK",
+  "amount": 2500,
+  "currency": "PKR"
+ },
+ {
+  "order_ref": "TEST-BAD-012",
+  "type": "refused_at_door",
+  "occurred_at": "2026-09-01T10:00:00Z",
+  "email": "not-an-email",
+  "city": "Lahore",
+  "country": "PK",
+  "amount": 2500,
+  "currency": "PKR"
+ },
+ {
+  "order_ref": "TEST-BAD-013",
+  "type": "refused_at_door",
+  "occurred_at": "2099-01-01T00:00:00Z",
+  "phone": "03001234567",
+  "city": "Lahore",
+  "country": "PK",
+  "amount": 2500,
+  "currency": "PKR"
+ },
+ {
+  "order_ref": "TEST-BAD-014",
+  "type": "refused_at_door",
+  "occurred_at": "2020-01-01T00:00:00Z",
+  "phone": "03001234567",
+  "city": "Lahore",
+  "country": "PK",
+  "amount": 2500,
+  "currency": "PKR"
+ }
+]

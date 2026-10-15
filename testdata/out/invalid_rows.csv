@@ -1,0 +1,15 @@
+order_ref,type,occurred_at,phone,email,address,city,country,amount,currency,evidence,_expected_problem
+TEST-BAD-001,not_a_type,2026-09-01T10:00:00Z,03001234567,,,Lahore,PK,2500,PKR,,type = not_a_type
+TEST-BAD-002,REFUSED,2026-09-01T10:00:00Z,03001234567,,,Lahore,PK,2500,PKR,,type = REFUSED
+TEST-BAD-003,delivered,2026-09-01T10:00:00Z,03001234567,,,Lahore,PK,2500,PKR,,type = delivered
+TEST-BAD-004,fraud,2026-09-01T10:00:00Z,03001234567,,,Lahore,PK,2500,PKR,,type = fraud
+TEST-BAD-005,refused_at_door,2026-09-01T10:00:00Z,12345,,,Lahore,PK,2500,PKR,,phone = 12345
+TEST-BAD-006,refused_at_door,2026-09-01T10:00:00Z,abc,,,Lahore,PK,2500,PKR,,phone = abc
+TEST-BAD-007,refused_at_door,2026-09-01T10:00:00Z,0300,,,Lahore,PK,2500,PKR,,phone = 0300
+TEST-BAD-008,refused_at_door,2026-09-01T10:00:00Z,0000000000,,,Lahore,PK,2500,PKR,,phone = 0000000000
+TEST-BAD-009,refused_at_door,2026-09-01T10:00:00Z,0300123,,,Lahore,PK,2500,PKR,,phone = 0300123
+TEST-BAD-010,refused_at_door,2026-09-01T10:00:00Z,+971 4 000,,,Lahore,PK,2500,PKR,,phone = +971 4 000
+TEST-BAD-011,refused_at_door,2026-09-01T10:00:00Z,,,,Lahore,PK,2500,PKR,,phone = 
+TEST-BAD-012,refused_at_door,2026-09-01T10:00:00Z,,not-an-email,,Lahore,PK,2500,PKR,,email = not-an-email
+TEST-BAD-013,refused_at_door,2099-01-01T00:00:00Z,03001234567,,,Lahore,PK,2500,PKR,,occurred_at = 2099-01-01T00:00:00Z
+TEST-BAD-014,refused_at_door,2020-01-01T00:00:00Z,03001234567,,,Lahore,PK,2500,PKR,,occurred_at = 2020-01-01T00:00:00Z

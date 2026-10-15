@@ -1,0 +1,1001 @@
+order_ref,type,occurred_at,phone,email,address,city,country,amount,currency,evidence
+TEST-PK-104352,refused_at_door,2025-10-19T13:03:30Z,03211956644,,,Lahore,PK,12800,PKR,Trax CN 58314653
+TEST-PK-102010,unreachable,2025-10-19T15:14:30Z,03459811833,yousuf.9832.test@outlook.com,"House 163, Street 31, G-11/2",Islamabad,PK,11000,PKR,M&P CN 14610340
+TEST-PK-102454,delivered_paid,2025-10-19T16:04:30Z,03006951164,,,Gujranwala,PK,21600,PKR,PostEx CN 42555275
+TEST-PK-100249,delivered_paid,2025-10-19T17:27:30Z,03339964859,sana.4871.test@gmail.com,,Rawalpindi,PK,14500,PKR,BlueEx CN 16721343
+TEST-PK-104760,delivered_paid,2025-10-19T22:15:30Z,03453200840,sana.7250.test@outlook.com,"House 66, Street 26, Model Town",Gujranwala,PK,24500,PKR,TCS CN 45040438
+TEST-PK-101816,delivered_paid,2025-10-19T22:50:30Z,03332714270,,"House 146, Street 9, Johar Town",Quetta,PK,11200,PKR,TCS CN 35360951
+TEST-PK-102706,delivered_paid,2025-10-19T23:32:30Z,03011244981,,"House 286, Street 42, Satellite Town",Quetta,PK,22100,PKR,Trax CN 14845054
+TEST-PK-104887,unreachable,2025-10-20T01:31:30Z,03017831067,khalid.9723.test@yahoo.com,"House 242, Street 36, Bahria Town",Gujranwala,PK,12000,PKR,Leopards CN 78709298
+TEST-PK-101990,delivered_paid,2025-10-20T02:04:30Z,03336332630,,"House 314, Street 37, Gulshan-e-Iqbal Block 13",Lahore,PK,14500,PKR,TCS CN 61754870
+TEST-PK-100059,delivered_paid,2025-10-20T02:41:30Z,03459698564,,"House 289, Street 47, Satellite Town",Sialkot,PK,13300,PKR,Trax CN 20818704
+TEST-AE-102187,delivered_paid,2025-10-20T02:52:30Z,0587264186,,"Flat 2177, Building 45, Al Barsha 1",Ras Al Khaimah,AE,450,AED,Fetchr CN 86723314
+TEST-PK-104742,refused_at_door,2025-10-20T03:13:30Z,03338450129,,,Multan,PK,15000,PKR,M&P CN 44229541
+TEST-AE-103861,delivered_paid,2025-10-20T04:11:30Z,0551444690,,"Flat 187, Building 70, JLT Cluster D",Ras Al Khaimah,AE,620,AED,Fetchr CN 90964561
+TEST-PK-104478,refused_at_door,2025-10-20T04:50:30Z,03019711920,usman.5710.test@yahoo.com,,Peshawar,PK,8200,PKR,M&P CN 70522806
+TEST-PK-104644,delivered_paid,2025-10-20T07:35:30Z,03335200858,,"House 337, Street 2, F-7 Markaz",Karachi,PK,5100,PKR,Leopards CN 16677667
+TEST-PK-104276,delivered_paid,2025-10-20T13:24:30Z,03336103089,maryam.3352.test@outlook.com,,Quetta,PK,16800,PKR,Leopards CN 62215970
+TEST-PK-100216,delivered_paid,2025-10-20T16:37:30Z,03455572913,,"House 297, Street 19, Johar Town",Lahore,PK,10200,PKR,Trax CN 56477329
+TEST-PK-102309,delivered_paid,2025-10-20T17:00:30Z,03458831865,khalid.4517.test@outlook.com,,Peshawar,PK,2500,PKR,PostEx CN 10177227
+TEST-PK-104069,delivered_paid,2025-10-20T17:48:30Z,03332104389,omar.3874.test@yahoo.com,"House 418, Street 34, Bahria Town",Hyderabad,PK,16400,PKR,Trax CN 53112990
+TEST-AE-104413,delivered_paid,2025-10-20T17:48:30Z,0507793647,,,Sharjah,AE,40,AED,Fetchr CN 70805733
+TEST-PK-103500,delivered_paid,2025-10-20T18:50:30Z,03013796603,,"House 448, Street 55, DHA Phase 5",Faisalabad,PK,18000,PKR,TCS CN 19635411
+TEST-PK-104161,unreachable,2025-10-20T19:36:30Z,03333092885,,"House 253, Street 3, Gulberg III",Faisalabad,PK,12400,PKR,M&P CN 93783335
+TEST-AE-104636,unreachable,2025-10-21T00:51:30Z,0551257312,ali.2742.test@outlook.com,,Fujairah,AE,1210,AED,Quiqup CN 46010859
+TEST-PK-102747,refused_at_door,2025-10-21T00:56:30Z,03451338634,hina.1736.test@gmail.com,"House 302, Street 8, Clifton Block 4",Lahore,PK,22300,PKR,M&P CN 85637417
+TEST-AE-101916,delivered_paid,2025-10-21T01:17:30Z,0558368699,,"Flat 2052, Building 79, Muwaileh",Abu Dhabi,AE,1010,AED,Shipa CN 43752943
+TEST-PK-103268,delivered_paid,2025-10-21T04:56:30Z,03336810116,,,Multan,PK,14300,PKR,PostEx CN 94118354
+TEST-PK-101300,fake_address,2025-10-21T08:18:30Z,03331723183,faisal.1803.test@gmail.com,,Abbottabad,PK,22500,PKR,PostEx CN 96015467
+TEST-PK-100605,unreachable,2025-10-21T11:50:30Z,03339446660,,,Rawalpindi,PK,15600,PKR,M&P CN 73016525
+TEST-PK-101374,delivered_paid,2025-10-21T12:55:30Z,03211901140,hina.1325.test@hotmail.com,"House 329, Street 57, G-11/2",Islamabad,PK,19600,PKR,M&P CN 52783462
+TEST-PK-103272,delivered_paid,2025-10-21T14:50:30Z,03335331759,,"House 41, Street 45, Johar Town",Islamabad,PK,24800,PKR,Trax CN 11099910
+TEST-AE-101348,delivered_paid,2025-10-21T17:10:30Z,0505014947,,,Sharjah,AE,1160,AED,Quiqup CN 73446329
+TEST-PK-100739,delivered_paid,2025-10-21T17:13:30Z,03216109001,,"House 264, Street 23, Clifton Block 4",Abbottabad,PK,18000,PKR,TCS CN 35813480
+TEST-PK-101761,refused_at_door,2025-10-21T19:33:30Z,03335262790,rashid.1440.test@gmail.com,"House 299, Street 29, Gulshan-e-Iqbal Block 13",Hyderabad,PK,15900,PKR,Leopards CN 99742208
+TEST-PK-101277,refused_at_door,2025-10-21T20:13:30Z,03016071960,,"House 305, Street 19, Hayatabad Phase 3",Karachi,PK,10000,PKR,TCS CN 46860503
+TEST-PK-104323,delivered_paid,2025-10-21T20:14:30Z,03219894083,sana.5365.test@outlook.com,,Abbottabad,PK,10000,PKR,Leopards CN 75843809
+TEST-PK-103407,refused_at_door,2025-10-21T22:46:30Z,03337157314,imran.5280.test@gmail.com,,Lahore,PK,11200,PKR,TCS CN 32654008
+TEST-PK-104864,delivered_paid,2025-10-21T23:14:30Z,03003333221,,"House 153, Street 50, Gulshan-e-Iqbal Block 13",Islamabad,PK,16900,PKR,TCS CN 56930798
+TEST-PK-104801,delivered_paid,2025-10-21T23:20:30Z,03211555294,maryam.1231.test@gmail.com,,Lahore,PK,19000,PKR,Trax CN 52182844
+TEST-AE-103346,delivered_paid,2025-10-22T00:30:30Z,0569018697,sara.844.test@yahoo.com,"Flat 1726, Building 9, Deira Al Muraqqabat",Ras Al Khaimah,AE,1210,AED,Shipa CN 87444633
+TEST-PK-100822,delivered_paid,2025-10-22T00:54:30Z,03336405090,,,Abbottabad,PK,12400,PKR,Leopards CN 71622469
+TEST-PK-102918,refused_at_door,2025-10-22T01:24:30Z,03019043869,,,Sialkot,PK,16000,PKR,Trax CN 49100529
+TEST-AE-104842,delivered_paid,2025-10-22T01:24:30Z,0562635183,bilal.5881.test@hotmail.com,"Flat 1838, Building 24, Al Majaz 3",Dubai,AE,1250,AED,Shipa CN 82729102
+TEST-PK-102699,delivered_paid,2025-10-22T02:45:30Z,03452068821,,"House 294, Street 40, Satellite Town",Islamabad,PK,12700,PKR,M&P CN 83622939
+TEST-PK-103605,refused_at_door,2025-10-22T03:06:30Z,03005990129,ali.4143.test@outlook.com,"House 231, Street 18, Clifton Block 4",Sialkot,PK,9700,PKR,M&P CN 61364070
+TEST-PK-104560,delivered_paid,2025-10-22T08:19:30Z,03212813194,maryam.4112.test@gmail.com,"House 11, Street 32, F-7 Markaz",Quetta,PK,12700,PKR,PostEx CN 14591937
+TEST-PK-104279,delivered_paid,2025-10-22T12:39:30Z,03336405090,,,Abbottabad,PK,3000,PKR,PostEx CN 20617417
+TEST-PK-103112,delivered_paid,2025-10-22T13:24:30Z,03016785962,,,Peshawar,PK,19100,PKR,BlueEx CN 25549183
+TEST-AE-102425,return_abuse,2025-10-22T13:26:30Z,0584398905,,"Flat 2281, Building 36, Deira Al Muraqqabat",Fujairah,AE,690,AED,Emirates Post CN 98096318
+TEST-AE-103498,delivered_paid,2025-10-22T13:51:30Z,0551475610,sara.1965.test@outlook.com,,Dubai,AE,790,AED,Quiqup CN 19846055
+TEST-AE-104436,delivered_paid,2025-10-22T13:55:30Z,0583753387,,"Flat 1790, Building 41, Al Barsha 1",Sharjah,AE,860,AED,Fetchr CN 33101837
+TEST-PK-102771,delivered_paid,2025-10-22T14:56:30Z,03009859819,faisal.1758.test@hotmail.com,"House 369, Street 24, Bahria Town",Faisalabad,PK,4300,PKR,M&P CN 68763126
+TEST-PK-103599,unreachable,2025-10-22T19:43:30Z,03005990129,ali.4143.test@outlook.com,"House 231, Street 18, Clifton Block 4",Sialkot,PK,14600,PKR,PostEx CN 58676442
+TEST-AE-103865,delivered_paid,2025-10-22T21:48:30Z,0551444690,,"Flat 187, Building 70, JLT Cluster D",Ras Al Khaimah,AE,900,AED,Fetchr CN 64118670
+TEST-PK-104027,delivered_paid,2025-10-22T21:51:30Z,03015684178,ali.1586.test@gmail.com,"House 95, Street 30, Hayatabad Phase 3",Hyderabad,PK,12800,PKR,PostEx CN 46402829
+TEST-PK-101872,delivered_paid,2025-10-23T11:04:30Z,03456017912,,"House 450, Street 3, Satellite Town",Sialkot,PK,9500,PKR,PostEx CN 66022766
+TEST-PK-103842,delivered_paid,2025-10-23T12:53:30Z,03001146151,maryam.3838.test@yahoo.com,,Lahore,PK,10300,PKR,BlueEx CN 84279549
+TEST-AE-101620,delivered_paid,2025-10-23T16:19:30Z,0523117962,hina.7730.test@hotmail.com,"Flat 794, Building 11, Al Majaz 3",Ras Al Khaimah,AE,300,AED,Aramex CN 54765981
+TEST-AE-100350,delivered_paid,2025-10-23T17:24:30Z,0553397611,,"Flat 729, Building 42, Deira Al Muraqqabat",Sharjah,AE,720,AED,Shipa CN 52666713
+TEST-PK-100273,delivered_paid,2025-10-23T19:40:30Z,03006294919,,"House 419, Street 9, Gulberg III",Sialkot,PK,14100,PKR,Trax CN 86824307
+TEST-AE-100121,refused_at_door,2025-10-23T22:09:30Z,0501576090,ahmed.7161.test@gmail.com,"Flat 1047, Building 61, Al Khalidiya",Dubai,AE,380,AED,Aramex CN 87340809
+TEST-PK-100005,delivered_paid,2025-10-24T02:29:30Z,03332379683,,"House 245, Street 23, F-7 Markaz",Abbottabad,PK,13500,PKR,BlueEx CN 89253909
+TEST-PK-104038,refused_at_door,2025-10-24T02:49:30Z,03212724011,,,Gujranwala,PK,8900,PKR,M&P CN 16098048
+TEST-PK-102466,refused_at_door,2025-10-24T03:22:30Z,03006465238,,,Rawalpindi,PK,19400,PKR,PostEx CN 73975746
+TEST-PK-103984,delivered_paid,2025-10-24T05:05:30Z,03459430667,ali.6795.test@outlook.com,"House 419, Street 51, Model Town",Hyderabad,PK,1900,PKR,M&P CN 46157185
+TEST-PK-100565,delivered_paid,2025-10-24T07:48:30Z,03331939060,,,Quetta,PK,17900,PKR,BlueEx CN 63924825
+TEST-PK-102243,delivered_paid,2025-10-24T08:18:30Z,03332482790,omar.4200.test@gmail.com,"House 137, Street 50, Johar Town",Sialkot,PK,5000,PKR,Leopards CN 15516977
+TEST-PK-104171,delivered_paid,2025-10-24T09:06:30Z,03215086961,,,Abbottabad,PK,23700,PKR,Trax CN 73245861
+TEST-AE-104443,refused_at_door,2025-10-24T10:25:30Z,0587192909,,,Fujairah,AE,840,AED,Shipa CN 95007657
+TEST-PK-100951,delivered_paid,2025-10-24T14:08:30Z,03217183120,usman.2547.test@yahoo.com,,Karachi,PK,22500,PKR,PostEx CN 18497833
+TEST-PK-104670,refused_at_door,2025-10-24T17:46:30Z,03018497252,,,Quetta,PK,16900,PKR,PostEx CN 23931661
+TEST-PK-103463,delivered_paid,2025-10-24T20:25:30Z,03217769677,rashid.6329.test@yahoo.com,"House 30, Street 49, Johar Town",Faisalabad,PK,10800,PKR,Trax CN 87464546
+TEST-PK-101556,delivered_paid,2025-10-24T20:55:30Z,03212127388,,,Faisalabad,PK,15800,PKR,TCS CN 96359955
+TEST-PK-104939,delivered_paid,2025-10-24T21:43:30Z,03215086961,,,Abbottabad,PK,13200,PKR,TCS CN 52264767
+TEST-AE-104762,delivered_paid,2025-10-24T22:02:30Z,0565906085,,"Flat 2170, Building 24, Al Nahda 2",Abu Dhabi,AE,1490,AED,Fetchr CN 75525292
+TEST-PK-104343,delivered_paid,2025-10-24T23:39:30Z,03335589805,yousuf.5631.test@gmail.com,,Lahore,PK,11800,PKR,M&P CN 51905750
+TEST-PK-103820,delivered_paid,2025-10-25T05:53:30Z,03339376782,,"House 53, Street 10, Model Town",Islamabad,PK,9000,PKR,PostEx CN 22534725
+TEST-PK-104510,refused_at_door,2025-10-25T06:33:30Z,03005990129,ali.4143.test@outlook.com,"House 231, Street 18, Clifton Block 4",Sialkot,PK,9500,PKR,M&P CN 97753133
+TEST-AE-102952,unreachable,2025-10-25T07:36:30Z,0568207645,fatima.4782.test@outlook.com,,Abu Dhabi,AE,1280,AED,Shipa CN 41173177
+TEST-AE-104336,delivered_paid,2025-10-25T09:16:30Z,0562645986,,,Ras Al Khaimah,AE,880,AED,Emirates Post CN 81277041
+TEST-PK-101206,delivered_paid,2025-10-25T12:24:30Z,03006379498,ali.6939.test@yahoo.com,"House 275, Street 32, Gulberg III",Gujranwala,PK,11800,PKR,Leopards CN 28390268
+TEST-PK-100088,delivered_paid,2025-10-25T12:38:30Z,03019271989,ayesha.8303.test@outlook.com,"House 448, Street 2, Bahria Town",Abbottabad,PK,9300,PKR,BlueEx CN 40260711
+TEST-PK-103531,delivered_paid,2025-10-25T12:52:30Z,03451321457,ali.7782.test@gmail.com,"House 121, Street 17, Model Town",Faisalabad,PK,9800,PKR,PostEx CN 15425151
+TEST-PK-100961,return_abuse,2025-10-25T13:12:30Z,03212049916,,"House 400, Street 53, Cantt",Karachi,PK,17700,PKR,M&P CN 47531618
+TEST-AE-102170,fake_order,2025-10-25T17:50:30Z,0526052556,,,Dubai,AE,840,AED,Shipa CN 63094470
+TEST-PK-101030,unreachable,2025-10-25T18:07:30Z,03212482980,,"House 332, Street 36, Model Town",Multan,PK,9800,PKR,PostEx CN 61108342
+TEST-PK-101176,delivered_paid,2025-10-25T21:09:30Z,03018339776,hamza.6554.test@hotmail.com,"House 311, Street 45, Gulberg III",Karachi,PK,3900,PKR,Leopards CN 58673541
+TEST-PK-102722,delivered_paid,2025-10-26T01:55:30Z,03452529167,,"House 212, Street 23, Gulshan-e-Iqbal Block 13",Islamabad,PK,23600,PKR,Trax CN 24226896
+TEST-PK-101578,unreachable,2025-10-26T03:30:30Z,03332218237,,"House 446, Street 12, Johar Town",Peshawar,PK,17500,PKR,Leopards CN 81298238
+TEST-AE-103033,unreachable,2025-10-26T04:25:30Z,0501186640,khalid.132.test@gmail.com,,Ras Al Khaimah,AE,370,AED,Shipa CN 20686571
+TEST-PK-104230,return_abuse,2025-10-26T11:04:30Z,03459226312,,,Rawalpindi,PK,1900,PKR,PostEx CN 55351982
+TEST-PK-104163,delivered_paid,2025-10-26T11:53:30Z,03333092885,,"House 253, Street 3, Gulberg III",Faisalabad,PK,2300,PKR,Trax CN 53201002
+TEST-PK-101800,delivered_paid,2025-10-26T19:24:30Z,03005286099,,"House 2, Street 11, Bahria Town",Abbottabad,PK,4600,PKR,Leopards CN 17927233
+TEST-PK-101586,delivered_paid,2025-10-26T21:48:30Z,03009859819,faisal.1758.test@hotmail.com,"House 369, Street 24, Bahria Town",Faisalabad,PK,12400,PKR,M&P CN 62440661
+TEST-PK-101636,delivered_paid,2025-10-26T22:07:30Z,03017392477,,"House 350, Street 29, Gulberg III",Gujranwala,PK,5300,PKR,Leopards CN 88656455
+TEST-PK-100900,delivered_paid,2025-10-27T01:03:30Z,03458504259,hina.8375.test@outlook.com,,Gujranwala,PK,12500,PKR,Trax CN 27588837
+TEST-PK-101099,delivered_paid,2025-10-27T03:30:30Z,03016222728,zainab.8865.test@yahoo.com,"House 221, Street 54, DHA Phase 5",Quetta,PK,1900,PKR,M&P CN 66663198
+TEST-AE-104514,refused_at_door,2025-10-27T04:03:30Z,0508459763,,,Ajman,AE,350,AED,Emirates Post CN 99045439
+TEST-PK-104512,delivered_paid,2025-10-27T04:53:30Z,03334028028,imran.2951.test@hotmail.com,,Rawalpindi,PK,24900,PKR,Trax CN 27887491
+TEST-PK-102189,delivered_paid,2025-10-27T06:01:30Z,03211794872,hamza.1096.test@outlook.com,"House 68, Street 7, Bahria Town",Peshawar,PK,3200,PKR,Trax CN 72407632
+TEST-PK-104372,refused_at_door,2025-10-27T07:56:30Z,03005851620,,"House 413, Street 3, Gulshan-e-Iqbal Block 13",Karachi,PK,22800,PKR,PostEx CN 74741334
+TEST-PK-100138,delivered_paid,2025-10-27T08:43:30Z,03012493522,,"House 140, Street 45, F-7 Markaz",Rawalpindi,PK,4900,PKR,BlueEx CN 34458882
+TEST-PK-104601,unreachable,2025-10-27T11:28:30Z,03219707698,,"House 23, Street 15, Bahria Town",Islamabad,PK,1700,PKR,TCS CN 91296875
+TEST-AE-100579,return_abuse,2025-10-27T13:50:30Z,0504660835,,,Sharjah,AE,730,AED,Shipa CN 77239237
+TEST-PK-101754,refused_at_door,2025-10-27T13:50:30Z,03335262790,rashid.1440.test@gmail.com,"House 299, Street 29, Gulshan-e-Iqbal Block 13",Hyderabad,PK,13600,PKR,M&P CN 66300329
+TEST-PK-104603,delivered_paid,2025-10-27T16:00:30Z,03336084490,,"House 398, Street 17, F-7 Markaz",Faisalabad,PK,10200,PKR,TCS CN 69086177
+TEST-AE-100411,refused_at_door,2025-10-28T02:10:30Z,0559651008,,,Abu Dhabi,AE,500,AED,Emirates Post CN 10162972
+TEST-AE-103055,delivered_paid,2025-10-28T02:10:30Z,0552510329,,"Flat 1555, Building 68, Al Khalidiya",Fujairah,AE,1010,AED,Fetchr CN 39275750
+TEST-PK-100503,refused_at_door,2025-10-28T07:48:30Z,03338782462,khalid.7456.test@outlook.com,"House 376, Street 16, Model Town",Quetta,PK,20600,PKR,BlueEx CN 17807851
+TEST-PK-102077,return_abuse,2025-10-28T09:27:30Z,03338752613,,,Rawalpindi,PK,16800,PKR,PostEx CN 65074977
+TEST-AE-100752,return_abuse,2025-10-28T10:51:30Z,0558568137,,,Abu Dhabi,AE,410,AED,Shipa CN 55674230
+TEST-AE-100234,delivered_paid,2025-10-28T12:14:30Z,0568974546,aisha.6757.test@outlook.com,"Flat 1198, Building 74, JLT Cluster D",Ajman,AE,970,AED,Emirates Post CN 15103083
+TEST-AE-102091,delivered_paid,2025-10-28T13:14:30Z,0521915665,,,Ras Al Khaimah,AE,1360,AED,Fetchr CN 11756809
+TEST-PK-103294,delivered_paid,2025-10-28T13:19:30Z,03219499211,khalid.4579.test@outlook.com,"House 316, Street 4, DHA Phase 5",Rawalpindi,PK,13100,PKR,BlueEx CN 53379785
+TEST-PK-100271,delivered_paid,2025-10-28T13:39:30Z,03456446002,hamza.3038.test@yahoo.com,,Hyderabad,PK,18900,PKR,M&P CN 65450651
+TEST-PK-103699,refused_at_door,2025-10-28T14:33:30Z,03005101981,hamza.3638.test@yahoo.com,,Peshawar,PK,19300,PKR,Trax CN 34617011
+TEST-PK-102818,refused_at_door,2025-10-28T17:39:30Z,03337250138,,"House 6, Street 28, Gulshan-e-Iqbal Block 13",Karachi,PK,6100,PKR,Trax CN 65143401
+TEST-PK-102655,unreachable,2025-10-28T20:49:30Z,03001543219,,"House 411, Street 17, Satellite Town",Lahore,PK,7500,PKR,Trax CN 75970562
+TEST-AE-103864,delivered_paid,2025-10-28T20:54:30Z,0551444690,,"Flat 187, Building 70, JLT Cluster D",Ras Al Khaimah,AE,910,AED,Aramex CN 80261015
+TEST-PK-101562,return_abuse,2025-10-28T21:00:30Z,03337987366,maryam.3356.test@outlook.com,,Karachi,PK,16200,PKR,M&P CN 49242355
+TEST-AE-101960,unreachable,2025-10-29T01:08:30Z,0563863401,noor.1945.test@hotmail.com,,Ras Al Khaimah,AE,390,AED,Fetchr CN 30335579
+TEST-PK-104668,delivered_paid,2025-10-29T01:23:30Z,03018497252,,,Quetta,PK,6000,PKR,TCS CN 23488390
+TEST-AE-100478,refused_at_door,2025-10-29T02:04:30Z,0503337332,,,Abu Dhabi,AE,440,AED,Shipa CN 62821147
+TEST-PK-104156,delivered_paid,2025-10-29T03:12:30Z,03332560186,,,Sialkot,PK,22600,PKR,TCS CN 45099212
+TEST-PK-103671,delivered_paid,2025-10-29T07:08:30Z,03211989001,,,Gujranwala,PK,12000,PKR,Trax CN 76449926
+TEST-PK-100590,delivered_paid,2025-10-29T07:49:30Z,03212724011,,,Gujranwala,PK,3600,PKR,PostEx CN 40740039
+TEST-PK-103745,refused_at_door,2025-10-29T07:56:30Z,03219173525,maryam.9544.test@outlook.com,,Rawalpindi,PK,15900,PKR,PostEx CN 92375855
+TEST-AE-102267,delivered_paid,2025-10-29T12:02:30Z,0589349933,,,Dubai,AE,490,AED,Quiqup CN 17842160
+TEST-PK-100188,return_abuse,2025-10-29T14:38:30Z,03451786966,,"House 446, Street 48, Gulberg III",Karachi,PK,11800,PKR,BlueEx CN 89716531
+TEST-PK-103123,unreachable,2025-10-29T15:55:30Z,03457940466,,"House 135, Street 53, G-11/2",Gujranwala,PK,17200,PKR,Leopards CN 61779795
+TEST-PK-104855,delivered_paid,2025-10-29T19:37:30Z,03333093646,,,Lahore,PK,2400,PKR,TCS CN 17078500
+TEST-PK-103877,fake_order,2025-10-29T19:52:30Z,03456646960,omar.2101.test@outlook.com,"House 302, Street 24, Cantt",Faisalabad,PK,9000,PKR,TCS CN 74623412
+TEST-AE-102149,refused_at_door,2025-10-29T20:18:30Z,0588130165,aisha.1392.test@hotmail.com,"Flat 740, Building 71, Mussafah Shabiya 10",Ajman,AE,1000,AED,Quiqup CN 40038194
+TEST-AE-102513,unreachable,2025-10-29T20:18:30Z,0558691662,,"Flat 856, Building 31, Al Khalidiya",Ajman,AE,1350,AED,Fetchr CN 71059803
+TEST-PK-100727,delivered_paid,2025-10-29T20:33:30Z,03213717898,,"House 107, Street 19, Clifton Block 4",Quetta,PK,10300,PKR,PostEx CN 43299150
+TEST-AE-103856,refused_at_door,2025-10-29T22:07:30Z,0588701869,,,Al Ain,AE,1020,AED,Emirates Post CN 38190776
+TEST-PK-100522,refused_at_door,2025-10-30T03:22:30Z,03339592903,,,Multan,PK,14700,PKR,TCS CN 86973594
+TEST-AE-101159,refused_at_door,2025-10-30T06:06:30Z,0565123867,ayesha.6208.test@hotmail.com,"Flat 1825, Building 78, International City",Dubai,AE,500,AED,Fetchr CN 94607523
+TEST-AE-100753,delivered_paid,2025-10-30T07:30:30Z,0558568137,,,Abu Dhabi,AE,1260,AED,Shipa CN 13954456
+TEST-AE-103092,chargeback,2025-10-30T08:35:30Z,0559015264,,,Ajman,AE,150,AED,Fetchr CN 49066987
+TEST-AE-102882,delivered_paid,2025-10-30T09:39:30Z,0589128077,aisha.9120.test@hotmail.com,,Dubai,AE,460,AED,Aramex CN 39373715
+TEST-PK-100827,delivered_paid,2025-10-30T11:19:30Z,03459098837,zainab.6015.test@gmail.com,,Gujranwala,PK,20900,PKR,Trax CN 64271350
+TEST-AE-103553,refused_at_door,2025-10-30T13:52:30Z,0552817673,,"Flat 354, Building 80, JLT Cluster D",Ajman,AE,1150,AED,Shipa CN 18830697
+TEST-AE-100573,unreachable,2025-10-30T16:50:30Z,0565327372,,"Flat 934, Building 34, Mussafah Shabiya 10",Abu Dhabi,AE,960,AED,Shipa CN 66139132
+TEST-PK-101144,delivered_paid,2025-10-30T18:58:30Z,03016785962,,,Peshawar,PK,11600,PKR,TCS CN 45219300
+TEST-PK-100420,unreachable,2025-10-30T23:24:30Z,03455846440,fatima.4674.test@yahoo.com,"House 95, Street 43, DHA Phase 5",Hyderabad,PK,6300,PKR,Trax CN 68074532
+TEST-PK-101534,delivered_paid,2025-10-31T02:33:30Z,03215546031,,,Hyderabad,PK,19800,PKR,M&P CN 65528998
+TEST-PK-104022,delivered_paid,2025-10-31T03:40:30Z,03211762569,noor.226.test@gmail.com,,Abbottabad,PK,7300,PKR,Leopards CN 33313981
+TEST-PK-102359,delivered_paid,2025-10-31T08:58:30Z,03007427978,noor.6959.test@hotmail.com,"House 118, Street 43, G-11/2",Islamabad,PK,1700,PKR,BlueEx CN 75831103
+TEST-PK-101217,delivered_paid,2025-10-31T09:38:30Z,03335781879,fatima.4697.test@hotmail.com,,Gujranwala,PK,11900,PKR,TCS CN 60944995
+TEST-PK-103568,delivered_paid,2025-10-31T12:42:30Z,03007563181,,"House 277, Street 14, G-11/2",Rawalpindi,PK,18500,PKR,M&P CN 67611206
+TEST-AE-102835,delivered_paid,2025-10-31T13:00:30Z,0583697645,khalid.8416.test@hotmail.com,"Flat 359, Building 25, Deira Al Muraqqabat",Ajman,AE,70,AED,Shipa CN 98324589
+TEST-PK-102959,return_abuse,2025-10-31T14:06:30Z,03335646826,,"House 116, Street 35, Gulshan-e-Iqbal Block 13",Faisalabad,PK,11600,PKR,TCS CN 44084642
+TEST-PK-103561,refused_at_door,2025-10-31T14:43:30Z,03005391444,zainab.3189.test@outlook.com,"House 211, Street 16, Bahria Town",Sialkot,PK,9500,PKR,Leopards CN 12306520
+TEST-PK-104903,delivered_paid,2025-10-31T15:52:30Z,03212303184,sana.2128.test@yahoo.com,"House 303, Street 44, G-11/2",Gujranwala,PK,22200,PKR,Leopards CN 87099097
+TEST-PK-100948,fake_address,2025-10-31T16:48:30Z,03214480596,,,Peshawar,PK,7800,PKR,Trax CN 85879093
+TEST-PK-102353,delivered_paid,2025-10-31T17:16:30Z,03219707698,,"House 23, Street 15, Bahria Town",Islamabad,PK,15400,PKR,M&P CN 63795394
+TEST-PK-102420,delivered_paid,2025-10-31T17:18:30Z,03001960079,,,Quetta,PK,11000,PKR,PostEx CN 31585879
+TEST-PK-103418,refused_at_door,2025-10-31T17:39:30Z,03212511823,,"House 386, Street 14, Gulberg III",Abbottabad,PK,6500,PKR,TCS CN 47941409
+TEST-AE-104206,delivered_paid,2025-10-31T17:46:30Z,0568408968,,"Flat 1366, Building 23, Muwaileh",Fujairah,AE,410,AED,Aramex CN 70474344
+TEST-PK-102167,delivered_paid,2025-10-31T17:59:30Z,03014662838,ali.5477.test@outlook.com,"House 24, Street 39, Satellite Town",Rawalpindi,PK,13300,PKR,Trax CN 30550090
+TEST-AE-101648,delivered_paid,2025-10-31T18:15:30Z,0554359933,ahmed.8619.test@hotmail.com,,Abu Dhabi,AE,1190,AED,Fetchr CN 32694418
+TEST-AE-104192,delivered_paid,2025-10-31T19:40:30Z,0502652297,,,Al Ain,AE,980,AED,Quiqup CN 14979367
+TEST-AE-102809,delivered_paid,2025-10-31T21:43:30Z,0586916101,,"Flat 598, Building 27, Muwaileh",Ras Al Khaimah,AE,950,AED,Emirates Post CN 80763763
+TEST-PK-100227,delivered_paid,2025-10-31T22:54:30Z,03452917004,khalid.5276.test@hotmail.com,,Hyderabad,PK,22600,PKR,Trax CN 57173908
+TEST-PK-100008,refused_at_door,2025-11-01T00:53:30Z,03211055752,,,Gujranwala,PK,20700,PKR,BlueEx CN 62266088
+TEST-PK-100021,fake_address,2025-11-01T01:10:30Z,03003250955,,"House 443, Street 33, Gulshan-e-Iqbal Block 13",Gujranwala,PK,13400,PKR,Leopards CN 56384612
+TEST-AE-100733,refused_at_door,2025-11-01T01:42:30Z,0509240624,sana.508.test@yahoo.com,"Flat 2090, Building 35, Al Khalidiya",Sharjah,AE,540,AED,Emirates Post CN 79889384
+TEST-AE-102502,delivered_paid,2025-11-01T05:57:30Z,0583860932,,"Flat 1733, Building 25, Al Khalidiya",Fujairah,AE,1380,AED,Quiqup CN 65077087
+TEST-PK-101512,refused_at_door,2025-11-01T09:55:30Z,03011087044,,,Islamabad,PK,6400,PKR,M&P CN 87432185
+TEST-PK-104345,delivered_paid,2025-11-01T10:28:30Z,03211956644,,,Lahore,PK,12700,PKR,PostEx CN 71830933
+TEST-AE-103270,delivered_paid,2025-11-01T11:41:30Z,0565617229,fatima.4078.test@outlook.com,,Abu Dhabi,AE,580,AED,Emirates Post CN 34832262
+TEST-PK-100857,delivered_paid,2025-11-01T12:52:30Z,03001196563,,"House 118, Street 4, G-11/2",Peshawar,PK,13600,PKR,Leopards CN 35187519
+TEST-AE-101273,delivered_paid,2025-11-01T14:28:30Z,0554127509,sana.389.test@outlook.com,"Flat 252, Building 23, Mussafah Shabiya 10",Ajman,AE,880,AED,Fetchr CN 71771764
+TEST-PK-100274,refused_at_door,2025-11-01T14:55:30Z,03006294919,,"House 419, Street 9, Gulberg III",Sialkot,PK,15100,PKR,TCS CN 26049665
+TEST-PK-101823,delivered_paid,2025-11-01T15:34:30Z,03336103089,maryam.3352.test@outlook.com,,Quetta,PK,1700,PKR,Leopards CN 58991492
+TEST-PK-104164,delivered_paid,2025-11-01T16:26:30Z,03455140742,yousuf.2744.test@yahoo.com,"House 443, Street 54, Model Town",Peshawar,PK,17900,PKR,Trax CN 27662460
+TEST-PK-102491,unreachable,2025-11-01T18:06:30Z,03214632161,,"House 63, Street 11, F-7 Markaz",Peshawar,PK,21100,PKR,BlueEx CN 58417410
+TEST-PK-101481,delivered_paid,2025-11-01T18:51:30Z,03334391017,,"House 9, Street 46, Johar Town",Hyderabad,PK,24400,PKR,PostEx CN 23480643
+TEST-PK-102984,delivered_paid,2025-11-01T20:31:30Z,03017392477,,"House 350, Street 29, Gulberg III",Gujranwala,PK,12400,PKR,Trax CN 36033133
+TEST-PK-101933,refused_at_door,2025-11-01T22:04:30Z,03214414278,zainab.2224.test@hotmail.com,"House 39, Street 38, Hayatabad Phase 3",Hyderabad,PK,23800,PKR,BlueEx CN 28709649
+TEST-PK-104711,fake_address,2025-11-02T02:50:30Z,03452101325,,"House 155, Street 14, Clifton Block 4",Lahore,PK,14000,PKR,Trax CN 75079156
+TEST-PK-100156,delivered_paid,2025-11-02T02:56:30Z,03333609647,aisha.3638.test@yahoo.com,"House 258, Street 43, Hayatabad Phase 3",Islamabad,PK,7700,PKR,Trax CN 57332456
+TEST-PK-103831,delivered_paid,2025-11-02T04:18:30Z,03213903057,noor.9429.test@yahoo.com,,Lahore,PK,7600,PKR,Leopards CN 89643469
+TEST-AE-104115,delivered_paid,2025-11-02T06:31:30Z,0583389575,,"Flat 638, Building 73, Al Khalidiya",Al Ain,AE,610,AED,Fetchr CN 81749502
+TEST-PK-104347,unreachable,2025-11-02T07:28:30Z,03211956644,,,Lahore,PK,9800,PKR,BlueEx CN 72435983
+TEST-PK-104997,refused_at_door,2025-11-02T11:25:30Z,03214980140,,"House 137, Street 17, F-7 Markaz",Multan,PK,7200,PKR,Leopards CN 90447168
+TEST-AE-103157,fake_address,2025-11-02T16:06:30Z,0588130165,aisha.1392.test@hotmail.com,"Flat 740, Building 71, Mussafah Shabiya 10",Ajman,AE,940,AED,Fetchr CN 96321154
+TEST-PK-102884,delivered_paid,2025-11-02T18:43:30Z,03018339776,hamza.6554.test@hotmail.com,"House 311, Street 45, Gulberg III",Karachi,PK,20700,PKR,PostEx CN 35112760
+TEST-PK-101897,delivered_paid,2025-11-02T19:51:30Z,03006951164,,,Gujranwala,PK,5400,PKR,BlueEx CN 81971362
+TEST-PK-103539,delivered_paid,2025-11-02T22:11:30Z,03335781879,fatima.4697.test@hotmail.com,,Gujranwala,PK,8600,PKR,M&P CN 75756407
+TEST-PK-103850,delivered_paid,2025-11-02T22:33:30Z,03017831067,khalid.9723.test@yahoo.com,"House 242, Street 36, Bahria Town",Gujranwala,PK,21400,PKR,BlueEx CN 15135212
+TEST-PK-105000,delivered_paid,2025-11-02T23:37:30Z,03008588504,,"House 322, Street 29, Bahria Town",Sialkot,PK,24300,PKR,Leopards CN 36058086
+TEST-PK-104911,refused_at_door,2025-11-03T01:35:30Z,03331074060,,"House 380, Street 42, Hayatabad Phase 3",Sialkot,PK,22600,PKR,TCS CN 62328151
+TEST-AE-101683,unreachable,2025-11-03T05:24:30Z,0563501042,,,Al Ain,AE,910,AED,Emirates Post CN 89849426
+TEST-PK-102914,delivered_paid,2025-11-03T08:09:30Z,03454621617,ayesha.6766.test@yahoo.com,,Gujranwala,PK,5900,PKR,Trax CN 39592872
+TEST-AE-103369,refused_at_door,2025-11-03T08:26:30Z,0508923479,,,Ras Al Khaimah,AE,590,AED,Shipa CN 93378932
+TEST-AE-102142,delivered_paid,2025-11-03T09:25:30Z,0588130165,aisha.1392.test@hotmail.com,"Flat 740, Building 71, Mussafah Shabiya 10",Ajman,AE,1240,AED,Shipa CN 46793907
+TEST-PK-102372,delivered_paid,2025-11-03T14:58:30Z,03011471946,yousuf.7617.test@hotmail.com,"House 369, Street 5, Gulberg III",Islamabad,PK,2800,PKR,TCS CN 12315478
+TEST-AE-104971,refused_at_door,2025-11-03T15:27:30Z,0587425076,,"Flat 282, Building 6, JLT Cluster D",Ras Al Khaimah,AE,800,AED,Shipa CN 53170001
+TEST-AE-100417,delivered_paid,2025-11-03T16:24:30Z,0559651008,,,Abu Dhabi,AE,1350,AED,Shipa CN 51402345
+TEST-PK-104894,fake_address,2025-11-03T17:04:30Z,03338382278,omar.5533.test@hotmail.com,"House 280, Street 32, DHA Phase 5",Rawalpindi,PK,22400,PKR,TCS CN 49921074
+TEST-PK-102009,delivered_paid,2025-11-03T19:08:30Z,03459811833,yousuf.9832.test@outlook.com,"House 163, Street 31, G-11/2",Islamabad,PK,19400,PKR,M&P CN 75163514
+TEST-PK-102649,delivered_paid,2025-11-04T00:09:30Z,03011370880,,"House 119, Street 37, F-7 Markaz",Multan,PK,15100,PKR,TCS CN 12944070
+TEST-PK-104528,delivered_paid,2025-11-04T00:44:30Z,03219875440,,"House 349, Street 41, Model Town",Hyderabad,PK,3500,PKR,Trax CN 64468229
+TEST-PK-100544,delivered_paid,2025-11-04T01:00:30Z,03334789701,,"House 226, Street 37, Hayatabad Phase 3",Peshawar,PK,6200,PKR,Trax CN 65662574
+TEST-PK-103019,delivered_paid,2025-11-04T02:03:30Z,03451174639,,,Multan,PK,6100,PKR,M&P CN 23562072
+TEST-PK-100396,delivered_paid,2025-11-04T02:13:30Z,03453213994,faisal.7402.test@yahoo.com,,Quetta,PK,16300,PKR,TCS CN 43496455
+TEST-AE-103158,refused_at_door,2025-11-04T03:46:30Z,0588130165,aisha.1392.test@hotmail.com,"Flat 740, Building 71, Mussafah Shabiya 10",Ajman,AE,1020,AED,Shipa CN 33970761
+TEST-PK-104092,refused_at_door,2025-11-04T04:03:30Z,03019865119,imran.2252.test@outlook.com,"House 195, Street 16, Cantt",Rawalpindi,PK,19600,PKR,M&P CN 15069368
+TEST-AE-103612,delivered_paid,2025-11-04T04:36:30Z,0505460452,sara.2098.test@yahoo.com,,Al Ain,AE,850,AED,Quiqup CN 92942875
+TEST-PK-102303,refused_at_door,2025-11-04T06:30:30Z,03451100810,,,Quetta,PK,4500,PKR,BlueEx CN 15560386
+TEST-AE-101815,delivered_paid,2025-11-04T06:53:30Z,0581179407,yousuf.7938.test@hotmail.com,"Flat 468, Building 9, JLT Cluster D",Al Ain,AE,1170,AED,Fetchr CN 82359935
+TEST-PK-100087,delivered_paid,2025-11-04T14:05:30Z,03219707698,,"House 23, Street 15, Bahria Town",Islamabad,PK,9900,PKR,BlueEx CN 40596384
+TEST-PK-102459,fake_address,2025-11-04T16:05:30Z,03006465238,,,Rawalpindi,PK,24600,PKR,Leopards CN 65194928
+TEST-PK-102606,delivered_paid,2025-11-04T17:50:30Z,03019044797,,"House 24, Street 22, G-11/2",Lahore,PK,15300,PKR,PostEx CN 13981573
+TEST-AE-103771,delivered_paid,2025-11-04T19:51:30Z,0551189485,ali.6236.test@outlook.com,"Flat 1752, Building 19, Muwaileh",Ras Al Khaimah,AE,790,AED,Emirates Post CN 94816512
+TEST-AE-104114,unreachable,2025-11-04T20:49:30Z,0583389575,,"Flat 638, Building 73, Al Khalidiya",Al Ain,AE,1100,AED,Emirates Post CN 80056849
+TEST-AE-104238,delivered_paid,2025-11-04T21:29:30Z,0553122083,bilal.4907.test@gmail.com,"Flat 692, Building 76, Mussafah Shabiya 10",Sharjah,AE,1400,AED,Aramex CN 41834254
+TEST-PK-103437,delivered_paid,2025-11-05T00:32:30Z,03211199544,,,Quetta,PK,22700,PKR,BlueEx CN 60166184
+TEST-AE-104726,refused_at_door,2025-11-05T04:43:30Z,0501576090,ahmed.7161.test@gmail.com,"Flat 1047, Building 61, Al Khalidiya",Dubai,AE,1180,AED,Aramex CN 65506342
+TEST-PK-102946,return_abuse,2025-11-05T07:21:30Z,03457859620,,,Quetta,PK,13800,PKR,Trax CN 91315202
+TEST-PK-100483,delivered_paid,2025-11-05T07:37:30Z,03459430667,ali.6795.test@outlook.com,"House 419, Street 51, Model Town",Hyderabad,PK,14200,PKR,Leopards CN 96663469
+TEST-PK-101796,delivered_paid,2025-11-05T08:25:30Z,03007226408,,"House 151, Street 12, Satellite Town",Rawalpindi,PK,17000,PKR,TCS CN 59067884
+TEST-PK-101063,delivered_paid,2025-11-05T13:16:30Z,03454492767,noor.339.test@yahoo.com,,Rawalpindi,PK,14900,PKR,BlueEx CN 10313651
+TEST-AE-102428,chargeback,2025-11-05T13:37:30Z,0584398905,,"Flat 2281, Building 36, Deira Al Muraqqabat",Fujairah,AE,980,AED,Shipa CN 15521841
+TEST-PK-101810,delivered_paid,2025-11-05T15:39:30Z,03454817433,,"House 108, Street 30, Johar Town",Islamabad,PK,18000,PKR,TCS CN 86477931
+TEST-PK-104746,refused_at_door,2025-11-05T16:14:30Z,03338450129,,,Multan,PK,20100,PKR,Leopards CN 82557758
+TEST-PK-101743,delivered_paid,2025-11-05T17:44:30Z,03217310959,,"House 432, Street 15, DHA Phase 5",Lahore,PK,24000,PKR,Leopards CN 34783813
+TEST-AE-103609,delivered_paid,2025-11-05T21:51:30Z,0521915665,,,Ras Al Khaimah,AE,610,AED,Shipa CN 54908153
+TEST-AE-101376,delivered_paid,2025-11-05T22:40:30Z,0555144071,khalid.9567.test@hotmail.com,"Flat 1433, Building 7, Al Nahda 2",Abu Dhabi,AE,980,AED,Emirates Post CN 11689590
+TEST-AE-102426,return_abuse,2025-11-05T23:08:30Z,0584398905,,"Flat 2281, Building 36, Deira Al Muraqqabat",Fujairah,AE,650,AED,Fetchr CN 74723153
+TEST-PK-102870,delivered_paid,2025-11-06T03:44:30Z,03338544782,,,Abbottabad,PK,16100,PKR,Trax CN 80660842
+TEST-PK-104061,unreachable,2025-11-06T06:52:30Z,03219173525,maryam.9544.test@outlook.com,,Rawalpindi,PK,3600,PKR,Leopards CN 51303926
+TEST-PK-104431,refused_at_door,2025-11-06T11:49:30Z,03005378832,,,Gujranwala,PK,2300,PKR,M&P CN 73130264
+TEST-AE-104330,refused_at_door,2025-11-06T12:51:30Z,0563324594,omar.9932.test@outlook.com,,Sharjah,AE,1360,AED,Aramex CN 89811176
+TEST-PK-100324,delivered_paid,2025-11-06T13:46:30Z,03217931286,,"House 134, Street 1, Model Town",Gujranwala,PK,17300,PKR,Trax CN 34867659
+TEST-AE-103493,refused_at_door,2025-11-06T16:34:30Z,0558368699,,"Flat 2052, Building 79, Muwaileh",Abu Dhabi,AE,960,AED,Shipa CN 16831615
+TEST-AE-103709,delivered_paid,2025-11-06T17:02:30Z,0556930431,rashid.9202.test@hotmail.com,,Fujairah,AE,880,AED,Shipa CN 78095614
+TEST-PK-100770,delivered_paid,2025-11-06T17:15:30Z,03456824466,,"House 143, Street 3, Model Town",Multan,PK,16900,PKR,Leopards CN 89055767
+TEST-AE-103264,delivered_paid,2025-11-06T23:32:30Z,0502985171,,"Flat 1227, Building 27, Al Barsha 1",Ras Al Khaimah,AE,610,AED,Fetchr CN 53290729
+TEST-AE-102862,fake_order,2025-11-07T00:01:30Z,0561051778,faisal.9788.test@gmail.com,,Dubai,AE,940,AED,Shipa CN 80261546
+TEST-PK-101393,delivered_paid,2025-11-07T00:31:30Z,03451450586,,,Multan,PK,21500,PKR,Leopards CN 68342537
+TEST-PK-103740,fake_address,2025-11-07T00:40:30Z,03219173525,maryam.9544.test@outlook.com,,Rawalpindi,PK,1800,PKR,BlueEx CN 41843805
+TEST-AE-100578,delivered_paid,2025-11-07T00:42:30Z,0504660835,,,Sharjah,AE,870,AED,Emirates Post CN 83314468
+TEST-PK-103329,delivered_paid,2025-11-07T04:19:30Z,03212783463,,"House 321, Street 12, DHA Phase 5",Rawalpindi,PK,9100,PKR,PostEx CN 48905649
+TEST-PK-100585,delivered_paid,2025-11-07T05:57:30Z,03018778623,,"House 2, Street 55, Satellite Town",Faisalabad,PK,22300,PKR,TCS CN 71972168
+TEST-AE-104440,unreachable,2025-11-07T07:43:30Z,0503106487,,"Flat 2359, Building 74, Mussafah Shabiya 10",Al Ain,AE,1330,AED,Fetchr CN 28382599
+TEST-AE-100954,delivered_paid,2025-11-07T10:14:30Z,0523573032,hina.1254.test@outlook.com,"Flat 112, Building 66, International City",Dubai,AE,280,AED,Quiqup CN 16909743
+TEST-PK-100080,unreachable,2025-11-07T12:15:30Z,03459676973,,,Islamabad,PK,22700,PKR,BlueEx CN 12695149
+TEST-PK-101323,refused_at_door,2025-11-07T15:17:30Z,03014862858,,"House 97, Street 39, Bahria Town",Peshawar,PK,10100,PKR,M&P CN 98109115
+TEST-PK-104788,fake_address,2025-11-07T16:16:30Z,03211956644,,,Lahore,PK,15900,PKR,Trax CN 94463567
+TEST-AE-102687,unreachable,2025-11-07T19:02:30Z,0553007256,,,Sharjah,AE,210,AED,Aramex CN 33363844
+TEST-PK-102816,refused_at_door,2025-11-07T21:01:30Z,03018615467,hamza.9554.test@gmail.com,"House 85, Street 28, F-7 Markaz",Rawalpindi,PK,10900,PKR,Trax CN 27906454
+TEST-AE-102501,delivered_paid,2025-11-07T23:55:30Z,0583860932,,"Flat 1733, Building 25, Al Khalidiya",Fujairah,AE,1470,AED,Emirates Post CN 11050802
+TEST-PK-104014,delivered_paid,2025-11-08T05:56:30Z,03001146151,maryam.3838.test@yahoo.com,,Lahore,PK,4000,PKR,PostEx CN 51864255
+TEST-PK-104646,delivered_paid,2025-11-08T09:33:30Z,03335200858,,"House 337, Street 2, F-7 Markaz",Karachi,PK,14400,PKR,PostEx CN 40071907
+TEST-PK-101166,delivered_paid,2025-11-08T14:28:30Z,03219748636,,"House 30, Street 55, Bahria Town",Lahore,PK,23100,PKR,TCS CN 53759103
+TEST-AE-102234,return_abuse,2025-11-08T14:32:30Z,0521889586,omar.3325.test@hotmail.com,"Flat 1227, Building 12, Al Majaz 3",Fujairah,AE,1460,AED,Emirates Post CN 35458937
+TEST-AE-100901,delivered_paid,2025-11-08T16:01:30Z,0589071099,,"Flat 739, Building 86, International City",Abu Dhabi,AE,860,AED,Aramex CN 75257743
+TEST-PK-101373,delivered_paid,2025-11-08T18:40:30Z,03217781683,aisha.5030.test@yahoo.com,,Lahore,PK,10400,PKR,M&P CN 95817172
+TEST-PK-100659,delivered_paid,2025-11-08T18:57:30Z,03451120333,,,Rawalpindi,PK,4900,PKR,Leopards CN 30087084
+TEST-AE-103135,refused_at_door,2025-11-08T19:20:30Z,0585402369,fatima.6615.test@gmail.com,"Flat 2341, Building 23, Al Khalidiya",Fujairah,AE,1370,AED,Emirates Post CN 98028458
+TEST-PK-102548,delivered_paid,2025-11-08T20:38:30Z,03213149520,usman.3500.test@outlook.com,,Sialkot,PK,17500,PKR,M&P CN 93468950
+TEST-AE-104851,delivered_paid,2025-11-08T21:34:30Z,0589057631,,"Flat 292, Building 77, Al Nahda 2",Dubai,AE,980,AED,Quiqup CN 95829580
+TEST-PK-102632,delivered_paid,2025-11-08T22:40:30Z,03007557983,,"House 32, Street 51, Gulberg III",Peshawar,PK,8200,PKR,BlueEx CN 90717718
+TEST-AE-100265,refused_at_door,2025-11-08T23:06:30Z,0559398134,,"Flat 418, Building 80, Mussafah Shabiya 10",Ras Al Khaimah,AE,430,AED,Aramex CN 95942924
+TEST-AE-102593,delivered_paid,2025-11-09T00:52:30Z,0567887873,,"Flat 1850, Building 26, International City",Ras Al Khaimah,AE,1030,AED,Fetchr CN 80953315
+TEST-AE-103862,delivered_paid,2025-11-09T03:37:30Z,0551444690,,"Flat 187, Building 70, JLT Cluster D",Ras Al Khaimah,AE,530,AED,Emirates Post CN 18450469
+TEST-AE-104065,delivered_paid,2025-11-09T03:48:30Z,0506982737,aisha.8785.test@hotmail.com,,Ras Al Khaimah,AE,1310,AED,Emirates Post CN 13128364
+TEST-PK-101040,delivered_paid,2025-11-09T06:04:30Z,03455870101,,"House 300, Street 12, F-7 Markaz",Peshawar,PK,7000,PKR,Leopards CN 18467277
+TEST-PK-104108,delivered_paid,2025-11-09T06:09:30Z,03217682550,,,Rawalpindi,PK,14800,PKR,TCS CN 95100843
+TEST-PK-102179,delivered_paid,2025-11-09T09:48:30Z,03016665630,,"House 100, Street 1, Johar Town",Islamabad,PK,15100,PKR,Trax CN 24232326
+TEST-PK-104974,delivered_paid,2025-11-09T12:05:30Z,03008415644,,"House 313, Street 37, Clifton Block 4",Gujranwala,PK,11200,PKR,PostEx CN 48963962
+TEST-PK-103513,delivered_paid,2025-11-09T12:38:30Z,03458374149,imran.7027.test@outlook.com,,Peshawar,PK,24300,PKR,PostEx CN 49750960
+TEST-AE-102144,delivered_paid,2025-11-09T13:36:30Z,0588130165,aisha.1392.test@hotmail.com,"Flat 740, Building 71, Mussafah Shabiya 10",Ajman,AE,360,AED,Emirates Post CN 97702447
+TEST-AE-100406,delivered_paid,2025-11-09T14:09:30Z,0589071099,,"Flat 739, Building 86, International City",Abu Dhabi,AE,920,AED,Aramex CN 71673171
+TEST-PK-101314,refused_at_door,2025-11-09T14:20:30Z,03217945096,,"House 255, Street 19, Hayatabad Phase 3",Multan,PK,23000,PKR,Leopards CN 77100500
+TEST-PK-103201,delivered_paid,2025-11-09T15:27:30Z,03007663578,omar.1617.test@gmail.com,,Karachi,PK,17500,PKR,PostEx CN 19783466
+TEST-PK-100031,unreachable,2025-11-09T17:08:30Z,03331371341,rashid.5139.test@outlook.com,,Quetta,PK,2800,PKR,Leopards CN 42191577
+TEST-PK-100890,delivered_paid,2025-11-09T21:43:30Z,03016360552,,"House 6, Street 33, F-7 Markaz",Abbottabad,PK,5900,PKR,TCS CN 83389199
+TEST-PK-102571,chargeback,2025-11-09T22:01:30Z,03456646960,omar.2101.test@outlook.com,"House 302, Street 24, Cantt",Faisalabad,PK,2200,PKR,M&P CN 69247652
+TEST-PK-100386,refused_at_door,2025-11-09T23:21:30Z,03338450129,,,Multan,PK,4800,PKR,BlueEx CN 12176021
+TEST-PK-102159,delivered_paid,2025-11-10T00:55:30Z,03334639443,,"House 249, Street 29, Gulberg III",Karachi,PK,12900,PKR,BlueEx CN 35481294
+TEST-PK-103651,delivered_paid,2025-11-10T00:58:30Z,03002178607,,"House 48, Street 2, Bahria Town",Sialkot,PK,15900,PKR,BlueEx CN 99453992
+TEST-PK-100011,refused_at_door,2025-11-10T02:16:30Z,03211055752,,,Gujranwala,PK,8800,PKR,PostEx CN 53961533
+TEST-PK-103006,delivered_paid,2025-11-10T03:06:30Z,03212066954,,"House 344, Street 57, Johar Town",Abbottabad,PK,19800,PKR,PostEx CN 57318799
+TEST-PK-101818,unreachable,2025-11-10T09:09:30Z,03332714270,,"House 146, Street 9, Johar Town",Quetta,PK,18400,PKR,Leopards CN 44545066
+TEST-PK-100104,delivered_paid,2025-11-10T09:10:30Z,03016420879,,"House 201, Street 47, Gulshan-e-Iqbal Block 13",Peshawar,PK,22200,PKR,Trax CN 25430389
+TEST-AE-100098,fake_order,2025-11-10T12:17:30Z,0564646795,,"Flat 114, Building 71, JLT Cluster D",Fujairah,AE,580,AED,Aramex CN 53314594
+TEST-PK-101553,fake_order,2025-11-10T12:20:30Z,03453560465,hina.2261.test@gmail.com,,Gujranwala,PK,17200,PKR,M&P CN 89922657
+TEST-PK-102012,delivered_paid,2025-11-10T13:03:30Z,03456319060,,"House 187, Street 5, Model Town",Multan,PK,19200,PKR,Leopards CN 19817210
+TEST-PK-100836,delivered_paid,2025-11-10T13:41:30Z,03335793856,faisal.4230.test@hotmail.com,"House 129, Street 14, Gulberg III",Quetta,PK,3000,PKR,PostEx CN 91457587
+TEST-PK-104490,refused_at_door,2025-11-10T13:46:30Z,03019686606,bilal.6811.test@gmail.com,"House 401, Street 51, Satellite Town",Peshawar,PK,5500,PKR,TCS CN 82114376
+TEST-AE-102432,delivered_paid,2025-11-10T14:38:30Z,0585402369,fatima.6615.test@gmail.com,"Flat 2341, Building 23, Al Khalidiya",Fujairah,AE,710,AED,Fetchr CN 19463255
+TEST-PK-100964,delivered_paid,2025-11-10T15:06:30Z,03017558462,ahmed.6423.test@gmail.com,,Abbottabad,PK,24900,PKR,PostEx CN 24348233
+TEST-AE-100119,delivered_paid,2025-11-10T16:44:30Z,0563734300,hamza.78.test@gmail.com,"Flat 800, Building 47, Al Nahda 2",Dubai,AE,580,AED,Shipa CN 29954696
+TEST-PK-102023,delivered_paid,2025-11-10T18:30:30Z,03001196563,,"House 118, Street 4, G-11/2",Peshawar,PK,4100,PKR,TCS CN 22735284
+TEST-PK-101991,refused_at_door,2025-11-10T18:43:30Z,03336332630,,"House 314, Street 37, Gulshan-e-Iqbal Block 13",Lahore,PK,24700,PKR,Leopards CN 55919600
+TEST-AE-100266,fake_order,2025-11-10T19:06:30Z,0559398134,,"Flat 418, Building 80, Mussafah Shabiya 10",Ras Al Khaimah,AE,230,AED,Shipa CN 21828881
+TEST-PK-104920,delivered_paid,2025-11-10T20:14:30Z,03013415633,omar.9810.test@outlook.com,,Abbottabad,PK,19100,PKR,TCS CN 26901353
+TEST-PK-100722,refused_at_door,2025-11-10T21:16:30Z,03219707698,,"House 23, Street 15, Bahria Town",Islamabad,PK,11500,PKR,BlueEx CN 44686833
+TEST-AE-102871,delivered_paid,2025-11-10T22:32:30Z,0566260318,,,Dubai,AE,740,AED,Shipa CN 60741614
+TEST-PK-100398,delivered_paid,2025-11-11T03:38:30Z,03453213994,faisal.7402.test@yahoo.com,,Quetta,PK,10500,PKR,TCS CN 90968539
+TEST-AE-103702,refused_at_door,2025-11-11T06:03:30Z,0587192909,,,Fujairah,AE,650,AED,Aramex CN 60581368
+TEST-PK-100269,delivered_paid,2025-11-11T08:39:30Z,03456446002,hamza.3038.test@yahoo.com,,Hyderabad,PK,3700,PKR,PostEx CN 22898982
+TEST-PK-104607,delivered_paid,2025-11-11T10:45:30Z,03339547342,hina.1233.test@yahoo.com,"House 15, Street 39, Satellite Town",Rawalpindi,PK,18400,PKR,Trax CN 59175807
+TEST-PK-101930,delivered_paid,2025-11-11T12:10:30Z,03458163331,,"House 117, Street 33, Cantt",Sialkot,PK,3900,PKR,TCS CN 31146503
+TEST-PK-101618,delivered_paid,2025-11-11T14:01:30Z,03332897780,,"House 208, Street 20, Gulshan-e-Iqbal Block 13",Peshawar,PK,1600,PKR,TCS CN 69996169
+TEST-PK-101693,delivered_paid,2025-11-11T16:22:30Z,03338982993,,,Gujranwala,PK,17500,PKR,TCS CN 82023708
+TEST-AE-102594,refused_at_door,2025-11-11T20:12:30Z,0567887873,,"Flat 1850, Building 26, International City",Ras Al Khaimah,AE,740,AED,Aramex CN 83856185
+TEST-PK-101397,delivered_paid,2025-11-11T21:26:30Z,03219030028,,"House 122, Street 31, Bahria Town",Islamabad,PK,3300,PKR,Leopards CN 12619070
+TEST-AE-104319,delivered_paid,2025-11-11T22:13:30Z,0505590344,ayesha.691.test@outlook.com,"Flat 709, Building 76, International City",Al Ain,AE,1200,AED,Emirates Post CN 36117666
+TEST-AE-101893,delivered_paid,2025-11-11T22:32:30Z,0526169189,yousuf.4257.test@gmail.com,"Flat 1984, Building 5, JLT Cluster D",Ras Al Khaimah,AE,1210,AED,Emirates Post CN 31036176
+TEST-PK-102220,refused_at_door,2025-11-11T23:46:30Z,03019865119,imran.2252.test@outlook.com,"House 195, Street 16, Cantt",Rawalpindi,PK,1600,PKR,TCS CN 28417294
+TEST-PK-102277,delivered_paid,2025-11-12T01:11:30Z,03459445693,maryam.9877.test@outlook.com,"House 338, Street 42, Hayatabad Phase 3",Faisalabad,PK,7100,PKR,Leopards CN 25980581
+TEST-PK-101093,delivered_paid,2025-11-12T02:04:30Z,03333619499,,"House 78, Street 1, Gulshan-e-Iqbal Block 13",Hyderabad,PK,3100,PKR,Leopards CN 24551303
+TEST-PK-100504,delivered_paid,2025-11-12T03:03:30Z,03211144048,,,Lahore,PK,4000,PKR,BlueEx CN 56906612
+TEST-AE-100314,refused_at_door,2025-11-12T04:37:30Z,0566614583,ali.3120.test@outlook.com,"Flat 487, Building 19, JLT Cluster D",Ajman,AE,390,AED,Fetchr CN 20171023
+TEST-PK-104137,delivered_paid,2025-11-12T05:11:30Z,03008020517,,,Hyderabad,PK,6200,PKR,Trax CN 77328475
+TEST-PK-102101,chargeback,2025-11-12T05:39:30Z,03009670495,,,Faisalabad,PK,10400,PKR,PostEx CN 60392761
+TEST-PK-100152,return_abuse,2025-11-12T07:44:30Z,03216184220,bilal.5844.test@gmail.com,,Hyderabad,PK,7300,PKR,TCS CN 66708614
+TEST-PK-102339,delivered_paid,2025-11-12T10:35:30Z,03459659521,rashid.9057.test@gmail.com,"House 373, Street 56, Cantt",Quetta,PK,18200,PKR,Leopards CN 50882909
+TEST-PK-104587,delivered_paid,2025-11-12T10:40:30Z,03216001382,usman.8237.test@hotmail.com,"House 433, Street 8, F-7 Markaz",Hyderabad,PK,13600,PKR,Trax CN 87958173
+TEST-PK-104524,delivered_paid,2025-11-12T10:41:30Z,03004707840,,"House 383, Street 12, Gulberg III",Faisalabad,PK,24400,PKR,Leopards CN 97620716
+TEST-PK-104321,refused_at_door,2025-11-12T11:27:30Z,03219894083,sana.5365.test@outlook.com,,Abbottabad,PK,8100,PKR,Trax CN 65491044
+TEST-PK-104200,fake_address,2025-11-12T12:29:30Z,03337725930,noor.2149.test@hotmail.com,"House 253, Street 5, Bahria Town",Faisalabad,PK,2200,PKR,TCS CN 29523178
+TEST-PK-103874,refused_at_door,2025-11-12T13:51:30Z,03456646960,omar.2101.test@outlook.com,"House 302, Street 24, Cantt",Faisalabad,PK,7500,PKR,Leopards CN 11358314
+TEST-PK-101604,refused_at_door,2025-11-12T16:13:30Z,03339061031,,,Rawalpindi,PK,21100,PKR,Trax CN 82355386
+TEST-PK-102877,delivered_paid,2025-11-12T18:19:30Z,03012493522,,"House 140, Street 45, F-7 Markaz",Rawalpindi,PK,6300,PKR,PostEx CN 61274582
+TEST-AE-100233,delivered_paid,2025-11-12T18:45:30Z,0568974546,aisha.6757.test@outlook.com,"Flat 1198, Building 74, JLT Cluster D",Ajman,AE,1450,AED,Fetchr CN 26687045
+TEST-PK-104344,delivered_paid,2025-11-12T19:19:30Z,03335589805,yousuf.5631.test@gmail.com,,Lahore,PK,15900,PKR,M&P CN 78482914
+TEST-AE-103588,return_abuse,2025-11-12T19:32:30Z,0553094065,,"Flat 1743, Building 84, Muwaileh",Al Ain,AE,460,AED,Aramex CN 11759073
+TEST-AE-104220,delivered_paid,2025-11-12T19:50:30Z,0501220066,ali.6852.test@hotmail.com,"Flat 923, Building 44, Al Barsha 1",Fujairah,AE,1480,AED,Aramex CN 77894696
+TEST-PK-102467,delivered_paid,2025-11-12T20:13:30Z,03006951164,,,Gujranwala,PK,8800,PKR,Leopards CN 78109221
+TEST-PK-102908,delivered_paid,2025-11-12T20:48:30Z,03002178607,,"House 48, Street 2, Bahria Town",Sialkot,PK,17400,PKR,M&P CN 26733619
+TEST-AE-102145,refused_at_door,2025-11-12T21:49:30Z,0588130165,aisha.1392.test@hotmail.com,"Flat 740, Building 71, Mussafah Shabiya 10",Ajman,AE,930,AED,Emirates Post CN 47885414
+TEST-PK-104093,unreachable,2025-11-12T22:46:30Z,03019865119,imran.2252.test@outlook.com,"House 195, Street 16, Cantt",Rawalpindi,PK,19300,PKR,Leopards CN 30028021
+TEST-PK-100910,delivered_paid,2025-11-13T02:58:30Z,03211238741,sara.5409.test@gmail.com,"House 319, Street 42, Johar Town",Gujranwala,PK,17500,PKR,PostEx CN 81424053
+TEST-PK-102735,return_abuse,2025-11-13T06:16:30Z,03005420960,khalid.261.test@hotmail.com,"House 206, Street 31, Clifton Block 4",Karachi,PK,19100,PKR,BlueEx CN 74742379
+TEST-PK-100039,refused_at_door,2025-11-13T06:57:30Z,03337921417,,"House 93, Street 31, Clifton Block 4",Sialkot,PK,20700,PKR,TCS CN 58995542
+TEST-AE-103543,return_abuse,2025-11-13T07:32:30Z,0555924403,ayesha.3104.test@yahoo.com,"Flat 1095, Building 26, Deira Al Muraqqabat",Al Ain,AE,760,AED,Quiqup CN 91191885
+TEST-PK-102684,unreachable,2025-11-13T07:41:30Z,03016372487,sana.9785.test@gmail.com,,Quetta,PK,24900,PKR,BlueEx CN 85841621
+TEST-PK-100204,delivered_paid,2025-11-13T07:46:30Z,03219935683,,,Rawalpindi,PK,9000,PKR,Trax CN 58589102
+TEST-PK-104562,delivered_paid,2025-11-13T08:17:30Z,03212813194,maryam.4112.test@gmail.com,"House 11, Street 32, F-7 Markaz",Quetta,PK,20400,PKR,Leopards CN 31583470
+TEST-PK-101494,delivered_paid,2025-11-13T09:42:30Z,03339236965,maryam.5446.test@hotmail.com,"House 71, Street 24, F-7 Markaz",Abbottabad,PK,21700,PKR,PostEx CN 46554166
+TEST-PK-101925,delivered_paid,2025-11-13T11:37:30Z,03458163331,,"House 117, Street 33, Cantt",Sialkot,PK,19800,PKR,Trax CN 47979075
+TEST-PK-101567,delivered_paid,2025-11-13T11:58:30Z,03453796410,maryam.3669.test@yahoo.com,,Karachi,PK,21100,PKR,TCS CN 12615617
+TEST-PK-103846,delivered_paid,2025-11-13T12:22:30Z,03017831067,khalid.9723.test@yahoo.com,"House 242, Street 36, Bahria Town",Gujranwala,PK,6100,PKR,PostEx CN 96631059
+TEST-PK-100960,return_abuse,2025-11-13T13:07:30Z,03212049916,,"House 400, Street 53, Cantt",Karachi,PK,11800,PKR,Trax CN 76334937
+TEST-PK-100663,delivered_paid,2025-11-13T16:07:30Z,03014535392,,"House 379, Street 27, Gulberg III",Rawalpindi,PK,8700,PKR,M&P CN 16778955
+TEST-PK-103298,delivered_paid,2025-11-13T17:59:30Z,03007226408,,"House 151, Street 12, Satellite Town",Rawalpindi,PK,13900,PKR,PostEx CN 88136400
+TEST-PK-100765,delivered_paid,2025-11-13T19:29:30Z,03017076736,noor.2824.test@gmail.com,,Faisalabad,PK,15000,PKR,M&P CN 53636263
+TEST-PK-100211,delivered_paid,2025-11-14T00:57:30Z,03005587880,,"House 289, Street 34, Clifton Block 4",Islamabad,PK,3100,PKR,TCS CN 92171809
+TEST-PK-101975,delivered_paid,2025-11-14T06:30:30Z,03218968345,fatima.5148.test@gmail.com,"House 185, Street 54, Satellite Town",Rawalpindi,PK,7400,PKR,Trax CN 40922644
+TEST-PK-100933,delivered_paid,2025-11-14T10:24:30Z,03011370880,,"House 119, Street 37, F-7 Markaz",Multan,PK,19800,PKR,TCS CN 60533879
+TEST-PK-103128,delivered_paid,2025-11-14T12:48:30Z,03003229851,,,Peshawar,PK,21800,PKR,Leopards CN 73839106
+TEST-PK-103194,delivered_paid,2025-11-14T16:14:30Z,03004343638,ahmed.3367.test@hotmail.com,"House 81, Street 50, Gulberg III",Sialkot,PK,14300,PKR,PostEx CN 17272461
+TEST-PK-104023,delivered_paid,2025-11-14T17:08:30Z,03018441212,,"House 61, Street 59, Gulshan-e-Iqbal Block 13",Islamabad,PK,1700,PKR,M&P CN 69136802
+TEST-PK-101852,delivered_paid,2025-11-14T19:51:30Z,03335060159,rashid.9750.test@outlook.com,"House 287, Street 26, Johar Town",Quetta,PK,4500,PKR,PostEx CN 55942329
+TEST-PK-101104,chargeback,2025-11-15T02:35:30Z,03017731925,,"House 205, Street 41, Bahria Town",Islamabad,PK,8600,PKR,Trax CN 55258307
+TEST-AE-100851,delivered_paid,2025-11-15T05:04:30Z,0557925521,,"Flat 2240, Building 7, Al Rashidiya",Sharjah,AE,830,AED,Aramex CN 33476337
+TEST-PK-102868,delivered_paid,2025-11-15T06:48:30Z,03007954571,,"House 374, Street 58, Clifton Block 4",Quetta,PK,22100,PKR,M&P CN 24473520
+TEST-AE-100780,fake_address,2025-11-15T09:03:30Z,0504044448,,"Flat 1776, Building 36, Al Rashidiya",Abu Dhabi,AE,150,AED,Shipa CN 26422036
+TEST-AE-104262,refused_at_door,2025-11-15T09:17:30Z,0509797163,,,Sharjah,AE,400,AED,Quiqup CN 62202116
+TEST-PK-101821,delivered_paid,2025-11-15T10:42:30Z,03336103089,maryam.3352.test@outlook.com,,Quetta,PK,22800,PKR,PostEx CN 69958015
+TEST-AE-102430,delivered_paid,2025-11-15T13:08:30Z,0585402369,fatima.6615.test@gmail.com,"Flat 2341, Building 23, Al Khalidiya",Fujairah,AE,970,AED,Aramex CN 55976832
+TEST-PK-102164,return_abuse,2025-11-15T15:04:30Z,03014662838,ali.5477.test@outlook.com,"House 24, Street 39, Satellite Town",Rawalpindi,PK,20500,PKR,BlueEx CN 12251892
+TEST-PK-104284,delivered_paid,2025-11-15T16:07:30Z,03338544782,,,Abbottabad,PK,13400,PKR,BlueEx CN 36821337
+TEST-PK-100974,delivered_paid,2025-11-15T18:41:30Z,03019271989,ayesha.8303.test@outlook.com,"House 448, Street 2, Bahria Town",Abbottabad,PK,19000,PKR,TCS CN 27945681
+TEST-AE-101155,unreachable,2025-11-15T20:47:30Z,0565123867,ayesha.6208.test@hotmail.com,"Flat 1825, Building 78, International City",Dubai,AE,1320,AED,Emirates Post CN 14887807
+TEST-PK-102985,delivered_paid,2025-11-15T21:20:30Z,03017392477,,"House 350, Street 29, Gulberg III",Gujranwala,PK,19800,PKR,M&P CN 52225148
+TEST-PK-101084,delivered_paid,2025-11-15T23:55:30Z,03009004640,,,Sialkot,PK,14600,PKR,Leopards CN 20664660
+TEST-AE-100749,delivered_paid,2025-11-16T03:28:30Z,0523402347,bilal.591.test@hotmail.com,"Flat 1116, Building 16, International City",Al Ain,AE,240,AED,Fetchr CN 46792545
+TEST-PK-100672,refused_at_door,2025-11-16T03:42:30Z,03018924164,,,Rawalpindi,PK,21900,PKR,PostEx CN 82322880
+TEST-AE-101645,return_abuse,2025-11-16T04:32:30Z,0528344419,hina.8655.test@hotmail.com,,Ajman,AE,1200,AED,Emirates Post CN 31884049
+TEST-PK-101034,unreachable,2025-11-16T09:54:30Z,03006494857,,"House 373, Street 49, Gulberg III",Sialkot,PK,5300,PKR,PostEx CN 86352659
+TEST-PK-103517,delivered_paid,2025-11-16T11:30:30Z,03458374149,imran.7027.test@outlook.com,,Peshawar,PK,16400,PKR,Leopards CN 84489972
+TEST-PK-104778,delivered_paid,2025-11-16T13:34:30Z,03002978506,maryam.5390.test@hotmail.com,"House 48, Street 5, F-7 Markaz",Faisalabad,PK,14300,PKR,TCS CN 16677693
+TEST-PK-103332,refused_at_door,2025-11-16T15:11:30Z,03336754521,hamza.5828.test@gmail.com,,Rawalpindi,PK,5300,PKR,Leopards CN 91737769
+TEST-AE-101441,delivered_paid,2025-11-16T15:47:30Z,0521002011,,,Abu Dhabi,AE,310,AED,Aramex CN 80395543
+TEST-PK-104571,delivered_paid,2025-11-16T22:26:30Z,03336103089,maryam.3352.test@outlook.com,,Quetta,PK,8300,PKR,M&P CN 81798176
+TEST-AE-101290,delivered_paid,2025-11-16T22:39:30Z,0505590344,ayesha.691.test@outlook.com,"Flat 709, Building 76, International City",Al Ain,AE,260,AED,Aramex CN 74385386
+TEST-AE-103628,delivered_paid,2025-11-17T00:50:30Z,0504752201,,"Flat 2246, Building 35, JLT Cluster D",Fujairah,AE,460,AED,Emirates Post CN 75644155
+TEST-AE-104236,delivered_paid,2025-11-17T02:43:30Z,0553122083,bilal.4907.test@gmail.com,"Flat 692, Building 76, Mussafah Shabiya 10",Sharjah,AE,820,AED,Aramex CN 11507013
+TEST-AE-100803,delivered_paid,2025-11-17T07:11:30Z,0553436898,,,Dubai,AE,1430,AED,Quiqup CN 71074666
+TEST-PK-100109,delivered_paid,2025-11-17T23:26:30Z,03006094057,omar.2634.test@gmail.com,"House 354, Street 27, Satellite Town",Sialkot,PK,12400,PKR,TCS CN 69281052
+TEST-PK-102193,delivered_paid,2025-11-18T00:25:30Z,03014278107,sana.6230.test@gmail.com,"House 310, Street 8, G-11/2",Multan,PK,24200,PKR,TCS CN 91499128
+TEST-PK-103526,delivered_paid,2025-11-18T02:11:30Z,03457633755,,"House 107, Street 43, Clifton Block 4",Hyderabad,PK,23300,PKR,M&P CN 84972565
+TEST-PK-103900,delivered_paid,2025-11-18T02:20:30Z,03004559328,,,Faisalabad,PK,24900,PKR,M&P CN 28975569
+TEST-AE-104539,delivered_paid,2025-11-18T04:02:30Z,0582139608,,,Fujairah,AE,180,AED,Aramex CN 21310351
+TEST-AE-101020,refused_at_door,2025-11-18T05:07:30Z,0505005431,yousuf.6039.test@gmail.com,,Ajman,AE,1500,AED,Quiqup CN 93085717
+TEST-PK-104753,delivered_paid,2025-11-18T05:15:30Z,03459773849,,"House 121, Street 27, Gulshan-e-Iqbal Block 13",Multan,PK,9000,PKR,BlueEx CN 75798141
+TEST-PK-101445,delivered_paid,2025-11-18T06:28:30Z,03002978506,maryam.5390.test@hotmail.com,"House 48, Street 5, F-7 Markaz",Faisalabad,PK,4200,PKR,BlueEx CN 33381461
+TEST-PK-102824,refused_at_door,2025-11-18T06:42:30Z,03337250138,,"House 6, Street 28, Gulshan-e-Iqbal Block 13",Karachi,PK,24400,PKR,Leopards CN 49354800
+TEST-PK-104744,unreachable,2025-11-18T07:24:30Z,03338450129,,,Multan,PK,3700,PKR,BlueEx CN 65773688
+TEST-PK-103990,delivered_paid,2025-11-18T08:11:30Z,03333408284,sana.4579.test@yahoo.com,"House 288, Street 10, Hayatabad Phase 3",Lahore,PK,8300,PKR,TCS CN 60772855
+TEST-PK-104049,delivered_paid,2025-11-18T09:10:30Z,03012338592,,"House 351, Street 22, Gulberg III",Gujranwala,PK,11100,PKR,M&P CN 82576701
+TEST-PK-104863,delivered_paid,2025-11-18T09:16:30Z,03332714270,,"House 146, Street 9, Johar Town",Quetta,PK,4500,PKR,BlueEx CN 84304276
+TEST-AE-102624,refused_at_door,2025-11-18T10:12:30Z,0584323278,khalid.7812.test@yahoo.com,,Ajman,AE,260,AED,Fetchr CN 88533128
+TEST-PK-103918,delivered_paid,2025-11-18T11:08:30Z,03332851190,,,Karachi,PK,5100,PKR,Leopards CN 32568199
+TEST-AE-102333,fake_order,2025-11-18T14:19:30Z,0563456658,ayesha.4745.test@gmail.com,"Flat 376, Building 65, JLT Cluster D",Fujairah,AE,130,AED,Shipa CN 18339317
+TEST-PK-100402,delivered_paid,2025-11-18T15:38:30Z,03019393600,sana.1980.test@hotmail.com,,Quetta,PK,17600,PKR,M&P CN 47979802
+TEST-AE-101942,refused_at_door,2025-11-18T15:41:30Z,0569162363,,,Ras Al Khaimah,AE,1400,AED,Shipa CN 27521105
+TEST-AE-102188,delivered_paid,2025-11-18T16:01:30Z,0587264186,,"Flat 2177, Building 45, Al Barsha 1",Ras Al Khaimah,AE,210,AED,Shipa CN 98933960
+TEST-PK-103563,delivered_paid,2025-11-18T20:19:30Z,03005391444,zainab.3189.test@outlook.com,"House 211, Street 16, Bahria Town",Sialkot,PK,5000,PKR,TCS CN 77697728
+TEST-PK-103525,delivered_paid,2025-11-18T21:09:30Z,03457633755,,"House 107, Street 43, Clifton Block 4",Hyderabad,PK,12000,PKR,Leopards CN 51878703
+TEST-PK-102669,delivered_paid,2025-11-18T23:38:30Z,03332673815,,"House 145, Street 53, Bahria Town",Peshawar,PK,19300,PKR,Trax CN 39636335
+TEST-PK-100528,refused_at_door,2025-11-19T05:39:30Z,03019686606,bilal.6811.test@gmail.com,"House 401, Street 51, Satellite Town",Peshawar,PK,19600,PKR,BlueEx CN 82033353
+TEST-AE-102269,delivered_paid,2025-11-19T06:27:30Z,0507684498,noor.3479.test@hotmail.com,"Flat 218, Building 6, Al Nahda 2",Fujairah,AE,1270,AED,Emirates Post CN 42553248
+TEST-PK-104327,return_abuse,2025-11-19T07:13:30Z,03217307292,ahmed.3271.test@gmail.com,"House 371, Street 36, Johar Town",Karachi,PK,13800,PKR,M&P CN 16440532
+TEST-PK-100303,delivered_paid,2025-11-19T07:37:30Z,03459976572,,"House 301, Street 60, F-7 Markaz",Abbottabad,PK,23900,PKR,M&P CN 43780161
+TEST-PK-101784,delivered_paid,2025-11-19T08:06:30Z,03001255639,,,Faisalabad,PK,15400,PKR,TCS CN 40728679
+TEST-AE-103965,refused_at_door,2025-11-19T09:24:30Z,0555989604,noor.5833.test@outlook.com,"Flat 172, Building 19, Al Barsha 1",Dubai,AE,680,AED,Emirates Post CN 64431676
+TEST-PK-102773,delivered_paid,2025-11-19T10:00:30Z,03014648230,fatima.1041.test@hotmail.com,,Islamabad,PK,11700,PKR,Leopards CN 33840045
+TEST-PK-101025,refused_at_door,2025-11-19T15:34:30Z,03212482980,,"House 332, Street 36, Model Town",Multan,PK,21600,PKR,PostEx CN 15636936
+TEST-PK-101525,refused_at_door,2025-11-19T16:05:30Z,03451450586,,,Multan,PK,19000,PKR,Trax CN 75859865
+TEST-AE-100561,refused_at_door,2025-11-19T16:31:30Z,0553135652,khalid.2354.test@gmail.com,,Ras Al Khaimah,AE,850,AED,Aramex CN 49710340
+TEST-PK-104683,delivered_paid,2025-11-19T17:15:30Z,03012433841,imran.2283.test@outlook.com,"House 219, Street 32, DHA Phase 5",Lahore,PK,5600,PKR,PostEx CN 59404187
+TEST-PK-104567,delivered_paid,2025-11-19T23:37:30Z,03007201197,zainab.9490.test@yahoo.com,,Islamabad,PK,23500,PKR,Trax CN 83177076
+TEST-PK-104433,unreachable,2025-11-19T23:41:30Z,03005378832,,,Gujranwala,PK,13700,PKR,Leopards CN 76145572
+TEST-PK-102734,delivered_paid,2025-11-20T01:27:30Z,03451528111,sana.9407.test@hotmail.com,"House 85, Street 49, DHA Phase 5",Abbottabad,PK,21700,PKR,Trax CN 66400926
+TEST-PK-101337,delivered_paid,2025-11-20T01:35:30Z,03331809771,,,Hyderabad,PK,24300,PKR,M&P CN 31350030
+TEST-PK-103321,refused_at_door,2025-11-20T03:18:30Z,03004559328,,,Faisalabad,PK,17700,PKR,M&P CN 31034358
+TEST-PK-102116,delivered_paid,2025-11-20T05:39:30Z,03013388577,faisal.6465.test@gmail.com,,Faisalabad,PK,19800,PKR,PostEx CN 83610898
+TEST-AE-103731,delivered_paid,2025-11-20T06:09:30Z,0566414354,zainab.5505.test@outlook.com,,Sharjah,AE,1110,AED,Quiqup CN 39138140
+TEST-PK-103897,unreachable,2025-11-20T07:33:30Z,03004559328,,,Faisalabad,PK,8800,PKR,PostEx CN 88111718
+TEST-AE-102213,delivered_paid,2025-11-20T08:57:30Z,0553549240,,,Ras Al Khaimah,AE,130,AED,Emirates Post CN 36146828
+TEST-PK-100973,delivered_paid,2025-11-20T09:47:30Z,03007563181,,"House 277, Street 14, G-11/2",Rawalpindi,PK,11000,PKR,M&P CN 37535305
+TEST-PK-103756,refused_at_door,2025-11-20T10:50:30Z,03011956393,hina.2020.test@gmail.com,"House 347, Street 50, Clifton Block 4",Quetta,PK,17800,PKR,PostEx CN 18222213
+TEST-PK-100726,refused_at_door,2025-11-20T12:08:30Z,03219707698,,"House 23, Street 15, Bahria Town",Islamabad,PK,3800,PKR,Trax CN 41792933
+TEST-PK-103075,chargeback,2025-11-20T15:04:30Z,03014504860,,"House 64, Street 17, Gulberg III",Karachi,PK,22800,PKR,TCS CN 66903505
+TEST-AE-104624,refused_at_door,2025-11-20T16:23:30Z,0523105242,,,Abu Dhabi,AE,660,AED,Quiqup CN 59126678
+TEST-PK-102552,delivered_paid,2025-11-20T18:41:30Z,03333093646,,,Lahore,PK,10600,PKR,BlueEx CN 37071090
+TEST-PK-103889,delivered_paid,2025-11-20T18:43:30Z,03014256022,fatima.7455.test@hotmail.com,"House 257, Street 53, F-7 Markaz",Multan,PK,5500,PKR,Trax CN 17420365
+TEST-PK-101834,delivered_paid,2025-11-20T18:55:30Z,03339380065,,"House 291, Street 5, Clifton Block 4",Karachi,PK,19000,PKR,Trax CN 70899376
+TEST-PK-100643,delivered_paid,2025-11-20T19:51:30Z,03459164273,,,Multan,PK,16600,PKR,TCS CN 83594415
+TEST-PK-101493,delivered_paid,2025-11-20T20:13:30Z,03339236965,maryam.5446.test@hotmail.com,"House 71, Street 24, F-7 Markaz",Abbottabad,PK,23000,PKR,TCS CN 71106667
+TEST-AE-104266,unreachable,2025-11-21T00:36:30Z,0553737490,imran.9942.test@outlook.com,"Flat 783, Building 32, JLT Cluster D",Abu Dhabi,AE,820,AED,Emirates Post CN 12919816
+TEST-PK-101073,delivered_paid,2025-11-21T00:38:30Z,03013034482,ali.4214.test@gmail.com,"House 337, Street 34, Clifton Block 4",Quetta,PK,9400,PKR,Leopards CN 18068320
+TEST-PK-104954,delivered_paid,2025-11-21T01:01:30Z,03002178607,,"House 48, Street 2, Bahria Town",Sialkot,PK,5700,PKR,TCS CN 69870599
+TEST-PK-102160,delivered_paid,2025-11-21T03:16:30Z,03334639443,,"House 249, Street 29, Gulberg III",Karachi,PK,6700,PKR,PostEx CN 96729188
+TEST-AE-103885,fake_address,2025-11-21T04:34:30Z,0589997544,,,Abu Dhabi,AE,80,AED,Shipa CN 67035489
+TEST-PK-102727,return_abuse,2025-11-21T06:27:30Z,03011176361,,,Lahore,PK,17800,PKR,PostEx CN 61965011
+TEST-PK-102241,delivered_paid,2025-11-21T07:02:30Z,03212914112,khalid.3824.test@gmail.com,"House 16, Street 26, Gulshan-e-Iqbal Block 13",Lahore,PK,14600,PKR,Trax CN 74994496
+TEST-PK-103404,refused_at_door,2025-11-21T07:41:30Z,03337157314,imran.5280.test@gmail.com,,Lahore,PK,13600,PKR,Leopards CN 74723917
+TEST-AE-103042,delivered_paid,2025-11-21T08:52:30Z,0552800244,,"Flat 817, Building 78, JLT Cluster D",Al Ain,AE,970,AED,Shipa CN 32200236
+TEST-PK-103166,refused_at_door,2025-11-21T09:45:30Z,03458746647,,"House 313, Street 41, G-11/2",Gujranwala,PK,12500,PKR,M&P CN 88670774
+TEST-AE-100101,delivered_paid,2025-11-21T10:01:30Z,0506585063,usman.6900.test@yahoo.com,"Flat 1045, Building 39, International City",Sharjah,AE,1170,AED,Emirates Post CN 57482436
+TEST-PK-102991,delivered_paid,2025-11-21T11:47:30Z,03211144048,,,Lahore,PK,23400,PKR,BlueEx CN 90440280
+TEST-AE-103608,delivered_paid,2025-11-21T12:41:30Z,0521915665,,,Ras Al Khaimah,AE,700,AED,Shipa CN 62189785
+TEST-PK-103687,delivered_paid,2025-11-21T13:38:30Z,03014496309,aisha.9666.test@gmail.com,,Sialkot,PK,13200,PKR,Leopards CN 87776952
+TEST-PK-103436,delivered_paid,2025-11-21T13:48:30Z,03211199544,,,Quetta,PK,5900,PKR,Leopards CN 78111504
+TEST-PK-101928,delivered_paid,2025-11-21T14:00:30Z,03458163331,,"House 117, Street 33, Cantt",Sialkot,PK,16900,PKR,BlueEx CN 76974830
+TEST-PK-102344,refused_at_door,2025-11-21T17:18:30Z,03018924164,,,Rawalpindi,PK,22000,PKR,PostEx CN 24886713
+TEST-AE-100747,delivered_paid,2025-11-21T19:43:30Z,0523402347,bilal.591.test@hotmail.com,"Flat 1116, Building 16, International City",Al Ain,AE,50,AED,Quiqup CN 94095337
+TEST-PK-100331,unreachable,2025-11-21T20:02:30Z,03213717898,,"House 107, Street 19, Clifton Block 4",Quetta,PK,13000,PKR,Leopards CN 86133663
+TEST-PK-104689,unreachable,2025-11-21T20:45:30Z,03013527652,,"House 109, Street 25, Cantt",Lahore,PK,11100,PKR,TCS CN 48875138
+TEST-PK-100514,delivered_paid,2025-11-21T22:31:30Z,03339964859,sana.4871.test@gmail.com,,Rawalpindi,PK,8900,PKR,Trax CN 96276797
+TEST-PK-100044,delivered_paid,2025-11-22T00:33:30Z,03008598250,,"House 362, Street 15, G-11/2",Rawalpindi,PK,9000,PKR,BlueEx CN 60966611
+TEST-PK-102180,refused_at_door,2025-11-22T02:00:30Z,03211830672,,"House 309, Street 51, Clifton Block 4",Abbottabad,PK,23800,PKR,M&P CN 46129755
+TEST-PK-101667,delivered_paid,2025-11-22T05:41:30Z,03454163652,ahmed.4014.test@hotmail.com,"House 354, Street 55, Gulberg III",Quetta,PK,2600,PKR,Trax CN 92257766
+TEST-PK-100977,delivered_paid,2025-11-22T05:45:30Z,03019271989,ayesha.8303.test@outlook.com,"House 448, Street 2, Bahria Town",Abbottabad,PK,8900,PKR,TCS CN 61424743
+TEST-PK-101767,refused_at_door,2025-11-22T06:17:30Z,03212764243,,,Lahore,PK,17100,PKR,M&P CN 64147321
+TEST-PK-104383,delivered_paid,2025-11-22T06:55:30Z,03019686606,bilal.6811.test@gmail.com,"House 401, Street 51, Satellite Town",Peshawar,PK,22200,PKR,PostEx CN 29494527
+TEST-PK-101292,delivered_paid,2025-11-22T07:11:30Z,03457225842,,"House 423, Street 34, Cantt",Abbottabad,PK,6700,PKR,Trax CN 59692141
+TEST-PK-102695,delivered_paid,2025-11-22T07:13:30Z,03333093646,,,Lahore,PK,4900,PKR,PostEx CN 22040038
+TEST-PK-100067,refused_at_door,2025-11-22T08:10:30Z,03457725219,,,Hyderabad,PK,15400,PKR,TCS CN 58393564
+TEST-PK-100302,delivered_paid,2025-11-22T09:15:30Z,03459976572,,"House 301, Street 60, F-7 Markaz",Abbottabad,PK,8400,PKR,Trax CN 10309052
+TEST-PK-101109,delivered_paid,2025-11-22T09:18:30Z,03454492767,noor.339.test@yahoo.com,,Rawalpindi,PK,5400,PKR,Leopards CN 52735880
+TEST-PK-102204,unreachable,2025-11-22T10:09:30Z,03339550104,,"House 191, Street 30, F-7 Markaz",Multan,PK,2100,PKR,BlueEx CN 33514218
+TEST-PK-102222,refused_at_door,2025-11-22T10:13:30Z,03019865119,imran.2252.test@outlook.com,"House 195, Street 16, Cantt",Rawalpindi,PK,16700,PKR,TCS CN 19968214
+TEST-AE-100495,delivered_paid,2025-11-22T10:29:30Z,0504797617,hina.9807.test@outlook.com,,Fujairah,AE,460,AED,Fetchr CN 53805847
+TEST-PK-103120,delivered_paid,2025-11-22T10:38:30Z,03213250731,hamza.4641.test@gmail.com,,Gujranwala,PK,16000,PKR,M&P CN 39121720
+TEST-PK-101924,delivered_paid,2025-11-22T13:19:30Z,03458163331,,"House 117, Street 33, Cantt",Sialkot,PK,20800,PKR,BlueEx CN 61661130
+TEST-PK-100408,delivered_paid,2025-11-22T18:11:30Z,03013796603,,"House 448, Street 55, DHA Phase 5",Faisalabad,PK,20200,PKR,BlueEx CN 78469973
+TEST-AE-104521,delivered_paid,2025-11-22T18:24:30Z,0508459763,,,Ajman,AE,1120,AED,Quiqup CN 89541176
+TEST-PK-100457,delivered_paid,2025-11-22T19:54:30Z,03214922273,,"House 446, Street 32, Clifton Block 4",Hyderabad,PK,10300,PKR,Trax CN 41653556
+TEST-PK-101516,refused_at_door,2025-11-22T20:13:30Z,03011087044,,,Islamabad,PK,6000,PKR,PostEx CN 16843575
+TEST-PK-102011,refused_at_door,2025-11-22T20:28:30Z,03459811833,yousuf.9832.test@outlook.com,"House 163, Street 31, G-11/2",Islamabad,PK,4100,PKR,M&P CN 82769964
+TEST-PK-100019,delivered_paid,2025-11-22T21:45:30Z,03009834849,,,Quetta,PK,10100,PKR,Trax CN 93930694
+TEST-AE-102147,delivered_paid,2025-11-22T22:20:30Z,0588130165,aisha.1392.test@hotmail.com,"Flat 740, Building 71, Mussafah Shabiya 10",Ajman,AE,1220,AED,Emirates Post CN 18806347
+TEST-PK-101434,refused_at_door,2025-11-22T22:27:30Z,03452510830,aisha.744.test@gmail.com,"House 349, Street 52, Hayatabad Phase 3",Karachi,PK,12200,PKR,BlueEx CN 57676370
+TEST-AE-104019,return_abuse,2025-11-23T01:16:30Z,0569840991,,,Dubai,AE,610,AED,Shipa CN 57075887
+TEST-PK-102356,unreachable,2025-11-23T04:04:30Z,03219707698,,"House 23, Street 15, Bahria Town",Islamabad,PK,20200,PKR,PostEx CN 52699289
+TEST-PK-100295,refused_at_door,2025-11-23T04:49:30Z,03333510228,,"House 8, Street 23, Cantt",Hyderabad,PK,16900,PKR,BlueEx CN 85405928
+TEST-PK-102639,delivered_paid,2025-11-23T05:30:30Z,03211212236,,"House 101, Street 5, Hayatabad Phase 3",Islamabad,PK,12800,PKR,PostEx CN 46358749
+TEST-AE-103554,refused_at_door,2025-11-23T06:25:30Z,0552817673,,"Flat 354, Building 80, JLT Cluster D",Ajman,AE,50,AED,Emirates Post CN 51033574
+TEST-AE-100446,delivered_paid,2025-11-23T09:17:30Z,0558958745,,,Ras Al Khaimah,AE,470,AED,Quiqup CN 59354138
+TEST-AE-103884,refused_at_door,2025-11-23T10:10:30Z,0589997544,,,Abu Dhabi,AE,700,AED,Aramex CN 91454497
+TEST-AE-100239,delivered_paid,2025-11-23T10:25:30Z,0525163148,,,Ras Al Khaimah,AE,300,AED,Fetchr CN 89711082
+TEST-PK-103875,fake_address,2025-11-23T10:36:30Z,03456646960,omar.2101.test@outlook.com,"House 302, Street 24, Cantt",Faisalabad,PK,7800,PKR,Trax CN 29875655
+TEST-PK-101297,delivered_paid,2025-11-23T11:01:30Z,03218769780,sara.811.test@outlook.com,"House 424, Street 17, Cantt",Sialkot,PK,9300,PKR,Trax CN 51632214
+TEST-AE-102976,delivered_paid,2025-11-23T11:27:30Z,0501336109,,,Dubai,AE,890,AED,Aramex CN 12005437
+TEST-AE-101466,unreachable,2025-11-23T13:06:30Z,0563411435,,"Flat 815, Building 3, Al Nahda 2",Fujairah,AE,480,AED,Aramex CN 63390050
+TEST-AE-102741,delivered_paid,2025-11-23T13:51:30Z,0558182510,,"Flat 2065, Building 3, Muwaileh",Ajman,AE,700,AED,Aramex CN 61701355
+TEST-PK-103027,refused_at_door,2025-11-23T14:09:30Z,03457725219,,,Hyderabad,PK,8300,PKR,TCS CN 50753166
+TEST-AE-103468,delivered_paid,2025-11-23T18:11:30Z,0526252195,,"Flat 216, Building 19, Muwaileh",Abu Dhabi,AE,660,AED,Fetchr CN 26480517
+TEST-PK-101335,delivered_paid,2025-11-23T18:44:30Z,03331809771,,,Hyderabad,PK,22800,PKR,BlueEx CN 65557151
+TEST-PK-104468,delivered_paid,2025-11-23T19:45:30Z,03008905128,,"House 438, Street 25, Satellite Town",Quetta,PK,21800,PKR,PostEx CN 35574223
+TEST-AE-101838,delivered_paid,2025-11-23T20:25:30Z,0561001165,,,Dubai,AE,1480,AED,Aramex CN 96910260
+TEST-PK-102081,return_abuse,2025-11-23T21:23:30Z,03338752613,,,Rawalpindi,PK,11000,PKR,M&P CN 38822010
+TEST-PK-104138,delivered_paid,2025-11-23T22:01:30Z,03008020517,,,Hyderabad,PK,23100,PKR,Trax CN 69980598
+TEST-PK-104139,refused_at_door,2025-11-23T23:43:30Z,03008020517,,,Hyderabad,PK,17000,PKR,Leopards CN 97435201
+TEST-PK-101867,delivered_paid,2025-11-23T23:57:30Z,03018297862,,,Gujranwala,PK,19100,PKR,Trax CN 48376502
+TEST-PK-101677,return_abuse,2025-11-24T01:39:30Z,03455562515,,"House 207, Street 44, Gulshan-e-Iqbal Block 13",Sialkot,PK,6300,PKR,BlueEx CN 96110881
+TEST-PK-104252,delivered_paid,2025-11-24T04:31:30Z,03009714584,sara.1093.test@gmail.com,,Sialkot,PK,3800,PKR,TCS CN 95226474
+TEST-PK-100192,chargeback,2025-11-24T08:09:30Z,03451786966,,"House 446, Street 48, Gulberg III",Karachi,PK,10500,PKR,TCS CN 39297021
+TEST-AE-101490,unreachable,2025-11-24T08:50:30Z,0562635183,bilal.5881.test@hotmail.com,"Flat 1838, Building 24, Al Majaz 3",Dubai,AE,580,AED,Aramex CN 42802378
+TEST-PK-102105,delivered_paid,2025-11-24T14:15:30Z,03212471535,,"House 375, Street 35, Gulshan-e-Iqbal Block 13",Gujranwala,PK,13300,PKR,Trax CN 50807539
+TEST-AE-100148,refused_at_door,2025-11-24T16:22:30Z,0583687526,noor.7702.test@hotmail.com,,Fujairah,AE,1220,AED,Aramex CN 55058941
+TEST-PK-102497,delivered_paid,2025-11-24T17:30:30Z,03454817433,,"House 108, Street 30, Johar Town",Islamabad,PK,8800,PKR,Leopards CN 63165157
+TEST-PK-101271,delivered_paid,2025-11-24T19:31:30Z,03338544782,,,Abbottabad,PK,12800,PKR,TCS CN 40455828
+TEST-AE-102617,refused_at_door,2025-11-24T20:03:30Z,0581607998,,,Ras Al Khaimah,AE,1460,AED,Quiqup CN 64176687
+TEST-PK-104290,fake_address,2025-11-24T21:24:30Z,03212811782,,"House 224, Street 19, Cantt",Faisalabad,PK,2300,PKR,BlueEx CN 73378324
+TEST-AE-103933,delivered_paid,2025-11-24T21:27:30Z,0554904105,,"Flat 539, Building 26, JLT Cluster D",Sharjah,AE,1280,AED,Quiqup CN 58854558
+TEST-PK-104384,fake_address,2025-11-25T00:54:30Z,03019686606,bilal.6811.test@gmail.com,"House 401, Street 51, Satellite Town",Peshawar,PK,5300,PKR,TCS CN 94898329
+TEST-PK-101143,delivered_paid,2025-11-25T02:19:30Z,03016785962,,,Peshawar,PK,17700,PKR,TCS CN 93890775
+TEST-PK-100715,refused_at_door,2025-11-25T04:39:30Z,03331082759,zainab.7388.test@gmail.com,"House 409, Street 2, Model Town",Rawalpindi,PK,7000,PKR,TCS CN 28613446
+TEST-AE-104555,delivered_paid,2025-11-25T05:18:30Z,0559645975,,,Fujairah,AE,450,AED,Emirates Post CN 48501388
+TEST-PK-101427,delivered_paid,2025-11-25T06:49:30Z,03006553752,,"House 145, Street 46, DHA Phase 5",Gujranwala,PK,4000,PKR,Leopards CN 77548654
+TEST-AE-102095,delivered_paid,2025-11-25T07:23:30Z,0521915665,,,Ras Al Khaimah,AE,1030,AED,Quiqup CN 62286821
+TEST-PK-104396,delivered_paid,2025-11-25T08:37:30Z,03455265109,,,Peshawar,PK,3200,PKR,M&P CN 96366674
+TEST-PK-103597,fake_address,2025-11-25T09:16:30Z,03005990129,ali.4143.test@outlook.com,"House 231, Street 18, Clifton Block 4",Sialkot,PK,5000,PKR,Trax CN 29098602
+TEST-PK-103297,delivered_paid,2025-11-25T14:13:30Z,03007226408,,"House 151, Street 12, Satellite Town",Rawalpindi,PK,4500,PKR,BlueEx CN 29527662
+TEST-PK-103872,delivered_paid,2025-11-25T17:16:30Z,03211238741,sara.5409.test@gmail.com,"House 319, Street 42, Johar Town",Gujranwala,PK,1900,PKR,PostEx CN 91999365
+TEST-PK-101444,delivered_paid,2025-11-25T21:09:30Z,03002978506,maryam.5390.test@hotmail.com,"House 48, Street 5, F-7 Markaz",Faisalabad,PK,24600,PKR,Leopards CN 35045295
+TEST-PK-104904,delivered_paid,2025-11-25T23:43:30Z,03212303184,sana.2128.test@yahoo.com,"House 303, Street 44, G-11/2",Gujranwala,PK,16300,PKR,M&P CN 98042981
+TEST-PK-102823,refused_at_door,2025-11-26T00:23:30Z,03337250138,,"House 6, Street 28, Gulshan-e-Iqbal Block 13",Karachi,PK,6900,PKR,Leopards CN 46358419
+TEST-PK-100622,fake_address,2025-11-26T01:34:30Z,03214480596,,,Peshawar,PK,10800,PKR,Trax CN 95900952
+TEST-AE-101247,delivered_paid,2025-11-26T02:10:30Z,0587850302,,"Flat 2404, Building 7, Al Nahda 2",Al Ain,AE,630,AED,Aramex CN 30476022
+TEST-PK-102386,delivered_paid,2025-11-26T03:28:30Z,03459164273,,,Multan,PK,16200,PKR,BlueEx CN 96148632
+TEST-PK-101110,refused_at_door,2025-11-26T04:57:30Z,03452510830,aisha.744.test@gmail.com,"House 349, Street 52, Hayatabad Phase 3",Karachi,PK,17900,PKR,M&P CN 46372386
+TEST-AE-103564,unreachable,2025-11-26T10:29:30Z,0525842270,,"Flat 106, Building 1, Al Nahda 2",Dubai,AE,1020,AED,Quiqup CN 69821672
+TEST-PK-103938,delivered_paid,2025-11-26T11:42:30Z,03001281991,,,Faisalabad,PK,9700,PKR,M&P CN 81194711
+TEST-AE-104499,unreachable,2025-11-26T12:09:30Z,0506602606,,"Flat 1291, Building 79, Al Nahda 2",Sharjah,AE,900,AED,Quiqup CN 95608373
+TEST-AE-102063,delivered_paid,2025-11-26T12:30:30Z,0561947017,,,Dubai,AE,620,AED,Shipa CN 76926293
+TEST-AE-100779,fake_order,2025-11-26T14:40:30Z,0504044448,,"Flat 1776, Building 36, Al Rashidiya",Abu Dhabi,AE,50,AED,Aramex CN 69059294
+TEST-AE-104487,fake_address,2025-11-26T15:13:30Z,0504044448,,"Flat 1776, Building 36, Al Rashidiya",Abu Dhabi,AE,1150,AED,Aramex CN 88441269
+TEST-AE-101844,delivered_paid,2025-11-26T15:44:30Z,0558182510,,"Flat 2065, Building 3, Muwaileh",Ajman,AE,1010,AED,Fetchr CN 34357052
+TEST-PK-102388,delivered_paid,2025-11-26T16:24:30Z,03336500595,,"House 427, Street 4, Johar Town",Hyderabad,PK,21400,PKR,PostEx CN 24681155
+TEST-PK-104905,delivered_paid,2025-11-26T18:52:30Z,03212303184,sana.2128.test@yahoo.com,"House 303, Street 44, G-11/2",Gujranwala,PK,4900,PKR,M&P CN 84097509
+TEST-AE-103503,delivered_paid,2025-11-26T22:01:30Z,0506602606,,"Flat 1291, Building 79, Al Nahda 2",Sharjah,AE,670,AED,Quiqup CN 43950935
+TEST-PK-101927,delivered_paid,2025-11-26T22:36:30Z,03458163331,,"House 117, Street 33, Cantt",Sialkot,PK,24800,PKR,Leopards CN 61754480
+TEST-AE-101634,delivered_paid,2025-11-27T00:07:30Z,0502985171,,"Flat 1227, Building 27, Al Barsha 1",Ras Al Khaimah,AE,630,AED,Fetchr CN 23011890
+TEST-AE-103071,delivered_paid,2025-11-27T01:13:30Z,0525354856,,,Ajman,AE,320,AED,Emirates Post CN 52355292
+TEST-PK-100374,delivered_paid,2025-11-27T01:34:30Z,03455870101,,"House 300, Street 12, F-7 Markaz",Peshawar,PK,21900,PKR,BlueEx CN 67222437
+TEST-AE-100415,delivered_paid,2025-11-27T02:49:30Z,0559651008,,,Abu Dhabi,AE,620,AED,Emirates Post CN 96046290
+TEST-PK-102647,delivered_paid,2025-11-27T03:05:30Z,03011370880,,"House 119, Street 37, F-7 Markaz",Multan,PK,10100,PKR,PostEx CN 48054961
+TEST-PK-101826,unreachable,2025-11-27T03:36:30Z,03017392477,,"House 350, Street 29, Gulberg III",Gujranwala,PK,18400,PKR,Trax CN 44276049
+TEST-AE-101202,delivered_paid,2025-11-27T04:38:30Z,0589071099,,"Flat 739, Building 86, International City",Abu Dhabi,AE,630,AED,Fetchr CN 79259858
+TEST-AE-103085,delivered_paid,2025-11-27T06:29:30Z,0551863550,,,Dubai,AE,750,AED,Aramex CN 62134377
+TEST-PK-102972,refused_at_door,2025-11-27T20:05:30Z,03457593462,,"House 81, Street 60, Cantt",Peshawar,PK,23200,PKR,Trax CN 18431988
+TEST-AE-101158,return_abuse,2025-11-27T20:38:30Z,0565123867,ayesha.6208.test@hotmail.com,"Flat 1825, Building 78, International City",Dubai,AE,660,AED,Shipa CN 36884483
+TEST-PK-104861,delivered_paid,2025-11-27T20:55:30Z,03014496309,aisha.9666.test@gmail.com,,Sialkot,PK,15400,PKR,PostEx CN 26696885
+TEST-PK-102040,delivered_paid,2025-11-27T22:53:30Z,03339592903,,,Multan,PK,7400,PKR,Leopards CN 79064220
+TEST-PK-102856,fake_address,2025-11-28T02:08:30Z,03216437975,,,Rawalpindi,PK,18600,PKR,M&P CN 52876918
+TEST-PK-101978,delivered_paid,2025-11-28T03:16:30Z,03019024072,usman.6318.test@yahoo.com,,Hyderabad,PK,20000,PKR,BlueEx CN 61493389
+TEST-PK-104256,delivered_paid,2025-11-28T03:32:30Z,03012437908,hina.3868.test@hotmail.com,"House 124, Street 11, Clifton Block 4",Gujranwala,PK,10100,PKR,BlueEx CN 36883569
+TEST-PK-103455,delivered_paid,2025-11-28T03:56:30Z,03338782462,khalid.7456.test@outlook.com,"House 376, Street 16, Model Town",Quetta,PK,2800,PKR,TCS CN 55576931
+TEST-AE-100364,delivered_paid,2025-11-28T04:57:30Z,0559645975,,,Fujairah,AE,1050,AED,Quiqup CN 38558500
+TEST-AE-101842,delivered_paid,2025-11-28T06:46:30Z,0558182510,,"Flat 2065, Building 3, Muwaileh",Ajman,AE,380,AED,Shipa CN 66691686
+TEST-PK-101179,delivered_paid,2025-11-28T06:52:30Z,03007663578,omar.1617.test@gmail.com,,Karachi,PK,16000,PKR,Leopards CN 87823356
+TEST-AE-104619,refused_at_door,2025-11-28T13:12:30Z,0523105242,,,Abu Dhabi,AE,420,AED,Quiqup CN 52137089
+TEST-PK-100797,delivered_paid,2025-11-28T13:58:30Z,03214558640,,"House 124, Street 38, Hayatabad Phase 3",Islamabad,PK,12200,PKR,TCS CN 26286393
+TEST-AE-103613,delivered_paid,2025-11-28T14:08:30Z,0505460452,sara.2098.test@yahoo.com,,Al Ain,AE,460,AED,Quiqup CN 51926208
+TEST-PK-102714,fake_address,2025-11-28T15:37:30Z,03219844380,rashid.5802.test@gmail.com,,Rawalpindi,PK,22700,PKR,Trax CN 29828409
+TEST-AE-100772,fake_order,2025-11-28T16:24:30Z,0504044448,,"Flat 1776, Building 36, Al Rashidiya",Abu Dhabi,AE,1300,AED,Quiqup CN 59302588
+TEST-PK-100817,refused_at_door,2025-11-28T16:27:30Z,03213022519,yousuf.3972.test@hotmail.com,,Abbottabad,PK,1700,PKR,TCS CN 84442305
+TEST-AE-100730,refused_at_door,2025-11-28T17:02:30Z,0509240624,sana.508.test@yahoo.com,"Flat 2090, Building 35, Al Khalidiya",Sharjah,AE,550,AED,Quiqup CN 58029951
+TEST-PK-104029,delivered_paid,2025-11-28T17:57:30Z,03015684178,ali.1586.test@gmail.com,"House 95, Street 30, Hayatabad Phase 3",Hyderabad,PK,22600,PKR,BlueEx CN 19152205
+TEST-PK-102752,delivered_paid,2025-11-28T19:41:30Z,03014239714,,,Gujranwala,PK,16900,PKR,BlueEx CN 81141749
+TEST-PK-102611,delivered_paid,2025-11-28T22:21:30Z,03005391444,zainab.3189.test@outlook.com,"House 211, Street 16, Bahria Town",Sialkot,PK,23400,PKR,PostEx CN 11917495
+TEST-PK-104511,delivered_paid,2025-11-29T02:17:30Z,03334028028,imran.2951.test@hotmail.com,,Rawalpindi,PK,10200,PKR,Trax CN 53796871
+TEST-PK-101111,refused_at_door,2025-11-29T04:27:30Z,03452510830,aisha.744.test@gmail.com,"House 349, Street 52, Hayatabad Phase 3",Karachi,PK,19000,PKR,PostEx CN 72259556
+TEST-PK-104588,delivered_paid,2025-11-29T05:24:30Z,03216001382,usman.8237.test@hotmail.com,"House 433, Street 8, F-7 Markaz",Hyderabad,PK,9900,PKR,PostEx CN 51031654
+TEST-PK-103821,delivered_paid,2025-11-29T06:19:30Z,03339376782,,"House 53, Street 10, Model Town",Islamabad,PK,2900,PKR,BlueEx CN 17507776
+TEST-PK-100278,delivered_paid,2025-11-29T06:37:30Z,03455311309,,"House 132, Street 55, Cantt",Quetta,PK,6300,PKR,BlueEx CN 45325892
+TEST-PK-103139,delivered_paid,2025-11-29T10:58:30Z,03003334766,,"House 32, Street 52, DHA Phase 5",Hyderabad,PK,2400,PKR,Leopards CN 14124137
+TEST-AE-100255,fake_order,2025-11-29T13:01:30Z,0559398134,,"Flat 418, Building 80, Mussafah Shabiya 10",Ras Al Khaimah,AE,40,AED,Shipa CN 14077328
+TEST-PK-100057,unreachable,2025-11-29T13:30:30Z,03459698564,,"House 289, Street 47, Satellite Town",Sialkot,PK,7200,PKR,Leopards CN 94440731
+TEST-PK-103214,delivered_paid,2025-11-29T18:12:30Z,03334136620,fatima.7839.test@hotmail.com,,Gujranwala,PK,19900,PKR,M&P CN 64748822
+TEST-AE-104405,delivered_paid,2025-11-29T19:18:30Z,0522217113,fatima.3954.test@hotmail.com,,Sharjah,AE,1390,AED,Aramex CN 63300766
+TEST-PK-101686,delivered_paid,2025-11-29T19:29:30Z,03211116073,,"House 216, Street 9, DHA Phase 5",Abbottabad,PK,11300,PKR,M&P CN 91831332
+TEST-AE-103305,delivered_paid,2025-11-29T19:55:30Z,0551475610,sara.1965.test@outlook.com,,Dubai,AE,730,AED,Aramex CN 99498720
+TEST-PK-101047,refused_at_door,2025-11-30T01:51:30Z,03214216563,,"House 38, Street 18, Model Town",Sialkot,PK,19800,PKR,PostEx CN 43170647
+TEST-AE-103435,delivered_paid,2025-11-30T04:29:30Z,0507523362,,,Fujairah,AE,310,AED,Emirates Post CN 54708104
+TEST-AE-102508,delivered_paid,2025-11-30T06:48:30Z,0506602606,,"Flat 1291, Building 79, Al Nahda 2",Sharjah,AE,320,AED,Emirates Post CN 25105432
+TEST-PK-102350,refused_at_door,2025-11-30T07:23:30Z,03018924164,,,Rawalpindi,PK,16000,PKR,PostEx CN 12522817
+TEST-PK-100506,delivered_paid,2025-11-30T11:44:30Z,03211144048,,,Lahore,PK,15900,PKR,Leopards CN 14050883
+TEST-PK-100521,refused_at_door,2025-11-30T17:07:30Z,03339592903,,,Multan,PK,23800,PKR,Trax CN 41113756
+TEST-AE-104393,delivered_paid,2025-11-30T19:35:30Z,0585171215,,"Flat 2160, Building 1, Al Rashidiya",Al Ain,AE,1050,AED,Quiqup CN 28946518
+TEST-PK-104136,refused_at_door,2025-11-30T22:58:30Z,03008020517,,,Hyderabad,PK,8600,PKR,PostEx CN 58208579
+TEST-PK-104001,delivered_paid,2025-12-01T00:25:30Z,03213022519,yousuf.3972.test@hotmail.com,,Abbottabad,PK,2200,PKR,TCS CN 60175509
+TEST-PK-100942,delivered_paid,2025-12-01T02:33:30Z,03011313061,imran.2997.test@hotmail.com,"House 437, Street 26, Model Town",Quetta,PK,2800,PKR,PostEx CN 30737087
+TEST-AE-102415,delivered_paid,2025-12-01T02:44:30Z,0502249718,,"Flat 798, Building 43, Al Rashidiya",Fujairah,AE,1490,AED,Emirates Post CN 58705991
+TEST-PK-101132,delivered_paid,2025-12-01T04:46:30Z,03218117467,,"House 320, Street 18, Satellite Town",Hyderabad,PK,13400,PKR,Leopards CN 18340596
+TEST-PK-100357,delivered_paid,2025-12-01T06:10:30Z,03013087056,hamza.3979.test@yahoo.com,,Islamabad,PK,7500,PKR,M&P CN 57236762
+TEST-PK-103544,delivered_paid,2025-12-01T08:56:30Z,03009859819,faisal.1758.test@hotmail.com,"House 369, Street 24, Bahria Town",Faisalabad,PK,6000,PKR,M&P CN 17956234
+TEST-PK-104688,delivered_paid,2025-12-01T09:00:30Z,03337768108,,"House 422, Street 48, Clifton Block 4",Islamabad,PK,9000,PKR,TCS CN 97855718
+TEST-PK-101075,delivered_paid,2025-12-01T09:49:30Z,03013034482,ali.4214.test@gmail.com,"House 337, Street 34, Clifton Block 4",Quetta,PK,11000,PKR,Trax CN 60128224
+TEST-AE-103621,delivered_paid,2025-12-01T10:19:30Z,0568344738,imran.8819.test@gmail.com,"Flat 845, Building 5, Al Nahda 2",Sharjah,AE,280,AED,Shipa CN 97840464
+TEST-PK-100863,delivered_paid,2025-12-01T15:13:30Z,03211055752,,,Gujranwala,PK,15500,PKR,BlueEx CN 39146508
+TEST-PK-100657,return_abuse,2025-12-01T17:13:30Z,03016684518,,"House 253, Street 46, G-11/2",Karachi,PK,14100,PKR,Trax CN 17258648
+TEST-PK-100557,unreachable,2025-12-01T19:57:30Z,03008367504,,"House 267, Street 33, Gulberg III",Quetta,PK,11300,PKR,Trax CN 94579253
+TEST-AE-100580,return_abuse,2025-12-01T20:46:30Z,0504660835,,,Sharjah,AE,1290,AED,Shipa CN 31707318
+TEST-AE-100443,delivered_paid,2025-12-01T22:06:30Z,0589128077,aisha.9120.test@hotmail.com,,Dubai,AE,1190,AED,Shipa CN 83920144
+TEST-AE-104875,delivered_paid,2025-12-01T23:07:30Z,0556759362,bilal.5497.test@hotmail.com,"Flat 1891, Building 89, Al Khalidiya",Abu Dhabi,AE,570,AED,Quiqup CN 42432196
+TEST-PK-101906,delivered_paid,2025-12-01T23:56:30Z,03211697612,,,Lahore,PK,4300,PKR,BlueEx CN 96920245
+TEST-AE-102979,delivered_paid,2025-12-02T00:02:30Z,0504660835,,,Sharjah,AE,460,AED,Quiqup CN 95088860
+TEST-AE-101463,refused_at_door,2025-12-02T03:41:30Z,0563411435,,"Flat 815, Building 3, Al Nahda 2",Fujairah,AE,350,AED,Aramex CN 89965927
+TEST-AE-102092,delivered_paid,2025-12-02T05:07:30Z,0521915665,,,Ras Al Khaimah,AE,160,AED,Quiqup CN 55410940
+TEST-PK-102375,delivered_paid,2025-12-02T06:39:30Z,03011471946,yousuf.7617.test@hotmail.com,"House 369, Street 5, Gulberg III",Islamabad,PK,6600,PKR,Leopards CN 91032902
+TEST-PK-103988,delivered_paid,2025-12-02T07:22:30Z,03213022519,yousuf.3972.test@hotmail.com,,Abbottabad,PK,7300,PKR,TCS CN 99214175
+TEST-PK-100742,delivered_paid,2025-12-02T08:23:30Z,03006029309,noor.8632.test@yahoo.com,"House 49, Street 7, Satellite Town",Quetta,PK,17500,PKR,BlueEx CN 34851362
+TEST-AE-101900,delivered_paid,2025-12-02T09:09:30Z,0558182510,,"Flat 2065, Building 3, Muwaileh",Ajman,AE,1130,AED,Quiqup CN 89749590
+TEST-AE-101235,chargeback,2025-12-02T11:23:30Z,0559015264,,,Ajman,AE,1060,AED,Emirates Post CN 83720721
+TEST-AE-104189,delivered_paid,2025-12-02T16:21:30Z,0586012315,,"Flat 1734, Building 54, Mussafah Shabiya 10",Dubai,AE,50,AED,Aramex CN 73172934
+TEST-PK-103216,unreachable,2025-12-02T21:06:30Z,03334136620,fatima.7839.test@hotmail.com,,Gujranwala,PK,5900,PKR,Leopards CN 65456046
+TEST-PK-102907,delivered_paid,2025-12-02T22:01:30Z,03213903057,noor.9429.test@yahoo.com,,Lahore,PK,21000,PKR,Trax CN 23131268
+TEST-PK-101460,unreachable,2025-12-03T03:19:30Z,03218130593,,,Quetta,PK,13100,PKR,Leopards CN 98378401
+TEST-PK-100861,refused_at_door,2025-12-03T03:43:30Z,03211055752,,,Gujranwala,PK,10100,PKR,Leopards CN 33003741
+TEST-PK-102486,delivered_paid,2025-12-03T03:59:30Z,03339374370,rashid.2911.test@hotmail.com,"House 113, Street 26, G-11/2",Lahore,PK,19500,PKR,M&P CN 81473447
+TEST-PK-103429,delivered_paid,2025-12-03T05:02:30Z,03336326213,,,Lahore,PK,20500,PKR,Leopards CN 25342237
+TEST-AE-100470,delivered_paid,2025-12-03T05:43:30Z,0586501581,,,Al Ain,AE,870,AED,Quiqup CN 46527590
+TEST-PK-100648,delivered_paid,2025-12-03T05:53:30Z,03001762728,ali.7313.test@outlook.com,"House 226, Street 28, Satellite Town",Karachi,PK,9100,PKR,M&P CN 37523301
+TEST-PK-100296,fake_address,2025-12-03T08:08:30Z,03333510228,,"House 8, Street 23, Cantt",Hyderabad,PK,10200,PKR,BlueEx CN 10999852
+TEST-PK-100931,delivered_paid,2025-12-03T08:14:30Z,03214922273,,"House 446, Street 32, Clifton Block 4",Hyderabad,PK,21900,PKR,Trax CN 66189554
+TEST-PK-102314,delivered_paid,2025-12-03T10:33:30Z,03211660608,noor.2401.test@hotmail.com,"House 230, Street 12, Satellite Town",Sialkot,PK,22400,PKR,TCS CN 20995299
+TEST-PK-103520,delivered_paid,2025-12-03T10:57:30Z,03458328619,,"House 169, Street 34, Cantt",Hyderabad,PK,13700,PKR,Trax CN 63099202
+TEST-PK-100666,delivered_paid,2025-12-03T11:41:30Z,03216022046,ahmed.2127.test@yahoo.com,,Sialkot,PK,8000,PKR,BlueEx CN 74240249
+TEST-PK-103680,delivered_paid,2025-12-03T15:58:30Z,03452349417,noor.577.test@hotmail.com,,Rawalpindi,PK,9300,PKR,Trax CN 34326908
+TEST-PK-101368,unreachable,2025-12-03T16:09:30Z,03218836063,bilal.6278.test@outlook.com,"House 133, Street 47, Model Town",Abbottabad,PK,18500,PKR,M&P CN 44183952
+TEST-AE-102865,delivered_paid,2025-12-03T17:20:30Z,0501220066,ali.6852.test@hotmail.com,"Flat 923, Building 44, Al Barsha 1",Fujairah,AE,1300,AED,Shipa CN 37188781
+TEST-AE-101147,fake_order,2025-12-03T17:40:30Z,0559398134,,"Flat 418, Building 80, Mussafah Shabiya 10",Ras Al Khaimah,AE,970,AED,Quiqup CN 89246466
+TEST-AE-101146,fake_order,2025-12-03T18:22:30Z,0559398134,,"Flat 418, Building 80, Mussafah Shabiya 10",Ras Al Khaimah,AE,720,AED,Shipa CN 88219210
+TEST-AE-102894,unreachable,2025-12-03T18:56:30Z,0504684633,,,Dubai,AE,1490,AED,Aramex CN 50763792
+TEST-PK-102814,delivered_paid,2025-12-03T19:24:30Z,03018615467,hamza.9554.test@gmail.com,"House 85, Street 28, F-7 Markaz",Rawalpindi,PK,2000,PKR,Leopards CN 75475468
+TEST-PK-100003,delivered_paid,2025-12-03T22:13:30Z,03334921103,zainab.4140.test@hotmail.com,"House 189, Street 60, Gulberg III",Gujranwala,PK,12700,PKR,PostEx CN 49657954
+TEST-AE-101740,delivered_paid,2025-12-03T23:46:30Z,0554972086,,"Flat 2347, Building 29, Al Nahda 2",Dubai,AE,280,AED,Quiqup CN 70030978
+TEST-PK-103009,delivered_paid,2025-12-04T03:11:30Z,03212066954,,"House 344, Street 57, Johar Town",Abbottabad,PK,14000,PKR,BlueEx CN 99489917
+TEST-AE-101598,delivered_paid,2025-12-04T03:14:30Z,0526970044,omar.7755.test@hotmail.com,,Ras Al Khaimah,AE,980,AED,Aramex CN 75276691
+TEST-PK-101768,refused_at_door,2025-12-04T04:06:30Z,03212764243,,,Lahore,PK,19600,PKR,TCS CN 99998990
+TEST-PK-104600,delivered_paid,2025-12-04T07:43:30Z,03219707698,,"House 23, Street 15, Bahria Town",Islamabad,PK,23200,PKR,TCS CN 56607155
+TEST-PK-102925,delivered_paid,2025-12-04T07:44:30Z,03453796410,maryam.3669.test@yahoo.com,,Karachi,PK,4200,PKR,BlueEx CN 30274019
+TEST-AE-101614,fake_order,2025-12-04T08:04:30Z,0561051778,faisal.9788.test@gmail.com,,Dubai,AE,1150,AED,Quiqup CN 45127804
+TEST-AE-101920,refused_at_door,2025-12-04T10:02:30Z,0558368699,,"Flat 2052, Building 79, Muwaileh",Abu Dhabi,AE,560,AED,Aramex CN 95955442
+TEST-PK-104244,refused_at_door,2025-12-04T12:38:30Z,03219935683,,,Rawalpindi,PK,14000,PKR,Leopards CN 85403004
+TEST-AE-102595,delivered_paid,2025-12-04T13:35:30Z,0567887873,,"Flat 1850, Building 26, International City",Ras Al Khaimah,AE,1340,AED,Fetchr CN 34562095
+TEST-PK-100846,unreachable,2025-12-04T15:30:30Z,03018441212,,"House 61, Street 59, Gulshan-e-Iqbal Block 13",Islamabad,PK,22700,PKR,Leopards CN 21448922
+TEST-PK-102753,delivered_paid,2025-12-04T15:40:30Z,03014239714,,,Gujranwala,PK,6000,PKR,TCS CN 63653963
+TEST-PK-100706,unreachable,2025-12-04T17:14:30Z,03452349417,noor.577.test@hotmail.com,,Rawalpindi,PK,21100,PKR,M&P CN 45701356
+TEST-AE-103728,delivered_paid,2025-12-04T18:43:30Z,0504201755,bilal.7491.test@gmail.com,"Flat 417, Building 15, Al Rashidiya",Dubai,AE,160,AED,Quiqup CN 78704346
+TEST-PK-100307,delivered_paid,2025-12-04T18:49:30Z,03016247781,bilal.89.test@outlook.com,"House 77, Street 46, G-11/2",Multan,PK,6300,PKR,PostEx CN 64635514
+TEST-PK-100913,delivered_paid,2025-12-04T19:03:30Z,03452301574,usman.9081.test@outlook.com,"House 337, Street 54, Gulshan-e-Iqbal Block 13",Sialkot,PK,16200,PKR,M&P CN 36294182
+TEST-PK-100971,delivered_paid,2025-12-04T19:11:30Z,03454841896,aisha.9470.test@gmail.com,"House 8, Street 53, Clifton Block 4",Abbottabad,PK,2800,PKR,BlueEx CN 77559676
+TEST-PK-102065,chargeback,2025-12-04T23:55:30Z,03009670495,,,Faisalabad,PK,14400,PKR,M&P CN 44066767
+TEST-PK-103296,delivered_paid,2025-12-05T01:16:30Z,03219499211,khalid.4579.test@outlook.com,"House 316, Street 4, DHA Phase 5",Rawalpindi,PK,23600,PKR,BlueEx CN 54664605
+TEST-PK-104098,fake_order,2025-12-05T04:57:30Z,03014233035,,"House 1, Street 37, Satellite Town",Peshawar,PK,16700,PKR,BlueEx CN 28340821
+TEST-PK-104112,delivered_paid,2025-12-05T07:01:30Z,03336839403,rashid.4339.test@gmail.com,,Hyderabad,PK,21800,PKR,TCS CN 62048271
+TEST-PK-104157,delivered_paid,2025-12-05T11:53:30Z,03332560186,,,Sialkot,PK,19000,PKR,Trax CN 57698937
+TEST-PK-102067,chargeback,2025-12-05T14:38:30Z,03009670495,,,Faisalabad,PK,1500,PKR,Leopards CN 33363332
+TEST-PK-100806,delivered_paid,2025-12-05T15:44:30Z,03014496309,aisha.9666.test@gmail.com,,Sialkot,PK,14100,PKR,Trax CN 20647435
+TEST-AE-104281,delivered_paid,2025-12-05T16:44:30Z,0554972086,,"Flat 2347, Building 29, Al Nahda 2",Dubai,AE,1240,AED,Shipa CN 74652720
+TEST-PK-102716,fake_order,2025-12-05T17:00:30Z,03219844380,rashid.5802.test@gmail.com,,Rawalpindi,PK,22600,PKR,Trax CN 23157120
+TEST-PK-104595,delivered_paid,2025-12-05T18:46:30Z,03014271285,khalid.7142.test@yahoo.com,,Sialkot,PK,21500,PKR,PostEx CN 99804458
+TEST-PK-102352,refused_at_door,2025-12-05T20:42:30Z,03018924164,,,Rawalpindi,PK,25000,PKR,Leopards CN 17101384
+TEST-AE-104740,delivered_paid,2025-12-05T21:41:30Z,0552746817,yousuf.4372.test@gmail.com,,Abu Dhabi,AE,740,AED,Shipa CN 47704841
+TEST-AE-102626,refused_at_door,2025-12-06T01:06:30Z,0584323278,khalid.7812.test@yahoo.com,,Ajman,AE,860,AED,Emirates Post CN 70896775
+TEST-PK-103320,delivered_paid,2025-12-06T01:29:30Z,03004559328,,,Faisalabad,PK,9200,PKR,PostEx CN 64486761
+TEST-PK-103462,delivered_paid,2025-12-06T02:02:30Z,03016222728,zainab.8865.test@yahoo.com,"House 221, Street 54, DHA Phase 5",Quetta,PK,14800,PKR,Trax CN 72458615
+TEST-AE-101377,delivered_paid,2025-12-06T02:06:30Z,0555144071,khalid.9567.test@hotmail.com,"Flat 1433, Building 7, Al Nahda 2",Abu Dhabi,AE,440,AED,Shipa CN 44843396
+TEST-PK-100719,refused_at_door,2025-12-06T02:30:30Z,03018297862,,,Gujranwala,PK,14900,PKR,Leopards CN 98566942
+TEST-PK-100200,unreachable,2025-12-06T03:56:30Z,03334884433,usman.7157.test@yahoo.com,"House 245, Street 51, Clifton Block 4",Peshawar,PK,18800,PKR,M&P CN 15448067
+TEST-PK-103484,delivered_paid,2025-12-06T04:59:30Z,03217183120,usman.2547.test@yahoo.com,,Karachi,PK,7900,PKR,TCS CN 51474351
+TEST-PK-100984,refused_at_door,2025-12-06T06:38:30Z,03013168536,hamza.4412.test@hotmail.com,,Quetta,PK,8700,PKR,Trax CN 67264671
+TEST-AE-101249,delivered_paid,2025-12-06T09:37:30Z,0588624978,,"Flat 1360, Building 38, Mussafah Shabiya 10",Ajman,AE,1080,AED,Shipa CN 76376081
+TEST-PK-103578,unreachable,2025-12-06T10:53:30Z,03213841053,,,Multan,PK,8000,PKR,TCS CN 92624617
+TEST-PK-100796,delivered_paid,2025-12-06T11:23:30Z,03214558640,,"House 124, Street 38, Hayatabad Phase 3",Islamabad,PK,9700,PKR,Leopards CN 94055434
+TEST-PK-100532,delivered_paid,2025-12-06T11:42:30Z,03019686606,bilal.6811.test@gmail.com,"House 401, Street 51, Satellite Town",Peshawar,PK,16900,PKR,Trax CN 88442433
+TEST-PK-103809,return_abuse,2025-12-06T12:01:30Z,03014504860,,"House 64, Street 17, Gulberg III",Karachi,PK,5900,PKR,M&P CN 23707893
+TEST-PK-104271,delivered_paid,2025-12-06T12:46:30Z,03013796603,,"House 448, Street 55, DHA Phase 5",Faisalabad,PK,21500,PKR,M&P CN 62107482
+TEST-PK-103801,return_abuse,2025-12-06T17:23:30Z,03454943481,,"House 150, Street 10, Clifton Block 4",Gujranwala,PK,24100,PKR,PostEx CN 35119004
+TEST-PK-104712,unreachable,2025-12-06T17:38:30Z,03452101325,,"House 155, Street 14, Clifton Block 4",Lahore,PK,15600,PKR,TCS CN 75025614
+TEST-PK-103743,refused_at_door,2025-12-06T19:43:30Z,03219173525,maryam.9544.test@outlook.com,,Rawalpindi,PK,5000,PKR,BlueEx CN 39726720
+TEST-AE-104557,delivered_paid,2025-12-06T21:01:30Z,0559645975,,,Fujairah,AE,230,AED,Quiqup CN 73960709
+TEST-PK-102524,delivered_paid,2025-12-06T21:25:30Z,03455976618,,,Gujranwala,PK,16000,PKR,BlueEx CN 30569288
+TEST-AE-103708,delivered_paid,2025-12-06T21:34:30Z,0556930431,rashid.9202.test@hotmail.com,,Fujairah,AE,1010,AED,Shipa CN 85731118
+TEST-PK-100842,delivered_paid,2025-12-06T22:06:30Z,03018441212,,"House 61, Street 59, Gulshan-e-Iqbal Block 13",Islamabad,PK,8200,PKR,Leopards CN 24117161
+TEST-PK-103840,refused_at_door,2025-12-06T23:40:30Z,03217945096,,"House 255, Street 19, Hayatabad Phase 3",Multan,PK,20200,PKR,Leopards CN 93379978
+TEST-PK-100376,delivered_paid,2025-12-07T00:03:30Z,03017458064,,,Rawalpindi,PK,19700,PKR,BlueEx CN 17787043
+TEST-PK-101861,refused_at_door,2025-12-07T01:45:30Z,03018297862,,,Gujranwala,PK,3900,PKR,Leopards CN 57101836
+TEST-AE-102265,delivered_paid,2025-12-07T07:22:30Z,0589349933,,,Dubai,AE,360,AED,Aramex CN 22221728
+TEST-PK-103405,refused_at_door,2025-12-07T11:41:30Z,03337157314,imran.5280.test@gmail.com,,Lahore,PK,2300,PKR,PostEx CN 66898062
+TEST-PK-104426,unreachable,2025-12-07T12:57:30Z,03455091537,,"House 95, Street 36, Gulshan-e-Iqbal Block 13",Islamabad,PK,5900,PKR,M&P CN 40736633
+TEST-AE-102539,unreachable,2025-12-07T15:09:30Z,0553094065,,"Flat 1743, Building 84, Muwaileh",Al Ain,AE,1020,AED,Fetchr CN 35981126
+TEST-PK-103549,return_abuse,2025-12-07T18:16:30Z,03009859819,faisal.1758.test@hotmail.com,"House 369, Street 24, Bahria Town",Faisalabad,PK,3000,PKR,M&P CN 57827119
+TEST-PK-101934,refused_at_door,2025-12-07T18:24:30Z,03214414278,zainab.2224.test@hotmail.com,"House 39, Street 38, Hayatabad Phase 3",Hyderabad,PK,5600,PKR,BlueEx CN 74183969
+TEST-AE-103196,delivered_paid,2025-12-07T19:42:30Z,0559645975,,,Fujairah,AE,1110,AED,Quiqup CN 71879439
+TEST-PK-101281,return_abuse,2025-12-07T20:23:30Z,03335646826,,"House 116, Street 35, Gulshan-e-Iqbal Block 13",Faisalabad,PK,18500,PKR,TCS CN 73123713
+TEST-PK-103293,delivered_paid,2025-12-07T23:08:30Z,03219499211,khalid.4579.test@outlook.com,"House 316, Street 4, DHA Phase 5",Rawalpindi,PK,8700,PKR,M&P CN 30888259
+TEST-AE-103622,refused_at_door,2025-12-07T23:58:30Z,0568344738,imran.8819.test@gmail.com,"Flat 845, Building 5, Al Nahda 2",Sharjah,AE,590,AED,Shipa CN 47671431
+TEST-AE-103307,delivered_paid,2025-12-08T00:13:30Z,0551475610,sara.1965.test@outlook.com,,Dubai,AE,590,AED,Shipa CN 33502654
+TEST-PK-101168,delivered_paid,2025-12-08T00:46:30Z,03219748636,,"House 30, Street 55, Bahria Town",Lahore,PK,14900,PKR,BlueEx CN 92893545
+TEST-PK-100107,delivered_paid,2025-12-08T07:44:30Z,03006094057,omar.2634.test@gmail.com,"House 354, Street 27, Satellite Town",Sialkot,PK,15400,PKR,Leopards CN 37348359
+TEST-AE-101137,return_abuse,2025-12-08T09:07:30Z,0522149580,fatima.2414.test@hotmail.com,"Flat 763, Building 61, Al Rashidiya",Abu Dhabi,AE,1060,AED,Quiqup CN 45267604
+TEST-AE-103550,unreachable,2025-12-08T09:47:30Z,0553742209,omar.5570.test@gmail.com,,Sharjah,AE,750,AED,Fetchr CN 86501416
+TEST-PK-100873,refused_at_door,2025-12-08T10:52:30Z,03214376324,,,Faisalabad,PK,21900,PKR,Leopards CN 28550328
+TEST-PK-102286,delivered_paid,2025-12-08T11:43:30Z,03451542924,faisal.3463.test@hotmail.com,,Quetta,PK,20100,PKR,TCS CN 89081648
+TEST-PK-100554,delivered_paid,2025-12-08T12:01:30Z,03008367504,,"House 267, Street 33, Gulberg III",Quetta,PK,21400,PKR,M&P CN 44634673
+TEST-AE-101600,delivered_paid,2025-12-08T13:49:30Z,0526970044,omar.7755.test@hotmail.com,,Ras Al Khaimah,AE,540,AED,Quiqup CN 34836304
+TEST-PK-104245,return_abuse,2025-12-08T15:33:30Z,03219935683,,,Rawalpindi,PK,24000,PKR,TCS CN 14343308
+TEST-PK-100070,refused_at_door,2025-12-08T18:38:30Z,03457725219,,,Hyderabad,PK,11000,PKR,Leopards CN 24019583
+TEST-PK-102321,delivered_paid,2025-12-08T18:38:30Z,03452917004,khalid.5276.test@hotmail.com,,Hyderabad,PK,6300,PKR,PostEx CN 73847669
+TEST-PK-101654,delivered_paid,2025-12-08T19:46:30Z,03459098837,zainab.6015.test@gmail.com,,Gujranwala,PK,12300,PKR,PostEx CN 70297943
+TEST-PK-101519,unreachable,2025-12-08T19:53:30Z,03334400302,,"House 353, Street 53, Cantt",Quetta,PK,2900,PKR,M&P CN 66108860
+TEST-AE-102540,refused_at_door,2025-12-08T21:06:30Z,0553094065,,"Flat 1743, Building 84, Muwaileh",Al Ain,AE,1060,AED,Emirates Post CN 71965823
+TEST-PK-101069,fake_address,2025-12-08T23:00:30Z,03014233035,,"House 1, Street 37, Satellite Town",Peshawar,PK,21600,PKR,Trax CN 11409089
+TEST-PK-103466,delivered_paid,2025-12-08T23:41:30Z,03217769677,rashid.6329.test@yahoo.com,"House 30, Street 49, Johar Town",Faisalabad,PK,14300,PKR,TCS CN 17785427
+TEST-PK-102786,delivered_paid,2025-12-08T23:50:30Z,03451413407,,"House 9, Street 38, Bahria Town",Multan,PK,10200,PKR,PostEx CN 89497891
+TEST-PK-102958,return_abuse,2025-12-09T02:26:30Z,03335646826,,"House 116, Street 35, Gulshan-e-Iqbal Block 13",Faisalabad,PK,5500,PKR,TCS CN 69228638
+TEST-PK-100089,unreachable,2025-12-09T03:20:30Z,03019271989,ayesha.8303.test@outlook.com,"House 448, Street 2, Bahria Town",Abbottabad,PK,20000,PKR,TCS CN 13241054
+TEST-PK-104840,refused_at_door,2025-12-09T03:47:30Z,03458268547,,"House 400, Street 50, Hayatabad Phase 3",Quetta,PK,7300,PKR,TCS CN 44424383
+TEST-AE-102088,delivered_paid,2025-12-09T03:52:30Z,0561001165,,,Dubai,AE,310,AED,Shipa CN 22130110
+TEST-PK-100604,refused_at_door,2025-12-09T05:02:30Z,03339446660,,,Rawalpindi,PK,16000,PKR,M&P CN 37786717
+TEST-PK-103277,delivered_paid,2025-12-09T05:55:30Z,03016785962,,,Peshawar,PK,8500,PKR,M&P CN 46446623
+TEST-PK-100764,delivered_paid,2025-12-09T06:28:30Z,03005701979,,"House 176, Street 16, Hayatabad Phase 3",Hyderabad,PK,2600,PKR,Trax CN 55406609
+TEST-PK-104371,refused_at_door,2025-12-09T06:57:30Z,03005851620,,"House 413, Street 3, Gulshan-e-Iqbal Block 13",Karachi,PK,14900,PKR,Trax CN 85773857
+TEST-AE-103088,return_abuse,2025-12-09T07:38:30Z,0559015264,,,Ajman,AE,1420,AED,Aramex CN 89413709
+TEST-PK-104305,delivered_paid,2025-12-09T10:02:30Z,03459811833,yousuf.9832.test@outlook.com,"House 163, Street 31, G-11/2",Islamabad,PK,10000,PKR,PostEx CN 72397838
+TEST-PK-101026,unreachable,2025-12-09T13:57:30Z,03212482980,,"House 332, Street 36, Model Town",Multan,PK,19400,PKR,TCS CN 91462956
+TEST-PK-103374,delivered_paid,2025-12-09T16:08:30Z,03013473248,,"House 333, Street 47, DHA Phase 5",Gujranwala,PK,22900,PKR,PostEx CN 48511275
+TEST-AE-104559,delivered_paid,2025-12-10T00:19:30Z,0559645975,,,Fujairah,AE,120,AED,Emirates Post CN 11424121
+TEST-PK-104830,delivered_paid,2025-12-10T02:07:30Z,03455511639,,"House 171, Street 3, Johar Town",Islamabad,PK,22700,PKR,M&P CN 26433870
+TEST-AE-104334,delivered_paid,2025-12-10T02:36:30Z,0562645986,,,Ras Al Khaimah,AE,340,AED,Aramex CN 38374513
+TEST-PK-101416,unreachable,2025-12-10T07:10:30Z,03215210155,,"House 191, Street 16, Model Town",Quetta,PK,19400,PKR,TCS CN 82628340
+TEST-PK-101998,refused_at_door,2025-12-10T07:35:30Z,03011087044,,,Islamabad,PK,19000,PKR,Leopards CN 46659060
+TEST-AE-101948,delivered_paid,2025-12-10T07:43:30Z,0555365729,rashid.6706.test@yahoo.com,"Flat 2374, Building 15, JLT Cluster D",Dubai,AE,1380,AED,Emirates Post CN 18134801
+TEST-PK-100939,delivered_paid,2025-12-10T09:13:30Z,03018615467,hamza.9554.test@gmail.com,"House 85, Street 28, F-7 Markaz",Rawalpindi,PK,24900,PKR,TCS CN 27417338
+TEST-PK-103334,refused_at_door,2025-12-10T09:32:30Z,03336754521,hamza.5828.test@gmail.com,,Rawalpindi,PK,21600,PKR,M&P CN 43171378
+TEST-PK-104612,delivered_paid,2025-12-10T12:08:30Z,03017458064,,,Rawalpindi,PK,18200,PKR,M&P CN 61354636
+TEST-PK-100362,delivered_paid,2025-12-10T13:07:30Z,03216951816,fatima.5438.test@gmail.com,"House 394, Street 12, F-7 Markaz",Peshawar,PK,18900,PKR,TCS CN 89978620
+TEST-AE-103219,delivered_paid,2025-12-10T14:50:30Z,0521915665,,,Ras Al Khaimah,AE,500,AED,Quiqup CN 74412726
+TEST-AE-103886,refused_at_door,2025-12-10T15:02:30Z,0589997544,,,Abu Dhabi,AE,150,AED,Shipa CN 92041214
+TEST-PK-103744,refused_at_door,2025-12-10T15:15:30Z,03219173525,maryam.9544.test@outlook.com,,Rawalpindi,PK,16700,PKR,Trax CN 16718879
+TEST-PK-104549,delivered_paid,2025-12-10T16:59:30Z,03216184220,bilal.5844.test@gmail.com,,Hyderabad,PK,20400,PKR,PostEx CN 50320990
+TEST-PK-101964,delivered_paid,2025-12-10T20:04:30Z,03333092885,,"House 253, Street 3, Gulberg III",Faisalabad,PK,11900,PKR,Leopards CN 17121395
+TEST-PK-101365,delivered_paid,2025-12-10T21:45:30Z,03218836063,bilal.6278.test@outlook.com,"House 133, Street 47, Model Town",Abbottabad,PK,13700,PKR,Leopards CN 55608737
+TEST-AE-101946,refused_at_door,2025-12-10T22:10:30Z,0569162363,,,Ras Al Khaimah,AE,260,AED,Aramex CN 91520111
+TEST-PK-102576,fake_order,2025-12-11T02:17:30Z,03456646960,omar.2101.test@outlook.com,"House 302, Street 24, Cantt",Faisalabad,PK,8200,PKR,PostEx CN 48423041
+TEST-AE-103907,return_abuse,2025-12-11T04:14:30Z,0559015264,,,Ajman,AE,380,AED,Aramex CN 50503371
+TEST-PK-100329,delivered_paid,2025-12-11T06:51:30Z,03213717898,,"House 107, Street 19, Clifton Block 4",Quetta,PK,4900,PKR,Leopards CN 17920796
+TEST-PK-103519,delivered_paid,2025-12-11T06:56:30Z,03453635647,ahmed.1248.test@hotmail.com,"House 242, Street 52, F-7 Markaz",Quetta,PK,17300,PKR,PostEx CN 58639955
+TEST-PK-104322,delivered_paid,2025-12-11T07:13:30Z,03219894083,sana.5365.test@outlook.com,,Abbottabad,PK,14600,PKR,M&P CN 10405519
+TEST-AE-103726,delivered_paid,2025-12-11T07:19:30Z,0504201755,bilal.7491.test@gmail.com,"Flat 417, Building 15, Al Rashidiya",Dubai,AE,260,AED,Quiqup CN 12527423
+TEST-PK-103000,delivered_paid,2025-12-11T09:16:30Z,03457090813,,"House 1, Street 37, Satellite Town",Sialkot,PK,10300,PKR,TCS CN 50684998
+TEST-PK-100318,unreachable,2025-12-11T09:27:30Z,03457537082,,,Peshawar,PK,16900,PKR,M&P CN 47935773
+TEST-PK-102355,return_abuse,2025-12-11T10:09:30Z,03219707698,,"House 23, Street 15, Bahria Town",Islamabad,PK,4300,PKR,PostEx CN 88711457
+TEST-AE-102279,chargeback,2025-12-11T10:55:30Z,0558435341,sara.8553.test@outlook.com,"Flat 2342, Building 80, Al Barsha 1",Fujairah,AE,810,AED,Emirates Post CN 36237956
+TEST-PK-102346,refused_at_door,2025-12-11T15:59:30Z,03018924164,,,Rawalpindi,PK,4700,PKR,Trax CN 40386484
+TEST-PK-104480,refused_at_door,2025-12-11T17:40:30Z,03019711920,usman.5710.test@yahoo.com,,Peshawar,PK,24700,PKR,TCS CN 35754777
+TEST-AE-101467,refused_at_door,2025-12-11T21:18:30Z,0563411435,,"Flat 815, Building 3, Al Nahda 2",Fujairah,AE,50,AED,Emirates Post CN 53620894
+TEST-AE-101007,fake_address,2025-12-11T23:57:30Z,0568422020,fatima.607.test@hotmail.com,,Sharjah,AE,770,AED,Quiqup CN 15992280
+TEST-PK-104666,delivered_paid,2025-12-12T00:18:30Z,03213030265,rashid.7091.test@yahoo.com,"House 297, Street 2, Bahria Town",Lahore,PK,15800,PKR,BlueEx CN 30005844
+TEST-PK-100290,refused_at_door,2025-12-12T03:11:30Z,03333510228,,"House 8, Street 23, Cantt",Hyderabad,PK,24300,PKR,BlueEx CN 59080275
+TEST-PK-102410,delivered_paid,2025-12-12T09:18:30Z,03009908654,maryam.9470.test@hotmail.com,,Hyderabad,PK,17200,PKR,TCS CN 55485337
+TEST-PK-103593,delivered_paid,2025-12-12T10:45:30Z,03005320659,,,Abbottabad,PK,18900,PKR,PostEx CN 17506665
+TEST-PK-104205,delivered_paid,2025-12-12T12:18:30Z,03008598250,,"House 362, Street 15, G-11/2",Rawalpindi,PK,10600,PKR,M&P CN 77920766
+TEST-PK-104680,delivered_paid,2025-12-12T17:28:30Z,03012433841,imran.2283.test@outlook.com,"House 219, Street 32, DHA Phase 5",Lahore,PK,20000,PKR,Trax CN 18236357
+TEST-PK-100793,refused_at_door,2025-12-12T17:52:30Z,03214558640,,"House 124, Street 38, Hayatabad Phase 3",Islamabad,PK,20300,PKR,TCS CN 72892697
+TEST-PK-100602,unreachable,2025-12-12T22:29:30Z,03339446660,,,Rawalpindi,PK,18500,PKR,M&P CN 79112965
+TEST-PK-103866,delivered_paid,2025-12-13T04:18:30Z,03215889525,,"House 371, Street 52, Gulshan-e-Iqbal Block 13",Gujranwala,PK,10500,PKR,Leopards CN 63388888
+TEST-AE-101601,delivered_paid,2025-12-13T13:15:30Z,0526970044,omar.7755.test@hotmail.com,,Ras Al Khaimah,AE,620,AED,Quiqup CN 32443988
+TEST-PK-104531,delivered_paid,2025-12-13T15:35:30Z,03015031278,usman.7264.test@gmail.com,"House 140, Street 46, DHA Phase 5",Abbottabad,PK,18500,PKR,Leopards CN 33201578
+TEST-PK-100371,delivered_paid,2025-12-13T16:15:30Z,03012493522,,"House 140, Street 45, F-7 Markaz",Rawalpindi,PK,10200,PKR,BlueEx CN 35519694
+TEST-PK-103670,delivered_paid,2025-12-13T16:16:30Z,03211989001,,,Gujranwala,PK,22200,PKR,M&P CN 34621980
+TEST-PK-101291,delivered_paid,2025-12-13T16:54:30Z,03457225842,,"House 423, Street 34, Cantt",Abbottabad,PK,3100,PKR,M&P CN 78449253
+TEST-PK-100486,delivered_paid,2025-12-13T17:19:30Z,03459098837,zainab.6015.test@gmail.com,,Gujranwala,PK,18300,PKR,PostEx CN 31899661
+TEST-AE-100252,fake_order,2025-12-13T18:10:30Z,0559398134,,"Flat 418, Building 80, Mussafah Shabiya 10",Ras Al Khaimah,AE,1000,AED,Fetchr CN 31560745
+TEST-PK-104913,delivered_paid,2025-12-14T00:09:30Z,03331074060,,"House 380, Street 42, Hayatabad Phase 3",Sialkot,PK,5000,PKR,M&P CN 44355027
+TEST-PK-100874,delivered_paid,2025-12-14T01:28:30Z,03214376324,,,Faisalabad,PK,3700,PKR,Leopards CN 28339766
+TEST-AE-103090,return_abuse,2025-12-14T01:57:30Z,0559015264,,,Ajman,AE,1350,AED,Aramex CN 25689828
+TEST-AE-101680,delivered_paid,2025-12-14T04:39:30Z,0563501042,,,Al Ain,AE,890,AED,Quiqup CN 98983078
+TEST-AE-100732,refused_at_door,2025-12-14T05:59:30Z,0509240624,sana.508.test@yahoo.com,"Flat 2090, Building 35, Al Khalidiya",Sharjah,AE,430,AED,Emirates Post CN 50259090
+TEST-AE-102214,delivered_paid,2025-12-14T10:43:30Z,0553549240,,,Ras Al Khaimah,AE,900,AED,Quiqup CN 80320072
+TEST-AE-100063,delivered_paid,2025-12-14T11:49:30Z,0504876171,,,Al Ain,AE,700,AED,Shipa CN 87425509
+TEST-PK-104673,delivered_paid,2025-12-14T13:48:30Z,03458504259,hina.8375.test@outlook.com,,Gujranwala,PK,13200,PKR,TCS CN 64073061
+TEST-PK-100636,fake_order,2025-12-14T13:56:30Z,03012798975,,"House 413, Street 28, Clifton Block 4",Faisalabad,PK,20800,PKR,Trax CN 94891362
+TEST-PK-102261,return_abuse,2025-12-14T16:40:30Z,03459226312,,,Rawalpindi,PK,15700,PKR,M&P CN 26985951
+TEST-PK-100768,unreachable,2025-12-14T19:50:30Z,03017076736,noor.2824.test@gmail.com,,Faisalabad,PK,10100,PKR,BlueEx CN 45757931
+TEST-PK-102924,return_abuse,2025-12-14T21:24:30Z,03001430968,,"House 242, Street 49, Cantt",Karachi,PK,9200,PKR,Leopards CN 71029809
+TEST-AE-100759,return_abuse,2025-12-14T22:07:30Z,0558568137,,,Abu Dhabi,AE,1390,AED,Aramex CN 20773226
+TEST-PK-102042,delivered_paid,2025-12-14T22:32:30Z,03339592903,,,Multan,PK,17900,PKR,BlueEx CN 85038176
+TEST-AE-102837,delivered_paid,2025-12-14T23:42:30Z,0583697645,khalid.8416.test@hotmail.com,"Flat 359, Building 25, Deira Al Muraqqabat",Ajman,AE,1340,AED,Fetchr CN 91475305
+TEST-PK-104553,delivered_paid,2025-12-15T03:00:30Z,03456868404,,"House 413, Street 56, F-7 Markaz",Karachi,PK,7600,PKR,Leopards CN 49836708
+TEST-AE-102397,unreachable,2025-12-15T04:10:30Z,0522766526,noor.6412.test@gmail.com,"Flat 1704, Building 40, JLT Cluster D",Dubai,AE,180,AED,Emirates Post CN 59956566
+TEST-PK-100870,delivered_paid,2025-12-15T05:43:30Z,03214376324,,,Faisalabad,PK,19700,PKR,BlueEx CN 18455602
+TEST-PK-102253,delivered_paid,2025-12-15T06:51:30Z,03012433841,imran.2283.test@outlook.com,"House 219, Street 32, DHA Phase 5",Lahore,PK,23800,PKR,Trax CN 21606386
+TEST-AE-104207,delivered_paid,2025-12-15T07:08:30Z,0568408968,,"Flat 1366, Building 23, Muwaileh",Fujairah,AE,1040,AED,Shipa CN 49752458
+TEST-PK-102373,delivered_paid,2025-12-15T10:27:30Z,03011471946,yousuf.7617.test@hotmail.com,"House 369, Street 5, Gulberg III",Islamabad,PK,4000,PKR,M&P CN 68811610
+TEST-PK-100658,delivered_paid,2025-12-15T11:30:30Z,03451120333,,,Rawalpindi,PK,21800,PKR,TCS CN 26917196
+TEST-PK-104166,delivered_paid,2025-12-15T12:38:30Z,03455140742,yousuf.2744.test@yahoo.com,"House 443, Street 54, Model Town",Peshawar,PK,8800,PKR,BlueEx CN 33665053
+TEST-PK-101953,delivered_paid,2025-12-15T13:04:30Z,03339236965,maryam.5446.test@hotmail.com,"House 71, Street 24, F-7 Markaz",Abbottabad,PK,16300,PKR,BlueEx CN 31612192
+TEST-PK-103388,delivered_paid,2025-12-15T20:45:30Z,03017008704,,"House 331, Street 13, Satellite Town",Peshawar,PK,24600,PKR,Trax CN 20484938
+TEST-PK-100334,delivered_paid,2025-12-15T23:07:30Z,03337157314,imran.5280.test@gmail.com,,Lahore,PK,5000,PKR,PostEx CN 23808676
+TEST-PK-101551,fake_address,2025-12-15T23:52:30Z,03453560465,hina.2261.test@gmail.com,,Gujranwala,PK,17800,PKR,BlueEx CN 70225752
+TEST-PK-104570,delivered_paid,2025-12-16T06:55:30Z,03336103089,maryam.3352.test@outlook.com,,Quetta,PK,9300,PKR,Trax CN 89507217
+TEST-AE-103854,delivered_paid,2025-12-16T07:58:30Z,0583601356,,"Flat 1406, Building 69, Mussafah Shabiya 10",Fujairah,AE,1050,AED,Emirates Post CN 76410016
+TEST-PK-100997,delivered_paid,2025-12-16T11:09:30Z,03211690309,omar.249.test@yahoo.com,,Peshawar,PK,22600,PKR,Leopards CN 25628738
+TEST-AE-104731,fake_address,2025-12-16T12:52:30Z,0501576090,ahmed.7161.test@gmail.com,"Flat 1047, Building 61, Al Khalidiya",Dubai,AE,1370,AED,Quiqup CN 48200516
+TEST-PK-102050,refused_at_door,2025-12-16T12:58:30Z,03019686606,bilal.6811.test@gmail.com,"House 401, Street 51, Satellite Town",Peshawar,PK,20500,PKR,Trax CN 77319094
+TEST-PK-103464,delivered_paid,2025-12-16T14:52:30Z,03217769677,rashid.6329.test@yahoo.com,"House 30, Street 49, Johar Town",Faisalabad,PK,3600,PKR,Trax CN 27089643
+TEST-PK-101665,delivered_paid,2025-12-16T15:02:30Z,03219090470,,,Peshawar,PK,3200,PKR,M&P CN 32454413
+TEST-AE-102027,delivered_paid,2025-12-16T15:43:30Z,0568408968,,"Flat 1366, Building 23, Muwaileh",Fujairah,AE,440,AED,Emirates Post CN 85107624
+TEST-PK-104009,delivered_paid,2025-12-16T17:39:30Z,03213040978,ahmed.8382.test@gmail.com,,Islamabad,PK,11700,PKR,Trax CN 55724580
+TEST-AE-100145,refused_at_door,2025-12-17T00:51:30Z,0583687526,noor.7702.test@hotmail.com,,Fujairah,AE,1420,AED,Fetchr CN 37821934
+TEST-AE-102062,delivered_paid,2025-12-17T03:40:30Z,0561947017,,,Dubai,AE,1080,AED,Fetchr CN 68013187
+TEST-AE-103711,delivered_paid,2025-12-17T04:28:30Z,0556930431,rashid.9202.test@hotmail.com,,Fujairah,AE,540,AED,Emirates Post CN 11039626
+TEST-AE-101650,unreachable,2025-12-17T06:26:30Z,0507677600,,"Flat 1950, Building 32, Muwaileh",Ras Al Khaimah,AE,260,AED,Emirates Post CN 39977711
+TEST-PK-103199,delivered_paid,2025-12-17T08:54:30Z,03007663578,omar.1617.test@gmail.com,,Karachi,PK,8300,PKR,TCS CN 19779115
+TEST-PK-104847,delivered_paid,2025-12-17T09:06:30Z,03009634552,,"House 86, Street 4, Hayatabad Phase 3",Abbottabad,PK,19000,PKR,BlueEx CN 32193061
+TEST-PK-101929,delivered_paid,2025-12-17T10:11:30Z,03458163331,,"House 117, Street 33, Cantt",Sialkot,PK,8000,PKR,M&P CN 47874729
+TEST-AE-104081,fake_address,2025-12-17T12:03:30Z,0508747849,,"Flat 2371, Building 16, International City",Ras Al Khaimah,AE,230,AED,Emirates Post CN 61145387
+TEST-AE-104442,unreachable,2025-12-17T13:49:30Z,0587192909,,,Fujairah,AE,1040,AED,Aramex CN 64455642
+TEST-PK-101091,delivered_paid,2025-12-17T14:05:30Z,03333619499,,"House 78, Street 1, Gulshan-e-Iqbal Block 13",Hyderabad,PK,2300,PKR,BlueEx CN 70000505
+TEST-PK-103018,delivered_paid,2025-12-17T14:53:30Z,03451174639,,,Multan,PK,7300,PKR,M&P CN 66338877
+TEST-PK-100617,delivered_paid,2025-12-17T21:46:30Z,03215889525,,"House 371, Street 52, Gulshan-e-Iqbal Block 13",Gujranwala,PK,8500,PKR,Trax CN 49364146
+TEST-AE-100146,delivered_paid,2025-12-18T02:18:30Z,0583687526,noor.7702.test@hotmail.com,,Fujairah,AE,830,AED,Aramex CN 35101787
+TEST-AE-104237,delivered_paid,2025-12-18T03:43:30Z,0553122083,bilal.4907.test@gmail.com,"Flat 692, Building 76, Mussafah Shabiya 10",Sharjah,AE,1080,AED,Emirates Post CN 61892304
+TEST-PK-103001,delivered_paid,2025-12-18T04:34:30Z,03457090813,,"House 1, Street 37, Satellite Town",Sialkot,PK,24500,PKR,BlueEx CN 81015683
+TEST-AE-100849,refused_at_door,2025-12-18T04:40:30Z,0557925521,,"Flat 2240, Building 7, Al Rashidiya",Sharjah,AE,390,AED,Fetchr CN 73528957
+TEST-PK-100703,unreachable,2025-12-18T09:18:30Z,03337921417,,"House 93, Street 31, Clifton Block 4",Sialkot,PK,11700,PKR,Leopards CN 83702941
+TEST-PK-102526,delivered_paid,2025-12-18T10:50:30Z,03005495990,,"House 197, Street 60, Clifton Block 4",Karachi,PK,5200,PKR,Trax CN 27960897
+TEST-AE-100852,unreachable,2025-12-18T18:05:30Z,0559167171,,"Flat 1353, Building 50, Al Nahda 2",Sharjah,AE,660,AED,Emirates Post CN 71476984
+TEST-AE-103482,delivered_paid,2025-12-18T18:07:30Z,0504876171,,,Al Ain,AE,1150,AED,Shipa CN 47566451
+TEST-AE-104392,delivered_paid,2025-12-18T18:27:30Z,0585171215,,"Flat 2160, Building 1, Al Rashidiya",Al Ain,AE,690,AED,Shipa CN 79331965
+TEST-PK-100843,delivered_paid,2025-12-18T18:39:30Z,03018441212,,"House 61, Street 59, Gulshan-e-Iqbal Block 13",Islamabad,PK,8000,PKR,PostEx CN 62223054
+TEST-AE-104407,delivered_paid,2025-12-18T19:02:30Z,0583697645,khalid.8416.test@hotmail.com,"Flat 359, Building 25, Deira Al Muraqqabat",Ajman,AE,1380,AED,Shipa CN 21732729
+TEST-PK-104631,delivered_paid,2025-12-18T19:13:30Z,03018226615,,"House 227, Street 50, F-7 Markaz",Rawalpindi,PK,20400,PKR,M&P CN 34247160
+TEST-PK-101967,delivered_paid,2025-12-18T19:19:30Z,03333092885,,"House 253, Street 3, Gulberg III",Faisalabad,PK,5000,PKR,M&P CN 33900464
+TEST-PK-100840,unreachable,2025-12-18T19:31:30Z,03332584638,yousuf.526.test@hotmail.com,"House 242, Street 6, Gulshan-e-Iqbal Block 13",Hyderabad,PK,10800,PKR,Leopards CN 77417924
+TEST-AE-100774,fake_address,2025-12-18T19:49:30Z,0504044448,,"Flat 1776, Building 36, Al Rashidiya",Abu Dhabi,AE,570,AED,Emirates Post CN 81152541
+TEST-PK-102592,delivered_paid,2025-12-18T21:12:30Z,03219707698,,"House 23, Street 15, Bahria Town",Islamabad,PK,8100,PKR,Leopards CN 15552526
+TEST-PK-104035,delivered_paid,2025-12-18T21:49:30Z,03217932657,sara.1363.test@gmail.com,,Islamabad,PK,22300,PKR,TCS CN 64809919
+TEST-AE-104580,delivered_paid,2025-12-18T21:58:30Z,0501336109,,,Dubai,AE,1080,AED,Quiqup CN 79069221
+TEST-PK-103890,refused_at_door,2025-12-18T22:02:30Z,03014256022,fatima.7455.test@hotmail.com,"House 257, Street 53, F-7 Markaz",Multan,PK,12100,PKR,M&P CN 73536992
+TEST-PK-101050,delivered_paid,2025-12-18T23:02:30Z,03214216563,,"House 38, Street 18, Model Town",Sialkot,PK,21000,PKR,Leopards CN 71868502
+TEST-AE-100202,delivered_paid,2025-12-19T00:43:30Z,0583560615,ali.4891.test@gmail.com,,Fujairah,AE,870,AED,Fetchr CN 24879057
+TEST-PK-100466,delivered_paid,2025-12-19T01:48:30Z,03004862058,sara.8458.test@yahoo.com,"House 9, Street 60, Clifton Block 4",Multan,PK,4300,PKR,M&P CN 27707152
+TEST-PK-104653,fake_address,2025-12-19T03:35:30Z,03456754354,bilal.6403.test@outlook.com,,Karachi,PK,3500,PKR,M&P CN 75450716
+TEST-PK-102558,delivered_paid,2025-12-19T08:07:30Z,03459582632,sara.4236.test@gmail.com,"House 230, Street 15, Bahria Town",Sialkot,PK,21200,PKR,BlueEx CN 76164984
+TEST-PK-103677,delivered_paid,2025-12-19T09:08:30Z,03452349417,noor.577.test@hotmail.com,,Rawalpindi,PK,5800,PKR,Trax CN 47303304
+TEST-PK-100181,refused_at_door,2025-12-19T10:47:30Z,03018239465,,"House 390, Street 56, Hayatabad Phase 3",Peshawar,PK,3900,PKR,Trax CN 13966872
+TEST-PK-102783,delivered_paid,2025-12-19T15:15:30Z,03009400228,,,Abbottabad,PK,2600,PKR,Leopards CN 39884975
+TEST-PK-101338,delivered_paid,2025-12-19T16:14:30Z,03331809771,,,Hyderabad,PK,11600,PKR,Trax CN 36333791
+TEST-PK-103002,delivered_paid,2025-12-19T17:35:30Z,03457090813,,"House 1, Street 37, Satellite Town",Sialkot,PK,23300,PKR,BlueEx CN 19905894
+TEST-PK-103444,delivered_paid,2025-12-19T17:55:30Z,03013415633,omar.9810.test@outlook.com,,Abbottabad,PK,13300,PKR,TCS CN 78628737
+TEST-PK-100624,fake_address,2025-12-19T20:20:30Z,03214480596,,,Peshawar,PK,2800,PKR,M&P CN 63493391
+TEST-PK-101808,refused_at_door,2025-12-19T22:29:30Z,03338450129,,,Multan,PK,8200,PKR,Trax CN 88739656
+TEST-PK-104313,fake_order,2025-12-20T02:37:30Z,03338982086,noor.4285.test@gmail.com,"House 153, Street 60, Gulberg III",Sialkot,PK,16500,PKR,Trax CN 44805715
+TEST-PK-103336,delivered_paid,2025-12-20T04:34:30Z,03336839403,rashid.4339.test@gmail.com,,Hyderabad,PK,16000,PKR,BlueEx CN 75875454
+TEST-AE-103710,delivered_paid,2025-12-20T04:53:30Z,0556930431,rashid.9202.test@hotmail.com,,Fujairah,AE,1390,AED,Shipa CN 69365018
+TEST-PK-101356,delivered_paid,2025-12-20T07:50:30Z,03013289949,,,Karachi,PK,15800,PKR,Leopards CN 16892692
+TEST-PK-103641,delivered_paid,2025-12-20T10:32:30Z,03009148302,,,Hyderabad,PK,16000,PKR,PostEx CN 15453645
+TEST-PK-103718,delivered_paid,2025-12-20T10:55:30Z,03338294268,,,Rawalpindi,PK,6800,PKR,BlueEx CN 36393479
+TEST-AE-102564,delivered_paid,2025-12-20T10:57:30Z,0564622357,,,Al Ain,AE,510,AED,Aramex CN 73981163
+TEST-PK-103785,delivered_paid,2025-12-20T14:22:30Z,03333536596,ahmed.1904.test@outlook.com,,Peshawar,PK,23300,PKR,TCS CN 95088750
+TEST-PK-102547,delivered_paid,2025-12-20T17:47:30Z,03213149520,usman.3500.test@outlook.com,,Sialkot,PK,2300,PKR,BlueEx CN 69629067
+TEST-AE-101626,delivered_paid,2025-12-20T20:25:30Z,0565282103,,,Dubai,AE,610,AED,Fetchr CN 89432493
+TEST-AE-104628,delivered_paid,2025-12-21T00:58:30Z,0563863401,noor.1945.test@hotmail.com,,Ras Al Khaimah,AE,1390,AED,Quiqup CN 68593421
+TEST-PK-104659,refused_at_door,2025-12-21T07:40:30Z,03456754354,bilal.6403.test@outlook.com,,Karachi,PK,9800,PKR,PostEx CN 97267502
+TEST-AE-103790,delivered_paid,2025-12-21T12:36:30Z,0523201753,,"Flat 1411, Building 53, Al Khalidiya",Ajman,AE,960,AED,Shipa CN 12936875
+TEST-PK-100542,delivered_paid,2025-12-21T14:05:30Z,03336787154,,"House 115, Street 30, Hayatabad Phase 3",Abbottabad,PK,15700,PKR,M&P CN 19081590
+TEST-PK-102008,unreachable,2025-12-21T19:46:30Z,03459811833,yousuf.9832.test@outlook.com,"House 163, Street 31, G-11/2",Islamabad,PK,20000,PKR,TCS CN 18891421
+TEST-AE-101384,delivered_paid,2025-12-22T01:11:30Z,0562084372,ayesha.3725.test@hotmail.com,,Ajman,AE,1220,AED,Emirates Post CN 36081108
+TEST-PK-101039,delivered_paid,2025-12-22T01:48:30Z,03455870101,,"House 300, Street 12, F-7 Markaz",Peshawar,PK,9900,PKR,M&P CN 23337802
+TEST-AE-102096,delivered_paid,2025-12-22T03:04:30Z,0521915665,,,Ras Al Khaimah,AE,1160,AED,Aramex CN 31535694
+TEST-PK-100711,delivered_paid,2025-12-22T03:20:30Z,03331082759,zainab.7388.test@gmail.com,"House 409, Street 2, Model Town",Rawalpindi,PK,5500,PKR,PostEx CN 58908697
+TEST-PK-102676,delivered_paid,2025-12-22T04:36:30Z,03453943575,ali.869.test@outlook.com,"House 446, Street 52, Clifton Block 4",Faisalabad,PK,3000,PKR,BlueEx CN 37804461
+TEST-PK-103574,delivered_paid,2025-12-22T05:04:30Z,03335263315,,"House 125, Street 37, Johar Town",Karachi,PK,20600,PKR,TCS CN 93984533
+TEST-AE-103390,unreachable,2025-12-22T11:33:30Z,0523573032,hina.1254.test@outlook.com,"Flat 112, Building 66, International City",Dubai,AE,1460,AED,Emirates Post CN 66978418
+TEST-PK-100634,refused_at_door,2025-12-22T12:47:30Z,03012798975,,"House 413, Street 28, Clifton Block 4",Faisalabad,PK,9600,PKR,Trax CN 54970759
+TEST-AE-102250,chargeback,2025-12-22T13:02:30Z,0568430380,hamza.1874.test@yahoo.com,"Flat 2402, Building 10, Al Khalidiya",Sharjah,AE,930,AED,Quiqup CN 44605409
+TEST-PK-104100,fake_order,2025-12-22T13:16:30Z,03014233035,,"House 1, Street 37, Satellite Town",Peshawar,PK,15800,PKR,Trax CN 41753145
+TEST-PK-103485,delivered_paid,2025-12-22T13:44:30Z,03217183120,usman.2547.test@yahoo.com,,Karachi,PK,3900,PKR,Trax CN 79173721
+TEST-PK-102071,chargeback,2025-12-22T14:35:30Z,03009670495,,,Faisalabad,PK,2800,PKR,BlueEx CN 49813465
+TEST-PK-102964,return_abuse,2025-12-22T15:09:30Z,03335646826,,"House 116, Street 35, Gulshan-e-Iqbal Block 13",Faisalabad,PK,23200,PKR,PostEx CN 85008462
+TEST-PK-102622,delivered_paid,2025-12-22T15:33:30Z,03006907948,,"House 92, Street 46, Bahria Town",Lahore,PK,23700,PKR,M&P CN 93689473
+TEST-PK-103454,refused_at_door,2025-12-22T16:12:30Z,03213594255,,,Sialkot,PK,2600,PKR,BlueEx CN 52997092
+TEST-AE-104267,delivered_paid,2025-12-22T18:34:30Z,0553737490,imran.9942.test@outlook.com,"Flat 783, Building 32, JLT Cluster D",Abu Dhabi,AE,860,AED,Emirates Post CN 51199020
+TEST-PK-100301,delivered_paid,2025-12-22T18:38:30Z,03459976572,,"House 301, Street 60, F-7 Markaz",Abbottabad,PK,4100,PKR,M&P CN 37877131
+TEST-PK-102774,delivered_paid,2025-12-23T00:48:30Z,03014648230,fatima.1041.test@hotmail.com,,Islamabad,PK,13500,PKR,Leopards CN 98386944
+TEST-AE-101012,refused_at_door,2025-12-23T03:25:30Z,0505005431,yousuf.6039.test@gmail.com,,Ajman,AE,1470,AED,Aramex CN 37834278
+TEST-PK-104672,delivered_paid,2025-12-23T03:48:30Z,03458504259,hina.8375.test@outlook.com,,Gujranwala,PK,10100,PKR,M&P CN 95748809
+TEST-PK-101189,refused_at_door,2025-12-23T06:19:30Z,03211212236,,"House 101, Street 5, Hayatabad Phase 3",Islamabad,PK,12500,PKR,Trax CN 76355173
+TEST-PK-102044,delivered_paid,2025-12-23T10:19:30Z,03011763442,yousuf.6361.test@outlook.com,,Multan,PK,22600,PKR,PostEx CN 57371105
+TEST-PK-103841,delivered_paid,2025-12-23T13:45:30Z,03214733155,,"House 212, Street 9, Gulshan-e-Iqbal Block 13",Gujranwala,PK,10400,PKR,TCS CN 38821238
+TEST-PK-101268,delivered_paid,2025-12-23T16:44:30Z,03338544782,,,Abbottabad,PK,11600,PKR,TCS CN 62018631
+TEST-PK-100860,refused_at_door,2025-12-23T17:50:30Z,03211055752,,,Gujranwala,PK,24200,PKR,BlueEx CN 49301727
+TEST-PK-104320,unreachable,2025-12-23T23:49:30Z,03212582511,,"House 16, Street 52, Gulberg III",Rawalpindi,PK,1700,PKR,Leopards CN 12322869
+TEST-PK-104147,delivered_paid,2025-12-24T00:52:30Z,03335060159,rashid.9750.test@outlook.com,"House 287, Street 26, Johar Town",Quetta,PK,3100,PKR,PostEx CN 42882367
+TEST-PK-102370,delivered_paid,2025-12-24T01:55:30Z,03001146151,maryam.3838.test@yahoo.com,,Lahore,PK,15300,PKR,M&P CN 45145925
+TEST-PK-102955,delivered_paid,2025-12-24T04:28:30Z,03335781879,fatima.4697.test@hotmail.com,,Gujranwala,PK,19900,PKR,Trax CN 96431160
+TEST-PK-101270,delivered_paid,2025-12-24T07:02:30Z,03338544782,,,Abbottabad,PK,21600,PKR,Trax CN 15711597
+TEST-PK-104613,delivered_paid,2025-12-24T07:35:30Z,03017458064,,,Rawalpindi,PK,16600,PKR,BlueEx CN 73770606
+TEST-PK-101184,refused_at_door,2025-12-24T09:06:30Z,03007274922,,"House 423, Street 26, Gulshan-e-Iqbal Block 13",Multan,PK,19600,PKR,BlueEx CN 52711548
+TEST-PK-100979,delivered_paid,2025-12-24T09:10:30Z,03016071960,,"House 305, Street 19, Hayatabad Phase 3",Karachi,PK,24900,PKR,TCS CN 59581901
+TEST-PK-103309,delivered_paid,2025-12-24T11:10:30Z,03331079298,rashid.4672.test@outlook.com,,Peshawar,PK,21900,PKR,Leopards CN 44523903
+TEST-PK-101458,delivered_paid,2025-12-24T11:38:30Z,03218130593,,,Quetta,PK,20200,PKR,M&P CN 19912314
+TEST-PK-103326,refused_at_door,2025-12-24T12:04:30Z,03011242789,,,Lahore,PK,21500,PKR,M&P CN 24882419
+TEST-PK-102667,delivered_paid,2025-12-24T16:06:30Z,03332673815,,"House 145, Street 53, Bahria Town",Peshawar,PK,20200,PKR,M&P CN 98955569
+TEST-PK-101177,delivered_paid,2025-12-24T16:26:30Z,03007663578,omar.1617.test@gmail.com,,Karachi,PK,13200,PKR,Trax CN 42425187
+TEST-PK-103562,delivered_paid,2025-12-24T16:42:30Z,03005391444,zainab.3189.test@outlook.com,"House 211, Street 16, Bahria Town",Sialkot,PK,17700,PKR,BlueEx CN 42945179
+TEST-PK-103406,refused_at_door,2025-12-24T17:11:30Z,03337157314,imran.5280.test@gmail.com,,Lahore,PK,24300,PKR,PostEx CN 76290726
+TEST-PK-104046,delivered_paid,2025-12-24T22:26:30Z,03002812130,,,Hyderabad,PK,10600,PKR,TCS CN 30701396
+TEST-PK-102848,chargeback,2025-12-25T02:48:30Z,03016607235,,"House 439, Street 52, DHA Phase 5",Rawalpindi,PK,18600,PKR,M&P CN 69892117
+TEST-PK-104240,refused_at_door,2025-12-25T03:48:30Z,03007176929,noor.1150.test@yahoo.com,"House 266, Street 48, Model Town",Quetta,PK,8200,PKR,TCS CN 83415219
+TEST-PK-101398,chargeback,2025-12-25T06:53:30Z,03009670495,,,Faisalabad,PK,14600,PKR,BlueEx CN 72463628
+TEST-AE-100788,refused_at_door,2025-12-25T08:11:30Z,0583753387,,"Flat 1790, Building 41, Al Barsha 1",Sharjah,AE,1170,AED,Fetchr CN 58062992
+TEST-PK-101344,unreachable,2025-12-25T16:52:30Z,03455069795,,"House 45, Street 3, Gulberg III",Lahore,PK,16200,PKR,Trax CN 13467062
+TEST-AE-104813,unreachable,2025-12-25T17:41:30Z,0562645986,,,Ras Al Khaimah,AE,370,AED,Quiqup CN 40554346
+TEST-PK-102583,refused_at_door,2025-12-25T21:25:30Z,03459698564,,"House 289, Street 47, Satellite Town",Sialkot,PK,17100,PKR,TCS CN 87444137
+TEST-AE-100354,delivered_paid,2025-12-25T21:45:30Z,0555874016,imran.2682.test@yahoo.com,,Abu Dhabi,AE,580,AED,Aramex CN 70690676
+TEST-AE-101089,delivered_paid,2025-12-26T00:48:30Z,0555677348,,"Flat 2297, Building 45, Deira Al Muraqqabat",Ajman,AE,830,AED,Shipa CN 23788269
+TEST-PK-104302,unreachable,2025-12-26T07:22:30Z,03452424096,,,Karachi,PK,11300,PKR,M&P CN 34514182
+TEST-PK-101777,delivered_paid,2025-12-26T08:06:30Z,03451321457,ali.7782.test@gmail.com,"House 121, Street 17, Model Town",Faisalabad,PK,11500,PKR,BlueEx CN 44027844
+TEST-PK-104144,refused_at_door,2025-12-26T08:28:30Z,03338646666,,"House 444, Street 28, Cantt",Sialkot,PK,2500,PKR,M&P CN 69655141
+TEST-AE-102175,fake_order,2025-12-26T10:46:30Z,0526052556,,,Dubai,AE,1040,AED,Emirates Post CN 37377601
+TEST-PK-101996,refused_at_door,2025-12-26T12:46:30Z,03011087044,,,Islamabad,PK,2600,PKR,M&P CN 40411286
+TEST-AE-103511,unreachable,2025-12-26T14:47:30Z,0586501581,,,Al Ain,AE,1080,AED,Quiqup CN 68517766
+TEST-AE-101018,fake_address,2025-12-26T15:53:30Z,0505005431,yousuf.6039.test@gmail.com,,Ajman,AE,1120,AED,Shipa CN 65003884
+TEST-PK-100187,delivered_paid,2025-12-26T21:01:30Z,03215392765,,"House 291, Street 39, Johar Town",Quetta,PK,7800,PKR,BlueEx CN 91383646
+TEST-AE-103697,refused_at_door,2025-12-27T00:56:30Z,0587192909,,,Fujairah,AE,720,AED,Emirates Post CN 20411088
+TEST-PK-103021,delivered_paid,2025-12-27T02:36:30Z,03451174639,,,Multan,PK,1700,PKR,TCS CN 17856727
+TEST-AE-100113,delivered_paid,2025-12-27T04:28:30Z,0568095543,aisha.3287.test@yahoo.com,"Flat 1335, Building 20, International City",Abu Dhabi,AE,100,AED,Quiqup CN 25332828
+TEST-PK-104660,delivered_paid,2025-12-27T05:15:30Z,03009834849,,,Quetta,PK,2200,PKR,Leopards CN 79605742
+TEST-PK-101315,refused_at_door,2025-12-27T08:26:30Z,03217945096,,"House 255, Street 19, Hayatabad Phase 3",Multan,PK,8100,PKR,PostEx CN 76736910
+TEST-AE-102248,fake_order,2025-12-27T08:41:30Z,0568430380,hamza.1874.test@yahoo.com,"Flat 2402, Building 10, Al Khalidiya",Sharjah,AE,1310,AED,Emirates Post CN 16036030
+TEST-PK-103180,delivered_paid,2025-12-27T09:29:30Z,03332571092,aisha.448.test@hotmail.com,,Sialkot,PK,21500,PKR,M&P CN 28811611
+TEST-PK-104002,unreachable,2025-12-27T09:56:30Z,03213022519,yousuf.3972.test@hotmail.com,,Abbottabad,PK,18100,PKR,Trax CN 63248375
+TEST-PK-100382,refused_at_door,2025-12-27T11:11:30Z,03338450129,,,Multan,PK,14700,PKR,BlueEx CN 47964451
+TEST-PK-102522,delivered_paid,2025-12-27T11:48:30Z,03455976618,,,Gujranwala,PK,12100,PKR,Trax CN 72138201
+TEST-PK-103286,refused_at_door,2025-12-27T12:00:30Z,03211055752,,,Gujranwala,PK,10700,PKR,Trax CN 38147805
+TEST-PK-101774,unreachable,2025-12-27T13:55:30Z,03212764243,,,Lahore,PK,24900,PKR,PostEx CN 30219754
+TEST-PK-104808,fake_address,2025-12-27T14:21:30Z,03214401498,hina.3766.test@gmail.com,"House 397, Street 8, DHA Phase 5",Peshawar,PK,17200,PKR,PostEx CN 94287517
+TEST-PK-102076,return_abuse,2025-12-27T15:50:30Z,03338752613,,,Rawalpindi,PK,22500,PKR,Leopards CN 88228303
+TEST-AE-100254,fake_address,2025-12-27T17:27:30Z,0559398134,,"Flat 418, Building 80, Mussafah Shabiya 10",Ras Al Khaimah,AE,890,AED,Aramex CN 29362751
+TEST-PK-102317,delivered_paid,2025-12-27T17:43:30Z,03011087044,,,Islamabad,PK,14100,PKR,M&P CN 30824316
+TEST-AE-103229,delivered_paid,2025-12-27T17:56:30Z,0554174559,,,Abu Dhabi,AE,780,AED,Fetchr CN 77838841
+TEST-PK-100729,delivered_paid,2025-12-27T21:29:30Z,03018497252,,,Quetta,PK,20900,PKR,M&P CN 15684235
+TEST-PK-104180,delivered_paid,2025-12-27T21:58:30Z,03334318191,,,Sialkot,PK,22100,PKR,Trax CN 38678127
+TEST-PK-102056,refused_at_door,2025-12-27T21:59:30Z,03019686606,bilal.6811.test@gmail.com,"House 401, Street 51, Satellite Town",Peshawar,PK,21300,PKR,M&P CN 79956108
+TEST-PK-102945,delivered_paid,2025-12-27T22:08:30Z,03457859620,,,Quetta,PK,24900,PKR,M&P CN 94697652
+TEST-AE-104437,delivered_paid,2025-12-28T01:37:30Z,0583753387,,"Flat 1790, Building 41, Al Barsha 1",Sharjah,AE,1240,AED,Shipa CN 85677793
+TEST-AE-100598,return_abuse,2025-12-28T02:31:30Z,0505109419,khalid.422.test@gmail.com,,Ras Al Khaimah,AE,240,AED,Fetchr CN 63376748
+TEST-AE-101261,unreachable,2025-12-28T03:59:30Z,0524302264,bilal.881.test@hotmail.com,"Flat 1847, Building 44, Al Nahda 2",Al Ain,AE,620,AED,Shipa CN 64438075
+TEST-PK-102493,delivered_paid,2025-12-28T04:36:30Z,03213250731,hamza.4641.test@gmail.com,,Gujranwala,PK,24700,PKR,Trax CN 50828324
+TEST-AE-103635,fake_address,2025-12-28T04:45:30Z,0504752201,,"Flat 2246, Building 35, JLT Cluster D",Fujairah,AE,1060,AED,Emirates Post CN 39447018
+TEST-AE-104235,delivered_paid,2025-12-28T05:21:30Z,0553122083,bilal.4907.test@gmail.com,"Flat 692, Building 76, Mussafah Shabiya 10",Sharjah,AE,1190,AED,Quiqup CN 98882705
+TEST-PK-103793,delivered_paid,2025-12-28T08:06:30Z,03454817433,,"House 108, Street 30, Johar Town",Islamabad,PK,17000,PKR,TCS CN 61865942
+TEST-PK-101560,return_abuse,2025-12-28T09:04:30Z,03337987366,maryam.3356.test@outlook.com,,Karachi,PK,2300,PKR,BlueEx CN 65460689
+TEST-PK-103116,delivered_paid,2025-12-28T10:45:30Z,03011528330,,"House 365, Street 3, Gulshan-e-Iqbal Block 13",Peshawar,PK,17600,PKR,Leopards CN 64103528
+TEST-AE-103064,delivered_paid,2025-12-28T11:54:30Z,0581607998,,,Ras Al Khaimah,AE,740,AED,Emirates Post CN 66866080
+TEST-PK-101594,fake_order,2025-12-28T12:29:30Z,03003250955,,"House 443, Street 33, Gulshan-e-Iqbal Block 13",Gujranwala,PK,17100,PKR,Leopards CN 61454441
+TEST-AE-103910,chargeback,2025-12-28T13:19:30Z,0559015264,,,Ajman,AE,1380,AED,Quiqup CN 10959501
+TEST-AE-101228,delivered_paid,2025-12-28T16:19:30Z,0581866573,,"Flat 1755, Building 18, Al Khalidiya",Ajman,AE,1420,AED,Quiqup CN 58040263
+TEST-PK-100845,delivered_paid,2025-12-28T16:34:30Z,03018441212,,"House 61, Street 59, Gulshan-e-Iqbal Block 13",Islamabad,PK,4100,PKR,M&P CN 21966349
+TEST-PK-104021,delivered_paid,2025-12-28T21:31:30Z,03211762569,noor.226.test@gmail.com,,Abbottabad,PK,8900,PKR,M&P CN 39755615
+TEST-PK-104242,refused_at_door,2025-12-28T22:31:30Z,03007176929,noor.1150.test@yahoo.com,"House 266, Street 48, Model Town",Quetta,PK,21600,PKR,PostEx CN 36054469
+TEST-PK-101483,delivered_paid,2025-12-29T01:28:30Z,03016420879,,"House 201, Street 47, Gulshan-e-Iqbal Block 13",Peshawar,PK,20000,PKR,BlueEx CN 15770540
+TEST-PK-102801,delivered_paid,2025-12-29T02:12:30Z,03019393600,sana.1980.test@hotmail.com,,Quetta,PK,1800,PKR,Trax CN 70237984
+TEST-PK-103354,delivered_paid,2025-12-29T02:37:30Z,03337329615,,"House 237, Street 10, DHA Phase 5",Abbottabad,PK,4000,PKR,TCS CN 11423312
+TEST-AE-103315,delivered_paid,2025-12-29T03:25:30Z,0583389575,,"Flat 638, Building 73, Al Khalidiya",Al Ain,AE,610,AED,Quiqup CN 41856439
+TEST-PK-102075,return_abuse,2025-12-29T04:34:30Z,03338752613,,,Rawalpindi,PK,20700,PKR,PostEx CN 36239856
+TEST-PK-103459,refused_at_door,2025-12-29T05:03:30Z,03338782462,khalid.7456.test@outlook.com,"House 376, Street 16, Model Town",Quetta,PK,3500,PKR,Trax CN 62426397
+TEST-PK-100164,delivered_paid,2025-12-29T05:31:30Z,03217781683,aisha.5030.test@yahoo.com,,Lahore,PK,22400,PKR,PostEx CN 51157750
+TEST-PK-102767,unreachable,2025-12-29T07:32:30Z,03009859819,faisal.1758.test@hotmail.com,"House 369, Street 24, Bahria Town",Faisalabad,PK,5200,PKR,Leopards CN 31563171
+TEST-PK-100625,fake_order,2025-12-29T10:02:30Z,03214480596,,,Peshawar,PK,8000,PKR,BlueEx CN 29097476
+TEST-PK-100336,refused_at_door,2025-12-29T11:43:30Z,03337157314,imran.5280.test@gmail.com,,Lahore,PK,3800,PKR,M&P CN 43140827
+TEST-AE-103035,delivered_paid,2025-12-29T12:24:30Z,0501186640,khalid.132.test@gmail.com,,Ras Al Khaimah,AE,910,AED,Fetchr CN 19372658
+TEST-PK-103415,refused_at_door,2025-12-29T19:12:30Z,03212511823,,"House 386, Street 14, Gulberg III",Abbottabad,PK,5800,PKR,Leopards CN 65290927
+TEST-PK-101230,delivered_paid,2025-12-29T19:33:30Z,03012534934,,"House 312, Street 16, Gulshan-e-Iqbal Block 13",Quetta,PK,10700,PKR,TCS CN 80201573
+TEST-AE-100414,refused_at_door,2025-12-29T20:17:30Z,0559651008,,,Abu Dhabi,AE,860,AED,Quiqup CN 20102168
+TEST-PK-103342,delivered_paid,2025-12-29T20:55:30Z,03214327816,,,Peshawar,PK,17500,PKR,PostEx CN 78298301
+TEST-AE-104332,delivered_paid,2025-12-29T21:27:30Z,0563324594,omar.9932.test@outlook.com,,Sharjah,AE,500,AED,Quiqup CN 58897466
+TEST-PK-100066,delivered_paid,2025-12-29T21:42:30Z,03004953472,,,Islamabad,PK,3700,PKR,Trax CN 28343886
+TEST-PK-101269,delivered_paid,2025-12-29T21:53:30Z,03338544782,,,Abbottabad,PK,22400,PKR,Trax CN 54565705
+TEST-PK-104745,unreachable,2025-12-29T23:01:30Z,03338450129,,,Multan,PK,17300,PKR,PostEx CN 19952362
+TEST-AE-101016,unreachable,2025-12-30T00:06:30Z,0505005431,yousuf.6039.test@gmail.com,,Ajman,AE,960,AED,Fetchr CN 42625676
+TEST-PK-102371,delivered_paid,2025-12-30T00:08:30Z,03011471946,yousuf.7617.test@hotmail.com,"House 369, Street 5, Gulberg III",Islamabad,PK,1900,PKR,Trax CN 77799939
+TEST-PK-104471,delivered_paid,2025-12-30T01:04:30Z,03332450947,,"House 226, Street 3, Gulberg III",Rawalpindi,PK,18200,PKR,Trax CN 84814737
+TEST-PK-102120,delivered_paid,2025-12-30T01:38:30Z,03002659448,,,Hyderabad,PK,17800,PKR,TCS CN 26476886
+TEST-PK-101305,chargeback,2025-12-30T02:54:30Z,03331723183,faisal.1803.test@gmail.com,,Abbottabad,PK,4700,PKR,PostEx CN 56711574
+TEST-PK-101436,unreachable,2025-12-30T05:41:30Z,03452510830,aisha.744.test@gmail.com,"House 349, Street 52, Hayatabad Phase 3",Karachi,PK,18900,PKR,BlueEx CN 13533075
+TEST-PK-101554,fake_address,2025-12-30T07:48:30Z,03453560465,hina.2261.test@gmail.com,,Gujranwala,PK,5900,PKR,M&P CN 17723219
+TEST-AE-102283,return_abuse,2025-12-30T10:01:30Z,0558435341,sara.8553.test@outlook.com,"Flat 2342, Building 80, Al Barsha 1",Fujairah,AE,900,AED,Aramex CN 50565999
+TEST-PK-102719,fake_address,2025-12-30T11:32:30Z,03219844380,rashid.5802.test@gmail.com,,Rawalpindi,PK,9600,PKR,TCS CN 44817383
+TEST-PK-102777,delivered_paid,2025-12-30T17:25:30Z,03455311309,,"House 132, Street 55, Cantt",Quetta,PK,24700,PKR,TCS CN 92020663
+TEST-AE-102295,fake_address,2025-12-30T20:03:30Z,0555989604,noor.5833.test@outlook.com,"Flat 172, Building 19, Al Barsha 1",Dubai,AE,1270,AED,Shipa CN 27428240
+TEST-PK-102973,refused_at_door,2025-12-30T21:34:30Z,03457593462,,"House 81, Street 60, Cantt",Peshawar,PK,9100,PKR,M&P CN 35426120
+TEST-PK-100582,delivered_paid,2025-12-31T00:27:30Z,03453635647,ahmed.1248.test@hotmail.com,"House 242, Street 52, F-7 Markaz",Quetta,PK,17900,PKR,PostEx CN 61427584

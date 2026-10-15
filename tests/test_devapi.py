@@ -189,3 +189,18 @@ def test_meta_documents_api():
     assert c.get("/developers").status_code == 200
     spec = c.get("/openapi.json").json()
     assert "/v1/api-keys" in spec["paths"] and "/v1/check" in spec["paths"]
+
+
+def test_purge_test_data():
+    from codshield import testdata
+    from codshield.db import SessionLocal
+    _, H, _ = new_tenant(approval=False)
+    phone = "0345" + str(5000000 + int(uniq("")))
+    keep = c.post("/v1/events", headers=H, json=outcome(uniq("REAL"), phone)).json()
+    assert c.post("/v1/events", headers=H, json=outcome("TEST-" + uniq("P"), phone)).json()["outcome"] == "created"
+    with SessionLocal() as s:
+        assert testdata.count(s)["events"] >= 1
+        assert testdata.purge(s)["events"] >= 1
+        assert testdata.count(s)["events"] == 0
+        from codshield.models import Event
+        assert s.get(Event, keep["event_id"]) is not None

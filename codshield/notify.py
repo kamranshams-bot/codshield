@@ -20,7 +20,9 @@ TEST_MODE = os.getenv("CODSHIELD_NOTIFY_TEST") == "1"   # tests: record instead 
 
 # ------------------------------------------------------------------ email
 def mail_enabled() -> bool:
-    return TEST_MODE or bool(settings.MAIL_FROM and (settings.SMTP_HOST or settings.RESEND_API_KEY))
+    """On only when a sender and complete credentials are set, so nothing claims to have emailed while half set up."""
+    smtp_ready = bool(settings.SMTP_HOST and settings.SMTP_USER and settings.SMTP_PASSWORD)
+    return TEST_MODE or bool(settings.MAIL_FROM and (smtp_ready or settings.RESEND_API_KEY))
 
 
 def send_mail(to: str, subject: str, text: str) -> bool:
